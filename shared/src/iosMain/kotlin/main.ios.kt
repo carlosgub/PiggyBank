@@ -1,5 +1,4 @@
 import androidx.compose.ui.window.ComposeUIViewController
+import view.screen.HomeScreen
 
-actual fun getPlatformName(): String = "iOS"
-
-fun MainViewController() = ComposeUIViewController { App() }
+fun MainViewController() = ComposeUIViewController { HomeScreen().Content() }

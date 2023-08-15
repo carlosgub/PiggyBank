@@ -1,5 +1,5 @@
 import androidx.compose.runtime.Composable
+import view.screen.HomeScreen
 
-actual fun getPlatformName(): String = "Android"
-
-@Composable fun MainView() = App()
+@Composable
+fun MainView() = HomeScreen().Content()

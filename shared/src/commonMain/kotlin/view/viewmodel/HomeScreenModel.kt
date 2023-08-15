@@ -1,4 +1,7 @@
-import dev.icerock.moko.mvvm.viewmodel.ViewModel
+package view.viewmodel
+
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.coroutineScope
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -9,17 +12,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import model.BirdImage
+import view.viewmodel.state.BirdsUiState
 import kotlin.random.Random
 
-data class BirdsUiState(
-    val images: List<BirdImage> = emptyList(),
-    val selectedCategory: String? = null
-) {
-    val categories = images.map { it.category }.toSet()
-    val selectedImages = images.filter { it.category == selectedCategory }
-}
-
-class BirdsViewModel : ViewModel() {
+class HomeScreenModel : ScreenModel {
     private val _uiState = MutableStateFlow(BirdsUiState())
     val uiState = _uiState.asStateFlow()
 
@@ -34,12 +30,13 @@ class BirdsViewModel : ViewModel() {
         updateImages()
     }
 
-    override fun onCleared() {
+    override fun onDispose() {
+        super.onDispose()
         httpClient.close()
     }
 
     fun selectCategory(category: String) {
-        viewModelScope.launch {
+        coroutineScope.launch {
             _uiState.update {
                 it.copy(selectedCategory = category)
             }
@@ -47,7 +44,7 @@ class BirdsViewModel : ViewModel() {
     }
 
     fun updateImages() {
-        viewModelScope.launch {
+        coroutineScope.launch {
             val images = getImages()
             _uiState.update {
                 it.copy(images = images.map {
