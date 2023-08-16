@@ -3,7 +3,6 @@ package presentation.screen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,22 +17,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
-import model.BirdImage
+import model.Finance
 import moe.tlaster.precompose.navigation.Navigator
 
 @Composable
 fun ImageDetailScreen(
     navigator: Navigator,
-    birdImage: BirdImage
+    birdImage: Finance
 ) {
     Scaffold(
         topBar = {
             Toolbar(
-                title = birdImage.category,
+                title = birdImage.toString(),
                 onBack = {
                     navigator.goBack()
                 }
@@ -44,20 +40,20 @@ fun ImageDetailScreen(
             modifier = Modifier.fillMaxSize()
         ) {
 
-            KamelImage(
+            /*KamelImage(
                 resource = asyncPainterResource("https://picsum.photos/id/${birdImage.path}/200"),
                 contentDescription = "${birdImage.category} by ${birdImage.author}",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1.0f)
-            )
+            )*/
         }
     }
 }
 
 @Composable
-fun Toolbar(
+private fun Toolbar(
     title: String,
     onBack: () -> Unit
 ) {

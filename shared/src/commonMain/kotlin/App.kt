@@ -3,12 +3,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import dev.gitlive.firebase.Firebase
-import dev.gitlive.firebase.initialize
 import di.dataModule
 import di.homeModule
 import kotlinx.serialization.json.Json
-import model.BirdImage
+import model.Finance
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
@@ -34,8 +32,8 @@ fun App() {
                 route = Screen.ImageDetailScreen.route,
                 navTransition = NavTransition()
             ) { backStackEntry ->
-                val birdImage: BirdImage = Json.decodeFromString(backStackEntry.path<String>(NavArgs.BirdImage.key)!!)
-                ImageDetailScreen(navigator, birdImage)
+                val finance: Finance = Json.decodeFromString(backStackEntry.path<String>(NavArgs.BirdImage.key)!!)
+                ImageDetailScreen(navigator, finance)
             }
         }
     }
