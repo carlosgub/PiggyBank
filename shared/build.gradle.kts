@@ -12,6 +12,17 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "shared"
+            isStatic = true
+        }
+    }
+
     cocoapods {
         version = "1.0.0"
         summary = "Some description for the Shared Module"

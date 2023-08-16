@@ -3,6 +3,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.initialize
 import di.dataModule
 import di.homeModule
 import kotlinx.serialization.json.Json
