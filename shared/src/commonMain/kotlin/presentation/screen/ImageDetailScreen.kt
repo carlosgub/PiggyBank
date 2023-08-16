@@ -20,40 +20,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import model.BirdImage
 
-data class ImageDetailScreen(val birdImage: BirdImage) : Screen {
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        Scaffold(
-            topBar = {
-                Toolbar(
-                    title = birdImage.category,
-                    onBack = {
-                        navigator.pop()
-                    }
-                )
-            }
+@Composable
+fun ImageDetailScreen(birdImage: BirdImage) {
+//    val navigator = LocalNavigator.currentOrThrow
+    Scaffold(
+        topBar = {
+            Toolbar(
+                title = birdImage.category,
+                onBack = {
+//                    navigator.pop()
+                }
+            )
+        }
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize()
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize()
-            ) {
 
-                KamelImage(
-                    resource = asyncPainterResource("https://picsum.photos/id/${birdImage.path}/200"),
-                    contentDescription = "${birdImage.category} by ${birdImage.author}",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(1.0f)
-                )
-            }
+            KamelImage(
+                resource = asyncPainterResource("https://picsum.photos/id/${birdImage.path}/200"),
+                contentDescription = "${birdImage.category} by ${birdImage.author}",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1.0f)
+            )
         }
     }
 }
