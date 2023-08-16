@@ -44,20 +44,17 @@ kotlin {
                 implementation(compose.material)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
-                implementation(libs.bundles.ktor)
                 implementation(libs.kamel.image)
                 implementation(libs.kotlinx.serialization.json)
                 api(libs.koin.core)
                 implementation(libs.koin.compose)
                 api(libs.bundles.precompose)
-                implementation(libs.napier)
                 implementation(libs.firebase.firestore)
             }
         }
         val androidMain by getting {
             dependencies {
                 api(libs.bundles.android)
-                implementation(libs.ktor.client.android)
             }
         }
         val iosX64Main by getting
@@ -68,9 +65,6 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
-            dependencies{
-                implementation(libs.ktor.client.darwin)
-            }
         }
     }
 }

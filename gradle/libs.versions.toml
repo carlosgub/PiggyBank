@@ -6,9 +6,7 @@ kamelImageVersion = "0.6.0"
 koinCoreVersion = "3.2.2"
 koinComposeVersion = "1.0.4"
 kotlinxSerializationJsonVersion = "1.5.1"
-ktorClientCoreVersion = "2.3.1"
 precomposeVersion = "1.4.3"
-napierVersion = "2.6.1"
 firebaseVersion = "1.8.0"
 
 
@@ -24,28 +22,13 @@ core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCoreVersion" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeVersion" }
 
-ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktorClientCoreVersion" }
-ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorClientCoreVersion" }
-ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCoreVersion" }
-ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktorClientCoreVersion" }
-ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorClientCoreVersion" }
-ktor-logging = {module ="io.ktor:ktor-client-logging", version.ref = "ktorClientCoreVersion"}
-
 precompose-core = { module = "moe.tlaster:precompose", version.ref = "precomposeVersion" }
 precompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "precomposeVersion" }
-
-napier = {module = "io.github.aakira:napier", version.ref = "napierVersion"}
 
 firebase-firestore = {module = "dev.gitlive:firebase-firestore",version.ref = "firebaseVersion"}
 
 
 [bundles]
-ktor = [
-    "ktor-client-content-negotiation",
-    "ktor-client-core",
-    "ktor-serialization-kotlinx-json",
-    "ktor-logging"
-]
 android = [
     "activity-compose",
     "appcompat",
