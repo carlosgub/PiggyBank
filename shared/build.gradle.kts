@@ -38,7 +38,8 @@ kotlin {
                 implementation(libs.kotlinx.serialization.json)
                 api(libs.koin.core)
                 implementation(libs.koin.compose)
-                implementation(libs.bundles.voyager)
+                api(libs.bundles.precompose)
+                implementation(libs.napier)
             }
         }
         val androidMain by getting {

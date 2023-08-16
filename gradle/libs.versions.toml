@@ -7,7 +7,8 @@ koinCoreVersion = "3.2.2"
 koinComposeVersion = "1.0.4"
 kotlinxSerializationJsonVersion = "1.5.1"
 ktorClientCoreVersion = "2.3.1"
-voyagerVersion = "1.0.0-rc05"
+precomposeVersion = "1.4.3"
+napierVersion = "2.6.1"
 
 
 [libraries]
@@ -27,28 +28,27 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCoreVersion" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktorClientCoreVersion" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorClientCoreVersion" }
+ktor-logging = {module ="io.ktor:ktor-client-logging", version.ref = "ktorClientCoreVersion"}
 
-voyager-bottom-sheet-navigator = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyagerVersion" }
-voyager-core = { module = "cafe.adriel.voyager:voyager-core", version.ref = "voyagerVersion" }
-voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyagerVersion" }
-voyager-tab-navigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyagerVersion" }
-voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyagerVersion" }
+precompose-core = { module = "moe.tlaster:precompose", version.ref = "precomposeVersion" }
+precompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "precomposeVersion" }
+
+napier = {module = "io.github.aakira:napier", version.ref = "napierVersion"}
+
 
 [bundles]
-voyager = [
-    "voyager-bottom-sheet-navigator",
-    "voyager-core",
-    "voyager-navigator",
-    "voyager-tab-navigator",
-    "voyager-transitions"
-]
 ktor = [
     "ktor-client-content-negotiation",
     "ktor-client-core",
-    "ktor-serialization-kotlinx-json"
+    "ktor-serialization-kotlinx-json",
+    "ktor-logging"
 ]
 android = [
     "activity-compose",
     "appcompat",
     "core-ktx"
+]
+precompose = [
+    "precompose-core",
+    "precompose-viewmodel"
 ]

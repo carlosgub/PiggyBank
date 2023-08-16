@@ -1,13 +1,17 @@
-package presentation.components
+package presentation.navigation
+
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.encodeToString
+import model.BirdImage
 
 sealed class Screen(val route: String) {
-
-    object Overview : Screen(ROUTE_OVERVIEW)
-
-    object Detail : Screen(ROUTE_DETAIL)
-
-    companion object {
-        private const val ROUTE_OVERVIEW = "overview"
-        private const val ROUTE_DETAIL = "detail"
+    object Home : Screen("home")
+    object ImageDetailScreen : Screen("imageDetailScreen/{${NavArgs.BirdImage.key}}") {
+        fun createRoute(birdImage: BirdImage) =
+            "imageDetailScreen/${Json.encodeToString(birdImage)}"
     }
+}
+
+enum class NavArgs(val key: String) {
+    BirdImage("BirdImage"),
 }

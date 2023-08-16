@@ -1,4 +1,4 @@
-package view.screen
+package presentation.screen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
@@ -26,26 +26,32 @@ import core.sealed.GenericState
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import model.BirdImage
+import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
+import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
-import view.viewmodel.HomeViewModel
+import presentation.navigation.Screen
+import presentation.viewmodel.HomeViewModel
 
 @Composable
-fun HomeScreen() {
-    HomeObserver()
+fun HomeScreen(viewModel: HomeViewModel = koinInject(), navigator: Navigator) {
+    HomeObserver(viewModel, navigator)
 }
 
 @Composable
-private fun HomeObserver(viewModel: HomeViewModel = koinInject()) {
-    val categories = viewModel.categories.collectAsState().value
-    val uiState by viewModel.uiState.collectAsState()
-    when (uiState) {
+private fun HomeObserver(viewModel: HomeViewModel, navigator: Navigator) {
+    val categories = viewModel.categories.collectAsStateWithLifecycle().value
+    when (val uiState =  viewModel.uiState.collectAsStateWithLifecycle().value) {
         is GenericState.Success -> {
             HomeContent(
-                list = (uiState as GenericState.Success<List<BirdImage>>).data,
+                list = uiState.data,
                 categories = categories,
                 categoryOnClick = { category ->
                     viewModel.selectCategory(category)
-                })
+                },
+                onImageClick = { birdImage ->
+                    navigator.navigate(Screen.ImageDetailScreen.createRoute(birdImage))
+                }
+            )
         }
 
         GenericState.Loading -> {
@@ -61,10 +67,9 @@ private fun HomeObserver(viewModel: HomeViewModel = koinInject()) {
 private fun HomeContent(
     list: List<BirdImage>,
     categories: Set<String>,
-    categoryOnClick: (String) -> Unit
+    categoryOnClick: (String) -> Unit,
+    onImageClick: (BirdImage) -> Unit
 ) {
-
-//    val navigator = LocalNavigator.currentOrThrow
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -102,7 +107,7 @@ private fun HomeContent(
                         BirdImageCell(
                             birdImage = item,
                             onClick = {
-//                                navigator.push(ImageDetailScreen(item))
+                                onImageClick(item)
                             }
                         )
                     }

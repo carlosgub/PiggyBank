@@ -1,4 +1,4 @@
-package view.viewmodel
+package presentation.viewmodel
 
 import core.sealed.GenericState
 import io.ktor.client.HttpClient
@@ -14,7 +14,9 @@ import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
 import kotlin.random.Random
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(
+    val client: HttpClient
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow<GenericState<List<BirdImage>>>(GenericState.Initial)
     val uiState = _uiState.asStateFlow()
@@ -25,18 +27,6 @@ class HomeViewModel : ViewModel() {
 
     init {
         updateImages()
-    }
-
-
-    private val httpClient = HttpClient {
-        install(ContentNegotiation) {
-            json()
-        }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        httpClient.close()
     }
 
     fun selectCategory(category: String) {
@@ -70,7 +60,7 @@ class HomeViewModel : ViewModel() {
     }
 
     private suspend fun getImages(): List<BirdImage> {
-        return httpClient
+        return client
             .get("https://sebi.io/demo-image-api/pictures.json")
             .body()
     }

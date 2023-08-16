@@ -1,8 +1,8 @@
 package di
 
 import org.koin.dsl.module
-import view.viewmodel.HomeScreenModel
+import presentation.viewmodel.HomeViewModel
 
 val homeModule = module {
-    factory { HomeScreenModel() }
+    single { HomeViewModel(get()) }
 }

@@ -3,15 +3,39 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.Navigator
+import di.dataModule
 import di.homeModule
+import kotlinx.serialization.json.Json
+import model.BirdImage
+import moe.tlaster.precompose.navigation.NavHost
+import moe.tlaster.precompose.navigation.path
+import moe.tlaster.precompose.navigation.rememberNavigator
+import moe.tlaster.precompose.navigation.transition.NavTransition
 import org.koin.compose.KoinApplication
-import view.screen.HomeScreen
+import presentation.navigation.NavArgs
+import presentation.navigation.Screen
+import presentation.screen.HomeScreen
+import presentation.screen.ImageDetailScreen
 
 @Composable
 fun App() {
+    val navigator = rememberNavigator()
     AppTheme {
-        Navigator(HomeScreen())
+        NavHost(
+            navigator = navigator,
+            initialRoute = Screen.Home.route
+        ) {
+            scene(route = Screen.Home.route) {
+                HomeScreen(navigator = navigator)
+            }
+            scene(
+                route = Screen.ImageDetailScreen.route,
+                navTransition = NavTransition()
+            ) { backStackEntry ->
+                val birdImage: BirdImage = Json.decodeFromString(backStackEntry.path<String>(NavArgs.BirdImage.key)!!)
+                ImageDetailScreen(navigator, birdImage)
+            }
+        }
     }
 }
 
@@ -21,7 +45,7 @@ fun AppTheme(
 ) {
     KoinApplication(
         application = {
-            modules(homeModule)
+            modules(homeModule, dataModule)
         }
     ) {
         MaterialTheme(

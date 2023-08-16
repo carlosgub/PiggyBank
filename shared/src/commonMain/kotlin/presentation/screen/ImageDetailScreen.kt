@@ -1,4 +1,4 @@
-package view.screen
+package presentation.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -23,16 +23,19 @@ import androidx.compose.ui.unit.dp
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import model.BirdImage
+import moe.tlaster.precompose.navigation.Navigator
 
 @Composable
-fun ImageDetailScreen(birdImage: BirdImage) {
-//    val navigator = LocalNavigator.currentOrThrow
+fun ImageDetailScreen(
+    navigator: Navigator,
+    birdImage: BirdImage
+) {
     Scaffold(
         topBar = {
             Toolbar(
                 title = birdImage.category,
                 onBack = {
-//                    navigator.pop()
+                    navigator.goBack()
                 }
             )
         }
