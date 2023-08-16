@@ -45,7 +45,6 @@ kotlin {
             dependencies {
                 api(libs.bundles.android)
                 implementation(libs.ktor.client.android)
-                api(libs.koin.android)
             }
         }
         val iosX64Main by getting

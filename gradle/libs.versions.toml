@@ -21,7 +21,6 @@ core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
 
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCoreVersion" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeVersion" }
-koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinCoreVersion" }
 
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktorClientCoreVersion" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorClientCoreVersion" }
