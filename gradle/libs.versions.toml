@@ -9,6 +9,7 @@ kotlinxSerializationJsonVersion = "1.5.1"
 ktorClientCoreVersion = "2.3.1"
 precomposeVersion = "1.4.3"
 napierVersion = "2.6.1"
+firebaseVersion = "1.8.0"
 
 
 [libraries]
@@ -34,6 +35,8 @@ precompose-core = { module = "moe.tlaster:precompose", version.ref = "precompose
 precompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "precomposeVersion" }
 
 napier = {module = "io.github.aakira:napier", version.ref = "napierVersion"}
+
+firebase-firestore = {module = "dev.gitlive:firebase-firestore",version.ref = "firebaseVersion"}
 
 
 [bundles]

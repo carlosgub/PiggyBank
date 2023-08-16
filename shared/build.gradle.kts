@@ -40,6 +40,7 @@ kotlin {
                 implementation(libs.koin.compose)
                 api(libs.bundles.precompose)
                 implementation(libs.napier)
+                implementation(libs.firebase.firestore)
             }
         }
         val androidMain by getting {

@@ -1,5 +1,8 @@
 package di
 
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.firestore.FirebaseFirestore
+import dev.gitlive.firebase.firestore.firestore
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
@@ -32,4 +35,11 @@ val dataModule = module {
             }.also { Napier.base(DebugAntilog()) }
         }
     }
+    single {
+        Firebase.firestore.apply {
+                setSettings(
+                    persistenceEnabled = false
+                )
+    }
+}
 }
