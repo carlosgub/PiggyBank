@@ -1,4 +1,4 @@
-package utils
+package utils.views
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
@@ -49,7 +49,7 @@ fun Toolbar(
                 Icon(
                     imageVector = navigationIcon,
                     contentDescription = null,
-                    modifier = Modifier.padding(start = 8.dp)
+                    modifier = Modifier
                         .padding(8.dp)
                         .size(40.dp)
                         .clickable { navigation() }
@@ -59,7 +59,13 @@ fun Toolbar(
             }
             Text(
                 text = title,
-                modifier = Modifier.weight(1.0f).padding(horizontal = 16.dp),
+                modifier = Modifier.weight(1.0f).padding(
+                    horizontal = if (navigationIcon != null) {
+                        8.dp
+                    } else {
+                        16.dp
+                    }
+                ),
                 style = TextStyle(
                     color = contentColor,
                     fontWeight = FontWeight.Medium,
@@ -70,7 +76,7 @@ fun Toolbar(
                 Icon(
                     imageVector = leftIcon,
                     contentDescription = null,
-                    modifier = Modifier.padding(end = 8.dp)
+                    modifier = Modifier
                         .padding(8.dp)
                         .size(40.dp)
                         .clickable { onLeftIconPressed() }

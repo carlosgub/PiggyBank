@@ -42,6 +42,8 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
+                implementation(compose.material3)
+                implementation(compose.materialIconsExtended)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 implementation(libs.kamel.image)
@@ -50,6 +52,8 @@ kotlin {
                 implementation(libs.koin.compose)
                 api(libs.bundles.precompose)
                 implementation(libs.firebase.firestore)
+                implementation(libs.kotlinx.datetime)
+                implementation(libs.kotlin.stdlib)
             }
         }
         val androidMain by getting {

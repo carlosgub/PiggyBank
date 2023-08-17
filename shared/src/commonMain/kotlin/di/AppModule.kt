@@ -5,6 +5,7 @@ import data.repository.FinanceRepositoryImpl
 import domain.repository.FinanceRepository
 import domain.usecase.GetFinanceUseCase
 import org.koin.dsl.module
+import presentation.viewmodel.CreateExpenseViewModel
 import presentation.viewmodel.HomeViewModel
 
 val homeModule = module {
@@ -12,6 +13,10 @@ val homeModule = module {
         HomeViewModel(
             getFinanceUseCase = get()
         )
+    }
+
+    single {
+        CreateExpenseViewModel()
     }
 
     factory {

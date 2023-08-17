@@ -16,15 +16,26 @@ class HomeViewModel(
     private val _uiState = MutableStateFlow<GenericState<Finance>>(GenericState.Initial)
     val uiState = _uiState.asStateFlow()
 
+    val isRefreshing: Boolean = (uiState.value is GenericState.Loading)
+
+    private val _showAddExpenseDialog = MutableStateFlow<Boolean>(false)
+    val showAddExpenseDialog = _showAddExpenseDialog.asStateFlow()
+
     init {
-        updateImages()
+        getFinanceStatus()
     }
 
-    private fun updateImages() {
+    fun getFinanceStatus() {
         viewModelScope.launch {
             _uiState.emit(
                 getFinanceUseCase.getFinance()
             )
+        }
+    }
+
+    fun showAddExpenseDialog(show: Boolean) {
+        viewModelScope.launch {
+            _showAddExpenseDialog.emit(show)
         }
     }
 }

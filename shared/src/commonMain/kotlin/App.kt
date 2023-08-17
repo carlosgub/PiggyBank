@@ -14,8 +14,11 @@ import moe.tlaster.precompose.navigation.transition.NavTransition
 import org.koin.compose.KoinApplication
 import presentation.navigation.NavArgs
 import presentation.navigation.Screen
+import presentation.screen.CreateExpenseScreen
 import presentation.screen.HomeScreen
-import presentation.screen.ImageDetailScreen
+import theme.Shapes
+
+import theme.Typography
 
 @Composable
 fun App() {
@@ -28,13 +31,17 @@ fun App() {
             scene(route = Screen.Home.route) {
                 HomeScreen(navigator = navigator)
             }
-            scene(
+            scene(route = Screen.CreateExpenseScreen.route) {
+                CreateExpenseScreen(navigator = navigator)
+            }
+            /*scene(
                 route = Screen.ImageDetailScreen.route,
                 navTransition = NavTransition()
             ) { backStackEntry ->
-                val finance: Finance = Json.decodeFromString(backStackEntry.path<String>(NavArgs.BirdImage.key)!!)
-                ImageDetailScreen(navigator, finance)
-            }
+                *//*val finance: Finance =
+                    Json.decodeFromString(backStackEntry.path<String>(NavArgs.BirdImage.key)!!)*//*
+                CreateExpenseScreen(navigator)
+            }*/
         }
     }
 }
@@ -50,11 +57,8 @@ fun AppTheme(
     ) {
         MaterialTheme(
             colors = MaterialTheme.colors.copy(primary = Color.Black),
-            shapes = MaterialTheme.shapes.copy(
-                small = AbsoluteCutCornerShape(0.dp),
-                medium = AbsoluteCutCornerShape(0.dp),
-                large = AbsoluteCutCornerShape(0.dp)
-            )
+            shapes = Shapes,
+            typography = Typography
         ) {
             content()
         }
