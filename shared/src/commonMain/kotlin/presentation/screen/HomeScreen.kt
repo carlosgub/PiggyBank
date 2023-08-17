@@ -75,7 +75,7 @@ private fun HomeContent(
         topBar = {
             HomeToolbar(
                 onAddPressed = {
-                    navigator.navigate(Screen.CreateExpenseScreen.route)
+                    navigator.navigate(Screen.CreateExpenseScreen.createRoute(finance))
                 }
             )
         }
@@ -162,7 +162,7 @@ private fun HomeBodyMonthExpense(
             color = Color.White
         )
         val amountText = if (finance.month.containsKey(currentKey)) {
-            finance.month[currentKey]!!.toMoneyFormat()
+            (finance.month[currentKey]!!.amount / 100.0).toMoneyFormat()
         } else {
             0.0f.toMoneyFormat()
         }

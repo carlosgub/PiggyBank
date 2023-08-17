@@ -8,11 +8,11 @@ import org.koin.dsl.module
 val dataModule = module {
 
     single {
-        Firebase.firestore.apply {
+        Firebase.firestore/*.apply {
             setSettings(
                 persistenceEnabled = false
             )
-        }
+        }*/
     }
 
     single {

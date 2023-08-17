@@ -18,4 +18,21 @@ class FinanceRepositoryImpl(
                 firebaseFinance.getFinance()
             )
         }
+
+    override suspend fun createExpense(
+        amount: Int,
+        category: String,
+        note: String,
+        finance: Finance
+    ): GenericState<Unit> =
+        withContext(Dispatchers.Default) {
+            ResultMapper.toGenericState(
+                firebaseFinance.createExpense(
+                    amount,
+                    category,
+                    note,
+                    finance
+                )
+            )
+        }
 }

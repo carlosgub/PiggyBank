@@ -31,8 +31,13 @@ fun App() {
             scene(route = Screen.Home.route) {
                 HomeScreen(navigator = navigator)
             }
-            scene(route = Screen.CreateExpenseScreen.route) {
-                CreateExpenseScreen(navigator = navigator)
+            scene(route = Screen.CreateExpenseScreen.route) { backStackEntry ->
+                val finance: Finance =
+                    Json.decodeFromString(backStackEntry.path<String>(NavArgs.Finance.key)!!)
+                CreateExpenseScreen(
+                    navigator = navigator,
+                    finance = finance
+                )
             }
             /*scene(
                 route = Screen.ImageDetailScreen.route,

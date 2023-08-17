@@ -44,7 +44,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import core.sealed.GenericState
 import model.CategoryEnum
+import model.Finance
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
@@ -60,9 +62,27 @@ import utils.views.Toolbar
 @Composable
 fun CreateExpenseScreen(
     viewModel: CreateExpenseViewModel = koinInject(),
-    navigator: Navigator
+    navigator: Navigator,
+    finance: Finance
 ) {
+    Scaffold(
+        topBar = {
+            CreateExpenseToolbar(
+                onBack = {
+                    navigator.goBack()
+                }
+            )
+        }
+    ) {
+        Box() {
+            CreateExpenseContent(viewModel, finance)
+            CreateExpenseObserver(viewModel, navigator)
+        }
+    }
+}
 
+@Composable
+private fun CreateExpenseContent(viewModel: CreateExpenseViewModel, finance: Finance) {
     val selectedSelected = viewModel.category.collectAsStateWithLifecycle().value
     val amountText = viewModel.amountField.collectAsStateWithLifecycle().value
     val showError = viewModel.showError.collectAsStateWithLifecycle().value
@@ -81,55 +101,62 @@ fun CreateExpenseScreen(
         text = amountText,
         selection = TextRange(amountText.length)
     )
-    Scaffold(
-        topBar = {
-            CreateExpenseToolbar(
-                onBack = {
-                    navigator.goBack()
-                }
-            )
-        }
+    Column(
+        modifier = Modifier.fillMaxSize()
+            .padding(horizontal = 16.dp)
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
-                .padding(horizontal = 16.dp)
-        ) {
-            AmountOutlineTextField(
-                amountTextFieldValue = amountTextFieldValue.value,
-                keyboard = keyboard,
-                focusManager = focusManager,
-                onValueChange = { value ->
-                    viewModel.amountFieldChange(value)
-                    viewModel.showError(false)
-                },
-                showError = showError
-            )
-            CategoriesChips(
-                selectedSelected,
-                onChipPressed = { categoryEnumSelected ->
-                    viewModel.setCategory(categoryEnumSelected)
-                }
-            )
-            NoteOutlineTextField(
-                noteValue = noteText,
-                keyboard = keyboard,
-                focusManager = focusManager,
-                onValueChange = { value ->
-                    viewModel.noteFieldChange(value)
-                }
-            )
-            Box(
-                modifier = Modifier.weight(1.0f)
-            )
-            PrimaryButton(
-                modifier = Modifier.padding(
-                    bottom = spacing_6
-                ),
-                buttonText = "Create Expense",
-                onClick = {
-                    viewModel.createExpense()
-                }
-            )
+        AmountOutlineTextField(
+            amountTextFieldValue = amountTextFieldValue.value,
+            keyboard = keyboard,
+            focusManager = focusManager,
+            onValueChange = { value ->
+                viewModel.amountFieldChange(value)
+                viewModel.showError(false)
+            },
+            showError = showError
+        )
+        CategoriesChips(
+            selectedSelected,
+            onChipPressed = { categoryEnumSelected ->
+                viewModel.setCategory(categoryEnumSelected)
+            }
+        )
+        NoteOutlineTextField(
+            noteValue = noteText,
+            keyboard = keyboard,
+            focusManager = focusManager,
+            onValueChange = { value ->
+                viewModel.noteFieldChange(value)
+            }
+        )
+        Box(
+            modifier = Modifier.weight(1.0f)
+        )
+        PrimaryButton(
+            modifier = Modifier.padding(
+                bottom = spacing_6
+            ),
+            buttonText = "Create Expense",
+            onClick = {
+                viewModel.createExpense(finance)
+            }
+        )
+    }
+}
+
+@Composable
+private fun CreateExpenseObserver(
+    viewModel: CreateExpenseViewModel,
+    navigator: Navigator
+) {
+    when (val result = viewModel.uiState.collectAsStateWithLifecycle().value) {
+        is GenericState.Error -> {
+        }
+
+        GenericState.Initial -> Unit
+        GenericState.Loading -> Unit
+        is GenericState.Success -> {
+            navigator.goBack()
         }
     }
 }

@@ -7,7 +7,7 @@ koinCoreVersion = "3.2.2"
 koinComposeVersion = "1.0.4"
 kotlinxSerializationJsonVersion = "1.5.1"
 precomposeVersion = "1.4.3"
-firebaseVersion = "1.8.0"
+firebaseVersion = "1.8.1"
 datetimeVersion = "0.4.0"
 kotlinStdlibVersion = "1.9.0"
 
@@ -27,6 +27,7 @@ precompose-core = { module = "moe.tlaster:precompose", version.ref = "precompose
 precompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "precomposeVersion" }
 
 firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebaseVersion" }
+firebase-common = { module = "dev.gitlive:firebase-common", version.ref = "firebaseVersion" }
 
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetimeVersion" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJsonVersion" }
@@ -42,4 +43,8 @@ android = [
 precompose = [
     "precompose-core",
     "precompose-viewmodel"
+]
+firebase = [
+    "firebase-firestore",
+    "firebase-common"
 ]

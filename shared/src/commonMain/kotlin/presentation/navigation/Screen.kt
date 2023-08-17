@@ -6,7 +6,10 @@ import model.Finance
 
 sealed class Screen(val route: String) {
     object Home : Screen("home")
-    object CreateExpenseScreen : Screen("CreateExpenseScreen")
+    object CreateExpenseScreen : Screen("CreateExpenseScreen/{${NavArgs.Finance.key}}"){
+        fun createRoute(finance: Finance) =
+            "CreateExpenseScreen/${Json.encodeToString(finance)}"
+    }
     /*object ImageDetailScreen : Screen("imageDetailScreen/{${NavArgs.BirdImage.key}}") {
         fun createRoute(finance: Finance) =
             "imageDetailScreen/${Json.encodeToString(finance)}"
@@ -14,5 +17,5 @@ sealed class Screen(val route: String) {
 }
 
 enum class NavArgs(val key: String) {
-    BirdImage("Finance"),
+    Finance("Finance"),
 }
