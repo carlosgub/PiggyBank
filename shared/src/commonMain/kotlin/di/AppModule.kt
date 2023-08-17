@@ -16,7 +16,7 @@ val homeModule = module {
         )
     }
 
-    single {
+    factory {
         CreateExpenseViewModel(
             createExpenseUseCase = get()
         )

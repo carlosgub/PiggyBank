@@ -31,8 +31,7 @@ class FirebaseFinance constructor(
     suspend fun createExpense(
         amount: Int,
         category: String,
-        note: String,
-        finance: Finance
+        note: String
     ): ResponseResult<Unit> =
         try {
             val today: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
@@ -49,7 +48,8 @@ class FirebaseFinance constructor(
             val expenseReference =
                 firebaseFirestore.collection("EXPENSE").document
             val betReference = firebaseFirestore.collection("COSTS").document(userId)
-
+            val costsResponse = firebaseFirestore.collection("COSTS").document(userId).get()
+            val finance = costsResponse.data<Finance>()
             val financeCache = if (finance.month.containsKey(expenseMonth)) {
                 finance.copy(
                     month = mapOf(

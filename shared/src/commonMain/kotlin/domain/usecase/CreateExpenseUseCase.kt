@@ -11,14 +11,12 @@ class CreateExpenseUseCase(
         financeRepository.createExpense(
             params.amount,
             params.category,
-            params.note,
-            params.finance
+            params.note
         )
 
     data class Params(
         val amount: Int,
         val category: String,
-        val note: String,
-        val finance: Finance
+        val note: String
     )
 }

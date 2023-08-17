@@ -75,7 +75,7 @@ private fun HomeContent(
         topBar = {
             HomeToolbar(
                 onAddPressed = {
-                    navigator.navigate(Screen.CreateExpenseScreen.createRoute(finance))
+                    navigator.navigate(Screen.CreateExpenseScreen.route)
                 }
             )
         }

@@ -1,5 +1,6 @@
 package presentation.viewmodel
 
+import core.result.SingleEvent
 import core.sealed.GenericState
 import domain.usecase.CreateExpenseUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +25,8 @@ class CreateExpenseViewModel(
     private val _showError = MutableStateFlow(false)
     val showError = _showError.asStateFlow()
     private val _amountValueField = MutableStateFlow(0.0)
-    private val _uiState = MutableStateFlow<GenericState<Unit>>(GenericState.Initial)
+    private val _uiState =
+        MutableStateFlow<SingleEvent<GenericState<Unit>>>(SingleEvent(GenericState.Initial))
     val uiState = _uiState.asStateFlow()
 
 
@@ -58,18 +60,19 @@ class CreateExpenseViewModel(
         }
     }
 
-    fun createExpense(finance: Finance) {
+    fun createExpense() {
         if (_amountValueField.value <= 0) {
             showError(true)
         } else {
             viewModelScope.launch {
                 _uiState.emit(
-                    createExpenseUseCase.createFinance(
-                        CreateExpenseUseCase.Params(
-                            amount = (_amountValueField.value * 100).toInt(),
-                            category = _category.value.name,
-                            note = _noteField.value,
-                            finance = finance
+                    SingleEvent(
+                        createExpenseUseCase.createFinance(
+                            CreateExpenseUseCase.Params(
+                                amount = (_amountValueField.value * 100).toInt(),
+                                category = _category.value.name,
+                                note = _noteField.value
+                            )
                         )
                     )
                 )

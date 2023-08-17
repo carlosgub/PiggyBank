@@ -8,7 +8,6 @@ interface FinanceRepository {
     suspend fun createExpense(
         amount: Int,
         category: String,
-        note: String,
-        finance: Finance
+        note: String
     ): GenericState<Unit>
 }

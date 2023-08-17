@@ -48,8 +48,11 @@ import core.sealed.GenericState
 import model.CategoryEnum
 import model.Finance
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
+import moe.tlaster.precompose.navigation.NavOptions
 import moe.tlaster.precompose.navigation.Navigator
+import moe.tlaster.precompose.navigation.PopUpTo
 import org.koin.compose.koinInject
+import presentation.navigation.Screen
 import presentation.viewmodel.CreateExpenseViewModel
 import theme.ColorPrimary
 import theme.Gray100
@@ -62,8 +65,7 @@ import utils.views.Toolbar
 @Composable
 fun CreateExpenseScreen(
     viewModel: CreateExpenseViewModel = koinInject(),
-    navigator: Navigator,
-    finance: Finance
+    navigator: Navigator
 ) {
     Scaffold(
         topBar = {
@@ -75,14 +77,14 @@ fun CreateExpenseScreen(
         }
     ) {
         Box() {
-            CreateExpenseContent(viewModel, finance)
+            CreateExpenseContent(viewModel)
             CreateExpenseObserver(viewModel, navigator)
         }
     }
 }
 
 @Composable
-private fun CreateExpenseContent(viewModel: CreateExpenseViewModel, finance: Finance) {
+private fun CreateExpenseContent(viewModel: CreateExpenseViewModel) {
     val selectedSelected = viewModel.category.collectAsStateWithLifecycle().value
     val amountText = viewModel.amountField.collectAsStateWithLifecycle().value
     val showError = viewModel.showError.collectAsStateWithLifecycle().value
@@ -138,7 +140,7 @@ private fun CreateExpenseContent(viewModel: CreateExpenseViewModel, finance: Fin
             ),
             buttonText = "Create Expense",
             onClick = {
-                viewModel.createExpense(finance)
+                viewModel.createExpense()
             }
         )
     }
@@ -149,15 +151,17 @@ private fun CreateExpenseObserver(
     viewModel: CreateExpenseViewModel,
     navigator: Navigator
 ) {
-    when (val result = viewModel.uiState.collectAsStateWithLifecycle().value) {
+    when (viewModel.uiState.collectAsStateWithLifecycle().value.get()) {
         is GenericState.Error -> {
         }
 
         GenericState.Initial -> Unit
         GenericState.Loading -> Unit
         is GenericState.Success -> {
-            navigator.goBack()
+            navigator.goBackWith(true)
         }
+
+        else -> Unit
     }
 }
 
