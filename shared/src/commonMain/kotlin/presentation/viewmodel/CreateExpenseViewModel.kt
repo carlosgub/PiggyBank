@@ -14,6 +14,10 @@ class CreateExpenseViewModel : ViewModel() {
     val category = _category.asStateFlow()
     private val _amountField = MutableStateFlow(0.0.toMoneyFormat())
     val amountField = _amountField.asStateFlow()
+    private val _noteField = MutableStateFlow("")
+    val noteField = _noteField.asStateFlow()
+    private val _showError = MutableStateFlow(false)
+    val showError = _showError.asStateFlow()
     private val _amountValueField = MutableStateFlow(0.0)
 
 
@@ -41,7 +45,23 @@ class CreateExpenseViewModel : ViewModel() {
         }
     }
 
+    fun noteFieldChange(note: String) {
+        viewModelScope.launch {
+            _noteField.emit(note)
+        }
+    }
+
     fun createExpense() {
-        TODO("Not yet implemented")
+        if (_amountValueField.value <= 0) {
+            showError(true)
+        } else {
+
+        }
+    }
+
+    fun showError(show: Boolean) {
+        viewModelScope.launch {
+            _showError.emit(show)
+        }
     }
 }

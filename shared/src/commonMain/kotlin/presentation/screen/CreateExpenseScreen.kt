@@ -5,6 +5,7 @@
 
 package presentation.screen
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -64,6 +65,8 @@ fun CreateExpenseScreen(
 
     val selectedSelected = viewModel.category.collectAsStateWithLifecycle().value
     val amountText = viewModel.amountField.collectAsStateWithLifecycle().value
+    val showError = viewModel.showError.collectAsStateWithLifecycle().value
+    val noteText = viewModel.noteField.collectAsStateWithLifecycle().value
     val keyboard = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     val amountTextFieldValue = remember {
@@ -97,12 +100,22 @@ fun CreateExpenseScreen(
                 focusManager = focusManager,
                 onValueChange = { value ->
                     viewModel.amountFieldChange(value)
-                }
+                    viewModel.showError(false)
+                },
+                showError = showError
             )
             CategoriesChips(
                 selectedSelected,
                 onChipPressed = { categoryEnumSelected ->
                     viewModel.setCategory(categoryEnumSelected)
+                }
+            )
+            NoteOutlineTextField(
+                noteValue = noteText,
+                keyboard = keyboard,
+                focusManager = focusManager,
+                onValueChange = { value ->
+                    viewModel.noteFieldChange(value)
                 }
             )
             Box(
@@ -127,6 +140,7 @@ private fun AmountOutlineTextField(
     keyboard: SoftwareKeyboardController?,
     focusManager: FocusManager,
     onValueChange: (String) -> Unit,
+    showError: Boolean
 ) {
     OutlinedTextField(
         value = amountTextFieldValue,
@@ -139,6 +153,46 @@ private fun AmountOutlineTextField(
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done,
             keyboardType = KeyboardType.Number
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                keyboard?.hide()
+                focusManager.clearFocus()
+            }
+        ),
+        shape = MaterialTheme.shapes.small,
+        modifier = Modifier
+            .padding(top = 8.dp)
+            .fillMaxWidth(),
+    )
+    AnimatedVisibility(showError) {
+        Text(
+            text = "Enter an amount greather than zero",
+            color = MaterialTheme.colors.error,
+            style = MaterialTheme.typography.caption,
+            modifier = Modifier.padding(start = 16.dp)
+        )
+    }
+}
+
+@Composable
+private fun NoteOutlineTextField(
+    noteValue: String,
+    keyboard: SoftwareKeyboardController?,
+    focusManager: FocusManager,
+    onValueChange: (String) -> Unit,
+) {
+    OutlinedTextField(
+        value = noteValue,
+        onValueChange = { value ->
+            onValueChange(value)
+        },
+        label = {
+            Text("Note")
+        },
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
+            keyboardType = KeyboardType.Text
         ),
         keyboardActions = KeyboardActions(
             onDone = {
