@@ -4,7 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Finance(
-    val amount: Int = 0,
+    val expenseAmount: Int = 0,
+    val incomeAmount: Int = 0,
     val category: Map<String, FinanceMonthCategoryDetail> = mapOf()
 )
 

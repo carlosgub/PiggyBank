@@ -54,7 +54,7 @@ class FirebaseFinance constructor(
                 financeExist = true
                 val finance = costsResponse.data<Finance>()
                 finance.copy(
-                    amount = finance.amount + amount,
+                    expenseAmount = finance.expenseAmount + amount,
                     category =
                     finance.category.toMutableMap().apply {
                         if (finance.category.containsKey(category)) {
@@ -79,7 +79,7 @@ class FirebaseFinance constructor(
             } else {
                 financeExist = false
                 Finance(
-                    amount = amount,
+                    expenseAmount = amount,
                     category = mapOf(
                         category to FinanceMonthCategoryDetail(
                             amount = amount,

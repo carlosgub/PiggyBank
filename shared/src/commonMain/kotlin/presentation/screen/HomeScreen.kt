@@ -25,8 +25,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Money
 import androidx.compose.material.icons.filled.MoneyOff
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -72,6 +72,9 @@ private fun HomeObserver(viewModel: HomeViewModel, navigator: Navigator) {
                     HomeFooterContent(
                         uiState.data.expenses
                     )
+                },
+                onRefresh = {
+                    viewModel.getFinanceStatus()
                 }
             )
         }
@@ -84,6 +87,9 @@ private fun HomeObserver(viewModel: HomeViewModel, navigator: Navigator) {
                 },
                 footerContent = {
                     Loading()
+                },
+                onRefresh = {
+                    viewModel.getFinanceStatus()
                 }
             )
         }
@@ -97,28 +103,23 @@ private fun HomeObserver(viewModel: HomeViewModel, navigator: Navigator) {
 private fun HomeContent(
     navigator: Navigator,
     bodyContent: @Composable () -> Unit,
-    footerContent: @Composable () -> Unit
+    footerContent: @Composable () -> Unit,
+    onRefresh: () -> Unit
 ) {
     Scaffold(
         topBar = {
             HomeToolbar(
                 onAddExpensePressed = {
                     navigator.navigate(Screen.CreateExpenseScreen.route)
-                }
+                },
+                onRefresh = onRefresh
             )
         }
     ) { paddingValues ->
-        /*val pullRefreshState = rememberPullRefreshState(
-        viewModel.isRefreshing,
-        onRefresh = {
-            viewModel.getFinanceStatus()
-        }
-    )*/
         Box(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-//            .pullRefresh(pullRefreshState)
         ) {
             Column(
                 modifier = Modifier
@@ -138,11 +139,6 @@ private fun HomeContent(
                     footerContent = footerContent
                 )
             }
-//        PullRefreshIndicator(
-//            refreshing = viewModel.isRefreshing,
-//            state = pullRefreshState,
-//            modifier = Modifier.align(Alignment.TopCenter)
-//        )
         }
     }
 }
@@ -188,7 +184,7 @@ private fun CardExpenses(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp)
+                .padding(start = 24.dp, top = 24.dp, end = 24.dp)
         ) {
             Text(
                 text = "Expenses",
@@ -204,7 +200,7 @@ private fun CardExpenses(
 fun HomeFooterContent(expenses: List<FinanceScreenExpenses>) {
     if (expenses.isNotEmpty()) {
         LazyColumn(
-            modifier = Modifier.padding(vertical = 12.dp)
+            modifier = Modifier.padding(top = 12.dp)
         ) {
             itemsIndexed(expenses) { count, expense ->
                 Column {
@@ -244,7 +240,7 @@ fun HomeFooterContent(expenses: List<FinanceScreenExpenses>) {
 
         }
     } else {
-
+        // TODO
     }
 
 }
@@ -277,13 +273,16 @@ fun ExpenseIconProgress(expense: FinanceScreenExpenses) {
 
 @Composable
 private fun HomeToolbar(
-    onAddExpensePressed: () -> Unit
+    onAddExpensePressed: () -> Unit,
+    onRefresh: () -> Unit,
 ) {
     Toolbar(
         elevation = 0.dp,
         title = "My Finances",
         dropDownIcon = Icons.Default.Add,
         dropDownMenu = true,
+        leftIcon = Icons.Filled.Refresh,
+        onLeftIconPressed = onRefresh,
         dropDownItems = listOf(
             MenuItem(
                 name = "Add Expense",

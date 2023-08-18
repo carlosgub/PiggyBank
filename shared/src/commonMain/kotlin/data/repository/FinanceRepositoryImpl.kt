@@ -31,7 +31,7 @@ class FinanceRepositoryImpl(
                     }
                     GenericState.Success(
                         FinanceScreenModel(
-                            monthAmount = result.data.amount,
+                            monthAmount = result.data.expenseAmount,
                             expenses = list
                         )
                     )

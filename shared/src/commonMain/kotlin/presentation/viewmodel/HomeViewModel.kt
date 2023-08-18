@@ -23,6 +23,7 @@ class HomeViewModel(
     }
 
     fun getFinanceStatus() {
+        _uiState.value = GenericState.Loading
         viewModelScope.launch {
             _uiState.emit(
                 getFinanceUseCase.getFinance()
