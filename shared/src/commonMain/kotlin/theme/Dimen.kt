@@ -37,5 +37,5 @@ val view_75: Dp = 300.dp
 /*endregion*/
 
 /*region divider*/
-val divider_thickness: Dp = 0.5.dp
+val divider_thickness: Dp = 1.dp
 /*endregion*/

@@ -39,7 +39,7 @@ class CreateExpenseViewModel(
     fun amountFieldChange(textFieldValue: String) {
         if (textFieldValue != _amountField.value) {
             val cleanString: String =
-                textFieldValue.replace("""[$,.]""".toRegex(), "").trim().trimStart('0')
+                textFieldValue.replace("""[$,.A-Za-z]""".toRegex(), "").trim().trimStart('0')
             val parsed = if (cleanString.isBlank()) {
                 0.0
             } else {

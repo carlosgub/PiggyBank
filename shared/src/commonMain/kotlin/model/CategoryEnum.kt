@@ -5,6 +5,7 @@ import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Checkroom
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Man
+import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.Savings
 import androidx.compose.ui.graphics.Color
@@ -39,5 +40,9 @@ enum class CategoryEnum(
     SAVINGS(
         categoryName = "Savings",
         icon = Icons.Filled.Savings
+    ),
+    PETS(
+        categoryName = "Pets",
+        icon = Icons.Filled.Pets
     )
 }

@@ -21,8 +21,13 @@ class FirebaseFinance constructor(
                 firebaseFirestore.collection(COLLECTION_COSTS).document(userId)
                     .collection(COLLECTION_MONTH)
                     .document(getCurrentMonthKey()).get()
-            val finance = costsResponse.data<Finance>()
-            ResponseResult.Success(finance)
+            if(costsResponse.exists){
+                val finance = costsResponse.data<Finance>()
+                ResponseResult.Success(finance)
+            }else{
+                ResponseResult.Success(Finance())
+            }
+
         } catch (e: Exception) {
             ResponseResult.Error(e)
         }
@@ -44,7 +49,9 @@ class FirebaseFinance constructor(
                 firebaseFirestore.collection(COLLECTION_COSTS).document(userId)
                     .collection(COLLECTION_MONTH)
                     .document(getCurrentMonthKey()).get()
+            val financeExist: Boolean
             val financeCache = if (costsResponse.exists) {
+                financeExist = true
                 val finance = costsResponse.data<Finance>()
                 finance.copy(
                     amount = finance.amount + amount,
@@ -70,6 +77,7 @@ class FirebaseFinance constructor(
                     }
                 )
             } else {
+                financeExist = false
                 Finance(
                     amount = amount,
                     category = mapOf(
@@ -88,7 +96,11 @@ class FirebaseFinance constructor(
                 note = note,
                 month = currentMonthKey
             )
-            batch.update(betReference, financeCache)
+            if(financeExist){
+                batch.update(betReference, financeCache)
+            }else{
+                batch.set(betReference, financeCache)
+            }
             batch.set(
                 expenseReference,
                 expense

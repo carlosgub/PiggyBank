@@ -3,15 +3,18 @@
 package presentation.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
@@ -21,6 +24,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,10 +39,13 @@ import org.koin.compose.koinInject
 import presentation.navigation.Screen
 import presentation.viewmodel.HomeViewModel
 import theme.ColorPrimary
+import theme.ColorSeparator
 import theme.Gray400
 import theme.Gray600
+import theme.divider_thickness
 import utils.getCurrentMonthName
 import utils.toMoneyFormat
+import utils.toPrecision
 import utils.views.Loading
 import utils.views.Toolbar
 
@@ -178,11 +185,12 @@ private fun CardExpenses(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(24.dp)
         ) {
             Text(
                 text = "Expenses",
                 style = MaterialTheme.typography.h6,
-                modifier = Modifier.fillMaxWidth().padding(top = 24.dp, start = 24.dp, end = 24.dp)
+                modifier = Modifier.fillMaxWidth()
             )
             footerContent()
         }
@@ -192,37 +200,76 @@ private fun CardExpenses(
 @Composable
 fun HomeFooterContent(expenses: List<FinanceScreenExpenses>) {
     if (expenses.isNotEmpty()) {
-        LazyColumn {
-            items(expenses) { financeExpense ->
+        LazyColumn(
+            modifier = Modifier.padding(vertical = 12.dp)
+        ) {
+            itemsIndexed(expenses) { count, expense ->
                 Column {
-                    Box(contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(
-                            progress = 1f,
-                            modifier = Modifier.size(64.dp),
-                            strokeWidth = 3.dp,
-                            color = Gray400
-                        )
-                        CircularProgressIndicator(
-                            progress = 0.64f,
-                            modifier = Modifier.size(64.dp),
-                            strokeWidth = 3.dp,
-                            color = financeExpense.category.color
-                        )
-
-                        Icon(
-                            imageVector = financeExpense.category.icon,
-                            contentDescription = null,
-                            tint = Gray600,
-                            modifier = Modifier.size(32.dp)
+                    if (count != 0) {
+                        Divider(
+                            modifier = Modifier.fillMaxWidth().padding(
+                                start = 64.dp
+                            ),
+                            thickness = divider_thickness,
+                            color = ColorSeparator
                         )
                     }
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .clickable {}
+                            .padding(vertical = 12.dp)
+
+                    ) {
+                        ExpenseIconProgress(expense)
+                        Column(
+                            modifier = Modifier.weight(1f).padding(start = 16.dp)
+                        ) {
+                            Text(expense.category.categoryName)
+                            Text("${expense.percentage}% of budget")
+                        }
+                        Column(
+                            modifier = Modifier.weight(1f).padding(start = 16.dp)
+                        ) {
+                            Text((expense.amount / 100.0).toMoneyFormat())
+                            Text("${expense.count} transactions")
+                        }
+                    }
                 }
+
             }
+
         }
     } else {
 
     }
 
+}
+
+@Composable
+fun ExpenseIconProgress(expense: FinanceScreenExpenses) {
+    val percentage = (expense.percentage / 100.00).toFloat()
+    Box(contentAlignment = Alignment.Center) {
+        CircularProgressIndicator(
+            progress = 1f,
+            modifier = Modifier.size(64.dp),
+            strokeWidth = 3.dp,
+            color = Gray400
+        )
+        CircularProgressIndicator(
+            progress = percentage,
+            modifier = Modifier.size(64.dp),
+            strokeWidth = 3.dp,
+            color = expense.category.color
+        )
+
+        Icon(
+            imageVector = expense.category.icon,
+            contentDescription = null,
+            tint = Gray600,
+            modifier = Modifier.size(32.dp)
+        )
+    }
 }
 
 @Composable

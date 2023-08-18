@@ -10,6 +10,7 @@ import kotlinx.coroutines.withContext
 import model.FinanceScreenExpenses
 import model.FinanceScreenModel
 import utils.getCategoryEnumFromName
+import kotlin.math.roundToInt
 
 class FinanceRepositoryImpl(
     private val firebaseFinance: FirebaseFinance
@@ -19,11 +20,13 @@ class FinanceRepositoryImpl(
         withContext(Dispatchers.Default) {
             when (val result = firebaseFinance.getFinance()) {
                 is ResponseResult.Success -> {
+                    val total = result.data.category.values.sumOf { it.amount }
                     val list = result.data.category.entries.map {
                         FinanceScreenExpenses(
                             category = getCategoryEnumFromName(it.key),
                             amount = it.value.amount,
-                            count = it.value.amount
+                            count = it.value.count,
+                            percentage = (it.value.amount / total.toFloat() * 100).roundToInt()
                         )
                     }
                     GenericState.Success(

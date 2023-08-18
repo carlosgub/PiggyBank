@@ -12,5 +12,6 @@ data class FinanceScreenModel(
 data class FinanceScreenExpenses(
     val category: CategoryEnum,
     val amount: Int,
-    val count: Int
+    val count: Int,
+    val percentage: Int
 )
