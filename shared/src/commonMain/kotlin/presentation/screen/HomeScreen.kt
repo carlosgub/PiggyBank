@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -24,6 +23,10 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AttachMoney
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Money
+import androidx.compose.material.icons.filled.MoneyOff
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -33,6 +36,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import core.sealed.GenericState
 import model.FinanceScreenExpenses
+import model.MenuItem
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
@@ -45,7 +49,6 @@ import theme.Gray600
 import theme.divider_thickness
 import utils.getCurrentMonthName
 import utils.toMoneyFormat
-import utils.toPrecision
 import utils.views.Loading
 import utils.views.Toolbar
 
@@ -99,7 +102,7 @@ private fun HomeContent(
     Scaffold(
         topBar = {
             HomeToolbar(
-                onAddPressed = {
+                onAddExpensePressed = {
                     navigator.navigate(Screen.CreateExpenseScreen.route)
                 }
             )
@@ -274,12 +277,29 @@ fun ExpenseIconProgress(expense: FinanceScreenExpenses) {
 
 @Composable
 private fun HomeToolbar(
-    onAddPressed: () -> Unit
+    onAddExpensePressed: () -> Unit
 ) {
     Toolbar(
         elevation = 0.dp,
         title = "My Finances",
-        leftIcon = Icons.Default.Add,
-        onLeftIconPressed = onAddPressed
+        dropDownIcon = Icons.Default.Add,
+        dropDownMenu = true,
+        dropDownItems = listOf(
+            MenuItem(
+                name = "Add Expense",
+                icon = Icons.Filled.MoneyOff,
+                onItemClicked = onAddExpensePressed
+            ),
+            MenuItem(
+                name = "Add Income",
+                icon = Icons.Filled.AttachMoney,
+                onItemClicked = onAddExpensePressed
+            ),
+            MenuItem(
+                name = "Add Wish",
+                icon = Icons.Filled.Favorite,
+                onItemClicked = onAddExpensePressed
+            )
+        )
     )
 }

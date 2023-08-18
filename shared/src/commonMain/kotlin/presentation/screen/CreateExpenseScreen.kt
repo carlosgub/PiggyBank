@@ -7,6 +7,7 @@ package presentation.screen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -59,6 +60,7 @@ import theme.Gray100
 import theme.Gray400
 import theme.Gray600
 import theme.spacing_6
+import utils.NoRippleInteractionSource
 import utils.views.PrimaryButton
 import utils.views.Toolbar
 
@@ -105,6 +107,13 @@ private fun CreateExpenseContent(viewModel: CreateExpenseViewModel) {
     )
     Column(
         modifier = Modifier.fillMaxSize()
+            .clickable(
+                interactionSource = NoRippleInteractionSource(),
+                indication = null
+            ) {
+                keyboard?.hide()
+                focusManager.clearFocus()
+            }
             .padding(horizontal = 16.dp)
     ) {
         AmountOutlineTextField(
@@ -182,7 +191,6 @@ private fun AmountOutlineTextField(
             Text("Enter amount")
         },
         keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Done,
             keyboardType = KeyboardType.Number
         ),
         keyboardActions = KeyboardActions(
