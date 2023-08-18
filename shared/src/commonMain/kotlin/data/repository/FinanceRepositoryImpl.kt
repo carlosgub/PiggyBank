@@ -7,6 +7,7 @@ import data.firebase.FirebaseFinance
 import domain.repository.FinanceRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import model.FinanceEnum
 import model.FinanceScreenExpenses
 import model.FinanceScreenModel
 import utils.getCategoryEnumFromName
@@ -21,18 +22,31 @@ class FinanceRepositoryImpl(
             when (val result = firebaseFinance.getFinance()) {
                 is ResponseResult.Success -> {
                     val total = result.data.category.values.sumOf { it.amount }
-                    val list = result.data.category.entries.map {
-                        FinanceScreenExpenses(
-                            category = getCategoryEnumFromName(it.key),
-                            amount = it.value.amount,
-                            count = it.value.count,
-                            percentage = (it.value.amount / total.toFloat() * 100).roundToInt()
-                        )
-                    }.sortedByDescending { it.percentage }
+                    val expenseList =
+                        result.data.category.entries.filter { getCategoryEnumFromName(it.key).type == FinanceEnum.EXPENSE }
+                            .map {
+                                FinanceScreenExpenses(
+                                    category = getCategoryEnumFromName(it.key),
+                                    amount = it.value.amount,
+                                    count = it.value.count,
+                                    percentage = (it.value.amount / total.toFloat() * 100).roundToInt()
+                                )
+                            }.sortedByDescending { it.percentage }
+                    val incomeList =
+                        result.data.category.entries.filter { getCategoryEnumFromName(it.key).type == FinanceEnum.EXPENSE }
+                            .map {
+                                FinanceScreenExpenses(
+                                    category = getCategoryEnumFromName(it.key),
+                                    amount = it.value.amount,
+                                    count = it.value.count,
+                                    percentage = (it.value.amount / total.toFloat() * 100).roundToInt()
+                                )
+                            }.sortedByDescending { it.percentage }
                     GenericState.Success(
                         FinanceScreenModel(
                             monthAmount = result.data.expenseAmount,
-                            expenses = list
+                            expenses = expenseList,
+                            incomes = incomeList
                         )
                     )
                 }

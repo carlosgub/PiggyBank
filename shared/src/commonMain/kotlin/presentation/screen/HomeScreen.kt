@@ -21,6 +21,8 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -43,6 +45,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import core.sealed.GenericState
+import model.FinanceEnum
 import model.FinanceScreenExpenses
 import model.MenuItem
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
@@ -189,17 +192,35 @@ private fun CardExpenses(
         modifier = modifier,
         shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
     ) {
+        val tabs = FinanceEnum.entries.toList()
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 24.dp, top = 24.dp, end = 24.dp)
         ) {
-            Text(
-                text = "Expenses",
-                style = MaterialTheme.typography.h6,
-                modifier = Modifier.fillMaxWidth()
-            )
-            footerContent()
+            var tabIndex by remember { mutableStateOf(FinanceEnum.EXPENSE) }
+            TabRow(
+                selectedTabIndex = tabs.indexOf(tabIndex),
+                backgroundColor = Color.White,
+                divider = {}
+            ) {
+                tabs.forEach { financeEnum ->
+                    Tab(text = {
+                        Text(
+                            text = financeEnum.financeName,
+                            style = MaterialTheme.typography.body1,
+                            color = Color.Black
+                        )
+                    },
+                        selected = tabIndex == financeEnum,
+                        onClick = { tabIndex = financeEnum }
+                    )
+                }
+            }
+            when (tabIndex) {
+                FinanceEnum.EXPENSE -> footerContent()
+                FinanceEnum.INCOME -> footerContent()
+            }
         }
     }
 }
@@ -207,66 +228,68 @@ private fun CardExpenses(
 @Composable
 fun HomeFooterContent(expenses: List<FinanceScreenExpenses>) {
     if (expenses.isNotEmpty()) {
-        LazyColumn(
-            modifier = Modifier.padding(top = 12.dp)
+        Column(
+            modifier = Modifier.fillMaxSize()
         ) {
-            itemsIndexed(expenses) { count, expense ->
-                Column {
-                    if (count != 0) {
-                        Divider(
-                            modifier = Modifier.fillMaxWidth().padding(
-                                start = 64.dp
-                            ),
-                            thickness = divider_thickness,
-                            color = ColorSeparator
-                        )
-                    }
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .clickable {}
-                            .padding(vertical = 12.dp)
-
-                    ) {
-                        ExpenseIconProgress(expense)
-                        Column(
-                            modifier = Modifier.weight(1f).padding(start = 16.dp)
-                        ) {
-                            Text(
-                                text = expense.category.categoryName,
-                                style = MaterialTheme.typography.body2,
-                                fontWeight = FontWeight.Medium
-                            )
-                            Text(
-                                text = "${expense.percentage}% of budget",
-                                style = MaterialTheme.typography.caption,
-                                modifier = Modifier.padding(top = 4.dp),
-                                color = Gray600,
-                                fontWeight = FontWeight.Normal
+            LazyColumn(
+                modifier = Modifier.padding(top = 12.dp)
+            ) {
+                itemsIndexed(expenses) { count, expense ->
+                    Column {
+                        if (count != 0) {
+                            Divider(
+                                modifier = Modifier.fillMaxWidth().padding(
+                                    start = 64.dp
+                                ),
+                                thickness = divider_thickness,
+                                color = ColorSeparator
                             )
                         }
-                        Column(
-                            modifier = Modifier.padding(start = 16.dp),
-                            horizontalAlignment = Alignment.End
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .clickable {}
+                                .padding(vertical = 12.dp)
+
                         ) {
-                            Text(
-                                text = (expense.amount / 100.0).toMoneyFormat(),
-                                style = MaterialTheme.typography.body2,
-                                fontWeight = FontWeight.Medium
-                            )
-                            Text(
-                                text = "${expense.count} transactions",
-                                style = MaterialTheme.typography.caption,
-                                modifier = Modifier.padding(top = 4.dp),
-                                color = Gray600,
-                                fontWeight = FontWeight.Normal
-                            )
+                            ExpenseIconProgress(expense)
+                            Column(
+                                modifier = Modifier.weight(1f).padding(start = 16.dp)
+                            ) {
+                                Text(
+                                    text = expense.category.categoryName,
+                                    style = MaterialTheme.typography.body2,
+                                    fontWeight = FontWeight.Medium
+                                )
+                                Text(
+                                    text = "${expense.percentage}% of budget",
+                                    style = MaterialTheme.typography.caption,
+                                    modifier = Modifier.padding(top = 4.dp),
+                                    color = Gray600,
+                                    fontWeight = FontWeight.Normal
+                                )
+                            }
+                            Column(
+                                modifier = Modifier.padding(start = 16.dp),
+                                horizontalAlignment = Alignment.End
+                            ) {
+                                Text(
+                                    text = (expense.amount / 100.0).toMoneyFormat(),
+                                    style = MaterialTheme.typography.body2,
+                                    fontWeight = FontWeight.Medium
+                                )
+                                Text(
+                                    text = "${expense.count} transactions",
+                                    style = MaterialTheme.typography.caption,
+                                    modifier = Modifier.padding(top = 4.dp),
+                                    color = Gray600,
+                                    fontWeight = FontWeight.Normal
+                                )
+                            }
                         }
                     }
                 }
-
             }
-
         }
     } else {
         // TODO
