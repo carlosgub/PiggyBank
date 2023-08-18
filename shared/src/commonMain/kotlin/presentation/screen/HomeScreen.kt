@@ -2,6 +2,7 @@
 
 package presentation.screen
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,10 +30,17 @@ import androidx.compose.material.icons.filled.MoneyOff
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import core.sealed.GenericState
 import model.FinanceScreenExpenses
@@ -224,14 +232,35 @@ fun HomeFooterContent(expenses: List<FinanceScreenExpenses>) {
                         Column(
                             modifier = Modifier.weight(1f).padding(start = 16.dp)
                         ) {
-                            Text(expense.category.categoryName)
-                            Text("${expense.percentage}% of budget")
+                            Text(
+                                text = expense.category.categoryName,
+                                style = MaterialTheme.typography.body2,
+                                fontWeight = FontWeight.Medium
+                            )
+                            Text(
+                                text = "${expense.percentage}% of budget",
+                                style = MaterialTheme.typography.caption,
+                                modifier = Modifier.padding(top = 4.dp),
+                                color = Gray600,
+                                fontWeight = FontWeight.Normal
+                            )
                         }
                         Column(
-                            modifier = Modifier.weight(1f).padding(start = 16.dp)
+                            modifier = Modifier.padding(start = 16.dp),
+                            horizontalAlignment = Alignment.End
                         ) {
-                            Text((expense.amount / 100.0).toMoneyFormat())
-                            Text("${expense.count} transactions")
+                            Text(
+                                text = (expense.amount / 100.0).toMoneyFormat(),
+                                style = MaterialTheme.typography.body2,
+                                fontWeight = FontWeight.Medium
+                            )
+                            Text(
+                                text = "${expense.count} transactions",
+                                style = MaterialTheme.typography.caption,
+                                modifier = Modifier.padding(top = 4.dp),
+                                color = Gray600,
+                                fontWeight = FontWeight.Normal
+                            )
                         }
                     }
                 }
@@ -249,24 +278,31 @@ fun HomeFooterContent(expenses: List<FinanceScreenExpenses>) {
 fun ExpenseIconProgress(expense: FinanceScreenExpenses) {
     val percentage = (expense.percentage / 100.00).toFloat()
     Box(contentAlignment = Alignment.Center) {
+        var progress by remember { mutableStateOf(0f) }
+        val progressAnimation by animateFloatAsState(
+            targetValue = progress,
+            animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+        )
         CircularProgressIndicator(
             progress = 1f,
-            modifier = Modifier.size(64.dp),
+            modifier = Modifier.size(56.dp),
             strokeWidth = 3.dp,
             color = Gray400
         )
         CircularProgressIndicator(
-            progress = percentage,
-            modifier = Modifier.size(64.dp),
+            progress = progressAnimation,
+            modifier = Modifier.size(56.dp),
             strokeWidth = 3.dp,
             color = expense.category.color
         )
-
+        LaunchedEffect(percentage) {
+            progress = percentage
+        }
         Icon(
             imageVector = expense.category.icon,
             contentDescription = null,
             tint = Gray600,
-            modifier = Modifier.size(32.dp)
+            modifier = Modifier.size(28.dp)
         )
     }
 }

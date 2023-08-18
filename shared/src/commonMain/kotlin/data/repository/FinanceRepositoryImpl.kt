@@ -28,7 +28,7 @@ class FinanceRepositoryImpl(
                             count = it.value.count,
                             percentage = (it.value.amount / total.toFloat() * 100).roundToInt()
                         )
-                    }
+                    }.sortedByDescending { it.percentage }
                     GenericState.Success(
                         FinanceScreenModel(
                             monthAmount = result.data.expenseAmount,
