@@ -2,9 +2,10 @@ package domain.repository
 
 import core.sealed.GenericState
 import model.Finance
+import model.FinanceScreenModel
 
 interface FinanceRepository {
-    suspend fun getFinance(): GenericState<Finance>
+    suspend fun getCurrentFinance(): GenericState<FinanceScreenModel>
     suspend fun createExpense(
         amount: Int,
         category: String,

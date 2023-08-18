@@ -7,11 +7,14 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Man
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.Savings
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import theme.ColorPrimary
 
 enum class CategoryEnum(
     val categoryName: String,
-    val icon: ImageVector
+    val icon: ImageVector,
+    val color: Color = ColorPrimary
 ) {
     FOOD(
         categoryName = "Food",
