@@ -11,4 +11,8 @@ interface FinanceRepository {
         category: String,
         note: String
     ): GenericState<Unit>
+    suspend fun createIncome(
+        amount: Int,
+        note: String
+    ): GenericState<Unit>
 }

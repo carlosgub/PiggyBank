@@ -21,7 +21,15 @@ class FinanceRepositoryImpl(
         withContext(Dispatchers.Default) {
             when (val result = firebaseFinance.getFinance()) {
                 is ResponseResult.Success -> {
-                    val total = result.data.category.values.sumOf { it.amount }
+                    var expenseTotal = 0
+                    var incomeTotal = 0
+                    result.data.category.forEach {
+                        if (getCategoryEnumFromName(it.key).type == FinanceEnum.EXPENSE) {
+                            expenseTotal += it.value.amount
+                        } else {
+                            incomeTotal += it.value.amount
+                        }
+                    }
                     val expenseList =
                         result.data.category.entries.filter { getCategoryEnumFromName(it.key).type == FinanceEnum.EXPENSE }
                             .map {
@@ -29,22 +37,22 @@ class FinanceRepositoryImpl(
                                     category = getCategoryEnumFromName(it.key),
                                     amount = it.value.amount,
                                     count = it.value.count,
-                                    percentage = (it.value.amount / total.toFloat() * 100).roundToInt()
+                                    percentage = (it.value.amount / expenseTotal.toFloat() * 100).roundToInt()
                                 )
                             }.sortedByDescending { it.percentage }
                     val incomeList =
-                        result.data.category.entries.filter { getCategoryEnumFromName(it.key).type == FinanceEnum.EXPENSE }
+                        result.data.category.entries.filter { getCategoryEnumFromName(it.key).type == FinanceEnum.INCOME }
                             .map {
                                 FinanceScreenExpenses(
                                     category = getCategoryEnumFromName(it.key),
                                     amount = it.value.amount,
                                     count = it.value.count,
-                                    percentage = (it.value.amount / total.toFloat() * 100).roundToInt()
+                                    percentage = (it.value.amount / incomeTotal.toFloat() * 100).roundToInt()
                                 )
                             }.sortedByDescending { it.percentage }
                     GenericState.Success(
                         FinanceScreenModel(
-                            monthAmount = result.data.expenseAmount,
+                            expenseAmount = result.data.expenseAmount,
                             expenses = expenseList,
                             incomes = incomeList
                         )
@@ -65,6 +73,16 @@ class FinanceRepositoryImpl(
                 firebaseFinance.createExpense(
                     amount,
                     category,
+                    note
+                )
+            )
+        }
+
+    override suspend fun createIncome(amount: Int, note: String): GenericState<Unit> =
+        withContext(Dispatchers.Default) {
+            ResultMapper.toGenericState(
+                firebaseFinance.createIncome(
+                    amount,
                     note
                 )
             )

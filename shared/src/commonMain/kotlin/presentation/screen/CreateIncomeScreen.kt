@@ -48,7 +48,6 @@ import androidx.compose.ui.unit.dp
 import core.sealed.GenericState
 import model.CategoryEnum
 import model.Finance
-import model.FinanceEnum
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.NavOptions
 import moe.tlaster.precompose.navigation.Navigator
@@ -56,6 +55,7 @@ import moe.tlaster.precompose.navigation.PopUpTo
 import org.koin.compose.koinInject
 import presentation.navigation.Screen
 import presentation.viewmodel.CreateExpenseViewModel
+import presentation.viewmodel.CreateIncomeViewModel
 import theme.ColorPrimary
 import theme.Gray100
 import theme.Gray400
@@ -66,8 +66,8 @@ import utils.views.PrimaryButton
 import utils.views.Toolbar
 
 @Composable
-fun CreateExpenseScreen(
-    viewModel: CreateExpenseViewModel = koinInject(),
+fun CreateIncomeScreen(
+    viewModel: CreateIncomeViewModel = koinInject(),
     navigator: Navigator
 ) {
     Scaffold(
@@ -79,16 +79,15 @@ fun CreateExpenseScreen(
             )
         }
     ) {
-        Box {
-            CreateExpenseContent(viewModel)
-            CreateExpenseObserver(viewModel, navigator)
+        Box() {
+            CreateIncomeContent(viewModel)
+            CreateIncomeObserver(viewModel, navigator)
         }
     }
 }
 
 @Composable
-private fun CreateExpenseContent(viewModel: CreateExpenseViewModel) {
-    val selectedSelected = viewModel.category.collectAsStateWithLifecycle().value
+private fun CreateIncomeContent(viewModel: CreateIncomeViewModel) {
     val amountText = viewModel.amountField.collectAsStateWithLifecycle().value
     val showError = viewModel.showError.collectAsStateWithLifecycle().value
     val noteText = viewModel.noteField.collectAsStateWithLifecycle().value
@@ -127,12 +126,6 @@ private fun CreateExpenseContent(viewModel: CreateExpenseViewModel) {
             },
             showError = showError
         )
-        CategoriesChips(
-            selectedSelected,
-            onChipPressed = { categoryEnumSelected ->
-                viewModel.setCategory(categoryEnumSelected)
-            }
-        )
         NoteOutlineTextField(
             noteValue = noteText,
             keyboard = keyboard,
@@ -157,8 +150,8 @@ private fun CreateExpenseContent(viewModel: CreateExpenseViewModel) {
 }
 
 @Composable
-private fun CreateExpenseObserver(
-    viewModel: CreateExpenseViewModel,
+private fun CreateIncomeObserver(
+    viewModel: CreateIncomeViewModel,
     navigator: Navigator
 ) {
     when (viewModel.uiState.collectAsStateWithLifecycle().value.get()) {
@@ -248,99 +241,11 @@ private fun NoteOutlineTextField(
 }
 
 @Composable
-private fun CategoriesChips(
-    selectedSelected: CategoryEnum,
-    onChipPressed: (CategoryEnum) -> Unit
-) {
-    Column(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        val categoriesList = CategoryEnum.entries.filter { it.type == FinanceEnum.EXPENSE }
-        Text(
-            "Categories",
-            style = MaterialTheme.typography.body1,
-            modifier = Modifier.padding(top = 16.dp)
-        )
-        FlowRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            categoriesList.forEach { categoryEnum ->
-                CategoryChip(
-                    categoryEnum,
-                    selectedSelected,
-                    onChipPressed = onChipPressed
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun CategoryChip(
-    categoryEnum: CategoryEnum,
-    selected: CategoryEnum,
-    onChipPressed: (CategoryEnum) -> Unit
-) {
-    val chipBackgroundColor = if (selected == categoryEnum) {
-        ColorPrimary.copy(alpha = 0.2f)
-    } else {
-        Gray100
-    }
-    val contentColor = if (selected == categoryEnum) {
-        ColorPrimary
-    } else {
-        Gray600
-    }
-    val chipBorderStroke = if (selected == categoryEnum) {
-        BorderStroke(
-            width = 1.dp,
-            color = ColorPrimary
-        )
-    } else {
-        BorderStroke(
-            width = 1.dp,
-            color = Gray400
-        )
-    }
-    Chip(
-        onClick = {
-            onChipPressed(categoryEnum)
-        },
-        colors = ChipDefaults.chipColors(
-            backgroundColor = chipBackgroundColor
-        ),
-        shape = RoundedCornerShape(12.dp),
-        border = chipBorderStroke
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(
-                horizontal = 6.dp,
-                vertical = 4.dp
-            )
-        ) {
-            Icon(
-                imageVector = categoryEnum.icon,
-                contentDescription = null,
-                tint = contentColor
-            )
-            Text(
-                categoryEnum.categoryName,
-                color = contentColor,
-                style = MaterialTheme.typography.caption,
-                modifier = Modifier.padding(start = 4.dp)
-            )
-        }
-    }
-}
-
-@Composable
 private fun CreateExpenseToolbar(
     onBack: () -> Unit
 ) {
     Toolbar(
-        title = "Create Expense",
+        title = "Create Income",
         navigationIcon = Icons.Default.ArrowBack,
         navigation = onBack,
     )

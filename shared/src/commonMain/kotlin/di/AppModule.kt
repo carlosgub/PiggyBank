@@ -4,12 +4,15 @@ import data.firebase.FirebaseFinance
 import data.repository.FinanceRepositoryImpl
 import domain.repository.FinanceRepository
 import domain.usecase.CreateExpenseUseCase
+import domain.usecase.CreateIncomeUseCase
 import domain.usecase.GetFinanceUseCase
 import org.koin.dsl.module
 import presentation.viewmodel.CreateExpenseViewModel
+import presentation.viewmodel.CreateIncomeViewModel
 import presentation.viewmodel.HomeViewModel
 
 val homeModule = module {
+    /*region ViewModels*/
     single {
         HomeViewModel(
             getFinanceUseCase = get()
@@ -23,6 +26,14 @@ val homeModule = module {
     }
 
     factory {
+        CreateIncomeViewModel(
+            createIncomeUseCase = get()
+        )
+    }
+    /*endregion*/
+
+    /*region Use Cases*/
+    factory {
         GetFinanceUseCase(
             financeRepository = get()
         )
@@ -33,6 +44,13 @@ val homeModule = module {
             financeRepository = get()
         )
     }
+
+    factory {
+        CreateIncomeUseCase(
+            financeRepository = get()
+        )
+    }
+    /*endregion*/
 
     factory<FinanceRepository> {
         FinanceRepositoryImpl(

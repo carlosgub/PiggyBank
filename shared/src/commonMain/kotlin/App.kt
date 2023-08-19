@@ -8,6 +8,7 @@ import moe.tlaster.precompose.navigation.rememberNavigator
 import org.koin.compose.KoinApplication
 import presentation.navigation.Screen
 import presentation.screen.CreateExpenseScreen
+import presentation.screen.CreateIncomeScreen
 import presentation.screen.HomeScreen
 import theme.Shapes
 import theme.Typography
@@ -25,6 +26,11 @@ fun App() {
             }
             scene(route = Screen.CreateExpenseScreen.route) { backStackEntry ->
                 CreateExpenseScreen(
+                    navigator = navigator
+                )
+            }
+            scene(route = Screen.CreateIncomeScreen.route) { backStackEntry ->
+                CreateIncomeScreen(
                     navigator = navigator
                 )
             }

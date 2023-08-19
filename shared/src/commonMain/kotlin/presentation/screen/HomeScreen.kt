@@ -76,12 +76,17 @@ private fun HomeObserver(viewModel: HomeViewModel, navigator: Navigator) {
                 navigator = navigator,
                 bodyContent = {
                     HomeBodyContent(
-                        uiState.data.monthAmount
+                        uiState.data.expenseAmount
                     )
                 },
-                footerContent = {
+                expenseFooterContent = {
                     HomeFooterContent(
                         uiState.data.expenses
+                    )
+                },
+                incomeFooterContent = {
+                    HomeFooterContent(
+                        uiState.data.incomes
                     )
                 },
                 onRefresh = {
@@ -96,7 +101,10 @@ private fun HomeObserver(viewModel: HomeViewModel, navigator: Navigator) {
                 bodyContent = {
                     Loading()
                 },
-                footerContent = {
+                expenseFooterContent = {
+                    Loading()
+                },
+                incomeFooterContent = {
                     Loading()
                 },
                 onRefresh = {
@@ -114,7 +122,8 @@ private fun HomeObserver(viewModel: HomeViewModel, navigator: Navigator) {
 private fun HomeContent(
     navigator: Navigator,
     bodyContent: @Composable () -> Unit,
-    footerContent: @Composable () -> Unit,
+    expenseFooterContent: @Composable () -> Unit,
+    incomeFooterContent: @Composable () -> Unit,
     onRefresh: () -> Unit
 ) {
     Scaffold(
@@ -122,6 +131,9 @@ private fun HomeContent(
             HomeToolbar(
                 onAddExpensePressed = {
                     navigator.navigate(Screen.CreateExpenseScreen.route)
+                },
+                onAddIncomePressed = {
+                    navigator.navigate(Screen.CreateIncomeScreen.route)
                 },
                 onRefresh = onRefresh
             )
@@ -147,7 +159,8 @@ private fun HomeContent(
                     modifier = Modifier
                         .weight(0.55f)
                         .fillMaxSize(),
-                    footerContent = footerContent
+                    expenseFooterContent = expenseFooterContent,
+                    incomeFooterContent = incomeFooterContent
                 )
             }
         }
@@ -186,7 +199,8 @@ private fun HomeBodyContent(monthAmount: Int) {
 @Composable
 private fun CardExpenses(
     modifier: Modifier,
-    footerContent: @Composable () -> Unit
+    expenseFooterContent: @Composable () -> Unit,
+    incomeFooterContent: @Composable () -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -218,8 +232,8 @@ private fun CardExpenses(
                 }
             }
             when (tabIndex) {
-                FinanceEnum.EXPENSE -> footerContent()
-                FinanceEnum.INCOME -> footerContent()
+                FinanceEnum.EXPENSE -> expenseFooterContent()
+                FinanceEnum.INCOME -> incomeFooterContent()
             }
         }
     }
@@ -333,6 +347,7 @@ fun ExpenseIconProgress(expense: FinanceScreenExpenses) {
 @Composable
 private fun HomeToolbar(
     onAddExpensePressed: () -> Unit,
+    onAddIncomePressed: () -> Unit,
     onRefresh: () -> Unit,
 ) {
     Toolbar(
@@ -351,7 +366,7 @@ private fun HomeToolbar(
             MenuItem(
                 name = "Add Income",
                 icon = Icons.Filled.AttachMoney,
-                onItemClicked = onAddExpensePressed
+                onItemClicked = onAddIncomePressed
             ),
             MenuItem(
                 name = "Add Wish",

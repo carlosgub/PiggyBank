@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FinanceScreenModel(
-    val monthAmount: Int,
+    val expenseAmount: Int,
     val expenses: List<FinanceScreenExpenses>,
     val incomes: List<FinanceScreenExpenses>
 )
