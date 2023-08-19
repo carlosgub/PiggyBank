@@ -44,9 +44,6 @@ class FirebaseFinance constructor(
             val batch = firebaseFirestore.batch()
             val expenseReference =
                 firebaseFirestore.collection(COLLECTION_EXPENSE).document
-            /*val betReference = firebaseFirestore.collection(COLLECTION_COSTS).document(userId)
-                .collection(COLLECTION_MONTH)
-                .document(getCurrentMonthKey())*/
             val costsResponse =
                 firebaseFirestore.collection(COLLECTION_COSTS).document(userId)
                     .collection(COLLECTION_MONTH)
@@ -124,9 +121,6 @@ class FirebaseFinance constructor(
             val batch = firebaseFirestore.batch()
             val incomeReference =
                 firebaseFirestore.collection(COLLECTION_INCOME).document
-            /*val betReference = firebaseFirestore.collection(COLLECTION_COSTS).document(userId)
-                .collection(COLLECTION_MONTH)
-                .document(getCurrentMonthKey())*/
             val costsResponse =
                 firebaseFirestore.collection(COLLECTION_COSTS).document(userId)
                     .collection(COLLECTION_MONTH)
