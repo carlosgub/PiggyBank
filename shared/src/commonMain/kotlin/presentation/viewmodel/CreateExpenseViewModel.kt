@@ -24,6 +24,8 @@ class CreateExpenseViewModel(
     val noteField = _noteField.asStateFlow()
     private val _showError = MutableStateFlow(false)
     val showError = _showError.asStateFlow()
+    private val _showNoteError = MutableStateFlow(false)
+    val showNoteError = _showNoteError.asStateFlow()
     private val _amountValueField = MutableStateFlow(0.0)
     private val _uiState =
         MutableStateFlow<SingleEvent<GenericState<Unit>>>(SingleEvent(GenericState.Initial))
@@ -63,6 +65,8 @@ class CreateExpenseViewModel(
     fun createExpense() {
         if (_amountValueField.value <= 0) {
             showError(true)
+        } else if (_noteField.value.trim().isBlank()) {
+            showNoteError(true)
         } else {
             viewModelScope.launch {
                 _uiState.emit(
@@ -83,6 +87,12 @@ class CreateExpenseViewModel(
     fun showError(show: Boolean) {
         viewModelScope.launch {
             _showError.emit(show)
+        }
+    }
+
+    fun showNoteError(show: Boolean) {
+        viewModelScope.launch {
+            _showNoteError.emit(show)
         }
     }
 }
