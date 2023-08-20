@@ -4,8 +4,8 @@ import core.network.ResponseResult
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import model.CategoryEnum
 import model.Expense
-import model.Finance
-import model.FinanceMonthCategoryDetail
+import domain.model.Finance
+import domain.model.FinanceMonthCategoryDetail
 import utils.COLLECTION_COSTS
 import utils.COLLECTION_EXPENSE
 import utils.COLLECTION_INCOME

@@ -148,8 +148,8 @@ private fun CreateExpenseToolbar(
     onBack: () -> Unit
 ) {
     Toolbar(
+        hasNavigationIcon = true,
         title = "Create Income",
-        navigationIcon = Icons.Default.ArrowBack,
         navigation = onBack,
     )
 }

@@ -2,7 +2,6 @@ package domain.usecase
 
 import core.sealed.GenericState
 import domain.repository.FinanceRepository
-import model.Finance
 
 class CreateExpenseUseCase(
     private val financeRepository: FinanceRepository

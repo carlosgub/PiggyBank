@@ -261,8 +261,8 @@ private fun CreateExpenseToolbar(
     onBack: () -> Unit
 ) {
     Toolbar(
+        hasNavigationIcon = true,
         title = "Create Expense",
-        navigationIcon = Icons.Default.ArrowBack,
         navigation = onBack,
     )
 }

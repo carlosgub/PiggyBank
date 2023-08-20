@@ -13,6 +13,8 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.Money
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
@@ -37,7 +39,8 @@ fun Toolbar(
     backgroundColor: Color = ColorPrimary,
     elevation: Dp = AppBarDefaults.TopAppBarElevation,
     title: String,
-    navigationIcon: ImageVector? = null,
+    hasNavigationIcon: Boolean = false,
+    navigationIcon: ImageVector = Icons.Filled.ArrowBack,
     navigation: () -> Unit = {},
     leftIcon: ImageVector? = null,
     onLeftIconPressed: () -> Unit = {},
@@ -58,7 +61,7 @@ fun Toolbar(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            navigationIcon?.let {
+            if (hasNavigationIcon) {
                 Icon(
                     imageVector = navigationIcon,
                     contentDescription = null,

@@ -45,6 +45,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import core.sealed.GenericState
+import model.CategoryMonthDetailArgs
 import model.FinanceEnum
 import model.FinanceScreenExpenses
 import model.MenuItem
@@ -58,6 +59,7 @@ import theme.ColorSeparator
 import theme.Gray400
 import theme.Gray600
 import theme.divider_thickness
+import utils.getCurrentMonthKey
 import utils.getCurrentMonthName
 import utils.toMoneyFormat
 import utils.views.Loading
@@ -82,7 +84,16 @@ private fun HomeObserver(viewModel: HomeViewModel, navigator: Navigator) {
                 expenseFooterContent = {
                     HomeFooterContent(
                         uiState.data.expenses
-                    )
+                    ) {
+                        navigator.navigate(
+                            Screen.CategoryMonthDetailScreen.createRoute(
+                                CategoryMonthDetailArgs(
+                                    category = it.category.name,
+                                    month = getCurrentMonthKey()
+                                )
+                            )
+                        )
+                    }
                 },
                 incomeFooterContent = {
                     HomeFooterContent(
@@ -240,7 +251,10 @@ private fun CardExpenses(
 }
 
 @Composable
-fun HomeFooterContent(expenses: List<FinanceScreenExpenses>) {
+fun HomeFooterContent(
+    expenses: List<FinanceScreenExpenses>,
+    onCategoryClick: (FinanceScreenExpenses) -> Unit = {}
+) {
     if (expenses.isNotEmpty()) {
         Column(
             modifier = Modifier.fillMaxSize()
@@ -262,7 +276,9 @@ fun HomeFooterContent(expenses: List<FinanceScreenExpenses>) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
-                                .clickable {}
+                                .clickable {
+                                    onCategoryClick(expense)
+                                }
                                 .padding(vertical = 12.dp)
 
                         ) {

@@ -3,10 +3,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import di.dataModule
 import di.homeModule
+import kotlinx.serialization.json.Json
+import model.CategoryMonthDetailArgs
 import moe.tlaster.precompose.navigation.NavHost
+import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
 import org.koin.compose.KoinApplication
+import presentation.navigation.NavArgs
 import presentation.navigation.Screen
+import presentation.screen.CategoryMonthDetailScreen
 import presentation.screen.CreateExpenseScreen
 import presentation.screen.CreateIncomeScreen
 import presentation.screen.HomeScreen
@@ -32,6 +37,14 @@ fun App() {
             scene(route = Screen.CreateIncomeScreen.route) { backStackEntry ->
                 CreateIncomeScreen(
                     navigator = navigator
+                )
+            }
+            scene(route = Screen.CategoryMonthDetailScreen.route) { backStackEntry ->
+                val args: CategoryMonthDetailArgs =
+                    Json.decodeFromString(backStackEntry.path<String>(NavArgs.CategoryMonthDetailArgs.key)!!)
+                CategoryMonthDetailScreen(
+                    navigator = navigator,
+                    args = args
                 )
             }
         }

@@ -1,7 +1,6 @@
 package domain.repository
 
 import core.sealed.GenericState
-import model.Finance
 import model.FinanceScreenModel
 
 interface FinanceRepository {
