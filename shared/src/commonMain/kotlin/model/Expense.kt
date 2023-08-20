@@ -1,7 +1,9 @@
 package model
 
+import dev.gitlive.firebase.firestore.FieldValue
 import dev.gitlive.firebase.firestore.ServerTimestampSerializer
 import dev.gitlive.firebase.firestore.Timestamp
+import dev.gitlive.firebase.firestore.TimestampSerializer
 
 import kotlinx.serialization.Serializable
 
@@ -12,6 +14,6 @@ data class Expense(
     val note: String = "",
     val category: String = "",
     val month: String = "",
-    @Serializable(with = ServerTimestampSerializer::class)
-    val timestamp: Timestamp.ServerTimestamp = Timestamp.ServerTimestamp,
+    @Serializable(with = TimestampSerializer::class)
+    val timestamp: Timestamp = Timestamp.now(),
 )

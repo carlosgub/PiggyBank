@@ -7,6 +7,8 @@ import data.firebase.FirebaseFinance
 import domain.repository.FinanceRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import model.CategoryEnum
+import model.Expense
 import model.FinanceEnum
 import model.FinanceScreenExpenses
 import model.FinanceScreenModel
@@ -84,6 +86,19 @@ class FinanceRepositoryImpl(
                 firebaseFinance.createIncome(
                     amount,
                     note
+                )
+            )
+        }
+
+    override suspend fun getCategoryMonthDetail(
+        categoryEnum: CategoryEnum,
+        monthKey: String
+    ): GenericState<List<Expense>> =
+        withContext(Dispatchers.Default) {
+            ResultMapper.toGenericState(
+                firebaseFinance.getCategoryMonthDetail(
+                    categoryEnum,
+                    monthKey
                 )
             )
         }

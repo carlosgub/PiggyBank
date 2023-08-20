@@ -3,6 +3,7 @@ package model
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Checkroom
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocalTaxi
 import androidx.compose.material.icons.filled.Man
@@ -67,16 +68,22 @@ enum class CategoryEnum(
         color = Teal,
         type = FinanceEnum.EXPENSE
     ),
-    WORK(
-        categoryName = "Work",
-        icon = Icons.Filled.Work,
-        color = Color.Green,
-        type = FinanceEnum.INCOME
-    ),
     TAXI(
         categoryName = "Taxi",
         icon = Icons.Filled.LocalTaxi,
         color = Color.Yellow,
         type = FinanceEnum.EXPENSE
+    ),
+    LOVE(
+        categoryName = "Love",
+        icon = Icons.Filled.Favorite,
+        color = Color.Red,
+        type = FinanceEnum.EXPENSE
+    ),
+    WORK(
+        categoryName = "Work",
+        icon = Icons.Filled.Work,
+        color = Color.Green,
+        type = FinanceEnum.INCOME
     )
 }

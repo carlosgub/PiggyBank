@@ -2,10 +2,13 @@ package data.firebase
 
 import core.network.ResponseResult
 import dev.gitlive.firebase.firestore.FirebaseFirestore
+import dev.gitlive.firebase.firestore.orderBy
+import dev.gitlive.firebase.firestore.where
 import model.CategoryEnum
 import model.Expense
 import domain.model.Finance
 import domain.model.FinanceMonthCategoryDetail
+import model.FinanceEnum
 import utils.COLLECTION_COSTS
 import utils.COLLECTION_EXPENSE
 import utils.COLLECTION_INCOME
@@ -184,6 +187,38 @@ class FirebaseFinance constructor(
 
             batch.commit()
             ResponseResult.Success(Unit)
+        } catch (e: Exception) {
+            ResponseResult.Error(e)
+        }
+
+
+    suspend fun getCategoryMonthDetail(
+        categoryEnum: CategoryEnum,
+        monthKey: String
+    ): ResponseResult<List<Expense>> =
+        try {
+            if (categoryEnum.type == FinanceEnum.EXPENSE) {
+                val costsResponse =
+                    firebaseFirestore.collection(COLLECTION_EXPENSE)
+                        .where("userId", userId)
+                        .where("month", monthKey)
+                        .orderBy("timestamp").get()
+
+                val list = costsResponse.documents.map {
+                    it.data<Expense>()
+                }
+                ResponseResult.Success(list)
+            } else {
+                val costsResponse =
+                    firebaseFirestore.collection(COLLECTION_INCOME)
+                        .where("userId", userId)
+                        .where("month", monthKey)
+                        .orderBy("timestamp").get()
+                val list = costsResponse.documents.map {
+                    it.data<Expense>()
+                }
+                ResponseResult.Success(list)
+            }
         } catch (e: Exception) {
             ResponseResult.Error(e)
         }

@@ -5,8 +5,10 @@ import data.repository.FinanceRepositoryImpl
 import domain.repository.FinanceRepository
 import domain.usecase.CreateExpenseUseCase
 import domain.usecase.CreateIncomeUseCase
+import domain.usecase.GetCategoryMonthDetailUseCase
 import domain.usecase.GetFinanceUseCase
 import org.koin.dsl.module
+import presentation.viewmodel.CategoryMonthDetailViewModel
 import presentation.viewmodel.CreateExpenseViewModel
 import presentation.viewmodel.CreateIncomeViewModel
 import presentation.viewmodel.HomeViewModel
@@ -30,6 +32,12 @@ val homeModule = module {
             createIncomeUseCase = get()
         )
     }
+
+    factory {
+        CategoryMonthDetailViewModel(
+            getCategoryMonthDetailUseCase = get()
+        )
+    }
     /*endregion*/
 
     /*region Use Cases*/
@@ -47,6 +55,12 @@ val homeModule = module {
 
     factory {
         CreateIncomeUseCase(
+            financeRepository = get()
+        )
+    }
+
+    factory {
+        GetCategoryMonthDetailUseCase(
             financeRepository = get()
         )
     }
