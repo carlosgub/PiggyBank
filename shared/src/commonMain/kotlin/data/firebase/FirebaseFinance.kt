@@ -1,13 +1,14 @@
 package data.firebase
 
 import core.network.ResponseResult
+import dev.gitlive.firebase.firestore.Direction
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.firestore.orderBy
 import dev.gitlive.firebase.firestore.where
 import model.CategoryEnum
-import model.Expense
-import domain.model.Finance
-import domain.model.FinanceMonthCategoryDetail
+import data.model.Expense
+import data.model.Finance
+import data.model.FinanceMonthCategoryDetail
 import model.FinanceEnum
 import utils.COLLECTION_COSTS
 import utils.COLLECTION_EXPENSE
@@ -202,7 +203,8 @@ class FirebaseFinance constructor(
                     firebaseFirestore.collection(COLLECTION_EXPENSE)
                         .where("userId", userId)
                         .where("month", monthKey)
-                        .orderBy("timestamp").get()
+                        .where("category", categoryEnum.name)
+                        .orderBy("timestamp", Direction.DESCENDING).get()
 
                 val list = costsResponse.documents.map {
                     it.data<Expense>()
@@ -213,7 +215,8 @@ class FirebaseFinance constructor(
                     firebaseFirestore.collection(COLLECTION_INCOME)
                         .where("userId", userId)
                         .where("month", monthKey)
-                        .orderBy("timestamp").get()
+                        .where("category", categoryEnum.name)
+                        .orderBy("timestamp", Direction.DESCENDING).get()
                 val list = costsResponse.documents.map {
                     it.data<Expense>()
                 }

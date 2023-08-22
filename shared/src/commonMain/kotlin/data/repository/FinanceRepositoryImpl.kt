@@ -7,11 +7,18 @@ import data.firebase.FirebaseFinance
 import domain.repository.FinanceRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.number
+import kotlinx.datetime.toLocalDateTime
 import model.CategoryEnum
-import model.Expense
+import model.ExpenseScreenModel
 import model.FinanceEnum
 import model.FinanceScreenExpenses
 import model.FinanceScreenModel
+import model.MonthDetailScreenModel
 import utils.getCategoryEnumFromName
 import kotlin.math.roundToInt
 
@@ -93,13 +100,51 @@ class FinanceRepositoryImpl(
     override suspend fun getCategoryMonthDetail(
         categoryEnum: CategoryEnum,
         monthKey: String
-    ): GenericState<List<Expense>> =
+    ): GenericState<MonthDetailScreenModel> =
         withContext(Dispatchers.Default) {
-            ResultMapper.toGenericState(
-                firebaseFinance.getCategoryMonthDetail(
-                    categoryEnum,
-                    monthKey
-                )
-            )
+            when (val result = firebaseFinance.getCategoryMonthDetail(
+                categoryEnum,
+                monthKey
+            )) {
+                is ResponseResult.Error -> GenericState.Error(result.error.message.orEmpty())
+                is ResponseResult.Success -> {
+
+                    val monthAmount = result.data.sumOf { it.amount }
+                    val expenseScreenModelList = result.data.map { expense ->
+                        val milliseconds =
+                            expense.timestamp.seconds * 1000 + expense.timestamp.nanoseconds / 1000000
+                        val netDate = Instant.fromEpochMilliseconds(milliseconds)
+                        val today: LocalDate =
+                            netDate.toLocalDateTime(TimeZone.currentSystemDefault()).date
+                        val dayOfMonth = if (today.dayOfMonth < 10) {
+                            "0${today.dayOfMonth}"
+                        } else {
+                            today.dayOfMonth
+                        }
+                        val month = if (today.month.number < 10) {
+                            "0${today.month.number}"
+                        } else {
+                            today.month.number
+                        }
+                        ExpenseScreenModel(
+                            amount = expense.amount,
+                            userId = expense.userId,
+                            note = expense.note,
+                            category = expense.category,
+                            month = expense.month,
+                            day = "${dayOfMonth}/${month}"
+
+                        )
+                    }
+                    val daySpent = expenseScreenModelList.sortedBy { it.day } .associate { it.day to it.amount }
+                    GenericState.Success(
+                        MonthDetailScreenModel(
+                            monthAmount = monthAmount,
+                            expenseScreenModel = expenseScreenModelList,
+                            daySpent = daySpent
+                        )
+                    )
+                }
+            }
         }
 }

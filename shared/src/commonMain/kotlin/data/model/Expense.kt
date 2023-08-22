@@ -1,10 +1,7 @@
-package model
+package data.model
 
-import dev.gitlive.firebase.firestore.FieldValue
-import dev.gitlive.firebase.firestore.ServerTimestampSerializer
 import dev.gitlive.firebase.firestore.Timestamp
 import dev.gitlive.firebase.firestore.TimestampSerializer
-
 import kotlinx.serialization.Serializable
 
 @Serializable

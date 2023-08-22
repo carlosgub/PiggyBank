@@ -1,10 +1,10 @@
 package domain.repository
 
-import core.network.ResponseResult
 import core.sealed.GenericState
 import model.CategoryEnum
-import model.Expense
+import data.model.Expense
 import model.FinanceScreenModel
+import model.MonthDetailScreenModel
 
 interface FinanceRepository {
     suspend fun getCurrentFinance(): GenericState<FinanceScreenModel>
@@ -20,5 +20,5 @@ interface FinanceRepository {
     suspend fun getCategoryMonthDetail(
         categoryEnum: CategoryEnum,
         monthKey: String
-    ): GenericState<List<Expense>>
+    ): GenericState<MonthDetailScreenModel>
 }

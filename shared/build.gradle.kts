@@ -54,6 +54,7 @@ kotlin {
                 implementation(libs.bundles.firebase)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlin.stdlib)
+                implementation(libs.charts)
             }
         }
         val androidMain by getting {

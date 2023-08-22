@@ -3,13 +3,12 @@ package domain.usecase
 import core.sealed.GenericState
 import domain.repository.FinanceRepository
 import model.CategoryEnum
-import model.Expense
-import model.FinanceScreenModel
+import model.MonthDetailScreenModel
 
 class GetCategoryMonthDetailUseCase(
     private val financeRepository: FinanceRepository
 ) {
-    suspend fun getCategoryMonthDetail(params: Params): GenericState<List<Expense>> =
+    suspend fun getCategoryMonthDetail(params: Params): GenericState<MonthDetailScreenModel> =
         financeRepository.getCategoryMonthDetail(
             categoryEnum = params.categoryEnum,
             monthKey = params.monthKey
