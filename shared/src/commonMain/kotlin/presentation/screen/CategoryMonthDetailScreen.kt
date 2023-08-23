@@ -291,12 +291,20 @@ private fun ChartCategoryMonth(daySpent: Map<LocalDateTime, Int>) {
                 textAlign = TextAlign.Center
             )
         },
+        yAxisLabel = {
+
+        },
         overlayHeaderLabel = {
             val day: LocalDateTime = Instant.fromEpochMilliseconds(it as Long)
                 .toLocalDateTime(TimeZone.currentSystemDefault())
             Text(
                 text = "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}",
                 style = MaterialTheme.typography.overline
+            )
+        },
+        overlayDataEntryLabel = { _, value ->
+            Text(
+                text = "$value"
             )
         },
         animation = ChartAnimation.Sequenced()
