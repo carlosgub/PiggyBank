@@ -7,6 +7,7 @@ import data.firebase.FirebaseFinance
 import domain.repository.FinanceRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -136,7 +137,23 @@ class FinanceRepositoryImpl(
 
                         )
                     }
-                    val daySpent = expenseScreenModelList.sortedBy { it.day } .associate { it.day to it.amount }
+                    val date: LocalDateTime =
+                        Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+                    val daySpent = (1..date.dayOfMonth).map { day ->
+                        val dayOfMonth = if (day < 10) {
+                            "0${day}"
+                        } else {
+                            day
+                        }
+                        val month = if (date.month.number < 10) {
+                            "0${date.month.number}"
+                        } else {
+                            date.month.number
+                        }
+                        val monthKey = "${dayOfMonth}/${month}"
+                        monthKey to expenseScreenModelList.filter { it.day == monthKey }
+                            .sumBy { it.amount }
+                    }.toMap()
                     GenericState.Success(
                         MonthDetailScreenModel(
                             monthAmount = monthAmount,

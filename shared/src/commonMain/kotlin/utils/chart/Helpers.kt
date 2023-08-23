@@ -28,7 +28,7 @@ fun Long.mapValueToDifferentRange(
     inMax: Long,
     outMin: Long,
     outMax: Long,
-) = (this - (inMin-1)) * (outMax - outMin) / (inMax - (inMin - 1)) + outMin
+) = (this - (inMin)) * (outMax - outMin) / (inMax - (inMin)) + outMin
 
 fun Long.mapValueToDifferentRange(
     inMin: Long,
