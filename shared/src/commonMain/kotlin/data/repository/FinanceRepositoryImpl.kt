@@ -7,12 +7,10 @@ import data.firebase.FirebaseFinance
 import domain.repository.FinanceRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.number
 import kotlinx.datetime.toLocalDateTime
 import model.CategoryEnum
 import model.ExpenseScreenModel
@@ -21,6 +19,10 @@ import model.FinanceScreenExpenses
 import model.FinanceScreenModel
 import model.MonthDetailScreenModel
 import utils.getCategoryEnumFromName
+import utils.isLeapYear
+import utils.monthLength
+import utils.toDayString
+import utils.toMonthString
 import kotlin.math.roundToInt
 
 class FinanceRepositoryImpl(
@@ -115,18 +117,10 @@ class FinanceRepositoryImpl(
                         val milliseconds =
                             expense.timestamp.seconds * 1000 + expense.timestamp.nanoseconds / 1000000
                         val netDate = Instant.fromEpochMilliseconds(milliseconds)
-                        val today: LocalDate =
+                        val day: LocalDate =
                             netDate.toLocalDateTime(TimeZone.currentSystemDefault()).date
-                        val dayOfMonth = if (today.dayOfMonth < 10) {
-                            "0${today.dayOfMonth}"
-                        } else {
-                            today.dayOfMonth
-                        }
-                        val month = if (today.month.number < 10) {
-                            "0${today.month.number}"
-                        } else {
-                            today.month.number
-                        }
+                        val dayOfMonth = day.dayOfMonth.toDayString()
+                        val month = day.month.toMonthString()
                         ExpenseScreenModel(
                             amount = expense.amount,
                             userId = expense.userId,
@@ -137,23 +131,23 @@ class FinanceRepositoryImpl(
 
                         )
                     }
-                    val date: LocalDateTime =
-                        Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-                    val daySpent = (1..date.dayOfMonth).map { day ->
-                        val dayOfMonth = if (day < 10) {
-                            "0${day}"
-                        } else {
-                            day
-                        }
-                        val month = if (date.month.number < 10) {
-                            "0${date.month.number}"
-                        } else {
-                            date.month.number
-                        }
-                        val monthKey = "${dayOfMonth}/${month}"
-                        monthKey to expenseScreenModelList.filter { it.day == monthKey }
-                            .sumBy { it.amount }
-                    }.toMap()
+                    val date = LocalDateTime(
+                        year = monthKey.substring(2, 6).toInt(),
+                        monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
+                        dayOfMonth = 1,
+                        hour = 0, minute = 0, second = 0, nanosecond = 0
+                    )
+                    val daySpent =
+                        (1..date.monthNumber.monthLength(isLeapYear(date.year))).map { day ->
+                            val dateInternal = LocalDateTime(
+                                year = monthKey.substring(2, 6).toInt(),
+                                monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
+                                dayOfMonth = day,
+                                hour = 0, minute = 0, second = 0, nanosecond = 0
+                            )
+                            dateInternal to expenseScreenModelList.filter { it.day == "${dateInternal.dayOfMonth.toDayString()}/${dateInternal.month.toMonthString()}" }
+                                .sumBy { it.amount }
+                        }.toMap()
                     GenericState.Success(
                         MonthDetailScreenModel(
                             monthAmount = monthAmount,

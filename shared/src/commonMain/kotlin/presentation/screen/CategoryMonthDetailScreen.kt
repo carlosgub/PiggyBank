@@ -1,44 +1,46 @@
-@file:OptIn(ExperimentalMaterialApi::class, ExperimentalKoalaPlotApi::class)
+@file:OptIn(ExperimentalMaterialApi::class)
 
 package presentation.screen
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.absolutePadding
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import core.sealed.GenericState
-import io.github.koalaplot.core.line.DefaultPoint
-import io.github.koalaplot.core.util.ExperimentalKoalaPlotApi
-import io.github.koalaplot.core.xychart.CategoryAxisModel
-import io.github.koalaplot.core.xychart.LinearAxisModel
-import io.github.koalaplot.core.xychart.XYChart
-import kotlinx.datetime.Clock
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.LocalTime
-import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import model.CategoryEnum
 import model.CategoryMonthDetailArgs
 import model.ExpenseScreenModel
@@ -46,17 +48,24 @@ import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
 import presentation.viewmodel.CategoryMonthDetailViewModel
+import theme.CategoryBackground
 import theme.ColorPrimary
+import theme.ColorSeparator
+import theme.Gray400
+import theme.Gray600
+import theme.Gray900
+import theme.divider_thickness
 import utils.chart.ChartAnimation
 import utils.chart.line.LineChart
 import utils.chart.line.LineChartData
 import utils.chart.line.LineChartPoint
 import utils.chart.line.LineChartSeries
 import utils.getCategoryEnumFromName
-import utils.toPrecision
+import utils.toDayString
+import utils.toMoneyFormat
+import utils.toMonthString
 import utils.views.Loading
 import utils.views.Toolbar
-import kotlin.math.ceil
 
 @Composable
 fun CategoryMonthDetailScreen(
@@ -101,10 +110,9 @@ private fun CategoryMonthDetailObserver(
             CategoryMonthDetailContent(
                 header = {
                     CategoryMonthDetailHeader(
-                        monthKey,
                         uiState.data.monthAmount,
-                        categoryEnum.categoryName,
-                        uiState.data.daySpent
+                        uiState.data.daySpent,
+                        categoryEnum.categoryName
                     )
                 },
                 body = {
@@ -176,13 +184,47 @@ fun CategoryMonthDetailBody(
                     end = 24.dp
                 )
         ) {
-            items(list) {
-                Box() {
-                    Text(
-                        it.note
-                    )
-                    Column {
+            itemsIndexed(list) { count, expense ->
+                Column {
+                    if (count != 0) {
+                        Divider(
+                            modifier = Modifier.fillMaxWidth(),
+                            thickness = divider_thickness,
+                            color = ColorSeparator
+                        )
+                    }
+                    Row(
+                        modifier = Modifier
+                            .padding(vertical = 16.dp)
 
+                    ) {
+                        Column(
+                            modifier = Modifier.weight(1f).padding(end = 16.dp)
+                        ) {
+                            Text(
+                                text = expense.note,
+                                style = MaterialTheme.typography.body1,
+                                fontWeight = FontWeight.Medium
+                            )
+                            Text(
+                                text = expense.day,
+                                style = MaterialTheme.typography.caption,
+                                modifier = Modifier.padding(top = 4.dp),
+                                color = Gray600,
+                                fontWeight = FontWeight.Normal
+                            )
+                        }
+                        Column(
+                            horizontalAlignment = Alignment.End,
+                            verticalArrangement = Arrangement.Top
+                        ) {
+                            Text(
+                                text = (expense.amount / 100.0).toMoneyFormat(),
+                                style = MaterialTheme.typography.body1,
+                                fontWeight = FontWeight.Medium,
+                                textAlign = TextAlign.End
+                            )
+                        }
                     }
                 }
             }
@@ -192,84 +234,73 @@ fun CategoryMonthDetailBody(
 
 @Composable
 private fun CategoryMonthDetailHeader(
-    monthKey: String,
     monthTotal: Int,
-    category: String,
-    daySpent: Map<String, Int>,
+    daySpent: Map<LocalDateTime, Int>,
+    category: String
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-
-        Box(
-        ) {
-
-            val lineData = remember {
-                LineChartData(
-                    series = listOf(
-                        LineChartSeries(
-                            dataName = "data gastos",
-                            lineColor = ColorPrimary,
-                            listOfPoints = daySpent.map { point ->
-                                val kotlinReleaseDateTime = LocalDateTime(
-                                    date = LocalDate(
-                                        year = 2023,
-                                        month = Month.AUGUST,
-                                        dayOfMonth = point.key.substring(0, 2).trimStart('0')
-                                            .toInt()
-                                    ),
-                                    time = LocalTime(0, 0, 0, 0)
-                                )
-                                LineChartPoint(
-                                    x = kotlinReleaseDateTime.toInstant(TimeZone.currentSystemDefault())
-                                        .toEpochMilliseconds(),
-                                    y = point.value.toFloat(),
-                                )
-                            }
-                        )
-                    )
-                )
+        Box {
+            Column {
+                Spacer(modifier = Modifier.weight(0.2f))
+                ChartCategoryMonth(daySpent)
             }
-            LineChart(
-                lineChartData = lineData,
-                modifier = Modifier.fillMaxSize(),
-                xAxisLabel = {
-                    Text(
-                        fontSize = 12.sp,
-                        text = "Gaaa",
-                        textAlign = TextAlign.Center
-                    )
-                },
-                yAxisLabel = {
-                    Text(
-                        fontSize = 12.sp,
-                        text = if (it == 0) {
-                            0.0
-                        } else {
-                            ((it as Float) / 100.0)
-                        }.toPrecision(2),
-                        textAlign = TextAlign.Center
-                    )
-                },
-                overlayHeaderLabel = {
-                    Text(
-                        text = "UWUU",
-                        style = MaterialTheme.typography.overline
-                    )
-                },
-                animation = ChartAnimation.Sequenced()
-            )
-            /*Column {
+            Column {
                 Text(
                     text = (monthTotal / 100.0).toMoneyFormat(),
                     style = MaterialTheme.typography.h3,
+                    fontWeight = FontWeight.Bold,
                     color = Gray900,
-                    modifier = Modifier.padding(top = 16.dp)
+                    modifier = Modifier.padding(24.dp)
                 )
-            }*/
+            }
         }
     }
+}
+
+@Composable
+private fun ChartCategoryMonth(daySpent: Map<LocalDateTime, Int>) {
+    val lineData = remember {
+        LineChartData(
+            series = listOf(
+                LineChartSeries(
+                    dataName = "Expense",
+                    lineColor = ColorPrimary,
+                    listOfPoints = daySpent.map { day ->
+                        LineChartPoint(
+                            x = day.key.toInstant(TimeZone.currentSystemDefault())
+                                .toEpochMilliseconds(),
+                            y = (day.value / 100.0).toFloat(),
+                        )
+                    }
+                )
+            )
+        )
+    }
+    LineChart(
+        lineChartData = lineData,
+        modifier = Modifier.fillMaxWidth().fillMaxHeight(0.8f),
+        xAxisLabel = {
+            val day: LocalDateTime = Instant.fromEpochMilliseconds(it as Long)
+                .toLocalDateTime(TimeZone.currentSystemDefault())
+            Text(
+                fontSize = 12.sp,
+                text = "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}",
+                textAlign = TextAlign.Center
+            )
+        },
+        overlayHeaderLabel = {
+            val day: LocalDateTime = Instant.fromEpochMilliseconds(it as Long)
+                .toLocalDateTime(TimeZone.currentSystemDefault())
+            Text(
+                text = "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}",
+                style = MaterialTheme.typography.overline
+            )
+        },
+        animation = ChartAnimation.Sequenced()
+    )
 }
 
 

@@ -1,11 +1,12 @@
 package model
 
+import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class MonthDetailScreenModel(
     val monthAmount: Int,
-    val daySpent: Map<String, Int> = mapOf(),
+    val daySpent: Map<LocalDateTime, Int> = mapOf(),
     val expenseScreenModel: List<ExpenseScreenModel>,
 )
 
