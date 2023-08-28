@@ -2,7 +2,6 @@ package domain.repository
 
 import core.sealed.GenericState
 import model.CategoryEnum
-import data.model.Expense
 import model.FinanceScreenModel
 import model.MonthDetailScreenModel
 

@@ -12,5 +12,5 @@ data class Expense(
     val category: String = "",
     val month: String = "",
     @Serializable(with = TimestampSerializer::class)
-    val timestamp: Timestamp = Timestamp.now(),
+    val timestamp: Timestamp = Timestamp.now()
 )

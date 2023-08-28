@@ -2,7 +2,6 @@ package presentation.viewmodel
 
 import core.result.SingleEvent
 import core.sealed.GenericState
-import domain.usecase.CreateExpenseUseCase
 import domain.usecase.CreateIncomeUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

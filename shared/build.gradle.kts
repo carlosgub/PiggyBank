@@ -4,18 +4,19 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.compose")
     kotlin("plugin.serialization") version "1.9.0"
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 kotlin {
     androidTarget()
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    iosX64("iosX64")
+    iosArm64("iosArm64")
+    iosSimulatorArm64("iosSimulatorArm64")
 
     listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
+        iosX64("iosX64"),
+        iosArm64("iosArm64"),
+        iosSimulatorArm64("iosSimulatorArm64")
     ).forEach {
         it.binaries.framework {
             baseName = "shared"

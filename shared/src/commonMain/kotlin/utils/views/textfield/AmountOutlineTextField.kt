@@ -47,7 +47,7 @@ fun AmountOutlineTextField(
         shape = MaterialTheme.shapes.small,
         modifier = Modifier
             .padding(top = 8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
     )
     AnimatedVisibility(showError) {
         Text(

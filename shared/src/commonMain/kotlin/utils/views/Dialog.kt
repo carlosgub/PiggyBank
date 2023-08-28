@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.Popup
 
-
 @Composable
 fun Dialog(
     barrierColor: Color = Color.Black.copy(alpha = 0.5f),

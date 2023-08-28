@@ -126,7 +126,6 @@ private fun HomeObserver(viewModel: HomeViewModel, navigator: Navigator) {
 
         else -> Unit
     }
-
 }
 
 @Composable
@@ -158,7 +157,7 @@ private fun HomeContent(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(ColorPrimary),
+                    .background(ColorPrimary)
             ) {
                 HomeBodyMonthExpense(
                     modifier = Modifier
@@ -181,12 +180,12 @@ private fun HomeContent(
 @Composable
 private fun HomeBodyMonthExpense(
     modifier: Modifier,
-    bodyContent: @Composable () -> Unit,
+    bodyContent: @Composable () -> Unit
 ) {
     Column(
         modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         bodyContent()
     }
@@ -230,13 +229,14 @@ private fun CardExpenses(
                 divider = {}
             ) {
                 tabs.forEach { financeEnum ->
-                    Tab(text = {
-                        Text(
-                            text = financeEnum.financeName,
-                            style = MaterialTheme.typography.body1,
-                            color = Color.Black
-                        )
-                    },
+                    Tab(
+                        text = {
+                            Text(
+                                text = financeEnum.financeName,
+                                style = MaterialTheme.typography.body1,
+                                color = Color.Black
+                            )
+                        },
                         selected = tabIndex == financeEnum,
                         onClick = { tabIndex = financeEnum }
                     )
@@ -324,7 +324,6 @@ fun HomeFooterContent(
     } else {
         // TODO
     }
-
 }
 
 @Composable
@@ -364,7 +363,7 @@ fun ExpenseIconProgress(expense: FinanceScreenExpenses) {
 private fun HomeToolbar(
     onAddExpensePressed: () -> Unit,
     onAddIncomePressed: () -> Unit,
-    onRefresh: () -> Unit,
+    onRefresh: () -> Unit
 ) {
     Toolbar(
         elevation = 0.dp,

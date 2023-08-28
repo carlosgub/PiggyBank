@@ -1,14 +1,14 @@
 package data.firebase
 
 import core.network.ResponseResult
+import data.model.Expense
+import data.model.Finance
+import data.model.FinanceMonthCategoryDetail
 import dev.gitlive.firebase.firestore.Direction
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.firestore.orderBy
 import dev.gitlive.firebase.firestore.where
 import model.CategoryEnum
-import data.model.Expense
-import data.model.Finance
-import data.model.FinanceMonthCategoryDetail
 import model.FinanceEnum
 import utils.COLLECTION_COSTS
 import utils.COLLECTION_EXPENSE
@@ -33,7 +33,6 @@ class FirebaseFinance constructor(
             } else {
                 ResponseResult.Success(Finance())
             }
-
         } catch (e: Exception) {
             ResponseResult.Error(e)
         }
@@ -191,7 +190,6 @@ class FirebaseFinance constructor(
         } catch (e: Exception) {
             ResponseResult.Error(e)
         }
-
 
     suspend fun getCategoryMonthDetail(
         categoryEnum: CategoryEnum,

@@ -30,7 +30,6 @@ class CreateExpenseViewModel(
         MutableStateFlow<SingleEvent<GenericState<Unit>>>(SingleEvent(GenericState.Initial))
     val uiState = _uiState.asStateFlow()
 
-
     fun setCategory(categoryEnum: CategoryEnum) {
         viewModelScope.launch {
             _category.emit(categoryEnum)

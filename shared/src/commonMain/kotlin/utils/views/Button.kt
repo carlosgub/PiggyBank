@@ -32,7 +32,7 @@ fun PrimaryButton(
     onClick: () -> Unit = {},
     enabled: Boolean = true,
     backgroundColor: Color = ColorPrimary,
-    fontColor: Color = Color.White,
+    fontColor: Color = Color.White
 ) {
     Button(
         onClick = onClick,

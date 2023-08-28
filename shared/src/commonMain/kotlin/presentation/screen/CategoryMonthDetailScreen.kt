@@ -2,7 +2,6 @@
 
 package presentation.screen
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,13 +24,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,10 +47,8 @@ import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
 import presentation.viewmodel.CategoryMonthDetailViewModel
-import theme.CategoryBackground
 import theme.ColorPrimary
 import theme.ColorSeparator
-import theme.Gray400
 import theme.Gray600
 import theme.Gray900
 import theme.divider_thickness
@@ -74,7 +66,9 @@ fun CategoryMonthDetailScreen(
     args: CategoryMonthDetailArgs
 ) {
     ExpenseMonthDetailContainer(
-        args, navigator, viewModel
+        args,
+        navigator,
+        viewModel
     )
 }
 
@@ -143,7 +137,6 @@ private fun CategoryMonthDetailObserver(
 
         else -> Unit
     }
-
 }
 
 @Composable
@@ -173,7 +166,7 @@ fun CategoryMonthDetailBody(
         modifier = Modifier
             .fillMaxSize(),
         shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
-        elevation = 8.dp,
+        elevation = 8.dp
     ) {
         LazyColumn(
             modifier = Modifier
@@ -240,7 +233,7 @@ private fun CategoryMonthDetailHeader(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Box {
             Column {
@@ -272,7 +265,7 @@ private fun ChartCategoryMonth(daySpent: Map<LocalDateTime, Int>) {
                         LineChartPoint(
                             x = day.key.toInstant(TimeZone.currentSystemDefault())
                                 .toEpochMilliseconds(),
-                            y = (day.value / 100.0).toFloat(),
+                            y = (day.value / 100.0).toFloat()
                         )
                     }
                 )
@@ -292,7 +285,6 @@ private fun ChartCategoryMonth(daySpent: Map<LocalDateTime, Int>) {
             )
         },
         yAxisLabel = {
-
         },
         overlayHeaderLabel = {
             val day: LocalDateTime = Instant.fromEpochMilliseconds(it as Long)
@@ -310,7 +302,6 @@ private fun ChartCategoryMonth(daySpent: Map<LocalDateTime, Int>) {
         animation = ChartAnimation.Sequenced()
     )
 }
-
 
 @Composable
 private fun ExpenseMonthDetailToolbar(

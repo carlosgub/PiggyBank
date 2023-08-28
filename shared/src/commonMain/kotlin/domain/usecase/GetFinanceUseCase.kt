@@ -7,6 +7,6 @@ import model.FinanceScreenModel
 class GetFinanceUseCase(
     private val financeRepository: FinanceRepository
 ) {
-    suspend fun getFinance(): GenericState< FinanceScreenModel> =
+    suspend fun getFinance(): GenericState<FinanceScreenModel> =
         financeRepository.getCurrentFinance()
 }

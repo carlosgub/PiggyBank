@@ -7,7 +7,6 @@ import kotlin.math.floor
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
-
 fun Double.toMoneyFormat(): String = "$${this.toPrecision(2)}"
 fun Float.toMoneyFormat(): String = "$${this.toPrecision(2)}"
 
@@ -48,7 +47,7 @@ fun Month.toMonthString() =
 
 fun Int.toDayString() =
     if (this < 10) {
-        "0${this}"
+        "0$this"
     } else {
         this
     }

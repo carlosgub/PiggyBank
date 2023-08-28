@@ -4,7 +4,6 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import model.CategoryMonthDetailArgs
 
-
 sealed class Screen(val route: String) {
     object Home : Screen("Home")
     object CreateExpenseScreen : Screen("CreateExpenseScreen")
@@ -17,5 +16,5 @@ sealed class Screen(val route: String) {
 }
 
 enum class NavArgs(val key: String) {
-    CategoryMonthDetailArgs("CategoryMonthDetailArgs"),
+    CategoryMonthDetailArgs("CategoryMonthDetailArgs")
 }

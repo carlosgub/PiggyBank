@@ -1,6 +1,5 @@
 package utils
 
-
 /*region Collection*/
 const val COLLECTION_COSTS = "COSTS"
 const val COLLECTION_MONTH = "MONTH"

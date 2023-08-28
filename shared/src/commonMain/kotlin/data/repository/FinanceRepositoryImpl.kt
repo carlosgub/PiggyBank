@@ -105,13 +105,14 @@ class FinanceRepositoryImpl(
         monthKey: String
     ): GenericState<MonthDetailScreenModel> =
         withContext(Dispatchers.Default) {
-            when (val result = firebaseFinance.getCategoryMonthDetail(
-                categoryEnum,
-                monthKey
-            )) {
+            when (
+                val result = firebaseFinance.getCategoryMonthDetail(
+                    categoryEnum,
+                    monthKey
+                )
+            ) {
                 is ResponseResult.Error -> GenericState.Error(result.error.message.orEmpty())
                 is ResponseResult.Success -> {
-
                     val monthAmount = result.data.sumOf { it.amount }
                     val expenseScreenModelList = result.data.map { expense ->
                         val milliseconds =
@@ -127,7 +128,7 @@ class FinanceRepositoryImpl(
                             note = expense.note,
                             category = expense.category,
                             month = expense.month,
-                            day = "${dayOfMonth}/${month}"
+                            day = "$dayOfMonth/$month"
 
                         )
                     }
@@ -135,7 +136,10 @@ class FinanceRepositoryImpl(
                         year = monthKey.substring(2, 6).toInt(),
                         monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
                         dayOfMonth = 1,
-                        hour = 0, minute = 0, second = 0, nanosecond = 0
+                        hour = 0,
+                        minute = 0,
+                        second = 0,
+                        nanosecond = 0
                     )
                     val daySpent =
                         (1..date.monthNumber.monthLength(isLeapYear(date.year))).map { day ->
@@ -143,7 +147,10 @@ class FinanceRepositoryImpl(
                                 year = monthKey.substring(2, 6).toInt(),
                                 monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
                                 dayOfMonth = day,
-                                hour = 0, minute = 0, second = 0, nanosecond = 0
+                                hour = 0,
+                                minute = 0,
+                                second = 0,
+                                nanosecond = 0
                             )
                             dateInternal to expenseScreenModelList.filter { it.day == "${dateInternal.dayOfMonth.toDayString()}/${dateInternal.month.toMonthString()}" }
                                 .sumBy { it.amount }

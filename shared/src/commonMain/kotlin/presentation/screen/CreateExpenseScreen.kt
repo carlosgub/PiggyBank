@@ -1,5 +1,6 @@
 @file:OptIn(
-    ExperimentalLayoutApi::class, ExperimentalMaterialApi::class,
+    ExperimentalLayoutApi::class,
+    ExperimentalMaterialApi::class,
     ExperimentalComposeUiApi::class
 )
 
@@ -23,8 +24,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -263,6 +262,6 @@ private fun CreateExpenseToolbar(
     Toolbar(
         hasNavigationIcon = true,
         title = "Create Expense",
-        navigation = onBack,
+        navigation = onBack
     )
 }
