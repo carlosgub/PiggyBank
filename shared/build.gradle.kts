@@ -54,6 +54,7 @@ kotlin {
                 implementation(libs.bundles.firebase)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlin.stdlib)
+                implementation("com.carlosgub.kotlinm.charts:shared:1.0.0")
             }
         }
         val androidMain by getting {

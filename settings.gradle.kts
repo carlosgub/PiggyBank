@@ -31,5 +31,18 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven {
+            name = "GitHubPackages"
+            /*  Configure path to the library hosted on GitHub Package Registry
+             *  Replace UserID with package owner userID and REPOSITORY with the repository name
+             *  e.g. "https://maven.pkg.github.com/enefce/AndroidLibraryForGitHubPackagesDemo"
+             */
+            url = uri("https://maven.pkg.github.com/carlosgub/kotlinm-charts")
+
+            credentials {
+                username = "carlosgub"
+                password = "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"
+            }
+        }
     }
 }

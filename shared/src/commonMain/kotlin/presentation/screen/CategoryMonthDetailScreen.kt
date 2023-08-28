@@ -35,6 +35,11 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.carlosgub.kotlinm.charts.ChartAnimation
+import com.carlosgub.kotlinm.charts.line.LineChart
+import com.carlosgub.kotlinm.charts.line.LineChartData
+import com.carlosgub.kotlinm.charts.line.LineChartPoint
+import com.carlosgub.kotlinm.charts.line.LineChartSeries
 import core.sealed.GenericState
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
@@ -55,11 +60,6 @@ import theme.Gray400
 import theme.Gray600
 import theme.Gray900
 import theme.divider_thickness
-import utils.chart.ChartAnimation
-import utils.chart.line.LineChart
-import utils.chart.line.LineChartData
-import utils.chart.line.LineChartPoint
-import utils.chart.line.LineChartSeries
 import utils.getCategoryEnumFromName
 import utils.toDayString
 import utils.toMoneyFormat
