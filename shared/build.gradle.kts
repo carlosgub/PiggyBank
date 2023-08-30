@@ -34,7 +34,6 @@ kotlin {
             baseName = "shared"
             isStatic = true
         }
-        extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
     }
 
     sourceSets {
@@ -55,7 +54,9 @@ kotlin {
                 implementation(libs.bundles.firebase)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlin.stdlib)
-                implementation("com.carlosgub.kotlinm.charts:shared:1.0.0")
+                implementation(libs.charts)
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.components.resources)
             }
         }
         val androidMain by getting {
