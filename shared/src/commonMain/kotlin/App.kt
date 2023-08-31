@@ -1,4 +1,4 @@
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import di.dataModule
@@ -15,6 +15,7 @@ import presentation.screen.CategoryMonthDetailScreen
 import presentation.screen.CreateExpenseScreen
 import presentation.screen.CreateIncomeScreen
 import presentation.screen.HomeScreen
+import theme.ColorPrimary
 import theme.Shapes
 import theme.Typography
 
@@ -29,12 +30,12 @@ fun App() {
             scene(route = Screen.Home.route) {
                 HomeScreen(navigator = navigator)
             }
-            scene(route = Screen.CreateExpenseScreen.route) { backStackEntry ->
+            scene(route = Screen.CreateExpenseScreen.route) {
                 CreateExpenseScreen(
                     navigator = navigator
                 )
             }
-            scene(route = Screen.CreateIncomeScreen.route) { backStackEntry ->
+            scene(route = Screen.CreateIncomeScreen.route) {
                 CreateIncomeScreen(
                     navigator = navigator
                 )
@@ -61,7 +62,10 @@ fun AppTheme(
         }
     ) {
         MaterialTheme(
-            colors = MaterialTheme.colors.copy(primary = Color.Black),
+            colorScheme = MaterialTheme.colorScheme.copy(
+                primary = ColorPrimary,
+                surface = Color.White
+            ),
             shapes = Shapes,
             typography = Typography
         ) {

@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterialApi::class, ExperimentalLayoutApi::class)
-
 package presentation.screen
 
 import androidx.compose.animation.core.animateFloatAsState
@@ -8,8 +6,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,23 +16,23 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.MoneyOff
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProgressIndicatorDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -152,6 +151,9 @@ private fun HomeContent(
     ) { paddingValues ->
         Box(
             modifier = Modifier
+                .padding(
+                    top = paddingValues.calculateTopPadding()
+                )
                 .fillMaxSize()
         ) {
             Column(
@@ -195,12 +197,12 @@ private fun HomeBodyMonthExpense(
 private fun HomeBodyContent(monthAmount: Int) {
     Text(
         text = getCurrentMonthName(),
-        style = MaterialTheme.typography.h6,
+        style = MaterialTheme.typography.headlineSmall,
         color = Color.White
     )
     Text(
         text = (monthAmount / 100.0).toMoneyFormat(),
-        style = MaterialTheme.typography.h3,
+        style = MaterialTheme.typography.headlineMedium,
         color = Color.White,
         modifier = Modifier.padding(top = 16.dp)
     )
@@ -214,7 +216,10 @@ private fun CardExpenses(
 ) {
     Card(
         modifier = modifier,
-        shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
+        shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
     ) {
         val tabs = FinanceEnum.entries.toList()
         Column(
@@ -225,7 +230,7 @@ private fun CardExpenses(
             var tabIndex by remember { mutableStateOf(FinanceEnum.EXPENSE) }
             TabRow(
                 selectedTabIndex = tabs.indexOf(tabIndex),
-                backgroundColor = Color.White,
+                containerColor = Color.White,
                 divider = {}
             ) {
                 tabs.forEach { financeEnum ->
@@ -233,7 +238,7 @@ private fun CardExpenses(
                         text = {
                             Text(
                                 text = financeEnum.financeName,
-                                style = MaterialTheme.typography.body1,
+                                style = MaterialTheme.typography.bodyMedium,
                                 color = Color.Black
                             )
                         },
@@ -288,12 +293,12 @@ fun HomeFooterContent(
                             ) {
                                 Text(
                                     text = expense.category.categoryName,
-                                    style = MaterialTheme.typography.body2,
+                                    style = MaterialTheme.typography.bodySmall,
                                     fontWeight = FontWeight.Medium
                                 )
                                 Text(
                                     text = "${expense.percentage}% of budget",
-                                    style = MaterialTheme.typography.caption,
+                                    style = MaterialTheme.typography.labelMedium,
                                     modifier = Modifier.padding(top = 4.dp),
                                     color = Gray600,
                                     fontWeight = FontWeight.Normal
@@ -305,12 +310,12 @@ fun HomeFooterContent(
                             ) {
                                 Text(
                                     text = (expense.amount / 100.0).toMoneyFormat(),
-                                    style = MaterialTheme.typography.body2,
+                                    style = MaterialTheme.typography.bodySmall,
                                     fontWeight = FontWeight.Medium
                                 )
                                 Text(
                                     text = "${expense.count} transactions",
-                                    style = MaterialTheme.typography.caption,
+                                    style = MaterialTheme.typography.labelMedium,
                                     modifier = Modifier.padding(top = 4.dp),
                                     color = Gray600,
                                     fontWeight = FontWeight.Normal

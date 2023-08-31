@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -52,8 +52,8 @@ fun AmountOutlineTextField(
     AnimatedVisibility(showError) {
         Text(
             text = "Enter an amount greather than zero",
-            color = MaterialTheme.colors.error,
-            style = MaterialTheme.typography.caption,
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.labelMedium,
             modifier = Modifier.padding(start = 16.dp)
         )
     }

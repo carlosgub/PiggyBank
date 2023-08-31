@@ -1,10 +1,9 @@
-@file:OptIn(ExperimentalMaterialApi::class)
-
 package presentation.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,12 +13,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -47,10 +46,12 @@ import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
 import presentation.viewmodel.CategoryMonthDetailViewModel
+import theme.ColorOrange
 import theme.ColorPrimary
 import theme.ColorSeparator
 import theme.Gray600
 import theme.Gray900
+import theme.White
 import theme.divider_thickness
 import utils.getCategoryEnumFromName
 import utils.toDayString
@@ -89,7 +90,7 @@ private fun ExpenseMonthDetailContainer(
             )
         }
     ) { paddingValues ->
-        CategoryMonthDetailObserver(viewModel, categoryEnum, args.month)
+        CategoryMonthDetailObserver(viewModel, categoryEnum, args.month, paddingValues)
     }
 }
 
@@ -97,11 +98,13 @@ private fun ExpenseMonthDetailContainer(
 private fun CategoryMonthDetailObserver(
     viewModel: CategoryMonthDetailViewModel,
     categoryEnum: CategoryEnum,
-    monthKey: String
+    monthKey: String,
+    paddingValues: PaddingValues
 ) {
     when (val uiState = viewModel.uiState.collectAsStateWithLifecycle().value) {
         is GenericState.Success -> {
             CategoryMonthDetailContent(
+                paddingValues,
                 header = {
                     CategoryMonthDetailHeader(
                         uiState.data.monthAmount,
@@ -119,6 +122,7 @@ private fun CategoryMonthDetailObserver(
 
         GenericState.Loading -> {
             CategoryMonthDetailContent(
+                paddingValues,
                 header = {
                     Loading()
                 },
@@ -141,10 +145,16 @@ private fun CategoryMonthDetailObserver(
 
 @Composable
 fun CategoryMonthDetailContent(
+    paddingValues: PaddingValues,
     header: @Composable () -> Unit,
     body: @Composable () -> Unit
 ) {
-    Column {
+    Column(
+        modifier = Modifier
+            .padding(
+                top = paddingValues.calculateTopPadding()
+            )
+    ) {
         Column(
             modifier = Modifier.fillMaxWidth().weight(0.35f)
         ) {
@@ -166,7 +176,12 @@ fun CategoryMonthDetailBody(
         modifier = Modifier
             .fillMaxSize(),
         shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
-        elevation = 8.dp
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 8.dp
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = White
+        )
     ) {
         LazyColumn(
             modifier = Modifier
@@ -196,12 +211,13 @@ fun CategoryMonthDetailBody(
                         ) {
                             Text(
                                 text = expense.note,
-                                style = MaterialTheme.typography.body1,
-                                fontWeight = FontWeight.Medium
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontWeight = FontWeight.Medium,
+                                color = Color.Black
                             )
                             Text(
                                 text = expense.day,
-                                style = MaterialTheme.typography.caption,
+                                style = MaterialTheme.typography.labelMedium,
                                 modifier = Modifier.padding(top = 4.dp),
                                 color = Gray600,
                                 fontWeight = FontWeight.Normal
@@ -213,7 +229,7 @@ fun CategoryMonthDetailBody(
                         ) {
                             Text(
                                 text = (expense.amount / 100.0).toMoneyFormat(),
-                                style = MaterialTheme.typography.body1,
+                                style = MaterialTheme.typography.bodyMedium,
                                 fontWeight = FontWeight.Medium,
                                 textAlign = TextAlign.End
                             )
@@ -243,7 +259,7 @@ private fun CategoryMonthDetailHeader(
             Column {
                 Text(
                     text = (monthTotal / 100.0).toMoneyFormat(),
-                    style = MaterialTheme.typography.h3,
+                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = Gray900,
                     modifier = Modifier.padding(24.dp)
@@ -291,7 +307,7 @@ private fun ChartCategoryMonth(daySpent: Map<LocalDateTime, Int>) {
                 .toLocalDateTime(TimeZone.currentSystemDefault())
             Text(
                 text = "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}",
-                style = MaterialTheme.typography.overline
+                style = MaterialTheme.typography.labelSmall
             )
         },
         overlayDataEntryLabel = { _, value ->

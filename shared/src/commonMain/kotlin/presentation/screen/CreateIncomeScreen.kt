@@ -1,6 +1,4 @@
 @file:OptIn(
-    ExperimentalLayoutApi::class,
-    ExperimentalMaterialApi::class,
     ExperimentalComposeUiApi::class
 )
 
@@ -9,11 +7,9 @@ package presentation.screen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,8 +45,13 @@ fun CreateIncomeScreen(
                 }
             )
         }
-    ) {
-        Box() {
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .padding(
+                    top = paddingValues.calculateTopPadding()
+                )
+        ) {
             CreateIncomeContent(viewModel)
             CreateIncomeObserver(viewModel, navigator)
         }
