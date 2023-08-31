@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterialApi::class)
+@file:OptIn(ExperimentalMaterialApi::class, ExperimentalLayoutApi::class)
 
 package presentation.screen
 
@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -151,7 +152,6 @@ private fun HomeContent(
     ) { paddingValues ->
         Box(
             modifier = Modifier
-                .padding(paddingValues)
                 .fillMaxSize()
         ) {
             Column(
@@ -366,7 +366,6 @@ private fun HomeToolbar(
     onRefresh: () -> Unit
 ) {
     Toolbar(
-        elevation = 0.dp,
         title = "My Finances",
         dropDownIcon = Icons.Default.Add,
         dropDownMenu = true,

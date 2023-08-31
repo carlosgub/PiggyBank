@@ -9,14 +9,14 @@ plugins {
 
 kotlin {
     androidTarget()
-    iosX64("iosX64")
-    iosArm64("iosArm64")
-    iosSimulatorArm64("iosSimulatorArm64")
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     listOf(
-        iosX64("iosX64"),
-        iosArm64("iosArm64"),
-        iosSimulatorArm64("iosSimulatorArm64")
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
@@ -55,8 +55,6 @@ kotlin {
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlin.stdlib)
                 implementation(libs.charts)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
             }
         }
         val androidMain by getting {

@@ -310,7 +310,6 @@ private fun ExpenseMonthDetailToolbar(
 ) {
     Toolbar(
         backgroundColor = Color.White,
-        elevation = 0.dp,
         title = category,
         hasNavigationIcon = true,
         navigation = onBack,

@@ -1,20 +1,21 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package utils.views
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,16 +27,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import model.MenuItem
 import theme.ColorPrimary
+import theme.spacing_2
+import theme.view_10
 
 @Composable
 fun Toolbar(
     backgroundColor: Color = ColorPrimary,
-    elevation: Dp = AppBarDefaults.TopAppBarElevation,
     title: String,
     hasNavigationIcon: Boolean = false,
     navigationIcon: ImageVector = Icons.Filled.ArrowBack,
@@ -45,20 +46,27 @@ fun Toolbar(
     contentColor: Color = Color.White,
     dropDownMenu: Boolean = false,
     dropDownIcon: ImageVector? = null,
-    dropDownItems: List<MenuItem> = listOf()
+    dropDownItems: List<MenuItem> = listOf(),
 ) {
-    TopAppBar(
-        backgroundColor = backgroundColor,
-        elevation = elevation,
-        contentPadding = PaddingValues(
-            start = 0.dp,
-            end = 0.dp
-        )
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+    CenterAlignedTopAppBar(
+        title = {
+            Text(
+                text = title,
+                style = TextStyle(
+                    color = contentColor,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 16.sp
+                )
+            )
+        },
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = backgroundColor,
+            navigationIconContentColor = contentColor,
+            titleContentColor = contentColor,
+            actionIconContentColor = contentColor,
+            scrolledContainerColor = backgroundColor
+        ),
+        navigationIcon = {
             if (hasNavigationIcon) {
                 Icon(
                     imageVector = navigationIcon,
@@ -71,66 +79,57 @@ fun Toolbar(
                     tint = contentColor
                 )
             }
-            Text(
-                text = title,
-                modifier = Modifier.weight(1.0f).padding(
-                    horizontal = if (navigationIcon != null) {
-                        8.dp
-                    } else {
-                        16.dp
-                    }
-                ),
-                style = TextStyle(
-                    color = contentColor,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp
-                )
-            )
-            leftIcon?.let {
-                Icon(
-                    imageVector = leftIcon,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .size(40.dp)
-                        .clickable { onLeftIconPressed() }
-                        .padding(8.dp),
-                    tint = contentColor
-                )
-            }
-            if (dropDownMenu) {
-                var expanded by remember { mutableStateOf(false) }
-                Column {
+        },
+        actions = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                leftIcon?.let {
                     Icon(
-                        imageVector = dropDownIcon ?: Icons.Filled.MoreVert,
+                        imageVector = leftIcon,
                         contentDescription = null,
                         modifier = Modifier
-                            .padding(8.dp)
-                            .size(40.dp)
-                            .clickable { expanded = true }
-                            .padding(8.dp),
+                            .padding(spacing_2)
+                            .size(view_10)
+                            .clickable { onLeftIconPressed() }
+                            .padding(spacing_2),
                         tint = contentColor
                     )
-                    DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = {
-                            expanded = false
-                        }
-                    ) {
-                        dropDownItems.forEach {
-                            DropdownMenuItem(
-                                it.icon,
-                                it.name,
-                                onItemClicked = {
-                                    expanded = false
-                                    it.onItemClicked()
-                                }
-
-                            )
+                }
+                if (dropDownMenu) {
+                    var expanded by remember { mutableStateOf(false) }
+                    Column {
+                        Icon(
+                            imageVector = dropDownIcon ?: Icons.Filled.MoreVert,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(spacing_2)
+                                .size(view_10)
+                                .clickable { expanded = true }
+                                .padding(spacing_2),
+                            tint = contentColor
+                        )
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = {
+                                expanded = false
+                            }
+                        ) {
+                            dropDownItems.forEach {
+                                DropdownMenuItem(
+                                    it.icon,
+                                    it.name,
+                                    onItemClicked = {
+                                        expanded = false
+                                        it.onItemClicked()
+                                    }
+                                )
+                            }
                         }
                     }
                 }
             }
         }
-    }
+    )
+
 }

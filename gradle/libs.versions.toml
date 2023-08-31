@@ -1,7 +1,7 @@
 [versions]
 activityComposeVersion = "1.7.2"
 appcompatVersion = "1.6.1"
-chartsVersion = "1.0.1"
+chartsVersion = "1.0.2"
 coreKtxVersion = "1.10.1"
 kamelImageVersion = "0.6.0"
 koinCoreVersion = "3.2.2"
