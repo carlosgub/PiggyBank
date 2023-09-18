@@ -7,6 +7,6 @@ enum class FinanceEnum(
         financeName = "Expenses"
     ),
     INCOME(
-        financeName = "Incomes"
+        financeName = "Income"
     )
 }

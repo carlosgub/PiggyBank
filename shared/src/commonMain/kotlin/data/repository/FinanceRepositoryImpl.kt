@@ -66,7 +66,7 @@ class FinanceRepositoryImpl(
                         FinanceScreenModel(
                             expenseAmount = result.data.expenseAmount,
                             expenses = expenseList,
-                            incomes = incomeList
+                            income = incomeList
                         )
                     )
                 }

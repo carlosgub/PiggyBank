@@ -6,9 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -67,15 +66,35 @@ import utils.views.Toolbar
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = koinInject(), navigator: Navigator) {
-    HomeObserver(viewModel, navigator)
+
+    Scaffold(
+        topBar = {
+            HomeToolbar(
+                onAddExpensePressed = {
+                    navigator.navigate(Screen.CreateExpenseScreen.route)
+                },
+                onAddIncomePressed = {
+                    navigator.navigate(Screen.CreateIncomeScreen.route)
+                },
+                onRefresh = {
+                    viewModel.getFinanceStatus()
+                }
+            )
+        }
+    ) { paddingValues ->
+        HomeObserver(viewModel, navigator, paddingValues)
+    }
 }
 
 @Composable
-private fun HomeObserver(viewModel: HomeViewModel, navigator: Navigator) {
+private fun HomeObserver(
+    viewModel: HomeViewModel,
+    navigator: Navigator,
+    paddingValues: PaddingValues
+) {
     when (val uiState = viewModel.uiState.collectAsStateWithLifecycle().value) {
         is GenericState.Success -> {
             HomeContent(
-                navigator = navigator,
                 bodyContent = {
                     HomeBodyContent(
                         uiState.data.expenseAmount
@@ -97,18 +116,15 @@ private fun HomeObserver(viewModel: HomeViewModel, navigator: Navigator) {
                 },
                 incomeFooterContent = {
                     HomeFooterContent(
-                        uiState.data.incomes
+                        uiState.data.income
                     )
                 },
-                onRefresh = {
-                    viewModel.getFinanceStatus()
-                }
+                paddingValues = paddingValues
             )
         }
 
         GenericState.Loading, GenericState.Initial -> {
             HomeContent(
-                navigator = navigator,
                 bodyContent = {
                     Loading()
                 },
@@ -118,63 +134,47 @@ private fun HomeObserver(viewModel: HomeViewModel, navigator: Navigator) {
                 incomeFooterContent = {
                     Loading()
                 },
-                onRefresh = {
-                    viewModel.getFinanceStatus()
-                }
+                paddingValues = paddingValues
             )
         }
 
         else -> Unit
     }
+
 }
 
 @Composable
 private fun HomeContent(
-    navigator: Navigator,
     bodyContent: @Composable () -> Unit,
     expenseFooterContent: @Composable () -> Unit,
     incomeFooterContent: @Composable () -> Unit,
-    onRefresh: () -> Unit
+    paddingValues: PaddingValues
 ) {
-    Scaffold(
-        topBar = {
-            HomeToolbar(
-                onAddExpensePressed = {
-                    navigator.navigate(Screen.CreateExpenseScreen.route)
-                },
-                onAddIncomePressed = {
-                    navigator.navigate(Screen.CreateIncomeScreen.route)
-                },
-                onRefresh = onRefresh
+    Box(
+        modifier = Modifier
+            .padding(
+                top = paddingValues.calculateTopPadding()
             )
-        }
-    ) { paddingValues ->
-        Box(
+            .fillMaxSize()
+    ) {
+        Column(
             modifier = Modifier
-                .padding(
-                    top = paddingValues.calculateTopPadding()
-                )
                 .fillMaxSize()
+                .background(ColorPrimary)
         ) {
-            Column(
+            HomeBodyMonthExpense(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(ColorPrimary)
-            ) {
-                HomeBodyMonthExpense(
-                    modifier = Modifier
-                        .weight(0.45f)
-                        .fillMaxSize(),
-                    bodyContent = bodyContent
-                )
-                CardExpenses(
-                    modifier = Modifier
-                        .weight(0.55f)
-                        .fillMaxSize(),
-                    expenseFooterContent = expenseFooterContent,
-                    incomeFooterContent = incomeFooterContent
-                )
-            }
+                    .weight(0.45f)
+                    .fillMaxSize(),
+                bodyContent = bodyContent
+            )
+            CardExpenses(
+                modifier = Modifier
+                    .weight(0.55f)
+                    .fillMaxSize(),
+                expenseFooterContent = expenseFooterContent,
+                incomeFooterContent = incomeFooterContent
+            )
         }
     }
 }
