@@ -8,14 +8,16 @@ class CreateExpenseUseCase(
 ) {
     suspend fun createFinance(params: Params): GenericState<Unit> =
         financeRepository.createExpense(
-            params.amount,
-            params.category,
-            params.note
+            amount = params.amount,
+            category = params.category,
+            note = params.note,
+            dateInMillis = params.dateInMillis
         )
 
     data class Params(
         val amount: Int,
         val category: String,
-        val note: String
+        val note: String,
+        val dateInMillis: Long
     )
 }

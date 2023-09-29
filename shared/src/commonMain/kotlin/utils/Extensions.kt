@@ -40,14 +40,21 @@ internal fun Int.monthLength(isLeapYear: Boolean): Int =
 
 fun Month.toMonthString() =
     if (this.number < 10) {
-        "0${this.number}"
+        this.number.numberToTwoDigits()
     } else {
         this.number
     }
 
 fun Int.toDayString() =
     if (this < 10) {
-        "0$this"
+        this.numberToTwoDigits()
+    } else {
+        this
+    }
+
+fun Int.numberToTwoDigits() =
+    if (this < 10) {
+        "0${this}"
     } else {
         this
     }

@@ -66,6 +66,7 @@ import theme.Gray400
 import theme.Gray600
 import theme.spacing_6
 import utils.NoRippleInteractionSource
+import utils.numberToTwoDigits
 import utils.views.PrimaryButton
 import utils.views.Toolbar
 import utils.views.textfield.AmountOutlineTextField
@@ -103,6 +104,7 @@ private fun CreateExpenseContent(viewModel: CreateExpenseViewModel) {
     val amountText = viewModel.amountField.collectAsStateWithLifecycle().value
     val showError = viewModel.showError.collectAsStateWithLifecycle().value
     val showNoteError = viewModel.showNoteError.collectAsStateWithLifecycle().value
+    val showDateError = viewModel.showDateError.collectAsStateWithLifecycle().value
     val noteText = viewModel.noteField.collectAsStateWithLifecycle().value
     val keyboard = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -146,9 +148,10 @@ private fun CreateExpenseContent(viewModel: CreateExpenseViewModel) {
             }
         )
         DayPicker(
-            showError = showNoteError,
-            dayValueInMillis = {
-
+            showError = showDateError,
+            dayValueInMillis = { dateInMillis ->
+                viewModel.showDateError(false)
+                viewModel.setDateInMillis(dateInMillis)
             }
         )
         NoteOutlineTextField(
@@ -245,8 +248,11 @@ private fun DayPicker(
     }
     datePickerState.selectedDateMillis?.let {
         dayValueInMillis(it)
-        val day = Instant.fromEpochMilliseconds(it).toLocalDateTime(TimeZone.UTC).date
-        dayValue = "${day.dayOfMonth}/${day.monthNumber}/${day.year}"
+        val date = Instant.fromEpochMilliseconds(it).toLocalDateTime(TimeZone.UTC).date
+        dayValue =
+            "${date.dayOfMonth.numberToTwoDigits()}/" +
+                    "${date.monthNumber.numberToTwoDigits()}/" +
+                    "${date.year}"
     }
 }
 

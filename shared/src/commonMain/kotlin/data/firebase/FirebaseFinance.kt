@@ -8,6 +8,11 @@ import dev.gitlive.firebase.firestore.Direction
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.firestore.orderBy
 import dev.gitlive.firebase.firestore.where
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import model.CategoryEnum
 import model.FinanceEnum
 import utils.COLLECTION_COSTS
@@ -15,6 +20,8 @@ import utils.COLLECTION_EXPENSE
 import utils.COLLECTION_INCOME
 import utils.COLLECTION_MONTH
 import utils.getCurrentMonthKey
+import utils.toDayString
+import utils.toMonthString
 
 class FirebaseFinance constructor(
     private val firebaseFirestore: FirebaseFirestore
@@ -40,17 +47,19 @@ class FirebaseFinance constructor(
     suspend fun createExpense(
         amount: Int,
         category: String,
-        note: String
+        note: String,
+        dateInMillis: Long
     ): ResponseResult<Unit> =
         try {
-            val currentMonthKey = getCurrentMonthKey()
+            val date: LocalDate = Instant.fromEpochMilliseconds(dateInMillis).toLocalDateTime(TimeZone.UTC).date
+            val currentMonthKey = "${date.month.toMonthString()}${date.year}"
             val batch = firebaseFirestore.batch()
             val expenseReference =
                 firebaseFirestore.collection(COLLECTION_EXPENSE).document
             val costsResponse =
                 firebaseFirestore.collection(COLLECTION_COSTS).document(userId)
                     .collection(COLLECTION_MONTH)
-                    .document(getCurrentMonthKey()).get()
+                    .document(currentMonthKey).get()
             val financeExist: Boolean
             val financeCache = if (costsResponse.exists) {
                 financeExist = true
@@ -96,7 +105,8 @@ class FirebaseFinance constructor(
                 category = category,
                 userId = userId,
                 note = note,
-                month = currentMonthKey
+                month = currentMonthKey,
+                dateInMillis = dateInMillis
             )
             if (financeExist) {
                 batch.update(costsResponse.reference, financeCache)
