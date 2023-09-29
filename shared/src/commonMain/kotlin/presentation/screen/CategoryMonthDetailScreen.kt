@@ -1,5 +1,6 @@
 package presentation.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -151,6 +153,7 @@ fun CategoryMonthDetailContent(
 ) {
     Column(
         modifier = Modifier
+            .background(White)
             .padding(
                 top = paddingValues.calculateTopPadding()
             )
@@ -174,6 +177,7 @@ fun CategoryMonthDetailBody(
 ) {
     Card(
         modifier = Modifier
+            .padding(top = 8.dp)
             .fillMaxSize(),
         shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
         elevation = CardDefaults.cardElevation(
@@ -185,6 +189,7 @@ fun CategoryMonthDetailBody(
     ) {
         LazyColumn(
             modifier = Modifier
+                .background(White)
                 .fillMaxSize()
                 .padding(
                     top = 24.dp,
@@ -290,17 +295,19 @@ private fun ChartCategoryMonth(daySpent: Map<LocalDateTime, Int>) {
     }
     LineChart(
         lineChartData = lineData,
-        modifier = Modifier.fillMaxWidth().fillMaxHeight(0.8f),
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(0.8f),
         xAxisLabel = {
             val day: LocalDateTime = Instant.fromEpochMilliseconds(it as Long)
                 .toLocalDateTime(TimeZone.currentSystemDefault())
             Text(
                 fontSize = 12.sp,
                 text = "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}",
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .offset(x = 20.dp)
             )
-        },
-        yAxisLabel = {
         },
         overlayHeaderLabel = {
             val day: LocalDateTime = Instant.fromEpochMilliseconds(it as Long)
