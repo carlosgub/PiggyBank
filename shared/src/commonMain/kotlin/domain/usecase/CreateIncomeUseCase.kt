@@ -9,11 +9,13 @@ class CreateIncomeUseCase(
     suspend fun createIncome(params: Params): GenericState<Unit> =
         financeRepository.createIncome(
             params.amount,
-            params.note
+            params.note,
+            params.dateInMillis
         )
 
     data class Params(
         val amount: Int,
-        val note: String
+        val note: String,
+        val dateInMillis: Long,
     )
 }

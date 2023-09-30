@@ -70,6 +70,7 @@ import utils.numberToTwoDigits
 import utils.views.PrimaryButton
 import utils.views.Toolbar
 import utils.views.textfield.AmountOutlineTextField
+import utils.views.textfield.DayPicker
 import utils.views.textfield.NoteOutlineTextField
 
 @Composable
@@ -176,83 +177,6 @@ private fun CreateExpenseContent(viewModel: CreateExpenseViewModel) {
                 viewModel.createExpense()
             }
         )
-    }
-}
-
-@Composable
-private fun DayPicker(
-    showError: Boolean,
-    dayValueInMillis: (Long) -> Unit
-) {
-    var isVisible by remember { mutableStateOf(false) }
-    val datePickerState = rememberDatePickerState()
-    var dayValue by remember { mutableStateOf("") }
-    OutlinedTextField(
-        value = dayValue,
-        onValueChange = {},
-        label = {
-            Text(
-                text = "Enter day",
-                color = Color.Black
-            )
-        },
-        keyboardActions = KeyboardActions(),
-        shape = MaterialTheme.shapes.small,
-        readOnly = true,
-        modifier = Modifier
-            .padding(top = 8.dp)
-            .fillMaxWidth()
-            .clickable {
-                isVisible = true
-            },
-        enabled = false,
-        leadingIcon = {
-            Icon(
-                Icons.Default.CalendarMonth,
-                contentDescription = null
-            )
-        }
-    )
-    AnimatedVisibility(showError) {
-        Text(
-            text = "Enter a date",
-            color = MaterialTheme.colorScheme.error,
-            style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.padding(start = 16.dp)
-        )
-    }
-    AnimatedVisibility(isVisible) {
-        DatePickerDialog(
-            onDismissRequest = {
-                isVisible = false
-            },
-            shape = MaterialTheme.shapes.small,
-            modifier = Modifier,
-            tonalElevation = 8.dp,
-            confirmButton = {
-                Button(
-                    onClick = {
-                        isVisible = false
-                    },
-
-                    ) {
-                    Text("Ok")
-                }
-            },
-            content = {
-                DatePicker(
-                    state = datePickerState
-                )
-            }
-        )
-    }
-    datePickerState.selectedDateMillis?.let {
-        dayValueInMillis(it)
-        val date = Instant.fromEpochMilliseconds(it).toLocalDateTime(TimeZone.UTC).date
-        dayValue =
-            "${date.dayOfMonth.numberToTwoDigits()}/" +
-                    "${date.monthNumber.numberToTwoDigits()}/" +
-                    "${date.year}"
     }
 }
 

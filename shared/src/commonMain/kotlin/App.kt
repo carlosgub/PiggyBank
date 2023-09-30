@@ -15,6 +15,7 @@ import presentation.screen.CategoryMonthDetailScreen
 import presentation.screen.CreateExpenseScreen
 import presentation.screen.CreateIncomeScreen
 import presentation.screen.HomeScreen
+import presentation.screen.MonthsScreen
 import theme.ColorPrimary
 import theme.Shapes
 import theme.Typography
@@ -37,6 +38,11 @@ fun App() {
             }
             scene(route = Screen.CreateIncomeScreen.route) {
                 CreateIncomeScreen(
+                    navigator = navigator
+                )
+            }
+            scene(route = Screen.MonthsScreen.route) {
+                MonthsScreen(
                     navigator = navigator
                 )
             }

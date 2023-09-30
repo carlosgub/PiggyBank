@@ -18,6 +18,7 @@ import model.FinanceEnum
 import model.FinanceScreenExpenses
 import model.FinanceScreenModel
 import model.MonthDetailScreenModel
+import model.MonthModel
 import utils.getCategoryEnumFromName
 import utils.isLeapYear
 import utils.monthLength
@@ -92,12 +93,17 @@ class FinanceRepositoryImpl(
             )
         }
 
-    override suspend fun createIncome(amount: Int, note: String): GenericState<Unit> =
+    override suspend fun createIncome(
+        amount: Int,
+        note: String,
+        dateInMillis: Long
+    ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             ResultMapper.toGenericState(
                 firebaseFinance.createIncome(
                     amount,
-                    note
+                    note,
+                    dateInMillis
                 )
             )
         }
@@ -166,5 +172,12 @@ class FinanceRepositoryImpl(
                     )
                 }
             }
+        }
+
+    override suspend fun getMonths(): GenericState<List<MonthModel>> =
+        withContext(Dispatchers.Default) {
+            ResultMapper.toGenericState(
+                firebaseFinance.getMonths()
+            )
         }
 }

@@ -30,6 +30,7 @@ import utils.NoRippleInteractionSource
 import utils.views.PrimaryButton
 import utils.views.Toolbar
 import utils.views.textfield.AmountOutlineTextField
+import utils.views.textfield.DayPicker
 import utils.views.textfield.NoteOutlineTextField
 
 @Composable
@@ -64,6 +65,7 @@ private fun CreateIncomeContent(viewModel: CreateIncomeViewModel) {
     val showError = viewModel.showError.collectAsStateWithLifecycle().value
     val showNoteError = viewModel.showNoteError.collectAsStateWithLifecycle().value
     val noteText = viewModel.noteField.collectAsStateWithLifecycle().value
+    val showDateError = viewModel.showDateError.collectAsStateWithLifecycle().value
     val keyboard = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     val amountTextFieldValue = remember {
@@ -98,6 +100,13 @@ private fun CreateIncomeContent(viewModel: CreateIncomeViewModel) {
                 viewModel.showError(false)
             },
             showError = showError
+        )
+        DayPicker(
+            showError = showDateError,
+            dayValueInMillis = { dateInMillis ->
+                viewModel.showDateError(false)
+                viewModel.setDateInMillis(dateInMillis)
+            }
         )
         NoteOutlineTextField(
             noteValue = noteText,

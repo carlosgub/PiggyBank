@@ -2,6 +2,7 @@
 
 package utils.views
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -82,50 +83,47 @@ fun Toolbar(
             }
         },
         actions = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                leftIcon?.let {
+            leftIcon?.let {
+                Icon(
+                    imageVector = leftIcon,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(spacing_2)
+                        .size(view_10)
+                        .clickable { onLeftIconPressed() }
+                        .padding(spacing_2),
+                    tint = contentColor
+                )
+            }
+            if (dropDownMenu) {
+                var expanded by remember { mutableStateOf(false) }
+                Column {
                     Icon(
-                        imageVector = leftIcon,
+                        imageVector = dropDownIcon ?: Icons.Filled.MoreVert,
                         contentDescription = null,
                         modifier = Modifier
                             .padding(spacing_2)
                             .size(view_10)
-                            .clickable { onLeftIconPressed() }
+                            .clickable { expanded = true }
                             .padding(spacing_2),
                         tint = contentColor
                     )
-                }
-                if (dropDownMenu) {
-                    var expanded by remember { mutableStateOf(false) }
-                    Column {
-                        Icon(
-                            imageVector = dropDownIcon ?: Icons.Filled.MoreVert,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(spacing_2)
-                                .size(view_10)
-                                .clickable { expanded = true }
-                                .padding(spacing_2),
-                            tint = contentColor
-                        )
-                        DropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = {
-                                expanded = false
-                            }
-                        ) {
-                            dropDownItems.forEach {
-                                DropdownMenuItem(
-                                    it.icon,
-                                    it.name,
-                                    onItemClicked = {
-                                        expanded = false
-                                        it.onItemClicked()
-                                    }
-                                )
-                            }
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = {
+                            expanded = false
+                        },
+                        modifier = Modifier.background(Color.White)
+                    ) {
+                        dropDownItems.forEach {
+                            DropdownMenuItem(
+                                it.icon,
+                                it.name,
+                                onItemClicked = {
+                                    expanded = false
+                                    it.onItemClicked()
+                                }
+                            )
                         }
                     }
                 }

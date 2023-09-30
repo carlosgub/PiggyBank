@@ -15,12 +15,15 @@ class CreateIncomeViewModel(
 ) : ViewModel() {
     private val _amountField = MutableStateFlow(0.0.toMoneyFormat())
     val amountField = _amountField.asStateFlow()
+    private val _dateInMillis = MutableStateFlow(0L)
     private val _noteField = MutableStateFlow("")
     val noteField = _noteField.asStateFlow()
     private val _showError = MutableStateFlow(false)
     val showError = _showError.asStateFlow()
     private val _showNoteError = MutableStateFlow(false)
     val showNoteError = _showNoteError.asStateFlow()
+    private val _showDateError = MutableStateFlow(false)
+    val showDateError = _showDateError.asStateFlow()
     private val _amountValueField = MutableStateFlow(0.0)
     private val _uiState =
         MutableStateFlow<SingleEvent<GenericState<Unit>>>(SingleEvent(GenericState.Initial))
@@ -53,6 +56,8 @@ class CreateIncomeViewModel(
     fun createExpense() {
         if (_amountValueField.value <= 0) {
             showError(true)
+        } else if (_dateInMillis.value == 0L) {
+            showDateError(true)
         } else if (_noteField.value.trim().isBlank()) {
             showNoteError(true)
         } else {
@@ -62,7 +67,8 @@ class CreateIncomeViewModel(
                         createIncomeUseCase.createIncome(
                             CreateIncomeUseCase.Params(
                                 amount = (_amountValueField.value * 100).toInt(),
-                                note = _noteField.value
+                                note = _noteField.value,
+                                dateInMillis = _dateInMillis.value
                             )
                         )
                     )
@@ -77,9 +83,21 @@ class CreateIncomeViewModel(
         }
     }
 
+    fun setDateInMillis(dateInMillis: Long) {
+        viewModelScope.launch {
+            _dateInMillis.value = dateInMillis
+        }
+    }
+
     fun showNoteError(show: Boolean) {
         viewModelScope.launch {
             _showNoteError.emit(show)
+        }
+    }
+
+    fun showDateError(show: Boolean) {
+        viewModelScope.launch {
+            _showDateError.emit(show)
         }
     }
 }

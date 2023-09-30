@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AttachMoney
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.MoneyOff
 import androidx.compose.material.icons.filled.Refresh
@@ -49,6 +50,7 @@ import model.FinanceEnum
 import model.FinanceScreenExpenses
 import model.MenuItem
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
+import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
 import presentation.navigation.Screen
@@ -65,8 +67,8 @@ import utils.views.Loading
 import utils.views.Toolbar
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = koinInject(), navigator: Navigator) {
-
+fun HomeScreen(navigator: Navigator) {
+    val viewModel = koinViewModel(HomeViewModel::class)
     Scaffold(
         topBar = {
             HomeToolbar(
@@ -75,6 +77,9 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject(), navigator: Navigator) {
                 },
                 onAddIncomePressed = {
                     navigator.navigate(Screen.CreateIncomeScreen.route)
+                },
+                onSeeMonths = {
+                    navigator.navigate(Screen.MonthsScreen.route)
                 },
                 onRefresh = {
                     viewModel.getFinanceStatus()
@@ -368,11 +373,11 @@ fun ExpenseIconProgress(expense: FinanceScreenExpenses) {
 private fun HomeToolbar(
     onAddExpensePressed: () -> Unit,
     onAddIncomePressed: () -> Unit,
+    onSeeMonths: () -> Unit,
     onRefresh: () -> Unit
 ) {
     Toolbar(
         title = "My Finances",
-        dropDownIcon = Icons.Default.Add,
         dropDownMenu = true,
         leftIcon = Icons.Filled.Refresh,
         onLeftIconPressed = onRefresh,
@@ -391,6 +396,11 @@ private fun HomeToolbar(
                 name = "Add Wish",
                 icon = Icons.Filled.Favorite,
                 onItemClicked = onAddExpensePressed
+            ),
+            MenuItem(
+                name = "Months",
+                icon = Icons.Filled.CalendarMonth,
+                onItemClicked = onSeeMonths
             )
         )
     )

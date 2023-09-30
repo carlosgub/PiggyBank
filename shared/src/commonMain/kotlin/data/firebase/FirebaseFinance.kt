@@ -10,17 +10,16 @@ import dev.gitlive.firebase.firestore.orderBy
 import dev.gitlive.firebase.firestore.where
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import model.CategoryEnum
 import model.FinanceEnum
+import model.MonthModel
 import utils.COLLECTION_COSTS
 import utils.COLLECTION_EXPENSE
 import utils.COLLECTION_INCOME
 import utils.COLLECTION_MONTH
 import utils.getCurrentMonthKey
-import utils.toDayString
 import utils.toMonthString
 
 class FirebaseFinance constructor(
@@ -51,7 +50,8 @@ class FirebaseFinance constructor(
         dateInMillis: Long
     ): ResponseResult<Unit> =
         try {
-            val date: LocalDate = Instant.fromEpochMilliseconds(dateInMillis).toLocalDateTime(TimeZone.UTC).date
+            val date: LocalDate =
+                Instant.fromEpochMilliseconds(dateInMillis).toLocalDateTime(TimeZone.UTC).date
             val currentMonthKey = "${date.month.toMonthString()}${date.year}"
             val batch = firebaseFirestore.batch()
             val expenseReference =
@@ -65,6 +65,7 @@ class FirebaseFinance constructor(
                 financeExist = true
                 val finance = costsResponse.data<Finance>()
                 finance.copy(
+                    monthYear = currentMonthKey,
                     expenseAmount = finance.expenseAmount + amount,
                     category =
                     finance.category.toMutableMap().apply {
@@ -96,7 +97,8 @@ class FirebaseFinance constructor(
                             amount = amount,
                             count = 1
                         )
-                    )
+                    ),
+                    monthYear = currentMonthKey
                 )
             }
 
@@ -126,23 +128,27 @@ class FirebaseFinance constructor(
 
     suspend fun createIncome(
         amount: Int,
-        note: String
+        note: String,
+        dateInMillis: Long
     ): ResponseResult<Unit> =
         try {
+            val date: LocalDate =
+                Instant.fromEpochMilliseconds(dateInMillis).toLocalDateTime(TimeZone.UTC).date
+            val currentMonthKey = "${date.month.toMonthString()}${date.year}"
             val category = CategoryEnum.WORK.name
-            val currentMonthKey = getCurrentMonthKey()
             val batch = firebaseFirestore.batch()
             val incomeReference =
                 firebaseFirestore.collection(COLLECTION_INCOME).document
             val costsResponse =
                 firebaseFirestore.collection(COLLECTION_COSTS).document(userId)
                     .collection(COLLECTION_MONTH)
-                    .document(getCurrentMonthKey()).get()
+                    .document(currentMonthKey).get()
             val financeExist: Boolean
             val financeCache = if (costsResponse.exists) {
                 financeExist = true
                 val finance = costsResponse.data<Finance>()
                 finance.copy(
+                    monthYear = currentMonthKey,
                     incomeAmount = finance.incomeAmount + amount,
                     category =
                     finance.category.toMutableMap().apply {
@@ -174,7 +180,8 @@ class FirebaseFinance constructor(
                             amount = amount,
                             count = 1
                         )
-                    )
+                    ),
+                    monthYear = currentMonthKey
                 )
             }
 
@@ -230,6 +237,24 @@ class FirebaseFinance constructor(
                 }
                 ResponseResult.Success(list)
             }
+        } catch (e: Exception) {
+            ResponseResult.Error(e)
+        }
+
+    suspend fun getMonths(): ResponseResult<List<MonthModel>> =
+        try {
+            val costsResponse =
+                firebaseFirestore.collection(COLLECTION_COSTS).document(userId)
+                    .collection(COLLECTION_MONTH)
+                    .orderBy("monthYear", Direction.DESCENDING)
+            val list = costsResponse.get().documents.map { document ->
+                MonthModel(
+                    id = document.id,
+                    month = document.id.take(2),
+                    year = document.id.takeLast(4)
+                )
+            }
+            ResponseResult.Success(list)
         } catch (e: Exception) {
             ResponseResult.Error(e)
         }
