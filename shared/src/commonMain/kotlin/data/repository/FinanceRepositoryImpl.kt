@@ -18,6 +18,7 @@ import model.FinanceEnum
 import model.FinanceScreenExpenses
 import model.FinanceScreenModel
 import model.MonthDetailScreenModel
+import model.MonthExpense
 import utils.createLocalDateTime
 import utils.getCategoryEnumFromName
 import utils.isLeapYear
@@ -63,6 +64,11 @@ class FinanceRepositoryImpl(
                                     percentage = (it.value.amount / incomeTotal.toFloat() * 100).roundToInt()
                                 )
                             }.sortedByDescending { it.percentage }
+                    val monthExpense =
+                        MonthExpense(
+                            incomeTotal = incomeTotal / 100.0,
+                            percentage = expenseTotal* 100 / incomeTotal
+                        )
                     GenericState.Success(
                         FinanceScreenModel(
                             expenseAmount = result.data.expenseAmount,
@@ -71,7 +77,8 @@ class FinanceRepositoryImpl(
                             localDateTime = createLocalDateTime(
                                 year = monthKey.substring(2, 6).toInt(),
                                 monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
-                            )
+                            ),
+                            monthExpense = monthExpense
                         )
                     )
                 }

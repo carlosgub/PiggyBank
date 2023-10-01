@@ -12,9 +12,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,6 +30,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Scaffold
@@ -57,6 +58,7 @@ import model.FinanceScreenExpenses
 import model.FinanceScreenModel
 import model.HomeArgs
 import model.MenuItem
+import model.MonthExpense
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
@@ -81,7 +83,7 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             HomeToolbar(
-                args.isHome,
+                isHome = args.isHome,
                 onAddExpensePressed = {
                     navigator.navigate(
                         Screen.CreateScreen.createRoute(
@@ -210,6 +212,7 @@ private fun HomeContent(
                     .fillMaxSize(),
                 expenses = data.expenses,
                 income = data.income,
+                monthExpense = data.monthExpense,
                 onCategoryClick = onCategoryClick
             )
         }
@@ -248,6 +251,7 @@ private fun HomeBodyContent(monthAmount: Int, month: Month) {
 @Composable
 private fun CardExpenses(
     modifier: Modifier,
+    monthExpense: MonthExpense,
     expenses: List<FinanceScreenExpenses>,
     income: List<FinanceScreenExpenses>,
     onCategoryClick: (FinanceScreenExpenses) -> Unit
@@ -259,6 +263,9 @@ private fun CardExpenses(
             containerColor = MonthBudgetCardColor
         )
     ) {
+        CardMonthExpenseContent(
+            monthExpense = monthExpense
+        )
         Column {
             Card(
                 modifier = modifier,
@@ -307,6 +314,47 @@ private fun CardExpenses(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun CardMonthExpenseContent(
+    monthExpense: MonthExpense
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth()
+            .padding(
+                horizontal = 24.dp,
+                vertical = 32.dp
+            )
+    ) {
+        Row {
+            Text(
+                "Month Budget",
+
+                )
+            Text(
+                monthExpense.incomeTotal.toMoneyFormat(),
+                modifier = Modifier.padding(start = 8.dp)
+            )
+            Box(Modifier.weight(1f))
+            Text("${monthExpense.percentage}%")
+        }
+        val percentage = (monthExpense.percentage / 100.00).toFloat()
+        var progress by remember { mutableStateOf(0f) }
+        val progressAnimation by animateFloatAsState(
+            targetValue = progress,
+            animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+        )
+        LinearProgressIndicator(
+            progress = progressAnimation,
+            color = ColorPrimary,
+            modifier = Modifier.fillMaxWidth()
+                .padding(top = 8.dp)
+        )
+        LaunchedEffect(percentage) {
+            progress = percentage
         }
     }
 }
