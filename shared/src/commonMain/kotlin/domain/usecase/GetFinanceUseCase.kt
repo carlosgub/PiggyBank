@@ -7,6 +7,10 @@ import model.FinanceScreenModel
 class GetFinanceUseCase(
     private val financeRepository: FinanceRepository
 ) {
-    suspend fun getFinance(): GenericState<FinanceScreenModel> =
-        financeRepository.getCurrentFinance()
+    suspend fun getFinance(params: Params): GenericState<FinanceScreenModel> =
+        financeRepository.getFinance(params.monthKey)
+
+    data class Params(
+        val monthKey: String
+    )
 }

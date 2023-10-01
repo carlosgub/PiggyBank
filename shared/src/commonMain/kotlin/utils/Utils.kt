@@ -13,8 +13,6 @@ fun getCurrentMonthKey(): String {
     return "${month}$year"
 }
 
-fun getCurrentMonthName(): String = Clock.System.todayIn(TimeZone.currentSystemDefault()).month.name
-
 fun getCategoryEnumFromName(name: String): CategoryEnum {
     for (enum in CategoryEnum.values()) {
         if (enum.name == name) {

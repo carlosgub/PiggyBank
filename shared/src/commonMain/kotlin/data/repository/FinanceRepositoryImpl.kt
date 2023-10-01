@@ -18,7 +18,7 @@ import model.FinanceEnum
 import model.FinanceScreenExpenses
 import model.FinanceScreenModel
 import model.MonthDetailScreenModel
-import model.MonthModel
+import utils.createLocalDateTime
 import utils.getCategoryEnumFromName
 import utils.isLeapYear
 import utils.monthLength
@@ -30,9 +30,9 @@ class FinanceRepositoryImpl(
     private val firebaseFinance: FirebaseFinance
 ) : FinanceRepository {
 
-    override suspend fun getCurrentFinance(): GenericState<FinanceScreenModel> =
+    override suspend fun getFinance(monthKey: String): GenericState<FinanceScreenModel> =
         withContext(Dispatchers.Default) {
-            when (val result = firebaseFinance.getFinance()) {
+            when (val result = firebaseFinance.getFinance(monthKey)) {
                 is ResponseResult.Success -> {
                     var expenseTotal = 0
                     var incomeTotal = 0
@@ -67,7 +67,11 @@ class FinanceRepositoryImpl(
                         FinanceScreenModel(
                             expenseAmount = result.data.expenseAmount,
                             expenses = expenseList,
-                            income = incomeList
+                            income = incomeList,
+                            localDateTime = createLocalDateTime(
+                                year = monthKey.substring(2, 6).toInt(),
+                                monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
+                            )
                         )
                     )
                 }
@@ -113,12 +117,7 @@ class FinanceRepositoryImpl(
         monthKey: String
     ): GenericState<MonthDetailScreenModel> =
         withContext(Dispatchers.Default) {
-            when (
-                val result = firebaseFinance.getCategoryMonthDetail(
-                    categoryEnum,
-                    monthKey
-                )
-            ) {
+            when (val result = firebaseFinance.getCategoryMonthDetail(categoryEnum, monthKey)) {
                 is ResponseResult.Error -> GenericState.Error(result.error.message.orEmpty())
                 is ResponseResult.Success -> {
                     val monthAmount = result.data.sumOf { it.amount }
@@ -140,28 +139,19 @@ class FinanceRepositoryImpl(
 
                         )
                     }
-                    val date = LocalDateTime(
+                    val date = createLocalDateTime(
                         year = monthKey.substring(2, 6).toInt(),
-                        monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
-                        dayOfMonth = 1,
-                        hour = 0,
-                        minute = 0,
-                        second = 0,
-                        nanosecond = 0
+                        monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
                     )
                     val daySpent =
                         (1..date.monthNumber.monthLength(isLeapYear(date.year))).map { day ->
-                            val dateInternal = LocalDateTime(
+                            val dateInternal = createLocalDateTime(
                                 year = monthKey.substring(2, 6).toInt(),
                                 monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
-                                dayOfMonth = day,
-                                hour = 0,
-                                minute = 0,
-                                second = 0,
-                                nanosecond = 0
+                                dayOfMonth = day
                             )
                             dateInternal to expenseScreenModelList.filter { it.day == "${dateInternal.dayOfMonth.toDayString()}/${dateInternal.month.toMonthString()}" }
-                                .sumBy { it.amount }
+                                .sumOf { it.amount }
                         }.toMap()
                     GenericState.Success(
                         MonthDetailScreenModel(
@@ -174,10 +164,23 @@ class FinanceRepositoryImpl(
             }
         }
 
-    override suspend fun getMonths(): GenericState<List<MonthModel>> =
+    override suspend fun getMonths(): GenericState<Map<Int, List<LocalDateTime>>> =
         withContext(Dispatchers.Default) {
-            ResultMapper.toGenericState(
-                firebaseFinance.getMonths()
-            )
+            when (val result = firebaseFinance.getMonths()) {
+                is ResponseResult.Success -> {
+                    GenericState.Success(
+                        result.data.map { month ->
+                            createLocalDateTime(
+                                year = month.year.toInt(),
+                                monthNumber = month.month.trimStart('0').toInt()
+                            )
+                        }.groupBy {
+                            it.year
+                        }
+                    )
+                }
+
+                is ResponseResult.Error -> GenericState.Error(result.error.message.toString())
+            }
         }
 }

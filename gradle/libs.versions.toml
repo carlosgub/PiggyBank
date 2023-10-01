@@ -9,7 +9,7 @@ koinComposeVersion = "1.1.0"
 kotlinxSerializationJsonVersion = "1.5.1"
 precomposeVersion = "1.5.4"
 firebaseVersion = "1.10.2"
-datetimeVersion = "0.4.1"
+datetimeVersion = "0.4.0"
 kotlinStdlibVersion = "1.9.10"
 
 

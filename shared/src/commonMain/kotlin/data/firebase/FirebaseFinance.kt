@@ -27,12 +27,12 @@ class FirebaseFinance constructor(
 ) {
 
     private val userId = "123"
-    suspend fun getFinance(): ResponseResult<Finance> =
+    suspend fun getFinance(monthKey: String): ResponseResult<Finance> =
         try {
             val costsResponse =
                 firebaseFirestore.collection(COLLECTION_COSTS).document(userId)
                     .collection(COLLECTION_MONTH)
-                    .document(getCurrentMonthKey()).get()
+                    .document(monthKey).get()
             if (costsResponse.exists) {
                 val finance = costsResponse.data<Finance>()
                 ResponseResult.Success(finance)

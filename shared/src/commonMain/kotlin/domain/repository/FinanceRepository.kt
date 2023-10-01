@@ -1,13 +1,13 @@
 package domain.repository
 
 import core.sealed.GenericState
+import kotlinx.datetime.LocalDateTime
 import model.CategoryEnum
 import model.FinanceScreenModel
 import model.MonthDetailScreenModel
-import model.MonthModel
 
 interface FinanceRepository {
-    suspend fun getCurrentFinance(): GenericState<FinanceScreenModel>
+    suspend fun getFinance(monthKey: String): GenericState<FinanceScreenModel>
     suspend fun createExpense(
         amount: Int,
         category: String,
@@ -26,5 +26,5 @@ interface FinanceRepository {
         monthKey: String
     ): GenericState<MonthDetailScreenModel>
 
-    suspend fun getMonths(): GenericState<List<MonthModel>>
+    suspend fun getMonths(): GenericState<Map<Int, List<LocalDateTime>>>
 }

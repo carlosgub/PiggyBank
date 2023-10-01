@@ -59,6 +59,7 @@ import utils.getCategoryEnumFromName
 import utils.toDayString
 import utils.toMoneyFormat
 import utils.toMonthString
+import utils.views.ExpenseDivider
 import utils.views.Loading
 import utils.views.Toolbar
 
@@ -200,11 +201,7 @@ fun CategoryMonthDetailBody(
             itemsIndexed(list) { count, expense ->
                 Column {
                     if (count != 0) {
-                        Divider(
-                            modifier = Modifier.fillMaxWidth(),
-                            thickness = divider_thickness,
-                            color = ColorSeparator
-                        )
+                        ExpenseDivider()
                     }
                     Row(
                         modifier = Modifier

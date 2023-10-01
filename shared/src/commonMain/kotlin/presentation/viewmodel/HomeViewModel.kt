@@ -18,15 +18,16 @@ class HomeViewModel(
 
     val isRefreshing: Boolean = (uiState.value is GenericState.Loading)
 
-    init {
-        getFinanceStatus()
-    }
 
-    fun getFinanceStatus() {
+    fun getFinanceStatus(monthKey: String) {
         _uiState.value = GenericState.Loading
         viewModelScope.launch {
             _uiState.emit(
-                getFinanceUseCase.getFinance()
+                getFinanceUseCase.getFinance(
+                    GetFinanceUseCase.Params(
+                        monthKey = monthKey
+                    )
+                )
             )
         }
     }

@@ -9,14 +9,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Favorite
@@ -25,7 +23,6 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProgressIndicatorDefaults
@@ -45,33 +42,36 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import core.sealed.GenericState
+import kotlinx.datetime.Month
 import model.CategoryMonthDetailArgs
 import model.FinanceEnum
 import model.FinanceScreenExpenses
+import model.HomeArgs
 import model.MenuItem
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
-import org.koin.compose.koinInject
 import presentation.navigation.Screen
 import presentation.viewmodel.HomeViewModel
 import theme.ColorPrimary
-import theme.ColorSeparator
 import theme.Gray400
 import theme.Gray600
-import theme.divider_thickness
 import utils.getCurrentMonthKey
-import utils.getCurrentMonthName
 import utils.toMoneyFormat
+import utils.views.ExpenseDivider
 import utils.views.Loading
 import utils.views.Toolbar
 
 @Composable
-fun HomeScreen(navigator: Navigator) {
+fun HomeScreen(
+    navigator: Navigator,
+    args: HomeArgs
+) {
     val viewModel = koinViewModel(HomeViewModel::class)
     Scaffold(
         topBar = {
             HomeToolbar(
+                args.isHome,
                 onAddExpensePressed = {
                     navigator.navigate(Screen.CreateExpenseScreen.route)
                 },
@@ -82,12 +82,20 @@ fun HomeScreen(navigator: Navigator) {
                     navigator.navigate(Screen.MonthsScreen.route)
                 },
                 onRefresh = {
-                    viewModel.getFinanceStatus()
+                    viewModel.getFinanceStatus(args.monthKey)
+                },
+                onBack = {
+                    navigator.goBack()
                 }
             )
         }
     ) { paddingValues ->
-        HomeObserver(viewModel, navigator, paddingValues)
+        HomeObserver(
+            viewModel = viewModel,
+            navigator = navigator,
+            paddingValues = paddingValues,
+            monthKey = args.monthKey
+        )
     }
 }
 
@@ -95,14 +103,16 @@ fun HomeScreen(navigator: Navigator) {
 private fun HomeObserver(
     viewModel: HomeViewModel,
     navigator: Navigator,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    monthKey: String
 ) {
     when (val uiState = viewModel.uiState.collectAsStateWithLifecycle().value) {
         is GenericState.Success -> {
             HomeContent(
                 bodyContent = {
                     HomeBodyContent(
-                        uiState.data.expenseAmount
+                        monthAmount = uiState.data.expenseAmount,
+                        month = uiState.data.localDateTime.month
                     )
                 },
                 expenseFooterContent = {
@@ -128,7 +138,7 @@ private fun HomeObserver(
             )
         }
 
-        GenericState.Loading, GenericState.Initial -> {
+        GenericState.Loading -> {
             HomeContent(
                 bodyContent = {
                     Loading()
@@ -141,6 +151,10 @@ private fun HomeObserver(
                 },
                 paddingValues = paddingValues
             )
+        }
+
+        GenericState.Initial -> {
+            viewModel.getFinanceStatus(monthKey)
         }
 
         else -> Unit
@@ -199,9 +213,9 @@ private fun HomeBodyMonthExpense(
 }
 
 @Composable
-private fun HomeBodyContent(monthAmount: Int) {
+private fun HomeBodyContent(monthAmount: Int, month: Month) {
     Text(
-        text = getCurrentMonthName(),
+        text = month.name,
         style = MaterialTheme.typography.headlineSmall,
         color = Color.White
     )
@@ -275,12 +289,10 @@ fun HomeFooterContent(
                 itemsIndexed(expenses) { count, expense ->
                     Column {
                         if (count != 0) {
-                            Divider(
-                                modifier = Modifier.fillMaxWidth().padding(
+                            ExpenseDivider(
+                                modifier = Modifier.padding(
                                     start = 64.dp
-                                ),
-                                thickness = divider_thickness,
-                                color = ColorSeparator
+                                )
                             )
                         }
                         Row(
@@ -371,17 +383,21 @@ fun ExpenseIconProgress(expense: FinanceScreenExpenses) {
 
 @Composable
 private fun HomeToolbar(
+    isHome: Boolean,
     onAddExpensePressed: () -> Unit,
     onAddIncomePressed: () -> Unit,
     onSeeMonths: () -> Unit,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    onBack: () -> Unit
 ) {
     Toolbar(
+        hasNavigationIcon = !isHome,
+        navigation = onBack,
         title = "My Finances",
         dropDownMenu = true,
         leftIcon = Icons.Filled.Refresh,
         onLeftIconPressed = onRefresh,
-        dropDownItems = listOf(
+        dropDownItems = mutableListOf(
             MenuItem(
                 name = "Add Expense",
                 icon = Icons.Filled.MoneyOff,
@@ -396,12 +412,17 @@ private fun HomeToolbar(
                 name = "Add Wish",
                 icon = Icons.Filled.Favorite,
                 onItemClicked = onAddExpensePressed
-            ),
-            MenuItem(
-                name = "Months",
-                icon = Icons.Filled.CalendarMonth,
-                onItemClicked = onSeeMonths
             )
-        )
+        ).apply {
+            if (isHome) {
+                add(
+                    MenuItem(
+                        name = "Months",
+                        icon = Icons.Filled.CalendarMonth,
+                        onItemClicked = onSeeMonths
+                    )
+                )
+            }
+        }
     )
 }

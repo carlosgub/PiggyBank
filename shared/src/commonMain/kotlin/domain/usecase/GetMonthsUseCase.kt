@@ -2,12 +2,11 @@ package domain.usecase
 
 import core.sealed.GenericState
 import domain.repository.FinanceRepository
-import model.FinanceScreenModel
-import model.MonthModel
+import kotlinx.datetime.LocalDateTime
 
 class GetMonthsUseCase(
     private val financeRepository: FinanceRepository
 ) {
-    suspend fun getMonths(): GenericState<List<MonthModel>> =
+    suspend fun getMonths(): GenericState<Map<Int, List<LocalDateTime>>> =
         financeRepository.getMonths()
 }

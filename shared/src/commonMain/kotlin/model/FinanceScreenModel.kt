@@ -1,9 +1,11 @@
 package model
 
+import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class FinanceScreenModel(
+    val localDateTime: LocalDateTime,
     val expenseAmount: Int,
     val expenses: List<FinanceScreenExpenses>,
     val income: List<FinanceScreenExpenses>

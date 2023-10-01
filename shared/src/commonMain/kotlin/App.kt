@@ -5,6 +5,7 @@ import di.dataModule
 import di.homeModule
 import kotlinx.serialization.json.Json
 import model.CategoryMonthDetailArgs
+import model.HomeArgs
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
@@ -19,6 +20,7 @@ import presentation.screen.MonthsScreen
 import theme.ColorPrimary
 import theme.Shapes
 import theme.Typography
+import utils.getCurrentMonthKey
 
 @Composable
 fun App() {
@@ -26,10 +28,20 @@ fun App() {
     AppTheme {
         NavHost(
             navigator = navigator,
-            initialRoute = Screen.Home.route
+            initialRoute = Screen.Home.createRoute(
+                HomeArgs(
+                    monthKey = getCurrentMonthKey(),
+                    isHome = true
+                )
+            )
         ) {
-            scene(route = Screen.Home.route) {
-                HomeScreen(navigator = navigator)
+            scene(route = Screen.Home.route) { backStackEntry ->
+                val args: HomeArgs =
+                    Json.decodeFromString(backStackEntry.path<String>(NavArgs.HomeArgs.key)!!)
+                HomeScreen(
+                    navigator = navigator,
+                    args = args
+                )
             }
             scene(route = Screen.CreateExpenseScreen.route) {
                 CreateExpenseScreen(
