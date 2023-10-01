@@ -27,9 +27,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import utils.toLocalDate
 import utils.toNumberOfTwoDigits
 
@@ -87,9 +84,9 @@ fun DayPicker(
                 Button(
                     onClick = {
                         isVisible = false
-                    },
+                    }
 
-                    ) {
+                ) {
                     Text("Ok")
                 }
             },
@@ -105,7 +102,7 @@ fun DayPicker(
         val date = it.toLocalDate()
         dayValue =
             "${date.dayOfMonth.toNumberOfTwoDigits()}/" +
-                    "${date.monthNumber.toNumberOfTwoDigits()}/" +
-                    "${date.year}"
+            "${date.monthNumber.toNumberOfTwoDigits()}/" +
+            "${date.year}"
     }
 }

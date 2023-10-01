@@ -11,7 +11,7 @@ data class Expense(
     val note: String = "",
     val category: String = "",
     val month: String = "",
-    val dateInMillis:Long? = 0L,
+    val dateInMillis: Long? = 0L,
     @Serializable(with = TimestampSerializer::class)
     val timestamp: Timestamp = Timestamp.now()
 )

@@ -173,7 +173,6 @@ private fun HomeObserver(
 
         else -> Unit
     }
-
 }
 
 @Composable

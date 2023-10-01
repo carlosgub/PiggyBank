@@ -290,7 +290,7 @@ private fun CategoryChip(
 @Composable
 private fun CreateToolbar(
     createEnum: CreateEnum,
-    onBack: () -> Unit,
+    onBack: () -> Unit
 ) {
     val title = if (createEnum.isExpense()) "Expense" else "Income"
     Toolbar(

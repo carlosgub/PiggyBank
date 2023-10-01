@@ -59,7 +59,7 @@ fun Int.toDayString() =
 
 fun Int.toNumberOfTwoDigits() =
     if (this < 10) {
-        "0${this}"
+        "0$this"
     } else {
         this
     }
