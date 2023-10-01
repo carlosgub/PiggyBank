@@ -1,7 +1,19 @@
-@file:OptIn(ExperimentalFoundationApi::class)
+@file:OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 
 package presentation.screen
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.Ease
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.togetherWith
+import androidx.compose.animation.with
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -64,42 +76,58 @@ private fun MonthsObserver(
     viewModel: MonthsScreenViewModel,
     paddingValues: PaddingValues
 ) {
-    when (val uiState = viewModel.uiState.collectAsStateWithLifecycle().value) {
-        is GenericState.Success -> {
-            MonthsContent(
-                paddingValues,
-                content = {
-                    MonthList(
-                        months = uiState.data,
-                        onClickItem = { monthKey ->
-                            navigator.navigate(
-                                Screen.Home.createRoute(
-                                    HomeArgs(
-                                        monthKey
+    AnimatedContent(
+        targetState = viewModel.uiState.collectAsStateWithLifecycle().value,
+        transitionSpec = {
+            (
+                    fadeIn(animationSpec = tween(300, delayMillis = 90)) +
+                            slideIntoContainer(
+                                animationSpec = tween(300, delayMillis = 90),
+                                towards = AnimatedContentTransitionScope.SlideDirection.Left
+                            )
+                    )
+                .togetherWith(fadeOut(animationSpec = tween(90)))
+
+        }
+    ) { targetState ->
+        when (targetState) {
+            is GenericState.Success -> {
+                MonthsContent(
+                    paddingValues,
+                    content = {
+                        MonthList(
+                            months = targetState.data,
+                            onClickItem = { monthKey ->
+                                navigator.navigate(
+                                    Screen.Home.createRoute(
+                                        HomeArgs(
+                                            monthKey
+                                        )
                                     )
                                 )
-                            )
-                        }
-                    )
-                }
-            )
-        }
+                            }
+                        )
+                    }
+                )
+            }
 
-        GenericState.Loading -> {
-            MonthsContent(
-                paddingValues,
-                content = {
-                    Loading()
-                }
-            )
-        }
+            GenericState.Loading -> {
+                MonthsContent(
+                    paddingValues,
+                    content = {
+                        Loading()
+                    }
+                )
+            }
 
-        GenericState.Initial -> {
-            viewModel.getMonths()
-        }
+            GenericState.Initial -> {
+                viewModel.getMonths()
+            }
 
-        else -> Unit
+            else -> Unit
+        }
     }
+
 }
 
 @Composable
