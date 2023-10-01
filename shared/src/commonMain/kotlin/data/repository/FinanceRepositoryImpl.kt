@@ -22,8 +22,8 @@ import utils.createLocalDateTime
 import utils.getCategoryEnumFromName
 import utils.isLeapYear
 import utils.monthLength
-import utils.toDayString
-import utils.toMonthString
+import utils.toLocalDate
+import utils.toNumberOfTwoDigits
 import kotlin.math.roundToInt
 
 class FinanceRepositoryImpl(
@@ -122,21 +122,32 @@ class FinanceRepositoryImpl(
                 is ResponseResult.Success -> {
                     val monthAmount = result.data.sumOf { it.amount }
                     val expenseScreenModelList = result.data.map { expense ->
-                        val milliseconds =
-                            expense.timestamp.seconds * 1000 + expense.timestamp.nanoseconds / 1000000
-                        val netDate = Instant.fromEpochMilliseconds(milliseconds)
-                        val day: LocalDate =
+                        val localDate: LocalDate = if (expense.dateInMillis != null) {
+                            expense.dateInMillis.toLocalDate()
+                        } else {
+                            val milliseconds =
+                                expense.timestamp.seconds * 1000 + expense.timestamp.nanoseconds / 1000000
+                            val netDate = Instant.fromEpochMilliseconds(milliseconds)
                             netDate.toLocalDateTime(TimeZone.currentSystemDefault()).date
-                        val dayOfMonth = day.dayOfMonth.toDayString()
-                        val month = day.month.toMonthString()
+                        }
+                        val localDateTime = createLocalDateTime(
+                            year = localDate.year,
+                            monthNumber = localDate.monthNumber,
+                            dayOfMonth = localDate.dayOfMonth
+                        )
+                        val dayOfMonth = localDateTime.dayOfMonth.toNumberOfTwoDigits()
+                        val month =
+                            localDateTime.month.name.lowercase()
+                                .replaceFirstChar { it.uppercase() }
+                        val year =
+                            localDateTime.year
                         ExpenseScreenModel(
                             amount = expense.amount,
                             userId = expense.userId,
-                            note = expense.note,
+                            note = expense.note.replaceFirstChar { it.uppercase() },
                             category = expense.category,
-                            month = expense.month,
-                            day = "$dayOfMonth/$month"
-
+                            localDateTime = localDateTime,
+                            date = "$dayOfMonth $month $year"
                         )
                     }
                     val date = createLocalDateTime(
@@ -150,7 +161,9 @@ class FinanceRepositoryImpl(
                                 monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
                                 dayOfMonth = day
                             )
-                            dateInternal to expenseScreenModelList.filter { it.day == "${dateInternal.dayOfMonth.toDayString()}/${dateInternal.month.toMonthString()}" }
+                            dateInternal to expenseScreenModelList.filter { expense ->
+                                expense.localDateTime == dateInternal
+                            }
                                 .sumOf { it.amount }
                         }.toMap()
                     GenericState.Success(

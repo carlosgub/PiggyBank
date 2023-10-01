@@ -1,7 +1,11 @@
 package utils
 
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.number
+import kotlinx.datetime.toLocalDateTime
 import model.CreateEnum
 import kotlin.math.abs
 import kotlin.math.floor
@@ -41,23 +45,26 @@ internal fun Int.monthLength(isLeapYear: Boolean): Int =
 
 fun Month.toMonthString() =
     if (this.number < 10) {
-        this.number.numberToTwoDigits()
+        this.number.toNumberOfTwoDigits()
     } else {
         this.number
     }
 
 fun Int.toDayString() =
     if (this < 10) {
-        this.numberToTwoDigits()
+        this.toNumberOfTwoDigits()
     } else {
         this
     }
 
-fun Int.numberToTwoDigits() =
+fun Int.toNumberOfTwoDigits() =
     if (this < 10) {
         "0${this}"
     } else {
         this
     }
+
+fun Long.toLocalDate(): LocalDate =
+    Instant.fromEpochMilliseconds(this).toLocalDateTime(TimeZone.UTC).date
 
 fun CreateEnum.isExpense() = this == CreateEnum.EXPENSE

@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -48,13 +47,10 @@ import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
 import presentation.viewmodel.CategoryMonthDetailViewModel
-import theme.ColorOrange
 import theme.ColorPrimary
-import theme.ColorSeparator
 import theme.Gray600
 import theme.Gray900
 import theme.White
-import theme.divider_thickness
 import utils.getCategoryEnumFromName
 import utils.toDayString
 import utils.toMoneyFormat
@@ -213,12 +209,12 @@ fun CategoryMonthDetailBody(
                         ) {
                             Text(
                                 text = expense.note,
-                                style = MaterialTheme.typography.bodyMedium,
+                                style = MaterialTheme.typography.bodySmall,
                                 fontWeight = FontWeight.Medium,
-                                color = Color.Black
+                                color = Gray900
                             )
                             Text(
-                                text = expense.day,
+                                text = expense.date,
                                 style = MaterialTheme.typography.labelMedium,
                                 modifier = Modifier.padding(top = 4.dp),
                                 color = Gray600,
@@ -231,9 +227,10 @@ fun CategoryMonthDetailBody(
                         ) {
                             Text(
                                 text = (expense.amount / 100.0).toMoneyFormat(),
-                                style = MaterialTheme.typography.bodyMedium,
+                                style = MaterialTheme.typography.bodySmall,
                                 fontWeight = FontWeight.Medium,
-                                textAlign = TextAlign.End
+                                textAlign = TextAlign.End,
+                                color = Gray900
                             )
                         }
                     }

@@ -7,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material3.Button
@@ -26,16 +25,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.SoftwareKeyboardController
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import utils.numberToTwoDigits
+import utils.toLocalDate
+import utils.toNumberOfTwoDigits
 
 @Composable
 fun DayPicker(
@@ -106,10 +102,10 @@ fun DayPicker(
     }
     datePickerState.selectedDateMillis?.let {
         dayValueInMillis(it)
-        val date = Instant.fromEpochMilliseconds(it).toLocalDateTime(TimeZone.UTC).date
+        val date = it.toLocalDate()
         dayValue =
-            "${date.dayOfMonth.numberToTwoDigits()}/" +
-                    "${date.monthNumber.numberToTwoDigits()}/" +
+            "${date.dayOfMonth.toNumberOfTwoDigits()}/" +
+                    "${date.monthNumber.toNumberOfTwoDigits()}/" +
                     "${date.year}"
     }
 }

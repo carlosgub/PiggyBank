@@ -8,10 +8,7 @@ import dev.gitlive.firebase.firestore.Direction
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.firestore.orderBy
 import dev.gitlive.firebase.firestore.where
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import model.CategoryEnum
 import model.FinanceEnum
 import model.MonthModel
@@ -19,7 +16,7 @@ import utils.COLLECTION_COSTS
 import utils.COLLECTION_EXPENSE
 import utils.COLLECTION_INCOME
 import utils.COLLECTION_MONTH
-import utils.getCurrentMonthKey
+import utils.toLocalDate
 import utils.toMonthString
 
 class FirebaseFinance constructor(
@@ -50,8 +47,7 @@ class FirebaseFinance constructor(
         dateInMillis: Long
     ): ResponseResult<Unit> =
         try {
-            val date: LocalDate =
-                Instant.fromEpochMilliseconds(dateInMillis).toLocalDateTime(TimeZone.UTC).date
+            val date: LocalDate = dateInMillis.toLocalDate()
             val currentMonthKey = "${date.month.toMonthString()}${date.year}"
             val batch = firebaseFirestore.batch()
             val expenseReference =
@@ -132,8 +128,7 @@ class FirebaseFinance constructor(
         dateInMillis: Long
     ): ResponseResult<Unit> =
         try {
-            val date: LocalDate =
-                Instant.fromEpochMilliseconds(dateInMillis).toLocalDateTime(TimeZone.UTC).date
+            val date: LocalDate = dateInMillis.toLocalDate()
             val currentMonthKey = "${date.month.toMonthString()}${date.year}"
             val category = CategoryEnum.WORK.name
             val batch = firebaseFirestore.batch()
