@@ -10,9 +10,9 @@ import androidx.compose.ui.Modifier
 import theme.ColorOrange
 
 @Composable
-fun Loading() {
+fun Loading(modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().then(modifier),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {

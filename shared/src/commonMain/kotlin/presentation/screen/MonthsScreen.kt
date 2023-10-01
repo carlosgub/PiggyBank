@@ -166,11 +166,6 @@ fun MonthItem(
                     .size(40.dp)
                     .clip(CircleShape)
                     .background(ColorPrimary)
-                    .border(
-                        width = 2.dp,
-                        color = White,
-                        shape = CircleShape
-                    )
             )
             Text(
                 localDateTime.month.name.take(1),

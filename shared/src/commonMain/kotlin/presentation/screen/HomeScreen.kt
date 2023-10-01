@@ -44,6 +44,8 @@ import androidx.compose.ui.unit.dp
 import core.sealed.GenericState
 import kotlinx.datetime.Month
 import model.CategoryMonthDetailArgs
+import model.CreateArgs
+import model.CreateEnum
 import model.FinanceEnum
 import model.FinanceScreenExpenses
 import model.HomeArgs
@@ -73,10 +75,22 @@ fun HomeScreen(
             HomeToolbar(
                 args.isHome,
                 onAddExpensePressed = {
-                    navigator.navigate(Screen.CreateExpenseScreen.route)
+                    navigator.navigate(
+                        Screen.CreateScreen.createRoute(
+                            CreateArgs(
+                                CreateEnum.EXPENSE
+                            )
+                        )
+                    )
                 },
                 onAddIncomePressed = {
-                    navigator.navigate(Screen.CreateIncomeScreen.route)
+                    navigator.navigate(
+                        Screen.CreateScreen.createRoute(
+                            CreateArgs(
+                                CreateEnum.INCOME
+                            )
+                        )
+                    )
                 },
                 onSeeMonths = {
                     navigator.navigate(Screen.MonthsScreen.route)

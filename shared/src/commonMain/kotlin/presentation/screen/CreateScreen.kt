@@ -1,14 +1,13 @@
 @file:OptIn(
     ExperimentalLayoutApi::class,
     ExperimentalMaterialApi::class,
-    ExperimentalComposeUiApi::class,
-    ExperimentalMaterial3Api::class
+    ExperimentalComposeUiApi::class
 )
 
 package presentation.screen
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,53 +19,41 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.Chip
 import androidx.compose.material.ChipDefaults
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material3.Button
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import core.sealed.GenericState
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import model.CategoryEnum
+import model.CreateArgs
+import model.CreateEnum
 import model.FinanceEnum
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
-import presentation.viewmodel.CreateExpenseViewModel
+import presentation.viewmodel.CreateViewModel
 import theme.ColorPrimary
 import theme.Gray100
 import theme.Gray400
 import theme.Gray600
 import theme.spacing_6
 import utils.NoRippleInteractionSource
-import utils.numberToTwoDigits
+import utils.isExpense
+import utils.views.Loading
 import utils.views.PrimaryButton
 import utils.views.Toolbar
 import utils.views.textfield.AmountOutlineTextField
@@ -74,17 +61,18 @@ import utils.views.textfield.DayPicker
 import utils.views.textfield.NoteOutlineTextField
 
 @Composable
-fun CreateExpenseScreen(
-    viewModel: CreateExpenseViewModel = koinInject(),
-    navigator: Navigator
+fun CreateScreen(
+    viewModel: CreateViewModel = koinInject(),
+    navigator: Navigator,
+    args: CreateArgs
 ) {
     Scaffold(
         topBar = {
-            CreateExpenseToolbar(
-                onBack = {
-                    navigator.goBack()
-                }
-            )
+            CreateToolbar(
+                createEnum = args.createEnum
+            ) {
+                navigator.goBack()
+            }
         }
     ) { paddingValues ->
         Box(
@@ -93,14 +81,23 @@ fun CreateExpenseScreen(
                     top = paddingValues.calculateTopPadding()
                 )
         ) {
-            CreateExpenseContent(viewModel)
-            CreateExpenseObserver(viewModel, navigator)
+            CreateContent(
+                viewModel = viewModel,
+                createEnum = args.createEnum
+            )
+            CreateObserver(
+                viewModel = viewModel,
+                navigator = navigator
+            )
         }
     }
 }
 
 @Composable
-private fun CreateExpenseContent(viewModel: CreateExpenseViewModel) {
+private fun CreateContent(
+    viewModel: CreateViewModel,
+    createEnum: CreateEnum
+) {
     val selectedSelected = viewModel.category.collectAsStateWithLifecycle().value
     val amountText = viewModel.amountField.collectAsStateWithLifecycle().value
     val showError = viewModel.showError.collectAsStateWithLifecycle().value
@@ -142,12 +139,14 @@ private fun CreateExpenseContent(viewModel: CreateExpenseViewModel) {
             },
             showError = showError
         )
-        CategoriesChips(
-            selectedSelected,
-            onChipPressed = { categoryEnumSelected ->
-                viewModel.setCategory(categoryEnumSelected)
-            }
-        )
+        if (createEnum.isExpense()) {
+            CategoriesChips(
+                selectedSelected,
+                onChipPressed = { categoryEnumSelected ->
+                    viewModel.setCategory(categoryEnumSelected)
+                }
+            )
+        }
         DayPicker(
             showError = showDateError,
             dayValueInMillis = { dateInMillis ->
@@ -168,21 +167,22 @@ private fun CreateExpenseContent(viewModel: CreateExpenseViewModel) {
         Box(
             modifier = Modifier.weight(1.0f)
         )
+        val title = if (createEnum.isExpense()) "Expense" else "Income"
         PrimaryButton(
             modifier = Modifier.padding(
                 bottom = spacing_6
             ),
-            buttonText = "Create Expense",
+            buttonText = "Create $title",
             onClick = {
-                viewModel.createExpense()
+                viewModel.create(createEnum)
             }
         )
     }
 }
 
 @Composable
-private fun CreateExpenseObserver(
-    viewModel: CreateExpenseViewModel,
+private fun CreateObserver(
+    viewModel: CreateViewModel,
     navigator: Navigator
 ) {
     when (viewModel.uiState.collectAsStateWithLifecycle().value.get()) {
@@ -190,7 +190,7 @@ private fun CreateExpenseObserver(
         }
 
         GenericState.Initial -> Unit
-        GenericState.Loading -> Unit
+        GenericState.Loading -> Loading(Modifier.background(Gray400.copy(alpha = 0.5f)))
         is GenericState.Success -> {
             navigator.goBackWith(true)
         }
@@ -288,12 +288,14 @@ private fun CategoryChip(
 }
 
 @Composable
-private fun CreateExpenseToolbar(
-    onBack: () -> Unit
+private fun CreateToolbar(
+    createEnum: CreateEnum,
+    onBack: () -> Unit,
 ) {
+    val title = if (createEnum.isExpense()) "Expense" else "Income"
     Toolbar(
         hasNavigationIcon = true,
-        title = "Create Expense",
+        title = "Create $title",
         navigation = onBack
     )
 }

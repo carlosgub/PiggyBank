@@ -10,8 +10,7 @@ import domain.usecase.GetFinanceUseCase
 import domain.usecase.GetMonthsUseCase
 import org.koin.dsl.module
 import presentation.viewmodel.CategoryMonthDetailViewModel
-import presentation.viewmodel.CreateExpenseViewModel
-import presentation.viewmodel.CreateIncomeViewModel
+import presentation.viewmodel.CreateViewModel
 import presentation.viewmodel.HomeViewModel
 import presentation.viewmodel.MonthsScreenViewModel
 
@@ -24,13 +23,8 @@ val homeModule = module {
     }
 
     factory {
-        CreateExpenseViewModel(
-            createExpenseUseCase = get()
-        )
-    }
-
-    factory {
-        CreateIncomeViewModel(
+        CreateViewModel(
+            createExpenseUseCase = get(),
             createIncomeUseCase = get()
         )
     }

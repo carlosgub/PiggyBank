@@ -3,16 +3,20 @@ package presentation.viewmodel
 import core.result.SingleEvent
 import core.sealed.GenericState
 import domain.usecase.CreateExpenseUseCase
+import domain.usecase.CreateIncomeUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import model.CategoryEnum
+import model.CreateEnum
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
+import utils.isExpense
 import utils.toMoneyFormat
 
-class CreateExpenseViewModel(
-    val createExpenseUseCase: CreateExpenseUseCase
+class CreateViewModel(
+    val createExpenseUseCase: CreateExpenseUseCase,
+    val createIncomeUseCase: CreateIncomeUseCase
 ) : ViewModel() {
 
     private val _category = MutableStateFlow(CategoryEnum.FOOD)
@@ -69,7 +73,7 @@ class CreateExpenseViewModel(
         }
     }
 
-    fun createExpense() {
+    fun create(createEnum: CreateEnum) {
         if (_amountValueField.value <= 0) {
             showError(true)
         } else if (_dateInMillis.value == 0L) {
@@ -77,20 +81,44 @@ class CreateExpenseViewModel(
         } else if (_noteField.value.trim().isBlank()) {
             showNoteError(true)
         } else {
-            viewModelScope.launch {
-                _uiState.emit(
-                    SingleEvent(
-                        createExpenseUseCase.createFinance(
-                            CreateExpenseUseCase.Params(
-                                amount = (_amountValueField.value * 100).toInt(),
-                                category = _category.value.name,
-                                note = _noteField.value,
-                                dateInMillis = _dateInMillis.value
-                            )
+            _uiState.value = SingleEvent(
+                GenericState.Loading
+            )
+            if (createEnum.isExpense()) createExpense() else createIncome()
+        }
+    }
+
+    private fun createExpense() {
+        viewModelScope.launch {
+            _uiState.emit(
+                SingleEvent(
+                    createExpenseUseCase.createFinance(
+                        CreateExpenseUseCase.Params(
+                            amount = (_amountValueField.value * 100).toInt(),
+                            category = _category.value.name,
+                            note = _noteField.value,
+                            dateInMillis = _dateInMillis.value
                         )
                     )
                 )
-            }
+            )
+        }
+
+    }
+
+    private fun createIncome() {
+        viewModelScope.launch {
+            _uiState.emit(
+                SingleEvent(
+                    createIncomeUseCase.createIncome(
+                        CreateIncomeUseCase.Params(
+                            amount = (_amountValueField.value * 100).toInt(),
+                            note = _noteField.value,
+                            dateInMillis = _dateInMillis.value
+                        )
+                    )
+                )
+            )
         }
     }
 

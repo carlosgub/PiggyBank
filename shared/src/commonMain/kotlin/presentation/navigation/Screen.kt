@@ -3,6 +3,7 @@ package presentation.navigation
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import model.CategoryMonthDetailArgs
+import model.CreateArgs
 import model.HomeArgs
 
 sealed class Screen(val route: String) {
@@ -11,8 +12,11 @@ sealed class Screen(val route: String) {
             "Home/${Json.encodeToString(homeArgs)}"
     }
 
-    object CreateExpenseScreen : Screen("CreateExpenseScreen")
-    object CreateIncomeScreen : Screen("CreateIncomeScreen")
+    object CreateScreen : Screen("CreateScreen/{${NavArgs.CreateArgs.key}}") {
+        fun createRoute(createArgs: CreateArgs) =
+            "CreateScreen/${Json.encodeToString(createArgs)}"
+    }
+
     object MonthsScreen : Screen("MonthsScreen")
 
     object CategoryMonthDetailScreen :
@@ -24,5 +28,6 @@ sealed class Screen(val route: String) {
 
 enum class NavArgs(val key: String) {
     CategoryMonthDetailArgs("CategoryMonthDetailArgs"),
-    HomeArgs("HomeArgs")
+    HomeArgs("HomeArgs"),
+    CreateArgs("CreateArgs")
 }

@@ -2,6 +2,7 @@ package utils
 
 import kotlinx.datetime.Month
 import kotlinx.datetime.number
+import model.CreateEnum
 import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.pow
@@ -58,3 +59,5 @@ fun Int.numberToTwoDigits() =
     } else {
         this
     }
+
+fun CreateEnum.isExpense() = this == CreateEnum.EXPENSE
