@@ -1,6 +1,12 @@
 package presentation.screen
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -48,6 +54,7 @@ import model.CreateArgs
 import model.CreateEnum
 import model.FinanceEnum
 import model.FinanceScreenExpenses
+import model.FinanceScreenModel
 import model.HomeArgs
 import model.MenuItem
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
@@ -58,6 +65,7 @@ import presentation.viewmodel.HomeViewModel
 import theme.ColorPrimary
 import theme.Gray400
 import theme.Gray600
+import theme.MonthBudgetCardColor
 import utils.getCurrentMonthKey
 import utils.toMoneyFormat
 import utils.views.ExpenseDivider
@@ -104,12 +112,20 @@ fun HomeScreen(
             )
         }
     ) { paddingValues ->
-        HomeObserver(
-            viewModel = viewModel,
-            navigator = navigator,
-            paddingValues = paddingValues,
-            monthKey = args.monthKey
-        )
+        Column(
+            modifier = Modifier
+                .padding(
+                    top = paddingValues.calculateTopPadding()
+                )
+                .fillMaxSize()
+                .background(ColorPrimary)
+        ) {
+            HomeObserver(
+                viewModel = viewModel,
+                navigator = navigator,
+                monthKey = args.monthKey
+            )
+        }
     }
 }
 
@@ -117,22 +133,26 @@ fun HomeScreen(
 private fun HomeObserver(
     viewModel: HomeViewModel,
     navigator: Navigator,
-    paddingValues: PaddingValues,
     monthKey: String
 ) {
-    when (val uiState = viewModel.uiState.collectAsStateWithLifecycle().value) {
-        is GenericState.Success -> {
-            HomeContent(
-                bodyContent = {
-                    HomeBodyContent(
-                        monthAmount = uiState.data.expenseAmount,
-                        month = uiState.data.localDateTime.month
+    AnimatedContent(
+        targetState = viewModel.uiState.collectAsStateWithLifecycle().value,
+        transitionSpec = {
+            (
+                    fadeIn(animationSpec = tween(300, delayMillis = 90)) +
+                            slideIntoContainer(
+                                animationSpec = tween(300, delayMillis = 90),
+                                towards = AnimatedContentTransitionScope.SlideDirection.Left
+                            )
                     )
-                },
-                expenseFooterContent = {
-                    HomeFooterContent(
-                        uiState.data.expenses
-                    ) {
+                .togetherWith(fadeOut(animationSpec = tween(90)))
+        }
+    ) { targetState ->
+        when (targetState) {
+            is GenericState.Success -> {
+                HomeContent(
+                    data = targetState.data,
+                    onCategoryClick = {
                         navigator.navigate(
                             Screen.CategoryMonthDetailScreen.createRoute(
                                 CategoryMonthDetailArgs(
@@ -142,51 +162,30 @@ private fun HomeObserver(
                             )
                         )
                     }
-                },
-                incomeFooterContent = {
-                    HomeFooterContent(
-                        uiState.data.income
-                    )
-                },
-                paddingValues = paddingValues
-            )
-        }
+                )
+            }
 
-        GenericState.Loading -> {
-            HomeContent(
-                bodyContent = {
-                    Loading()
-                },
-                expenseFooterContent = {
-                    Loading()
-                },
-                incomeFooterContent = {
-                    Loading()
-                },
-                paddingValues = paddingValues
-            )
-        }
+            GenericState.Loading -> {
+                Loading(modifier = Modifier.background(ColorPrimary))
+            }
 
-        GenericState.Initial -> {
-            viewModel.getFinanceStatus(monthKey)
-        }
+            GenericState.Initial -> {
+                viewModel.getFinanceStatus(monthKey)
+            }
 
-        else -> Unit
+            else -> Unit
+        }
     }
+
 }
 
 @Composable
 private fun HomeContent(
-    bodyContent: @Composable () -> Unit,
-    expenseFooterContent: @Composable () -> Unit,
-    incomeFooterContent: @Composable () -> Unit,
-    paddingValues: PaddingValues
+    data: FinanceScreenModel,
+    onCategoryClick: (FinanceScreenExpenses) -> Unit
 ) {
     Box(
         modifier = Modifier
-            .padding(
-                top = paddingValues.calculateTopPadding()
-            )
             .fillMaxSize()
     ) {
         Column(
@@ -196,16 +195,22 @@ private fun HomeContent(
         ) {
             HomeBodyMonthExpense(
                 modifier = Modifier
-                    .weight(0.45f)
+                    .weight(0.3f)
                     .fillMaxSize(),
-                bodyContent = bodyContent
+                bodyContent = {
+                    HomeBodyContent(
+                        monthAmount = data.expenseAmount,
+                        month = data.localDateTime.month
+                    )
+                }
             )
             CardExpenses(
                 modifier = Modifier
-                    .weight(0.55f)
+                    .weight(0.7f)
                     .fillMaxSize(),
-                expenseFooterContent = expenseFooterContent,
-                incomeFooterContent = incomeFooterContent
+                expenses = data.expenses,
+                income = data.income,
+                onCategoryClick = onCategoryClick
             )
         }
     }
@@ -243,45 +248,64 @@ private fun HomeBodyContent(monthAmount: Int, month: Month) {
 @Composable
 private fun CardExpenses(
     modifier: Modifier,
-    expenseFooterContent: @Composable () -> Unit,
-    incomeFooterContent: @Composable () -> Unit
+    expenses: List<FinanceScreenExpenses>,
+    income: List<FinanceScreenExpenses>,
+    onCategoryClick: (FinanceScreenExpenses) -> Unit
 ) {
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = MonthBudgetCardColor
         )
     ) {
-        val tabs = FinanceEnum.entries.toList()
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 24.dp, top = 24.dp, end = 24.dp)
-        ) {
-            var tabIndex by remember { mutableStateOf(FinanceEnum.EXPENSE) }
-            TabRow(
-                selectedTabIndex = tabs.indexOf(tabIndex),
-                containerColor = Color.White,
-                divider = {}
+        Column {
+            Card(
+                modifier = modifier,
+                shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                )
             ) {
-                tabs.forEach { financeEnum ->
-                    Tab(
-                        text = {
-                            Text(
-                                text = financeEnum.financeName,
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = Color.Black
+                val tabs = FinanceEnum.entries.toList()
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 24.dp, top = 24.dp, end = 24.dp)
+                ) {
+                    var tabIndex by remember { mutableStateOf(FinanceEnum.EXPENSE) }
+                    TabRow(
+                        selectedTabIndex = tabs.indexOf(tabIndex),
+                        containerColor = Color.White,
+                        divider = {}
+                    ) {
+                        tabs.forEach { financeEnum ->
+                            Tab(
+                                text = {
+                                    Text(
+                                        text = financeEnum.financeName,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = Color.Black
+                                    )
+                                },
+                                selected = tabIndex == financeEnum,
+                                onClick = { tabIndex = financeEnum }
                             )
-                        },
-                        selected = tabIndex == financeEnum,
-                        onClick = { tabIndex = financeEnum }
-                    )
+                        }
+                    }
+                    when (tabIndex) {
+                        FinanceEnum.EXPENSE -> {
+                            HomeFooterContent(
+                                expenses,
+                                onCategoryClick = onCategoryClick
+                            )
+                        }
+
+                        FinanceEnum.INCOME -> HomeFooterContent(
+                            income
+                        )
+                    }
                 }
-            }
-            when (tabIndex) {
-                FinanceEnum.EXPENSE -> expenseFooterContent()
-                FinanceEnum.INCOME -> incomeFooterContent()
             }
         }
     }

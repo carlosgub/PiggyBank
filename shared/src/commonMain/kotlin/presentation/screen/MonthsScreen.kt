@@ -5,15 +5,10 @@ package presentation.screen
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.Ease
-import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
 import androidx.compose.animation.togetherWith
-import androidx.compose.animation.with
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -80,14 +75,13 @@ private fun MonthsObserver(
         targetState = viewModel.uiState.collectAsStateWithLifecycle().value,
         transitionSpec = {
             (
-                    fadeIn(animationSpec = tween(300, delayMillis = 90)) +
-                            slideIntoContainer(
-                                animationSpec = tween(300, delayMillis = 90),
-                                towards = AnimatedContentTransitionScope.SlideDirection.Left
-                            )
+                fadeIn(animationSpec = tween(300, delayMillis = 90)) +
+                    slideIntoContainer(
+                        animationSpec = tween(300, delayMillis = 90),
+                        towards = AnimatedContentTransitionScope.SlideDirection.Left
                     )
+                )
                 .togetherWith(fadeOut(animationSpec = tween(90)))
-
         }
     ) { targetState ->
         when (targetState) {
@@ -127,7 +121,6 @@ private fun MonthsObserver(
             else -> Unit
         }
     }
-
 }
 
 @Composable
