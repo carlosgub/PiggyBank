@@ -66,9 +66,9 @@ fun CategoryMonthDetailScreen(
     args: CategoryMonthDetailArgs
 ) {
     ExpenseMonthDetailContainer(
-        args,
-        navigator,
-        viewModel
+        args = args,
+        navigator = navigator,
+        viewModel = viewModel
     )
 }
 

@@ -126,13 +126,14 @@ class FinanceRepositoryImpl(
                 is ResponseResult.Success -> {
                     val monthAmount = result.data.sumOf { it.amount }
                     val expenseScreenModelList = result.data.map { expense ->
-                        val localDate: LocalDate = if (expense.dateInMillis != null) {
-                            expense.dateInMillis.toLocalDate()
-                        } else {
-                            val milliseconds =
-                                expense.timestamp.seconds * 1000 + expense.timestamp.nanoseconds / 1000000
-                            milliseconds.toLocalDate()
-                        }
+                        val localDate: LocalDate =
+                            if (expense.dateInMillis != null && expense.dateInMillis != 0L) {
+                                expense.dateInMillis.toLocalDate()
+                            } else {
+                                val milliseconds =
+                                    expense.timestamp.seconds * 1000 + expense.timestamp.nanoseconds / 1000000
+                                milliseconds.toLocalDate()
+                            }
                         val localDateTime = createLocalDateTime(
                             year = localDate.year,
                             monthNumber = localDate.monthNumber,

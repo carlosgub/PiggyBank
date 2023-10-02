@@ -140,12 +140,12 @@ private fun HomeObserver(
         targetState = viewModel.uiState.collectAsStateWithLifecycle().value,
         transitionSpec = {
             (
-                fadeIn(animationSpec = tween(300, delayMillis = 90)) +
-                    slideIntoContainer(
-                        animationSpec = tween(300, delayMillis = 90),
-                        towards = AnimatedContentTransitionScope.SlideDirection.Left
+                    fadeIn(animationSpec = tween(300, delayMillis = 90)) +
+                            slideIntoContainer(
+                                animationSpec = tween(300, delayMillis = 90),
+                                towards = AnimatedContentTransitionScope.SlideDirection.Left
+                            )
                     )
-                )
                 .togetherWith(fadeOut(animationSpec = tween(90)))
         }
     ) { targetState ->
@@ -330,15 +330,23 @@ fun CardMonthExpenseContent(
     ) {
         Row {
             Text(
-                "Month Budget"
-
+                text = "Month Budget",
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium
             )
             Text(
                 monthExpense.incomeTotal.toMoneyFormat(),
-                modifier = Modifier.padding(start = 8.dp)
+                modifier = Modifier.padding(start = 12.dp),
+                style = MaterialTheme.typography.bodyMedium,
+                color = Gray600,
+                fontWeight = FontWeight.Normal,
             )
             Box(Modifier.weight(1f))
-            Text("${monthExpense.percentage}%")
+            Text(
+                text = "${monthExpense.percentage}%",
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium
+            )
         }
         val percentage = (monthExpense.percentage / 100.00).toFloat()
         var progress by remember { mutableStateOf(0f) }
