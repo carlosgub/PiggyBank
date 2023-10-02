@@ -18,6 +18,11 @@ kotlin {
 }
 
 android {
+    packagingOptions {
+        resources {
+            resources.excludes.add("META-INF/versions/9/previous-compilation-data.bin")
+        }
+    }
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
     namespace = "com.myapplication"
 

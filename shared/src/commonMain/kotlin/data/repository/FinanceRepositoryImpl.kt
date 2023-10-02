@@ -7,11 +7,8 @@ import data.firebase.FirebaseFinance
 import domain.repository.FinanceRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import model.CategoryEnum
 import model.ExpenseScreenModel
 import model.FinanceEnum
@@ -67,7 +64,7 @@ class FinanceRepositoryImpl(
                     val monthExpense =
                         MonthExpense(
                             incomeTotal = incomeTotal / 100.0,
-                            percentage = expenseTotal* 100 / incomeTotal
+                            percentage = if (incomeTotal != 0) expenseTotal * 100 / incomeTotal else 100
                         )
                     GenericState.Success(
                         FinanceScreenModel(
@@ -134,8 +131,7 @@ class FinanceRepositoryImpl(
                         } else {
                             val milliseconds =
                                 expense.timestamp.seconds * 1000 + expense.timestamp.nanoseconds / 1000000
-                            val netDate = Instant.fromEpochMilliseconds(milliseconds)
-                            netDate.toLocalDateTime(TimeZone.currentSystemDefault()).date
+                            milliseconds.toLocalDate()
                         }
                         val localDateTime = createLocalDateTime(
                             year = localDate.year,

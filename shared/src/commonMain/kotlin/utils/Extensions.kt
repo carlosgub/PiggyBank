@@ -65,6 +65,7 @@ fun Int.toNumberOfTwoDigits() =
     }
 
 fun Long.toLocalDate(): LocalDate =
-    Instant.fromEpochMilliseconds(this).toLocalDateTime(TimeZone.UTC).date
+    Instant.fromEpochMilliseconds(this)
+        .toLocalDateTime(TimeZone.UTC).date
 
 fun CreateEnum.isExpense() = this == CreateEnum.EXPENSE

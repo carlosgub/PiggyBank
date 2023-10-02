@@ -35,11 +35,10 @@ import com.carlosgub.kotlinm.charts.line.LineChartData
 import com.carlosgub.kotlinm.charts.line.LineChartPoint
 import com.carlosgub.kotlinm.charts.line.LineChartSeries
 import core.sealed.GenericState
-import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
 import model.CategoryEnum
 import model.CategoryMonthDetailArgs
 import model.ExpenseScreenModel
@@ -53,6 +52,7 @@ import theme.Gray900
 import theme.White
 import utils.getCategoryEnumFromName
 import utils.toDayString
+import utils.toLocalDate
 import utils.toMoneyFormat
 import utils.toMonthString
 import utils.views.ExpenseDivider
@@ -89,7 +89,12 @@ private fun ExpenseMonthDetailContainer(
             )
         }
     ) { paddingValues ->
-        CategoryMonthDetailObserver(viewModel, categoryEnum, args.month, paddingValues)
+        CategoryMonthDetailObserver(
+            viewModel = viewModel,
+            categoryEnum = categoryEnum,
+            monthKey = args.month,
+            paddingValues = paddingValues
+        )
     }
 }
 
@@ -293,8 +298,7 @@ private fun ChartCategoryMonth(daySpent: Map<LocalDateTime, Int>) {
             .fillMaxWidth()
             .fillMaxHeight(0.8f),
         xAxisLabel = {
-            val day: LocalDateTime = Instant.fromEpochMilliseconds(it as Long)
-                .toLocalDateTime(TimeZone.currentSystemDefault())
+            val day: LocalDate = (it as Long).toLocalDate()
             Text(
                 fontSize = 12.sp,
                 text = "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}",
@@ -304,8 +308,7 @@ private fun ChartCategoryMonth(daySpent: Map<LocalDateTime, Int>) {
             )
         },
         overlayHeaderLabel = {
-            val day: LocalDateTime = Instant.fromEpochMilliseconds(it as Long)
-                .toLocalDateTime(TimeZone.currentSystemDefault())
+            val day: LocalDate = (it as Long).toLocalDate()
             Text(
                 text = "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}",
                 style = MaterialTheme.typography.labelSmall

@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import utils.toLocalDate
 import utils.toNumberOfTwoDigits
@@ -38,6 +39,7 @@ fun DayPicker(
     var isVisible by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
     var dayValue by remember { mutableStateOf("") }
+    val keyboard = LocalSoftwareKeyboardController.current
     OutlinedTextField(
         value = dayValue,
         onValueChange = {},
@@ -54,6 +56,7 @@ fun DayPicker(
             .padding(top = 8.dp)
             .fillMaxWidth()
             .clickable {
+                keyboard?.hide()
                 isVisible = true
             },
         enabled = false,
@@ -85,7 +88,6 @@ fun DayPicker(
                     onClick = {
                         isVisible = false
                     }
-
                 ) {
                     Text("Ok")
                 }

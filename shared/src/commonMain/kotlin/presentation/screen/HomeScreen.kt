@@ -68,7 +68,6 @@ import theme.ColorPrimary
 import theme.Gray400
 import theme.Gray600
 import theme.MonthBudgetCardColor
-import utils.getCurrentMonthKey
 import utils.toMoneyFormat
 import utils.views.ExpenseDivider
 import utils.views.Loading
@@ -141,12 +140,12 @@ private fun HomeObserver(
         targetState = viewModel.uiState.collectAsStateWithLifecycle().value,
         transitionSpec = {
             (
-                    fadeIn(animationSpec = tween(300, delayMillis = 90)) +
-                            slideIntoContainer(
-                                animationSpec = tween(300, delayMillis = 90),
-                                towards = AnimatedContentTransitionScope.SlideDirection.Left
-                            )
+                fadeIn(animationSpec = tween(300, delayMillis = 90)) +
+                    slideIntoContainer(
+                        animationSpec = tween(300, delayMillis = 90),
+                        towards = AnimatedContentTransitionScope.SlideDirection.Left
                     )
+                )
                 .togetherWith(fadeOut(animationSpec = tween(90)))
         }
     ) { targetState ->
@@ -159,7 +158,7 @@ private fun HomeObserver(
                             Screen.CategoryMonthDetailScreen.createRoute(
                                 CategoryMonthDetailArgs(
                                     category = it.category.name,
-                                    month = getCurrentMonthKey()
+                                    month = monthKey
                                 )
                             )
                         )
@@ -178,7 +177,6 @@ private fun HomeObserver(
             else -> Unit
         }
     }
-
 }
 
 @Composable
@@ -309,7 +307,8 @@ private fun CardExpenses(
                         }
 
                         FinanceEnum.INCOME -> HomeFooterContent(
-                            income
+                            income,
+                            onCategoryClick = onCategoryClick
                         )
                     }
                 }
@@ -331,9 +330,9 @@ fun CardMonthExpenseContent(
     ) {
         Row {
             Text(
-                "Month Budget",
+                "Month Budget"
 
-                )
+            )
             Text(
                 monthExpense.incomeTotal.toMoneyFormat(),
                 modifier = Modifier.padding(start = 8.dp)

@@ -23,5 +23,5 @@ data class FinanceScreenExpenses(
 @Serializable
 data class MonthExpense(
     val incomeTotal: Double,
-    val percentage: Int,
+    val percentage: Int
 )
