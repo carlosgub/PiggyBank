@@ -6,12 +6,12 @@ import core.sealed.GenericState
 import data.firebase.FirebaseFinance
 import domain.repository.FinanceRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import model.CategoryEnum
 import model.ExpenseScreenModel
-import model.FinanceEnum
 import model.FinanceScreenExpenses
 import model.FinanceScreenModel
 import model.MonthDetailScreenModel
@@ -30,57 +30,57 @@ class FinanceRepositoryImpl(
 
     override suspend fun getFinance(monthKey: String): GenericState<FinanceScreenModel> =
         withContext(Dispatchers.Default) {
-            when (val result = firebaseFinance.getFinance(monthKey)) {
-                is ResponseResult.Success -> {
-                    var expenseTotal = 0
-                    var incomeTotal = 0
-                    result.data.category.forEach {
-                        if (getCategoryEnumFromName(it.key).type == FinanceEnum.EXPENSE) {
-                            expenseTotal += it.value.amount
-                        } else {
-                            incomeTotal += it.value.amount
-                        }
-                    }
-                    val expenseList =
-                        result.data.category.entries.filter { getCategoryEnumFromName(it.key).type == FinanceEnum.EXPENSE }
-                            .map {
-                                FinanceScreenExpenses(
-                                    category = getCategoryEnumFromName(it.key),
-                                    amount = it.value.amount,
-                                    count = it.value.count,
-                                    percentage = (it.value.amount / expenseTotal.toFloat() * 100).roundToInt()
-                                )
-                            }.sortedByDescending { it.percentage }
-                    val incomeList =
-                        result.data.category.entries.filter { getCategoryEnumFromName(it.key).type == FinanceEnum.INCOME }
-                            .map {
-                                FinanceScreenExpenses(
-                                    category = getCategoryEnumFromName(it.key),
-                                    amount = it.value.amount,
-                                    count = it.value.count,
-                                    percentage = (it.value.amount / incomeTotal.toFloat() * 100).roundToInt()
-                                )
-                            }.sortedByDescending { it.percentage }
-                    val monthExpense =
-                        MonthExpense(
-                            incomeTotal = incomeTotal / 100.0,
-                            percentage = if (incomeTotal != 0) expenseTotal * 100 / incomeTotal else 100
-                        )
-                    GenericState.Success(
-                        FinanceScreenModel(
-                            expenseAmount = result.data.expenseAmount,
-                            expenses = expenseList,
-                            income = incomeList,
-                            localDateTime = createLocalDateTime(
-                                year = monthKey.substring(2, 6).toInt(),
-                                monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
-                            ),
-                            monthExpense = monthExpense
-                        )
-                    )
-                }
+            val expenses = async { firebaseFinance.getAllMonthExpenses(monthKey) }.await()
+            val income = async { firebaseFinance.getAllMonthIncome(monthKey) }.await()
 
-                is ResponseResult.Error -> GenericState.Error(result.error.message.orEmpty())
+            if (expenses is ResponseResult.Success && income is ResponseResult.Success) {
+                var expenseTotal = expenses.data.sumOf { it.amount }
+                var incomeTotal = income.data.sumOf { it.amount }
+                val expenseList =
+                    expenses.data.groupBy { it.category }
+                        .map {
+                            val amount = it.value.sumOf { it.amount }
+                            FinanceScreenExpenses(
+                                category = getCategoryEnumFromName(it.key),
+                                amount = amount,
+                                count = it.value.size,
+                                percentage = (amount / expenseTotal.toFloat() * 100).roundToInt()
+                            )
+                        }.sortedByDescending { it.percentage }
+                val incomeList =
+                    income.data.groupBy { it.category }
+                        .map {
+                            val amount = it.value.sumOf { it.amount }
+                            FinanceScreenExpenses(
+                                category = getCategoryEnumFromName(it.key),
+                                amount = amount,
+                                count = it.value.size,
+                                percentage = (amount / incomeTotal.toFloat() * 100).roundToInt()
+                            )
+                        }.sortedByDescending { it.percentage }
+                val monthExpense =
+                    MonthExpense(
+                        incomeTotal = incomeTotal / 100.0,
+                        percentage = if (incomeTotal != 0) expenseTotal * 100 / incomeTotal else 100
+                    )
+                GenericState.Success(
+                    FinanceScreenModel(
+                        expenseAmount = expenseTotal,
+                        expenses = expenseList,
+                        income = incomeList,
+                        localDateTime = createLocalDateTime(
+                            year = monthKey.substring(2, 6).toInt(),
+                            monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
+                        ),
+                        monthExpense = monthExpense
+                    )
+                )
+            } else {
+                if (expenses is ResponseResult.Error) {
+                    GenericState.Error(expenses.error.message.orEmpty())
+                } else {
+                    GenericState.Error((income as ResponseResult.Error).error.message.orEmpty())
+                }
             }
         }
 

@@ -140,12 +140,12 @@ private fun HomeObserver(
         targetState = viewModel.uiState.collectAsStateWithLifecycle().value,
         transitionSpec = {
             (
-                    fadeIn(animationSpec = tween(300, delayMillis = 90)) +
-                            slideIntoContainer(
-                                animationSpec = tween(300, delayMillis = 90),
-                                towards = AnimatedContentTransitionScope.SlideDirection.Left
-                            )
+                fadeIn(animationSpec = tween(300, delayMillis = 90)) +
+                    slideIntoContainer(
+                        animationSpec = tween(300, delayMillis = 90),
+                        towards = AnimatedContentTransitionScope.SlideDirection.Left
                     )
+                )
                 .togetherWith(fadeOut(animationSpec = tween(90)))
         }
     ) { targetState ->
@@ -339,7 +339,7 @@ fun CardMonthExpenseContent(
                 modifier = Modifier.padding(start = 12.dp),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Gray600,
-                fontWeight = FontWeight.Normal,
+                fontWeight = FontWeight.Normal
             )
             Box(Modifier.weight(1f))
             Text(
