@@ -34,8 +34,8 @@ class FinanceRepositoryImpl(
             val income = async { firebaseFinance.getAllMonthIncome(monthKey) }.await()
 
             if (expenses is ResponseResult.Success && income is ResponseResult.Success) {
-                var expenseTotal = expenses.data.sumOf { it.amount }
-                var incomeTotal = income.data.sumOf { it.amount }
+                val expenseTotal = expenses.data.sumOf { it.amount }
+                val incomeTotal = income.data.sumOf { it.amount }
                 val expenseList =
                     expenses.data.groupBy { it.category }
                         .map {
@@ -126,14 +126,7 @@ class FinanceRepositoryImpl(
                 is ResponseResult.Success -> {
                     val monthAmount = result.data.sumOf { it.amount }
                     val expenseScreenModelList = result.data.map { expense ->
-                        val localDate: LocalDate =
-                            if (expense.dateInMillis != null && expense.dateInMillis != 0L) {
-                                expense.dateInMillis.toLocalDate()
-                            } else {
-                                val milliseconds =
-                                    expense.timestamp.seconds * 1000 + expense.timestamp.nanoseconds / 1000000
-                                milliseconds.toLocalDate()
-                            }
+                        val localDate: LocalDate = expense.dateInMillis.toLocalDate()
                         val localDateTime = createLocalDateTime(
                             year = localDate.year,
                             monthNumber = localDate.monthNumber,

@@ -4,7 +4,7 @@ plugins {
     kotlin("multiplatform").apply(false)
     id("com.android.application").apply(false)
     id("com.android.library").apply(false)
-    id("org.jetbrains.compose").version("1.5.10-beta02").apply(false)
+    id("org.jetbrains.compose").version("1.5.10-dev1220").apply(false)
     id("com.google.gms.google-services").version("4.3.14").apply(false)
     id("org.jlleitschuh.gradle.ktlint").version("11.5.1")
 }

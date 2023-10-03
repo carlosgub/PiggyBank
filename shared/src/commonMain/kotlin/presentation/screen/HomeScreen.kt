@@ -2,6 +2,7 @@ package presentation.screen
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.AnimationConstants
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -49,6 +50,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import core.sealed.GenericState
+import kotlinx.coroutines.delay
 import kotlinx.datetime.Month
 import model.CategoryMonthDetailArgs
 import model.CreateArgs
@@ -72,6 +74,7 @@ import utils.toMoneyFormat
 import utils.views.ExpenseDivider
 import utils.views.Loading
 import utils.views.Toolbar
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun HomeScreen(
@@ -140,12 +143,12 @@ private fun HomeObserver(
         targetState = viewModel.uiState.collectAsStateWithLifecycle().value,
         transitionSpec = {
             (
-                fadeIn(animationSpec = tween(300, delayMillis = 90)) +
-                    slideIntoContainer(
-                        animationSpec = tween(300, delayMillis = 90),
-                        towards = AnimatedContentTransitionScope.SlideDirection.Left
+                    fadeIn(animationSpec = tween(delayMillis = 90)) +
+                            slideIntoContainer(
+                                animationSpec = tween(delayMillis = 90),
+                                towards = AnimatedContentTransitionScope.SlideDirection.Left
+                            )
                     )
-                )
                 .togetherWith(fadeOut(animationSpec = tween(90)))
         }
     ) { targetState ->
@@ -361,6 +364,7 @@ fun CardMonthExpenseContent(
                 .padding(top = 8.dp)
         )
         LaunchedEffect(percentage) {
+            delay(AnimationConstants.DefaultDurationMillis.milliseconds)
             progress = percentage
         }
     }
@@ -462,6 +466,7 @@ fun ExpenseIconProgress(expense: FinanceScreenExpenses) {
             color = expense.category.color
         )
         LaunchedEffect(percentage) {
+            delay(AnimationConstants.DefaultDurationMillis.milliseconds)
             progress = percentage
         }
         Icon(
