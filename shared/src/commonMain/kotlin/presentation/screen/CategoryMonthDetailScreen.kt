@@ -199,7 +199,7 @@ fun CategoryMonthDetailBody(
         modifier = Modifier
             .padding(top = 8.dp)
             .fillMaxSize(),
-        shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
+        shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp
         ),
