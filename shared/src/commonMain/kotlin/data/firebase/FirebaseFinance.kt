@@ -180,7 +180,6 @@ class FirebaseFinance constructor(
         return ResponseResult.Success(Unit)
     }
 
-
     suspend fun delete(
         financeEnum: FinanceEnum,
         id: String

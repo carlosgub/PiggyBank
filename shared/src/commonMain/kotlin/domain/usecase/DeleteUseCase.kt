@@ -1,7 +1,6 @@
 package domain.usecase
 
 import domain.repository.FinanceRepository
-import model.CategoryEnum
 import model.FinanceEnum
 import presentation.viewmodel.state.EditState
 

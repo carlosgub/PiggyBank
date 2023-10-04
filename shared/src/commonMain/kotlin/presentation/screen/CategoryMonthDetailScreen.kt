@@ -226,7 +226,6 @@ fun CategoryMonthDetailBody(
                         modifier = Modifier
                             .combinedClickable(
                                 onClick = {
-
                                 },
                                 onLongClick = {
                                     expenseClicked(expense)

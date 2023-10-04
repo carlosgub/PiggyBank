@@ -118,7 +118,6 @@ class FinanceRepositoryImpl(
             )
         }
 
-
     override suspend fun editExpense(
         amount: Int,
         category: String,
@@ -127,13 +126,15 @@ class FinanceRepositoryImpl(
         id: String
     ): EditState =
         withContext(Dispatchers.Default) {
-            when (val result = firebaseFinance.editExpense(
-                amount = amount,
-                category = category,
-                note = note,
-                dateInMillis = dateInMillis,
-                id = id
-            )) {
+            when (
+                val result = firebaseFinance.editExpense(
+                    amount = amount,
+                    category = category,
+                    note = note,
+                    dateInMillis = dateInMillis,
+                    id = id
+                )
+            ) {
                 is ResponseResult.Success -> EditState.Success
                 is ResponseResult.Error -> EditState.Error(result.error.message.toString())
             }
@@ -146,12 +147,14 @@ class FinanceRepositoryImpl(
         id: String
     ): EditState =
         withContext(Dispatchers.Default) {
-            when (val result = firebaseFinance.editIncome(
-                amount = amount,
-                note = note,
-                dateInMillis = dateInMillis,
-                id = id
-            )) {
+            when (
+                val result = firebaseFinance.editIncome(
+                    amount = amount,
+                    note = note,
+                    dateInMillis = dateInMillis,
+                    id = id
+                )
+            ) {
                 is ResponseResult.Success -> EditState.Success
                 is ResponseResult.Error -> EditState.Error(result.error.message.toString())
             }
@@ -162,10 +165,12 @@ class FinanceRepositoryImpl(
         id: String
     ): EditState =
         withContext(Dispatchers.Default) {
-            when (val result = firebaseFinance.delete(
-                financeEnum = financeEnum,
-                id = id
-            )) {
+            when (
+                val result = firebaseFinance.delete(
+                    financeEnum = financeEnum,
+                    id = id
+                )
+            ) {
                 is ResponseResult.Success -> EditState.Success
                 is ResponseResult.Error -> EditState.Error(result.error.message.toString())
             }
@@ -208,7 +213,7 @@ class FinanceRepositoryImpl(
                         monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
                     )
                     val daySpent =
-                        (1..date.monthNumber.monthLength(isLeapYear(date.year))).map { day ->
+                        (1..date.monthNumber.monthLength(isLeapYear(date.year))).associate { day ->
                             val dateInternal = createLocalDateTime(
                                 year = monthKey.substring(2, 6).toInt(),
                                 monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
@@ -216,9 +221,8 @@ class FinanceRepositoryImpl(
                             )
                             dateInternal to expenseScreenModelList.filter { expense ->
                                 expense.localDateTime == dateInternal
-                            }
-                                .sumOf { it.amount }
-                        }.toMap()
+                            }.sumOf { it.amount }
+                        }
                     GenericState.Success(
                         MonthDetailScreenModel(
                             monthAmount = monthAmount,

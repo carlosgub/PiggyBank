@@ -153,8 +153,8 @@ class EditViewModel(
         val date = _dateInMillis.value.toLocalDate()
         _dateValue.value =
             "${date.dayOfMonth.toNumberOfTwoDigits()}/" +
-                    "${date.monthNumber.toNumberOfTwoDigits()}/" +
-                    "${date.year}"
+            "${date.monthNumber.toNumberOfTwoDigits()}/" +
+            "${date.year}"
     }
 
     fun delete(

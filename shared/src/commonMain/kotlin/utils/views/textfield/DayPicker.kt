@@ -28,8 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
-import utils.toLocalDate
-import utils.toNumberOfTwoDigits
 
 @Composable
 fun DayPicker(

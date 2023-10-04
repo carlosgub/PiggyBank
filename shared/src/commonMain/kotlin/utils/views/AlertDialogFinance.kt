@@ -13,7 +13,7 @@ fun AlertDialogFinance(
     onConfirmation: () -> Unit,
     dialogTitle: String,
     dialogText: String,
-    icon: ImageVector? = null,
+    icon: ImageVector? = null
 ) {
     AlertDialog(
         icon = {
