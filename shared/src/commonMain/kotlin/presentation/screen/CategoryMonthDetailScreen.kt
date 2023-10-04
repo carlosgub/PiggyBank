@@ -2,6 +2,14 @@
 
 package presentation.screen
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -241,48 +249,73 @@ fun CategoryMonthDetailBody(
                     if (count != 0) {
                         ExpenseDivider()
                     }
-                    Row(
-                        modifier = Modifier
-                            .combinedClickable(
-                                onClick = {
-                                },
-                                onLongClick = {
-                                    expenseClicked(expense)
-                                }
-                            )
-                            .padding(vertical = 16.dp)
-                    ) {
-                        Column(
-                            modifier = Modifier.weight(1f).padding(end = 16.dp)
-                        ) {
-                            Text(
-                                text = expense.note,
-                                style = MaterialTheme.typography.bodySmall,
-                                fontWeight = FontWeight.Medium,
-                                color = Gray900
-                            )
-                            Text(
-                                text = expense.date,
-                                style = MaterialTheme.typography.labelMedium,
-                                modifier = Modifier.padding(top = 4.dp),
-                                color = Gray600,
-                                fontWeight = FontWeight.Normal
-                            )
-                        }
-                        Column(
-                            horizontalAlignment = Alignment.End,
-                            verticalArrangement = Arrangement.Top
-                        ) {
-                            Text(
-                                text = (expense.amount / 100.0).toMoneyFormat(),
-                                style = MaterialTheme.typography.bodySmall,
-                                fontWeight = FontWeight.Medium,
-                                textAlign = TextAlign.End,
-                                color = Gray900
-                            )
-                        }
-                    }
+                    CategoryMonthExpenseItem(
+                        expense = expense,
+                        expenseClicked = expenseClicked
+                    )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun CategoryMonthExpenseItem(
+    expense: ExpenseScreenModel,
+    expenseClicked: (ExpenseScreenModel) -> Unit
+) {
+    val enter: EnterTransition = expandVertically() + fadeIn()
+    val exit: ExitTransition = fadeOut() + shrinkVertically()
+    val state = remember {
+        MutableTransitionState(false).apply {
+            // Start the animation immediately.
+            targetState = true
+        }
+    }
+    AnimatedVisibility(
+        visibleState = state,
+        enter = enter,
+        exit = exit
+    ) {
+        Row(
+            modifier = Modifier
+                .combinedClickable(
+                    onClick = {
+                    },
+                    onLongClick = {
+                        expenseClicked(expense)
+                    }
+                )
+                .padding(vertical = 16.dp)
+        ) {
+            Column(
+                modifier = Modifier.weight(1f).padding(end = 16.dp)
+            ) {
+                Text(
+                    text = expense.note,
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.Medium,
+                    color = Gray900
+                )
+                Text(
+                    text = expense.date,
+                    style = MaterialTheme.typography.labelMedium,
+                    modifier = Modifier.padding(top = 4.dp),
+                    color = Gray600,
+                    fontWeight = FontWeight.Normal
+                )
+            }
+            Column(
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.Top
+            ) {
+                Text(
+                    text = (expense.amount / 100.0).toMoneyFormat(),
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.Medium,
+                    textAlign = TextAlign.End,
+                    color = Gray900
+                )
             }
         }
     }
