@@ -1,7 +1,7 @@
 package presentation.viewmodel
 
 import core.result.SingleEvent
-import core.sealed.GenericState
+import domain.usecase.DeleteUseCase
 import domain.usecase.EditExpenseUseCase
 import domain.usecase.EditIncomeUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,6 +11,7 @@ import model.CategoryEnum
 import model.FinanceEnum
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
+import presentation.viewmodel.state.EditState
 import utils.isExpense
 import utils.toLocalDate
 import utils.toMoneyFormat
@@ -18,7 +19,8 @@ import utils.toNumberOfTwoDigits
 
 class EditViewModel(
     val editExpenseUseCase: EditExpenseUseCase,
-    val editIncomeUseCase: EditIncomeUseCase
+    val editIncomeUseCase: EditIncomeUseCase,
+    val deleteUseCase: DeleteUseCase
 ) : ViewModel() {
 
     private val _category = MutableStateFlow(CategoryEnum.FOOD)
@@ -38,7 +40,7 @@ class EditViewModel(
     val showDateError = _showDateError.asStateFlow()
     private val _amountValueField = MutableStateFlow(0.0)
     private val _uiState =
-        MutableStateFlow<SingleEvent<GenericState<Unit>>>(SingleEvent(GenericState.Initial))
+        MutableStateFlow<SingleEvent<EditState>>(SingleEvent(EditState.Initial))
     val uiState = _uiState.asStateFlow()
 
     fun setCategory(categoryEnum: CategoryEnum) {
@@ -89,9 +91,7 @@ class EditViewModel(
         } else if (_noteField.value.trim().isBlank()) {
             showNoteError(true)
         } else {
-            _uiState.value = SingleEvent(
-                GenericState.Loading
-            )
+            _uiState.value = SingleEvent(EditState.Loading)
             if (financeEnum.isExpense()) editExpense(id = id) else editIncome(id = id)
         }
     }
@@ -155,5 +155,24 @@ class EditViewModel(
             "${date.dayOfMonth.toNumberOfTwoDigits()}/" +
                     "${date.monthNumber.toNumberOfTwoDigits()}/" +
                     "${date.year}"
+    }
+
+    fun delete(
+        id: String,
+        financeEnum: FinanceEnum
+    ) {
+        _uiState.value = SingleEvent(EditState.Loading)
+        viewModelScope.launch {
+            _uiState.emit(
+                SingleEvent(
+                    deleteUseCase.delete(
+                        DeleteUseCase.Params(
+                            financeEnum = financeEnum,
+                            id = id
+                        )
+                    )
+                )
+            )
+        }
     }
 }

@@ -12,10 +12,12 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import model.CategoryEnum
 import model.ExpenseScreenModel
+import model.FinanceEnum
 import model.FinanceScreenExpenses
 import model.FinanceScreenModel
 import model.MonthDetailScreenModel
 import model.MonthExpense
+import presentation.viewmodel.state.EditState
 import utils.createLocalDateTime
 import utils.getCategoryEnumFromName
 import utils.isLeapYear
@@ -123,17 +125,18 @@ class FinanceRepositoryImpl(
         note: String,
         dateInMillis: Long,
         id: String
-    ): GenericState<Unit> =
+    ): EditState =
         withContext(Dispatchers.Default) {
-            ResultMapper.toGenericState(
-                firebaseFinance.editExpense(
-                    amount = amount,
-                    category = category,
-                    note = note,
-                    dateInMillis = dateInMillis,
-                    id = id
-                )
-            )
+            when (val result = firebaseFinance.editExpense(
+                amount = amount,
+                category = category,
+                note = note,
+                dateInMillis = dateInMillis,
+                id = id
+            )) {
+                is ResponseResult.Success -> EditState.Success
+                is ResponseResult.Error -> EditState.Error(result.error.message.toString())
+            }
         }
 
     override suspend fun editIncome(
@@ -141,16 +144,31 @@ class FinanceRepositoryImpl(
         note: String,
         dateInMillis: Long,
         id: String
-    ): GenericState<Unit> =
+    ): EditState =
         withContext(Dispatchers.Default) {
-            ResultMapper.toGenericState(
-                firebaseFinance.editIncome(
-                    amount = amount,
-                    note = note,
-                    dateInMillis = dateInMillis,
-                    id = id
-                )
-            )
+            when (val result = firebaseFinance.editIncome(
+                amount = amount,
+                note = note,
+                dateInMillis = dateInMillis,
+                id = id
+            )) {
+                is ResponseResult.Success -> EditState.Success
+                is ResponseResult.Error -> EditState.Error(result.error.message.toString())
+            }
+        }
+
+    override suspend fun delete(
+        financeEnum: FinanceEnum,
+        id: String
+    ): EditState =
+        withContext(Dispatchers.Default) {
+            when (val result = firebaseFinance.delete(
+                financeEnum = financeEnum,
+                id = id
+            )) {
+                is ResponseResult.Success -> EditState.Success
+                is ResponseResult.Error -> EditState.Error(result.error.message.toString())
+            }
         }
 
     override suspend fun getCategoryMonthDetail(
@@ -184,7 +202,7 @@ class FinanceRepositoryImpl(
                             localDateTime = localDateTime,
                             date = "$dayOfMonth $month $year"
                         )
-                    }
+                    }.sortedByDescending { it.localDateTime }
                     val date = createLocalDateTime(
                         year = monthKey.substring(2, 6).toInt(),
                         monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()

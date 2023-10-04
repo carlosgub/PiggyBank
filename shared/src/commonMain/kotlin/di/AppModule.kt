@@ -5,6 +5,7 @@ import data.repository.FinanceRepositoryImpl
 import domain.repository.FinanceRepository
 import domain.usecase.CreateExpenseUseCase
 import domain.usecase.CreateIncomeUseCase
+import domain.usecase.DeleteUseCase
 import domain.usecase.EditExpenseUseCase
 import domain.usecase.EditIncomeUseCase
 import domain.usecase.GetCategoryMonthDetailUseCase
@@ -35,7 +36,8 @@ val homeModule = module {
     factory {
         EditViewModel(
             editExpenseUseCase = get(),
-            editIncomeUseCase = get()
+            editIncomeUseCase = get(),
+            deleteUseCase = get()
         )
     }
 
@@ -79,6 +81,12 @@ val homeModule = module {
 
     factory {
         EditExpenseUseCase(
+            financeRepository = get()
+        )
+    }
+
+    factory {
+        DeleteUseCase(
             financeRepository = get()
         )
     }

@@ -180,6 +180,23 @@ class FirebaseFinance constructor(
         return ResponseResult.Success(Unit)
     }
 
+
+    suspend fun delete(
+        financeEnum: FinanceEnum,
+        id: String
+    ): ResponseResult<Unit> =
+        try {
+            val collection = if (financeEnum == FinanceEnum.EXPENSE) {
+                COLLECTION_EXPENSE
+            } else {
+                COLLECTION_INCOME
+            }
+            firebaseFirestore.collection(collection).document(id).delete()
+            ResponseResult.Success(Unit)
+        } catch (e: Exception) {
+            ResponseResult.Error(e)
+        }
+
     suspend fun getCategoryMonthDetail(
         categoryEnum: CategoryEnum,
         monthKey: String
