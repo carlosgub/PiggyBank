@@ -272,6 +272,7 @@ private fun CategoryMonthExpenseItem(
             targetState = true
         }
     }
+
     AnimatedVisibility(
         visibleState = state,
         enter = enter,
