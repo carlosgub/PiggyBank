@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterialApi::class)
+
 package presentation.screen
 
 import androidx.compose.animation.AnimatedContent
@@ -12,6 +14,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,13 +24,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.MoneyOff
-import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -84,6 +93,12 @@ fun HomeScreen(
     args: HomeArgs
 ) {
     val viewModel = koinViewModel(HomeViewModel::class)
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = viewModel.isRefreshing,
+        onRefresh = {
+            viewModel.getFinanceStatus(args.monthKey)
+        }
+    )
     Scaffold(
         topBar = {
             HomeToolbar(
@@ -109,15 +124,13 @@ fun HomeScreen(
                 onSeeMonths = {
                     navigator.navigate(Screen.MonthsScreen.route)
                 },
-                onRefresh = {
-                    viewModel.getFinanceStatus(args.monthKey)
-                },
                 onBack = {
                     navigator.goBack()
                 }
             )
         }
     ) { paddingValues ->
+        val scrollState = rememberScrollState()
         Column(
             modifier = Modifier
                 .padding(
@@ -126,11 +139,27 @@ fun HomeScreen(
                 .fillMaxSize()
                 .background(ColorPrimary)
         ) {
-            HomeObserver(
-                viewModel = viewModel,
-                navigator = navigator,
-                monthKey = args.monthKey
-            )
+            BoxWithConstraints {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .pullRefresh(pullRefreshState)
+                        .verticalScroll(scrollState)
+                ) {
+                    HomeObserver(
+                        viewModel = viewModel,
+                        navigator = navigator,
+                        monthKey = args.monthKey,
+                        modifier = Modifier
+                            .height(this@BoxWithConstraints.maxHeight)
+                    )
+                    PullRefreshIndicator(
+                        refreshing = viewModel.isRefreshing,
+                        state = pullRefreshState,
+                        modifier = Modifier.align(Alignment.TopCenter)
+                    )
+                }
+            }
         }
     }
 }
@@ -139,7 +168,8 @@ fun HomeScreen(
 private fun HomeObserver(
     viewModel: HomeViewModel,
     navigator: Navigator,
-    monthKey: String
+    monthKey: String,
+    modifier: Modifier
 ) {
     AnimatedContent(
         targetState = viewModel.uiState.collectAsStateWithLifecycle().value,
@@ -167,12 +197,13 @@ private fun HomeObserver(
                                 )
                             )
                         )
-                    }
+                    },
+                    modifier = modifier
                 )
             }
 
             GenericState.Loading -> {
-                Loading(modifier = Modifier.background(ColorPrimary))
+                Loading(modifier = modifier.background(ColorPrimary))
             }
 
             GenericState.Initial -> {
@@ -187,38 +218,34 @@ private fun HomeObserver(
 @Composable
 private fun HomeContent(
     data: FinanceScreenModel,
-    onCategoryClick: (FinanceScreenExpenses) -> Unit
+    onCategoryClick: (FinanceScreenExpenses) -> Unit,
+    modifier: Modifier
 ) {
-    Box(
-        modifier = Modifier
+    Column(
+        modifier = modifier
             .fillMaxSize()
+            .background(ColorPrimary)
     ) {
-        Column(
+        HomeBodyMonthExpense(
             modifier = Modifier
-                .fillMaxSize()
-                .background(ColorPrimary)
-        ) {
-            HomeBodyMonthExpense(
-                modifier = Modifier
-                    .weight(0.3f)
-                    .fillMaxSize(),
-                bodyContent = {
-                    HomeBodyContent(
-                        monthAmount = data.expenseAmount,
-                        month = data.localDateTime.month
-                    )
-                }
-            )
-            CardExpenses(
-                modifier = Modifier
-                    .weight(0.7f)
-                    .fillMaxSize(),
-                expenses = data.expenses,
-                income = data.income,
-                monthExpense = data.monthExpense,
-                onCategoryClick = onCategoryClick
-            )
-        }
+                .weight(0.3f)
+                .fillMaxSize(),
+            bodyContent = {
+                HomeBodyContent(
+                    monthAmount = data.expenseAmount,
+                    month = data.localDateTime.month
+                )
+            }
+        )
+        CardExpenses(
+            modifier = Modifier
+                .weight(0.7f)
+                .fillMaxSize(),
+            expenses = data.expenses,
+            income = data.income,
+            monthExpense = data.monthExpense,
+            onCategoryClick = onCategoryClick
+        )
     }
 }
 
@@ -507,16 +534,17 @@ private fun HomeToolbar(
     onAddExpensePressed: () -> Unit,
     onAddIncomePressed: () -> Unit,
     onSeeMonths: () -> Unit,
-    onRefresh: () -> Unit,
     onBack: () -> Unit
 ) {
+    val leftIcon = if (isHome) Icons.Filled.CalendarMonth else null
     Toolbar(
         hasNavigationIcon = !isHome,
         navigation = onBack,
         title = "My Finances",
+        dropDownIcon = Icons.Filled.Add,
         dropDownMenu = true,
-        leftIcon = Icons.Filled.Refresh,
-        onLeftIconPressed = onRefresh,
+        leftIcon = leftIcon,
+        onLeftIconPressed = onSeeMonths,
         dropDownItems = mutableListOf(
             MenuItem(
                 name = "Add Expense",
@@ -533,16 +561,6 @@ private fun HomeToolbar(
                 icon = Icons.Filled.Favorite,
                 onItemClicked = onAddExpensePressed
             )
-        ).apply {
-            if (isHome) {
-                add(
-                    MenuItem(
-                        name = "Months",
-                        icon = Icons.Filled.CalendarMonth,
-                        onItemClicked = onSeeMonths
-                    )
-                )
-            }
-        }
+        )
     )
 }

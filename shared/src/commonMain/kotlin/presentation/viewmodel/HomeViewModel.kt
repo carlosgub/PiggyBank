@@ -16,7 +16,7 @@ class HomeViewModel(
     private val _uiState = MutableStateFlow<GenericState<FinanceScreenModel>>(GenericState.Initial)
     val uiState = _uiState.asStateFlow()
 
-    val isRefreshing: Boolean = (uiState.value is GenericState.Loading)
+    val isRefreshing: Boolean = (_uiState.value is GenericState.Loading)
 
     fun getFinanceStatus(monthKey: String) {
         _uiState.value = GenericState.Loading
