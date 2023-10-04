@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -22,16 +24,18 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import core.sealed.GenericState
-import model.CreateArgs
+import model.EditArgs
 import model.FinanceEnum
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
-import presentation.viewmodel.CreateViewModel
+import presentation.viewmodel.EditViewModel
 import theme.Gray400
 import theme.spacing_6
 import utils.NoRippleInteractionSource
+import utils.getCategoryEnumFromName
 import utils.isExpense
+import utils.toMillis
 import utils.views.Loading
 import utils.views.PrimaryButton
 import utils.views.Toolbar
@@ -41,14 +45,19 @@ import utils.views.textfield.DayPicker
 import utils.views.textfield.NoteOutlineTextField
 
 @Composable
-fun CreateScreen(
-    viewModel: CreateViewModel = koinInject(),
+fun EditScreen(
+    viewModel: EditViewModel = koinInject(),
     navigator: Navigator,
-    args: CreateArgs
+    args: EditArgs
 ) {
+    val dateInMillis = args.expenseScreenModel.localDateTime.toMillis()
+    viewModel.amountFieldChange(args.expenseScreenModel.amount.toString())
+    viewModel.setCategory(getCategoryEnumFromName(args.expenseScreenModel.category))
+    viewModel.setDateInMillis(dateInMillis)
+    viewModel.noteFieldChange(args.expenseScreenModel.note)
     Scaffold(
         topBar = {
-            CreateToolbar(
+            EditToolbar(
                 financeEnum = args.financeEnum
             ) {
                 navigator.goBack()
@@ -61,11 +70,13 @@ fun CreateScreen(
                     top = paddingValues.calculateTopPadding()
                 )
         ) {
-            CreateContent(
+            EditContent(
                 viewModel = viewModel,
-                financeEnum = args.financeEnum
+                financeEnum = args.financeEnum,
+                initialDateInMillis = dateInMillis,
+                id = args.expenseScreenModel.id
             )
-            CreateObserver(
+            EditObserver(
                 viewModel = viewModel,
                 navigator = navigator
             )
@@ -74,9 +85,11 @@ fun CreateScreen(
 }
 
 @Composable
-private fun CreateContent(
-    viewModel: CreateViewModel,
-    financeEnum: FinanceEnum
+private fun EditContent(
+    viewModel: EditViewModel,
+    financeEnum: FinanceEnum,
+    initialDateInMillis: Long,
+    id: String
 ) {
     val selectedSelected = viewModel.category.collectAsStateWithLifecycle().value
     val amountText = viewModel.amountField.collectAsStateWithLifecycle().value
@@ -131,6 +144,7 @@ private fun CreateContent(
         DayPicker(
             dateValue = dateValue,
             showError = showDateError,
+            dateInMillis = initialDateInMillis,
             dayValueInMillis = { dateInMillis ->
                 viewModel.showDateError(false)
                 viewModel.setDateInMillis(dateInMillis)
@@ -156,15 +170,18 @@ private fun CreateContent(
             ),
             buttonText = "Create $title",
             onClick = {
-                viewModel.create(financeEnum)
+                viewModel.create(
+                    financeEnum = financeEnum,
+                    id = id
+                )
             }
         )
     }
 }
 
 @Composable
-private fun CreateObserver(
-    viewModel: CreateViewModel,
+private fun EditObserver(
+    viewModel: EditViewModel,
     navigator: Navigator
 ) {
     when (viewModel.uiState.collectAsStateWithLifecycle().value.get()) {
@@ -182,14 +199,15 @@ private fun CreateObserver(
 }
 
 @Composable
-private fun CreateToolbar(
+private fun EditToolbar(
     financeEnum: FinanceEnum,
     onBack: () -> Unit
 ) {
     val title = if (financeEnum.isExpense()) "Expense" else "Income"
     Toolbar(
         hasNavigationIcon = true,
-        title = "Create $title",
-        navigation = onBack
+        title = "Edit $title",
+        navigation = onBack,
+        leftIcon = Icons.Default.Delete
     )
 }

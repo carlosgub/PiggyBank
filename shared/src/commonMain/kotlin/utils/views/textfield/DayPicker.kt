@@ -33,15 +33,18 @@ import utils.toNumberOfTwoDigits
 
 @Composable
 fun DayPicker(
+    dateValue: String,
     showError: Boolean,
+    dateInMillis: Long? = null,
     dayValueInMillis: (Long) -> Unit
 ) {
     var isVisible by remember { mutableStateOf(false) }
-    val datePickerState = rememberDatePickerState()
-    var dayValue by remember { mutableStateOf("") }
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = dateInMillis
+    )
     val keyboard = LocalSoftwareKeyboardController.current
     OutlinedTextField(
-        value = dayValue,
+        value = dateValue,
         onValueChange = {},
         label = {
             Text(
@@ -101,10 +104,5 @@ fun DayPicker(
     }
     datePickerState.selectedDateMillis?.let {
         dayValueInMillis(it)
-        val date = it.toLocalDate()
-        dayValue =
-            "${date.dayOfMonth.toNumberOfTwoDigits()}/" +
-            "${date.monthNumber.toNumberOfTwoDigits()}/" +
-            "${date.year}"
     }
 }

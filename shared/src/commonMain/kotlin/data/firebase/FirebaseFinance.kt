@@ -85,7 +85,88 @@ class FirebaseFinance constructor(
         )
         batch.set(
             firebaseReference,
-            expense
+            expense.toMap()
+        )
+        batch.set(
+            documentRef = monthReference,
+            data = mapOf(
+                "months" to mapOf(currentMonthKey to null)
+            ),
+            merge = true
+        )
+
+        batch.commit()
+        return ResponseResult.Success(Unit)
+    }
+
+    suspend fun editExpense(
+        amount: Int,
+        category: String,
+        note: String,
+        dateInMillis: Long,
+        id: String
+    ): ResponseResult<Unit> =
+        try {
+            edit(
+                collection = COLLECTION_EXPENSE,
+                dateInMillis = dateInMillis,
+                category = category,
+                amount = amount,
+                note = note,
+                id = id
+            )
+        } catch (e: Exception) {
+            ResponseResult.Error(e)
+        }
+
+    suspend fun editIncome(
+        amount: Int,
+        note: String,
+        dateInMillis: Long,
+        id: String
+    ): ResponseResult<Unit> =
+        try {
+            val category = CategoryEnum.WORK.name
+            edit(
+                collection = COLLECTION_INCOME,
+                dateInMillis = dateInMillis,
+                category = category,
+                amount = amount,
+                note = note,
+                id = id
+            )
+        } catch (e: Exception) {
+            ResponseResult.Error(e)
+        }
+
+    private suspend fun edit(
+        collection: String,
+        dateInMillis: Long,
+        category: String,
+        amount: Int,
+        note: String,
+        id: String
+    ): ResponseResult<Unit> {
+        val date: LocalDate = dateInMillis.toLocalDate()
+        val currentMonthKey = "${date.month.toMonthString()}${date.year}"
+        val batch = firebaseFirestore.batch()
+        val firebaseReference =
+            firebaseFirestore.collection(collection).document(id)
+        val monthReference =
+            firebaseFirestore.collection(COLLECTION_MONTH).document(
+                userId
+            )
+        val expense = Expense(
+            amount = amount,
+            category = category,
+            userId = userId,
+            note = note,
+            month = currentMonthKey,
+            dateInMillis = dateInMillis
+        )
+        batch.update(
+            firebaseReference,
+            expense.toMap()
         )
         batch.set(
             documentRef = monthReference,
@@ -117,7 +198,9 @@ class FirebaseFinance constructor(
                     .orderBy("timestamp", Direction.DESCENDING).get()
 
             val list = costsResponse.documents.map {
-                it.data<Expense>()
+                it.data<Expense>().copy(
+                    id = it.id
+                )
             }
             ResponseResult.Success(list)
         } catch (e: Exception) {

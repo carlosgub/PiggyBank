@@ -6,6 +6,7 @@ import di.homeModule
 import kotlinx.serialization.json.Json
 import model.CategoryMonthDetailArgs
 import model.CreateArgs
+import model.EditArgs
 import model.HomeArgs
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.path
@@ -15,6 +16,7 @@ import presentation.navigation.NavArgs
 import presentation.navigation.Screen
 import presentation.screen.CategoryMonthDetailScreen
 import presentation.screen.CreateScreen
+import presentation.screen.EditScreen
 import presentation.screen.HomeScreen
 import presentation.screen.MonthsScreen
 import theme.ColorPrimary
@@ -47,6 +49,14 @@ fun App() {
                 val args: CreateArgs =
                     Json.decodeFromString(backStackEntry.path<String>(NavArgs.CreateArgs.key)!!)
                 CreateScreen(
+                    navigator = navigator,
+                    args = args
+                )
+            }
+            scene(route = Screen.EditScreen.route) { backStackEntry ->
+                val args: EditArgs =
+                    Json.decodeFromString(backStackEntry.path<String>(NavArgs.EditArgs.key)!!)
+                EditScreen(
                     navigator = navigator,
                     args = args
                 )

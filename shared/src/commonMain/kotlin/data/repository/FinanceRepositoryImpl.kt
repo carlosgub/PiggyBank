@@ -57,7 +57,7 @@ class FinanceRepositoryImpl(
                                 count = it.value.size,
                                 percentage = (amount / incomeTotal.toFloat() * 100).roundToInt()
                             )
-                        }.sortedByDescending { it.percentage }
+                        }.sortedByDescending { it.amount }
                 val monthExpense =
                     MonthExpense(
                         incomeTotal = incomeTotal / 100.0,
@@ -109,9 +109,46 @@ class FinanceRepositoryImpl(
         withContext(Dispatchers.Default) {
             ResultMapper.toGenericState(
                 firebaseFinance.createIncome(
-                    amount,
-                    note,
-                    dateInMillis
+                    amount = amount,
+                    note = note,
+                    dateInMillis = dateInMillis
+                )
+            )
+        }
+
+
+    override suspend fun editExpense(
+        amount: Int,
+        category: String,
+        note: String,
+        dateInMillis: Long,
+        id: String
+    ): GenericState<Unit> =
+        withContext(Dispatchers.Default) {
+            ResultMapper.toGenericState(
+                firebaseFinance.editExpense(
+                    amount = amount,
+                    category = category,
+                    note = note,
+                    dateInMillis = dateInMillis,
+                    id = id
+                )
+            )
+        }
+
+    override suspend fun editIncome(
+        amount: Int,
+        note: String,
+        dateInMillis: Long,
+        id: String
+    ): GenericState<Unit> =
+        withContext(Dispatchers.Default) {
+            ResultMapper.toGenericState(
+                firebaseFinance.editIncome(
+                    amount = amount,
+                    note = note,
+                    dateInMillis = dateInMillis,
+                    id = id
                 )
             )
         }
@@ -139,6 +176,7 @@ class FinanceRepositoryImpl(
                         val year =
                             localDateTime.year
                         ExpenseScreenModel(
+                            id = expense.id.orEmpty(),
                             amount = expense.amount,
                             userId = expense.userId,
                             note = expense.note.replaceFirstChar { it.uppercase() },

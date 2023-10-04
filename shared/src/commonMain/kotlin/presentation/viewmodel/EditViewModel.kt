@@ -2,8 +2,8 @@ package presentation.viewmodel
 
 import core.result.SingleEvent
 import core.sealed.GenericState
-import domain.usecase.CreateExpenseUseCase
-import domain.usecase.CreateIncomeUseCase
+import domain.usecase.EditExpenseUseCase
+import domain.usecase.EditIncomeUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -16,9 +16,9 @@ import utils.toLocalDate
 import utils.toMoneyFormat
 import utils.toNumberOfTwoDigits
 
-class CreateViewModel(
-    val createExpenseUseCase: CreateExpenseUseCase,
-    val createIncomeUseCase: CreateIncomeUseCase
+class EditViewModel(
+    val editExpenseUseCase: EditExpenseUseCase,
+    val editIncomeUseCase: EditIncomeUseCase
 ) : ViewModel() {
 
     private val _category = MutableStateFlow(CategoryEnum.FOOD)
@@ -78,7 +78,10 @@ class CreateViewModel(
         }
     }
 
-    fun create(financeEnum: FinanceEnum) {
+    fun create(
+        financeEnum: FinanceEnum,
+        id: String
+    ) {
         if (_amountValueField.value <= 0) {
             showError(true)
         } else if (_dateInMillis.value == 0L) {
@@ -89,20 +92,21 @@ class CreateViewModel(
             _uiState.value = SingleEvent(
                 GenericState.Loading
             )
-            if (financeEnum.isExpense()) createExpense() else createIncome()
+            if (financeEnum.isExpense()) editExpense(id = id) else editIncome(id = id)
         }
     }
 
-    private fun createExpense() {
+    private fun editExpense(id: String) {
         viewModelScope.launch {
             _uiState.emit(
                 SingleEvent(
-                    createExpenseUseCase.createExpense(
-                        CreateExpenseUseCase.Params(
+                    editExpenseUseCase.editExpense(
+                        EditExpenseUseCase.Params(
                             amount = (_amountValueField.value * 100).toInt(),
                             category = _category.value.name,
                             note = _noteField.value,
-                            dateInMillis = _dateInMillis.value
+                            dateInMillis = _dateInMillis.value,
+                            id = id
                         )
                     )
                 )
@@ -110,15 +114,16 @@ class CreateViewModel(
         }
     }
 
-    private fun createIncome() {
+    private fun editIncome(id: String) {
         viewModelScope.launch {
             _uiState.emit(
                 SingleEvent(
-                    createIncomeUseCase.createIncome(
-                        CreateIncomeUseCase.Params(
+                    editIncomeUseCase.editIncome(
+                        EditIncomeUseCase.Params(
                             amount = (_amountValueField.value * 100).toInt(),
                             note = _noteField.value,
-                            dateInMillis = _dateInMillis.value
+                            dateInMillis = _dateInMillis.value,
+                            id = id
                         )
                     )
                 )

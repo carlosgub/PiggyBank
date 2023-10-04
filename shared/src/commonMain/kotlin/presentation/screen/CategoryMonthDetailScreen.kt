@@ -1,6 +1,10 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package presentation.screen
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,10 +45,12 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import model.CategoryEnum
 import model.CategoryMonthDetailArgs
+import model.EditArgs
 import model.ExpenseScreenModel
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
+import presentation.navigation.Screen
 import presentation.viewmodel.CategoryMonthDetailViewModel
 import theme.ColorPrimary
 import theme.Gray600
@@ -93,7 +99,8 @@ private fun ExpenseMonthDetailContainer(
             viewModel = viewModel,
             categoryEnum = categoryEnum,
             monthKey = args.month,
-            paddingValues = paddingValues
+            paddingValues = paddingValues,
+            navigator = navigator
         )
     }
 }
@@ -103,7 +110,8 @@ private fun CategoryMonthDetailObserver(
     viewModel: CategoryMonthDetailViewModel,
     categoryEnum: CategoryEnum,
     monthKey: String,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    navigator: Navigator
 ) {
     when (val uiState = viewModel.uiState.collectAsStateWithLifecycle().value) {
         is GenericState.Success -> {
@@ -119,7 +127,16 @@ private fun CategoryMonthDetailObserver(
                 body = {
                     CategoryMonthDetailBody(
                         uiState.data.expenseScreenModel
-                    )
+                    ) { expenseScreenModel ->
+                        navigator.navigate(
+                            Screen.EditScreen.createRoute(
+                                EditArgs(
+                                    financeEnum = getCategoryEnumFromName(expenseScreenModel.category).type,
+                                    expenseScreenModel = expenseScreenModel
+                                )
+                            )
+                        )
+                    }
                 }
             )
         }
@@ -175,7 +192,8 @@ fun CategoryMonthDetailContent(
 
 @Composable
 fun CategoryMonthDetailBody(
-    list: List<ExpenseScreenModel>
+    list: List<ExpenseScreenModel>,
+    expenseClicked: (ExpenseScreenModel) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -206,8 +224,15 @@ fun CategoryMonthDetailBody(
                     }
                     Row(
                         modifier = Modifier
-                            .padding(vertical = 16.dp)
+                            .combinedClickable(
+                                onClick = {
 
+                                },
+                                onLongClick = {
+                                    expenseClicked(expense)
+                                }
+                            )
+                            .padding(vertical = 16.dp)
                     ) {
                         Column(
                             modifier = Modifier.weight(1f).padding(end = 16.dp)

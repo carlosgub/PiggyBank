@@ -4,6 +4,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import model.CategoryMonthDetailArgs
 import model.CreateArgs
+import model.EditArgs
 import model.HomeArgs
 
 sealed class Screen(val route: String) {
@@ -15,6 +16,11 @@ sealed class Screen(val route: String) {
     object CreateScreen : Screen("CreateScreen/{${NavArgs.CreateArgs.key}}") {
         fun createRoute(createArgs: CreateArgs) =
             "CreateScreen/${Json.encodeToString(createArgs)}"
+    }
+
+    object EditScreen : Screen("EditScreen/{${NavArgs.EditArgs.key}}") {
+        fun createRoute(editArgs: EditArgs) =
+            "EditScreen/${Json.encodeToString(editArgs)}"
     }
 
     object MonthsScreen : Screen("MonthsScreen")
@@ -29,5 +35,6 @@ sealed class Screen(val route: String) {
 enum class NavArgs(val key: String) {
     CategoryMonthDetailArgs("CategoryMonthDetailArgs"),
     HomeArgs("HomeArgs"),
-    CreateArgs("CreateArgs")
+    CreateArgs("CreateArgs"),
+    EditArgs("EditArgs")
 }

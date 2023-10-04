@@ -43,6 +43,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,7 +55,6 @@ import kotlinx.coroutines.delay
 import kotlinx.datetime.Month
 import model.CategoryMonthDetailArgs
 import model.CreateArgs
-import model.CreateEnum
 import model.FinanceEnum
 import model.FinanceScreenExpenses
 import model.FinanceScreenModel
@@ -90,7 +90,7 @@ fun HomeScreen(
                     navigator.navigate(
                         Screen.CreateScreen.createRoute(
                             CreateArgs(
-                                CreateEnum.EXPENSE
+                                FinanceEnum.EXPENSE
                             )
                         )
                     )
@@ -99,7 +99,7 @@ fun HomeScreen(
                     navigator.navigate(
                         Screen.CreateScreen.createRoute(
                             CreateArgs(
-                                CreateEnum.INCOME
+                                FinanceEnum.INCOME
                             )
                         )
                     )
@@ -276,6 +276,7 @@ private fun CardExpenses(
                 )
             ) {
                 val tabs = FinanceEnum.entries.toList()
+                val firstTimeDelayAnimation = rememberSaveable { mutableStateOf(true) }
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -304,15 +305,18 @@ private fun CardExpenses(
                     when (tabIndex) {
                         FinanceEnum.EXPENSE -> {
                             HomeFooterContent(
-                                expenses,
-                                onCategoryClick = onCategoryClick
+                                expenses = expenses,
+                                onCategoryClick = onCategoryClick,
+                                firstTimeDelayAnimation = firstTimeDelayAnimation.value
                             )
+                            firstTimeDelayAnimation.value = false
                         }
 
-                        FinanceEnum.INCOME -> HomeFooterContent(
-                            income,
-                            onCategoryClick = onCategoryClick
-                        )
+                        FinanceEnum.INCOME ->
+                            HomeFooterContent(
+                                expenses = income,
+                                onCategoryClick = onCategoryClick
+                            )
                     }
                 }
             }
@@ -352,7 +356,7 @@ fun CardMonthExpenseContent(
             )
         }
         val percentage = (monthExpense.percentage / 100.00).toFloat()
-        var progress by remember { mutableStateOf(0f) }
+        var progress by rememberSaveable { mutableStateOf(0f) }
         val progressAnimation by animateFloatAsState(
             targetValue = progress,
             animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
@@ -373,7 +377,8 @@ fun CardMonthExpenseContent(
 @Composable
 fun HomeFooterContent(
     expenses: List<FinanceScreenExpenses>,
-    onCategoryClick: (FinanceScreenExpenses) -> Unit = {}
+    onCategoryClick: (FinanceScreenExpenses) -> Unit = {},
+    firstTimeDelayAnimation: Boolean = false
 ) {
     if (expenses.isNotEmpty()) {
         Column(
@@ -400,7 +405,18 @@ fun HomeFooterContent(
                                 .padding(vertical = 12.dp)
 
                         ) {
-                            ExpenseIconProgress(expense)
+                            val animationDelay =
+                                if (expense.category.type == FinanceEnum.EXPENSE &&
+                                    firstTimeDelayAnimation
+                                ) {
+                                    AnimationConstants.DefaultDurationMillis
+                                } else {
+                                    0
+                                }
+                            ExpenseIconProgress(
+                                expense = expense,
+                                animationDelay = animationDelay
+                            )
                             Column(
                                 modifier = Modifier.weight(1f).padding(start = 16.dp)
                             ) {
@@ -445,10 +461,13 @@ fun HomeFooterContent(
 }
 
 @Composable
-fun ExpenseIconProgress(expense: FinanceScreenExpenses) {
+fun ExpenseIconProgress(
+    expense: FinanceScreenExpenses,
+    animationDelay: Int
+) {
     val percentage = (expense.percentage / 100.00).toFloat()
     Box(contentAlignment = Alignment.Center) {
-        var progress by remember { mutableStateOf(0f) }
+        var progress by rememberSaveable { mutableStateOf(0f) }
         val progressAnimation by animateFloatAsState(
             targetValue = progress,
             animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
@@ -465,8 +484,8 @@ fun ExpenseIconProgress(expense: FinanceScreenExpenses) {
             strokeWidth = 3.dp,
             color = expense.category.color
         )
-        LaunchedEffect(percentage) {
-            delay(AnimationConstants.DefaultDurationMillis.milliseconds)
+        LaunchedEffect(Unit) {
+            delay(animationDelay.milliseconds)
             progress = percentage
         }
         Icon(

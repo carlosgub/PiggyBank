@@ -2,11 +2,13 @@ package utils
 
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.number
+import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
-import model.CreateEnum
+import model.FinanceEnum
 import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.pow
@@ -68,4 +70,7 @@ fun Long.toLocalDate(): LocalDate =
     Instant.fromEpochMilliseconds(this)
         .toLocalDateTime(TimeZone.UTC).date
 
-fun CreateEnum.isExpense() = this == CreateEnum.EXPENSE
+fun LocalDateTime.toMillis(): Long =
+    this.toInstant(TimeZone.UTC).toEpochMilliseconds()
+
+fun FinanceEnum.isExpense() = this == FinanceEnum.EXPENSE

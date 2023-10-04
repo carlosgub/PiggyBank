@@ -21,6 +21,21 @@ interface FinanceRepository {
         dateInMillis: Long
     ): GenericState<Unit>
 
+    suspend fun editExpense(
+        amount: Int,
+        category: String,
+        note: String,
+        dateInMillis: Long,
+        id: String
+    ): GenericState<Unit>
+
+    suspend fun editIncome(
+        amount: Int,
+        note: String,
+        dateInMillis: Long,
+        id: String
+    ): GenericState<Unit>
+
     suspend fun getCategoryMonthDetail(
         categoryEnum: CategoryEnum,
         monthKey: String
