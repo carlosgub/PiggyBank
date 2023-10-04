@@ -53,6 +53,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -62,7 +63,9 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import core.sealed.GenericState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.datetime.Month
 import model.CategoryMonthDetailArgs
 import model.CreateArgs
@@ -99,27 +102,38 @@ fun HomeScreen(
             viewModel.getFinanceStatus(args.monthKey)
         }
     )
+    val coroutine = rememberCoroutineScope()
     Scaffold(
         topBar = {
             HomeToolbar(
                 isHome = args.isHome,
                 onAddExpensePressed = {
-                    navigator.navigate(
-                        Screen.CreateScreen.createRoute(
-                            CreateArgs(
-                                FinanceEnum.EXPENSE
+                    coroutine.launch {
+                        val result = navigator.navigateForResult(
+                            Screen.CreateScreen.createRoute(
+                                CreateArgs(
+                                    FinanceEnum.EXPENSE
+                                )
                             )
                         )
-                    )
+                        if (result as Boolean) {
+                            viewModel.getFinanceStatus(args.monthKey)
+                        }
+                    }
                 },
                 onAddIncomePressed = {
-                    navigator.navigate(
-                        Screen.CreateScreen.createRoute(
-                            CreateArgs(
-                                FinanceEnum.INCOME
+                    coroutine.launch {
+                        val result = navigator.navigateForResult(
+                            Screen.CreateScreen.createRoute(
+                                CreateArgs(
+                                    FinanceEnum.INCOME
+                                )
                             )
                         )
-                    )
+                        if (result as Boolean) {
+                            viewModel.getFinanceStatus(args.monthKey)
+                        }
+                    }
                 },
                 onSeeMonths = {
                     navigator.navigate(Screen.MonthsScreen.route)
@@ -151,7 +165,8 @@ fun HomeScreen(
                         navigator = navigator,
                         monthKey = args.monthKey,
                         modifier = Modifier
-                            .height(this@BoxWithConstraints.maxHeight)
+                            .height(this@BoxWithConstraints.maxHeight),
+                        coroutine = coroutine
                     )
                     PullRefreshIndicator(
                         refreshing = viewModel.isRefreshing,
@@ -169,18 +184,19 @@ private fun HomeObserver(
     viewModel: HomeViewModel,
     navigator: Navigator,
     monthKey: String,
-    modifier: Modifier
+    modifier: Modifier,
+    coroutine: CoroutineScope
 ) {
     AnimatedContent(
         targetState = viewModel.uiState.collectAsStateWithLifecycle().value,
         transitionSpec = {
             (
-                fadeIn(animationSpec = tween(delayMillis = 90)) +
-                    slideIntoContainer(
-                        animationSpec = tween(delayMillis = 90),
-                        towards = AnimatedContentTransitionScope.SlideDirection.Left
+                    fadeIn(animationSpec = tween(delayMillis = 90)) +
+                            slideIntoContainer(
+                                animationSpec = tween(delayMillis = 90),
+                                towards = AnimatedContentTransitionScope.SlideDirection.Left
+                            )
                     )
-                )
                 .togetherWith(fadeOut(animationSpec = tween(90)))
         }
     ) { targetState ->
@@ -189,14 +205,20 @@ private fun HomeObserver(
                 HomeContent(
                     data = targetState.data,
                     onCategoryClick = {
-                        navigator.navigate(
-                            Screen.CategoryMonthDetailScreen.createRoute(
-                                CategoryMonthDetailArgs(
-                                    category = it.category.name,
-                                    month = monthKey
+                        coroutine.launch {
+                            val result = navigator.navigateForResult(
+                                Screen.CategoryMonthDetailScreen.createRoute(
+                                    CategoryMonthDetailArgs(
+                                        category = it.category.name,
+                                        month = monthKey
+                                    )
                                 )
                             )
-                        )
+                            if (result as Boolean) {
+                                viewModel.getFinanceStatus(monthKey)
+                            }
+                        }
+
                     },
                     modifier = modifier
                 )

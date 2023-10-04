@@ -62,7 +62,7 @@ fun EditScreen(
         topBar = {
             EditToolbar(
                 financeEnum = args.financeEnum,
-                onBack = { navigator.goBack() },
+                onBack = { navigator.goBackWith(false) },
                 onDelete = {
                     viewModel.delete(
                         id = args.expenseScreenModel.id,

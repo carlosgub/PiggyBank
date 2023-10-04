@@ -25,7 +25,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,6 +42,7 @@ import com.carlosgub.kotlinm.charts.line.LineChartData
 import com.carlosgub.kotlinm.charts.line.LineChartPoint
 import com.carlosgub.kotlinm.charts.line.LineChartSeries
 import core.sealed.GenericState
+import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
@@ -48,8 +52,8 @@ import model.CategoryMonthDetailArgs
 import model.EditArgs
 import model.ExpenseScreenModel
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
+import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
-import org.koin.compose.koinInject
 import presentation.navigation.Screen
 import presentation.viewmodel.CategoryMonthDetailViewModel
 import theme.ColorPrimary
@@ -67,10 +71,10 @@ import utils.views.Toolbar
 
 @Composable
 fun CategoryMonthDetailScreen(
-    viewModel: CategoryMonthDetailViewModel = koinInject(),
     navigator: Navigator,
     args: CategoryMonthDetailArgs
 ) {
+    val viewModel = koinViewModel(CategoryMonthDetailViewModel::class)
     ExpenseMonthDetailContainer(
         args = args,
         navigator = navigator,
@@ -84,13 +88,14 @@ private fun ExpenseMonthDetailContainer(
     navigator: Navigator,
     viewModel: CategoryMonthDetailViewModel
 ) {
+    val updateBackScreen = rememberSaveable { mutableStateOf(false) }
     val categoryEnum = getCategoryEnumFromName(args.category)
     Scaffold(
         topBar = {
             ExpenseMonthDetailToolbar(
                 category = categoryEnum.categoryName,
                 onBack = {
-                    navigator.goBack()
+                    navigator.goBackWith(updateBackScreen.value)
                 }
             )
         }
@@ -100,7 +105,10 @@ private fun ExpenseMonthDetailContainer(
             categoryEnum = categoryEnum,
             monthKey = args.month,
             paddingValues = paddingValues,
-            navigator = navigator
+            navigator = navigator,
+            updateBackScreen = {
+                updateBackScreen.value = true
+            }
         )
     }
 }
@@ -111,8 +119,10 @@ private fun CategoryMonthDetailObserver(
     categoryEnum: CategoryEnum,
     monthKey: String,
     paddingValues: PaddingValues,
-    navigator: Navigator
+    navigator: Navigator,
+    updateBackScreen: () -> Unit
 ) {
+    val coroutine = rememberCoroutineScope()
     when (val uiState = viewModel.uiState.collectAsStateWithLifecycle().value) {
         is GenericState.Success -> {
             CategoryMonthDetailContent(
@@ -128,14 +138,23 @@ private fun CategoryMonthDetailObserver(
                     CategoryMonthDetailBody(
                         uiState.data.expenseScreenModel
                     ) { expenseScreenModel ->
-                        navigator.navigate(
-                            Screen.EditScreen.createRoute(
-                                EditArgs(
-                                    financeEnum = getCategoryEnumFromName(expenseScreenModel.category).type,
-                                    expenseScreenModel = expenseScreenModel
+                        coroutine.launch {
+                            val result = navigator.navigateForResult(
+                                Screen.EditScreen.createRoute(
+                                    EditArgs(
+                                        financeEnum = getCategoryEnumFromName(expenseScreenModel.category).type,
+                                        expenseScreenModel = expenseScreenModel
+                                    )
                                 )
                             )
-                        )
+                            if (result as Boolean) {
+                                updateBackScreen()
+                                viewModel.getMonthDetail(
+                                    categoryEnum,
+                                    monthKey
+                                )
+                            }
+                        }
                     }
                 }
             )

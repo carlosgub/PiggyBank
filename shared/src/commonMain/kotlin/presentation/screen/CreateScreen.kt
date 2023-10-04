@@ -51,7 +51,7 @@ fun CreateScreen(
             CreateToolbar(
                 financeEnum = args.financeEnum
             ) {
-                navigator.goBack()
+                navigator.goBackWith(false)
             }
         }
     ) { paddingValues ->
