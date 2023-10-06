@@ -24,7 +24,7 @@ android {
         }
     }
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
-    namespace = "com.myapplication"
+    namespace = "com.carlosgub.myfinance.app"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 

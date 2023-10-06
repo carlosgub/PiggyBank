@@ -334,7 +334,7 @@ private fun CardExpenses(
                 ) {
                     var tabIndex by remember { mutableStateOf(FinanceEnum.EXPENSE) }
                     TabRow(
-                        selectedTabIndex = tabs.indexOf(tabIndex),
+                        selectedTabIndex = tabs.binarySearch(tabIndex),
                         containerColor = Color.White,
                         divider = {}
                     ) {

@@ -1,4 +1,4 @@
-package com.myapplication
+package com.carlosgub.myfinance.app
 
 import MainView
 import android.os.Bundle
