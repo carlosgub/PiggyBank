@@ -65,6 +65,44 @@ class FinanceRepositoryImpl(
                         incomeTotal = incomeTotal / 100.0,
                         percentage = if (incomeTotal != 0) expenseTotal * 100 / incomeTotal else 100
                     )
+                val date = createLocalDateTime(
+                    year = monthKey.substring(2, 6).toInt(),
+                    monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
+                )
+                val expenseScreenModelList = expenses.data.map { expense ->
+                    val localDate: LocalDate = expense.dateInMillis.toLocalDate()
+                    val localDateTime = createLocalDateTime(
+                        year = localDate.year,
+                        monthNumber = localDate.monthNumber,
+                        dayOfMonth = localDate.dayOfMonth
+                    )
+                    val dayOfMonth = localDateTime.dayOfMonth.toNumberOfTwoDigits()
+                    val month =
+                        localDateTime.month.name.lowercase()
+                            .replaceFirstChar { it.uppercase() }
+                    val year =
+                        localDateTime.year
+                    ExpenseScreenModel(
+                        id = expense.id.orEmpty(),
+                        amount = expense.amount,
+                        userId = expense.userId,
+                        note = expense.note.replaceFirstChar { it.uppercase() },
+                        category = expense.category,
+                        localDateTime = localDateTime,
+                        date = "$dayOfMonth $month $year"
+                    )
+                }.sortedByDescending { it.localDateTime }
+                val daySpent =
+                    (1..date.monthNumber.monthLength(isLeapYear(date.year))).associate { day ->
+                        val dateInternal = createLocalDateTime(
+                            year = monthKey.substring(2, 6).toInt(),
+                            monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
+                            dayOfMonth = day
+                        )
+                        dateInternal to expenseScreenModelList.filter { expense ->
+                            expense.localDateTime == dateInternal
+                        }.sumOf { it.amount }
+                    }
                 GenericState.Success(
                     FinanceScreenModel(
                         expenseAmount = expenseTotal,
@@ -74,7 +112,8 @@ class FinanceRepositoryImpl(
                             year = monthKey.substring(2, 6).toInt(),
                             monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
                         ),
-                        monthExpense = monthExpense
+                        monthExpense = monthExpense,
+                        daySpent = daySpent
                     )
                 )
             } else {

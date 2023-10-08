@@ -19,10 +19,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -43,18 +41,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.carlosgub.kotlinm.charts.ChartAnimation
-import com.carlosgub.kotlinm.charts.line.LineChart
-import com.carlosgub.kotlinm.charts.line.LineChartData
-import com.carlosgub.kotlinm.charts.line.LineChartPoint
-import com.carlosgub.kotlinm.charts.line.LineChartSeries
 import core.sealed.GenericState
 import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
 import model.CategoryEnum
 import model.CategoryMonthDetailArgs
 import model.EditArgs
@@ -64,18 +53,15 @@ import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
 import presentation.viewmodel.CategoryMonthDetailViewModel
-import theme.ColorPrimary
 import theme.Gray600
 import theme.Gray900
 import theme.White
 import utils.getCategoryEnumFromName
-import utils.toDayString
-import utils.toLocalDate
 import utils.toMoneyFormat
-import utils.toMonthString
 import utils.views.ExpenseDivider
 import utils.views.Loading
 import utils.views.Toolbar
+import utils.views.chart.FinanceLineChart
 
 @Composable
 fun CategoryMonthDetailScreen(
@@ -138,8 +124,7 @@ private fun CategoryMonthDetailObserver(
                 header = {
                     CategoryMonthDetailHeader(
                         uiState.data.monthAmount,
-                        uiState.data.daySpent,
-                        categoryEnum.categoryName
+                        uiState.data.daySpent
                     )
                 },
                 body = {
@@ -324,8 +309,7 @@ private fun CategoryMonthExpenseItem(
 @Composable
 private fun CategoryMonthDetailHeader(
     monthTotal: Int,
-    daySpent: Map<LocalDateTime, Int>,
-    category: String
+    daySpent: Map<LocalDateTime, Int>
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -334,7 +318,10 @@ private fun CategoryMonthDetailHeader(
         Box {
             Column {
                 Spacer(modifier = Modifier.weight(0.2f))
-                ChartCategoryMonth(daySpent)
+                FinanceLineChart(
+                    daySpent,
+                    withYChart = false
+                )
             }
             Column {
                 Text(
@@ -347,56 +334,6 @@ private fun CategoryMonthDetailHeader(
             }
         }
     }
-}
-
-@Composable
-private fun ChartCategoryMonth(daySpent: Map<LocalDateTime, Int>) {
-    val lineData = remember {
-        LineChartData(
-            series = listOf(
-                LineChartSeries(
-                    dataName = "Expense",
-                    lineColor = ColorPrimary,
-                    listOfPoints = daySpent.map { day ->
-                        LineChartPoint(
-                            x = day.key.toInstant(TimeZone.currentSystemDefault())
-                                .toEpochMilliseconds(),
-                            y = (day.value / 100.0).toFloat()
-                        )
-                    }
-                )
-            )
-        )
-    }
-    LineChart(
-        lineChartData = lineData,
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.8f),
-        xAxisLabel = {
-            val day: LocalDate = (it as Long).toLocalDate()
-            Text(
-                fontSize = 12.sp,
-                text = "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}",
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .offset(x = 20.dp)
-            )
-        },
-        overlayHeaderLabel = {
-            val day: LocalDate = (it as Long).toLocalDate()
-            Text(
-                text = "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}",
-                style = MaterialTheme.typography.labelSmall
-            )
-        },
-        overlayDataEntryLabel = { _, value ->
-            Text(
-                text = "$value"
-            )
-        },
-        animation = ChartAnimation.Sequenced()
-    )
 }
 
 @Composable

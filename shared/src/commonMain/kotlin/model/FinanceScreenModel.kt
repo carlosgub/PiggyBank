@@ -9,7 +9,8 @@ data class FinanceScreenModel(
     val expenseAmount: Int,
     val monthExpense: MonthExpense,
     val expenses: List<FinanceScreenExpenses>,
-    val income: List<FinanceScreenExpenses>
+    val income: List<FinanceScreenExpenses>,
+    val daySpent: Map<LocalDateTime, Int>
 )
 
 @Serializable

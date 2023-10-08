@@ -1,16 +1,23 @@
-@file:OptIn(ExperimentalMaterialApi::class)
+@file:OptIn(
+    ExperimentalMaterialApi::class, ExperimentalFoundationApi::class,
+    ExperimentalAnimationApi::class
+)
 
 package presentation.screen
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.AnimationConstants
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,12 +31,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowLeft
+import androidx.compose.material.icons.filled.ArrowRight
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Favorite
@@ -58,14 +72,18 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import core.sealed.GenericState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
 import model.CategoryMonthDetailArgs
 import model.CreateArgs
@@ -83,11 +101,13 @@ import presentation.viewmodel.HomeViewModel
 import theme.ColorPrimary
 import theme.Gray400
 import theme.Gray600
+import theme.Gray900
 import theme.MonthBudgetCardColor
 import utils.toMoneyFormat
 import utils.views.ExpenseDivider
 import utils.views.Loading
 import utils.views.Toolbar
+import utils.views.chart.FinanceBarChart
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
@@ -191,12 +211,12 @@ private fun HomeObserver(
         targetState = viewModel.uiState.collectAsStateWithLifecycle().value,
         transitionSpec = {
             (
-                fadeIn(animationSpec = tween(delayMillis = 90)) +
-                    slideIntoContainer(
-                        animationSpec = tween(delayMillis = 90),
-                        towards = AnimatedContentTransitionScope.SlideDirection.Left
+                    fadeIn(animationSpec = tween(delayMillis = 90)) +
+                            slideIntoContainer(
+                                animationSpec = tween(delayMillis = 90),
+                                towards = AnimatedContentTransitionScope.SlideDirection.Left
+                            )
                     )
-                )
                 .togetherWith(fadeOut(animationSpec = tween(90)))
         }
     ) { targetState ->
@@ -254,7 +274,8 @@ private fun HomeContent(
             bodyContent = {
                 HomeBodyContent(
                     monthAmount = data.expenseAmount,
-                    month = data.localDateTime.month
+                    month = data.localDateTime.month,
+                    daySpent = data.daySpent
                 )
             }
         )
@@ -285,18 +306,197 @@ private fun HomeBodyMonthExpense(
 }
 
 @Composable
-private fun HomeBodyContent(monthAmount: Int, month: Month) {
-    Text(
-        text = month.name,
-        style = MaterialTheme.typography.headlineSmall,
-        color = Color.White
+private fun HomeBodyContent(monthAmount: Int, month: Month, daySpent: Map<LocalDateTime, Int>) {
+    val pageCount = 2
+    val pagerState = rememberPagerState(pageCount = { pageCount })
+    val coroutine = rememberCoroutineScope()
+    HorizontalPager(
+        state = pagerState,
+        userScrollEnabled = false
+    ) { page ->
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            HomeBodyLeftIcon(pagerState, coroutine)
+            if (page == 0) {
+                HomeBodySecondPageContent(
+                    month = month,
+                    monthAmount = monthAmount,
+                    modifier = Modifier
+                        .weight(1f)
+                )
+            } else {
+                HomeBodySecondPageContent(
+                    daySpent = daySpent,
+                    modifier = Modifier
+                        .weight(1f)
+                )
+            }
+            HomeBodyRightContent(pagerState, pageCount, coroutine)
+        }
+    }
+}
+
+@Composable
+private fun HomeBodyRightContent(
+    pagerState: PagerState,
+    pageCount: Int,
+    coroutine: CoroutineScope
+) {
+    IconButton(
+        onClick = {
+            if (pagerState.currentPage + 1 < pageCount) {
+                coroutine.launch {
+                    pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                }
+            }
+        },
+        content = {
+            Icon(
+                imageVector = Icons.Filled.ArrowRight,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .clip(CircleShape)
+                    .border(
+                        border = BorderStroke(
+                            width = 1.dp,
+                            color = Color.White
+                        ),
+                        shape = CircleShape
+                    )
+                    .padding(8.dp)
+            )
+        },
+        modifier = Modifier
+            .alpha(
+                if (pagerState.currentPage + 1 < pageCount) {
+                    1f
+                } else {
+                    0f
+                }
+            )
     )
-    Text(
-        text = (monthAmount / 100.0).toMoneyFormat(),
-        style = MaterialTheme.typography.headlineMedium,
-        color = Color.White,
-        modifier = Modifier.padding(top = 16.dp)
+}
+
+@Composable
+private fun HomeBodyLeftIcon(
+    pagerState: PagerState,
+    coroutine: CoroutineScope
+) {
+    IconButton(
+        onClick = {
+            if (pagerState.currentPage > 0) {
+                coroutine.launch {
+                    pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                }
+            }
+        },
+        content = {
+            Icon(
+                imageVector = Icons.Filled.ArrowLeft,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .clip(CircleShape)
+                    .border(
+                        border = BorderStroke(
+                            width = 1.dp,
+                            color = Color.White
+                        ),
+                        shape = CircleShape
+                    )
+                    .padding(8.dp)
+            )
+        },
+        modifier = Modifier
+            .alpha(
+                if (pagerState.currentPage > 0) {
+                    1f
+                } else {
+                    0f
+                }
+            )
     )
+}
+
+@Composable
+private fun HomeBodySecondPageContent(
+    month: Month, monthAmount: Int,
+    modifier: Modifier
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = month.name,
+            style = MaterialTheme.typography.headlineSmall,
+            color = Color.White
+        )
+        Text(
+            text = (monthAmount / 100.0).toMoneyFormat(),
+            style = MaterialTheme.typography.headlineMedium,
+            color = Color.White,
+            modifier = Modifier.padding(top = 16.dp)
+        )
+    }
+}
+
+@Composable
+private fun HomeBodySecondPageContent(
+    daySpent: Map<LocalDateTime, Int>,
+    modifier: Modifier
+) {
+    var overlayData by remember { mutableStateOf("") }
+    Box(
+        modifier = modifier
+    ) {
+        if (overlayData.isNotEmpty()) {
+            Box(
+                Modifier
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Gray900)
+                    .padding(
+                        horizontal = 8.dp,
+                        vertical = 6.dp
+                    )
+                    .align(Alignment.TopEnd)
+            ) {
+                AnimatedContent(
+                    targetState = overlayData,
+                    transitionSpec = {
+                        fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith
+                                fadeOut(animationSpec = tween(durationMillis = 300))
+                    },
+                    contentAlignment = Alignment.Center
+                ) { overlayData ->
+                    Text(
+                        text = overlayData,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+            }
+        }
+        FinanceBarChart(
+            daySpent = daySpent,
+            lineColor = Color.White,
+            withYChart = true,
+            contentColor = Color.White,
+            modifier = Modifier
+                .fillMaxSize(),
+            onOverlayData = {
+                overlayData = it
+            }
+        )
+    }
 }
 
 @Composable
