@@ -22,7 +22,7 @@ import utils.toMonthString
 
 @Composable
 fun FinanceBarChart(
-    daySpent: Map<LocalDateTime, Int>,
+    daySpent: Map<LocalDateTime, Long>,
     lineColor: Color = ColorPrimary,
     withYChart: Boolean,
     contentColor: Color = Color.Black,
@@ -33,7 +33,7 @@ fun FinanceBarChart(
         BarChartData(
             categories = listOf(
                 BarChartCategory(
-                    name = "Expense",
+                    name = "",
                     entries = daySpent.map { day ->
                         BarChartEntry(
                             x = "${day.key.dayOfMonth.toDayString()}/${day.key.month.toMonthString()}",
@@ -53,9 +53,14 @@ fun FinanceBarChart(
         },
         yAxisLabel = {
             if (withYChart) {
+                val text = if (it is Int) {
+                    "0"
+                } else {
+                    (it as Float).toMoneyFormat()
+                }
                 Text(
                     fontSize = 12.sp,
-                    text = (it as Float).toMoneyFormat(),
+                    text = text,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .offset(x = 20.dp),

@@ -1,7 +1,9 @@
 package di
 
-import data.firebase.FirebaseFinance
+import data.source.firebase.FirebaseFinance
 import data.repository.FinanceRepositoryImpl
+import data.source.database.DatabaseFinance
+import data.sqldelight.SharedDatabase
 import domain.repository.FinanceRepository
 import domain.usecase.CreateExpenseUseCase
 import domain.usecase.CreateIncomeUseCase
@@ -11,6 +13,8 @@ import domain.usecase.EditIncomeUseCase
 import domain.usecase.GetCategoryMonthDetailUseCase
 import domain.usecase.GetFinanceUseCase
 import domain.usecase.GetMonthsUseCase
+import org.koin.core.context.startKoin
+import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 import presentation.viewmodel.CategoryMonthDetailViewModel
 import presentation.viewmodel.CreateViewModel
@@ -106,7 +110,8 @@ val homeModule = module {
 
     factory<FinanceRepository> {
         FinanceRepositoryImpl(
-            firebaseFinance = get()
+            firebaseFinance = get(),
+            databaseFinance = get()
         )
     }
 
@@ -115,4 +120,27 @@ val homeModule = module {
             firebaseFirestore = get()
         )
     }
+
+    single {
+        DatabaseFinance(
+            sharedDatabase = get()
+        )
+    }
 }
+
+fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
+    startKoin {
+        appDeclaration()
+        modules(
+            homeModule,
+            dataModule,
+            sqlDelightModule,
+            platformModule()
+        )
+    }
+
+val sqlDelightModule = module {
+    single { SharedDatabase(get()) }
+}
+
+fun initKoin() = initKoin {}

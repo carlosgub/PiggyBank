@@ -1,0 +1,22 @@
+CREATE TABLE Expense (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  amount INTEGER NOT NULL,
+  note TEXT NOT NULL,
+  category TEXT NOT NULL,
+  month TEXT NOT NULL,
+  dateInMillis INTEGER NOT NULL
+);
+
+CREATE INDEX expense_id_dateInMillis ON Expense(id,dateInMillis);
+
+getExpenseList:
+    SELECT id,amount,note,category,month,dateInMillis FROM Expense WHERE month = ?;
+
+insert:
+    INSERT INTO Expense
+    VALUES(? , ?,  ?, ?,?,?);
+
+updateExpense{
+    INSERT INTO Expense(id,amount,note,category,month,dateInMillis)
+    VALUES(:id, :amount,  :note, :category,:month,:dateInMillis);
+}

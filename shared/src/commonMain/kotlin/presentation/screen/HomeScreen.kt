@@ -94,8 +94,8 @@ import model.HomeArgs
 import model.MenuItem
 import model.MonthExpense
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
-import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
+import moe.tlaster.precompose.viewmodel.viewModel
 import presentation.navigation.Screen
 import presentation.viewmodel.HomeViewModel
 import theme.ColorPrimary
@@ -103,6 +103,7 @@ import theme.Gray400
 import theme.Gray600
 import theme.Gray900
 import theme.MonthBudgetCardColor
+import utils.get
 import utils.toMoneyFormat
 import utils.views.ExpenseDivider
 import utils.views.Loading
@@ -115,7 +116,11 @@ fun HomeScreen(
     navigator: Navigator,
     args: HomeArgs
 ) {
-    val viewModel = koinViewModel(HomeViewModel::class)
+    val viewModel = viewModel(HomeViewModel::class) {
+        HomeViewModel(
+            getFinanceUseCase = get()
+        )
+    }
     val pullRefreshState = rememberPullRefreshState(
         refreshing = viewModel.isRefreshing,
         onRefresh = {
@@ -271,13 +276,7 @@ private fun HomeContent(
             modifier = Modifier
                 .weight(0.3f)
                 .fillMaxSize(),
-            bodyContent = {
-                HomeBodyContent(
-                    monthAmount = data.expenseAmount,
-                    month = data.localDateTime.month,
-                    daySpent = data.daySpent
-                )
-            }
+            financeScreenModel = data
         )
         CardExpenses(
             modifier = Modifier
@@ -294,19 +293,23 @@ private fun HomeContent(
 @Composable
 private fun HomeBodyMonthExpense(
     modifier: Modifier,
-    bodyContent: @Composable () -> Unit
+    financeScreenModel: FinanceScreenModel
 ) {
     Column(
         modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        bodyContent()
+        HomeBodyContent(
+            monthAmount = financeScreenModel.expenseAmount,
+            month = financeScreenModel.localDateTime.month,
+            daySpent = financeScreenModel.daySpent
+        )
     }
 }
 
 @Composable
-private fun HomeBodyContent(monthAmount: Int, month: Month, daySpent: Map<LocalDateTime, Int>) {
+private fun HomeBodyContent(monthAmount: Long, month: Month, daySpent: Map<LocalDateTime, Long>) {
     val pageCount = 2
     val pagerState = rememberPagerState(pageCount = { pageCount })
     val coroutine = rememberCoroutineScope()
@@ -334,7 +337,12 @@ private fun HomeBodyContent(monthAmount: Int, month: Month, daySpent: Map<LocalD
                         .weight(1f)
                 )
             }
-            HomeBodyRightContent(pagerState, pageCount, coroutine)
+            HomeBodyRightContent(
+                pagerState = pagerState,
+                pageCount = pageCount,
+                coroutine = coroutine,
+                monthAmount = monthAmount
+            )
         }
     }
 }
@@ -343,11 +351,13 @@ private fun HomeBodyContent(monthAmount: Int, month: Month, daySpent: Map<LocalD
 private fun HomeBodyRightContent(
     pagerState: PagerState,
     pageCount: Int,
-    coroutine: CoroutineScope
+    coroutine: CoroutineScope,
+    monthAmount: Long
 ) {
+    val isEnabled = pagerState.currentPage + 1 < pageCount && monthAmount > 0
     IconButton(
         onClick = {
-            if (pagerState.currentPage + 1 < pageCount) {
+            if (isEnabled) {
                 coroutine.launch {
                     pagerState.animateScrollToPage(pagerState.currentPage + 1)
                 }
@@ -373,7 +383,7 @@ private fun HomeBodyRightContent(
         },
         modifier = Modifier
             .alpha(
-                if (pagerState.currentPage + 1 < pageCount) {
+                if (isEnabled) {
                     1f
                 } else {
                     0f
@@ -426,7 +436,8 @@ private fun HomeBodyLeftIcon(
 
 @Composable
 private fun HomeBodySecondPageContent(
-    month: Month, monthAmount: Int,
+    month: Month,
+    monthAmount: Long,
     modifier: Modifier
 ) {
     Column(
@@ -450,7 +461,7 @@ private fun HomeBodySecondPageContent(
 
 @Composable
 private fun HomeBodySecondPageContent(
-    daySpent: Map<LocalDateTime, Int>,
+    daySpent: Map<LocalDateTime, Long>,
     modifier: Modifier
 ) {
     var overlayData by remember { mutableStateOf("") }

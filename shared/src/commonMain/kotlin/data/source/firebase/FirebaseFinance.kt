@@ -1,4 +1,4 @@
-package data.firebase
+package data.source.firebase
 
 import core.network.ResponseResult
 import data.model.Expense
@@ -21,7 +21,7 @@ class FirebaseFinance constructor(
     private val firebaseFirestore: FirebaseFirestore
 ) {
 
-    private val userId = "123"
+    private val userId = "test" //123
 
     suspend fun createExpense(
         amount: Int,

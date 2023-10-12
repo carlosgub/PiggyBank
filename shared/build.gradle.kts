@@ -4,6 +4,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.compose")
     kotlin("plugin.serialization") version "1.9.0"
+    id("app.cash.sqldelight") version "2.0.0-alpha05"
     id("org.jlleitschuh.gradle.ktlint")
 }
 
@@ -60,6 +61,8 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 api(libs.bundles.android)
+                implementation(libs.delight.android)
+                implementation(libs.koin.android)
             }
         }
         val iosX64Main by getting
@@ -70,6 +73,9 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+            dependencies{
+                implementation(libs.delight.ios)
+            }
         }
     }
 }
@@ -92,5 +98,14 @@ android {
     }
     kotlin {
         jvmToolchain(17)
+    }
+}
+
+sqldelight {
+    databases {
+        create("Database") {
+            packageName.set("com.carlosgub.myfinance.app")
+            sourceFolders.set(listOf("kotlin"))
+        }
     }
 }

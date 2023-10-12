@@ -1,0 +1,22 @@
+CREATE TABLE Income (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  amount INTEGER NOT NULL,
+  note TEXT NOT NULL,
+  category TEXT NOT NULL,
+  month TEXT NOT NULL,
+  dateInMillis INTEGER NOT NULL
+);
+
+CREATE INDEX income_id_dateInMillis ON Income(id,dateInMillis);
+
+getIncomeList:
+    SELECT id,amount,note,category,month,dateInMillis FROM Income WHERE month = ?;
+
+insert:
+    INSERT INTO Income
+    VALUES(? , ?,  ?, ?,?,?);
+
+updateIncome {
+    INSERT INTO Income(id,amount,note,category,month,dateInMillis)
+    VALUES(:id, :amount,  :note, :category,:month,:dateInMillis);
+}

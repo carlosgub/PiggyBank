@@ -64,10 +64,10 @@ fun EditScreen(
                 financeEnum = args.financeEnum,
                 onBack = { navigator.goBackWith(false) },
                 onDelete = {
-                    viewModel.delete(
+                    /*viewModel.delete(
                         id = args.expenseScreenModel.id,
                         financeEnum = category.type
-                    )
+                    )*/
                 }
             )
         }
@@ -82,7 +82,7 @@ fun EditScreen(
                 viewModel = viewModel,
                 financeEnum = args.financeEnum,
                 initialDateInMillis = dateInMillis,
-                id = args.expenseScreenModel.id
+                id = args.expenseScreenModel.id.toString()
             )
             EditObserver(
                 viewModel = viewModel,

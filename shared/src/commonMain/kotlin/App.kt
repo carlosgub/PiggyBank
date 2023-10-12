@@ -82,20 +82,14 @@ fun App() {
 fun AppTheme(
     content: @Composable () -> Unit
 ) {
-    KoinApplication(
-        application = {
-            modules(homeModule, dataModule)
-        }
+    MaterialTheme(
+        colorScheme = MaterialTheme.colorScheme.copy(
+            primary = ColorPrimary,
+            surface = Color.White
+        ),
+        shapes = Shapes,
+        typography = Typography
     ) {
-        MaterialTheme(
-            colorScheme = MaterialTheme.colorScheme.copy(
-                primary = ColorPrimary,
-                surface = Color.White
-            ),
-            shapes = Shapes,
-            typography = Typography
-        ) {
-            content()
-        }
+        content()
     }
 }

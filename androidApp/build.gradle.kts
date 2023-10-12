@@ -12,6 +12,7 @@ kotlin {
             dependencies {
                 implementation(platform("com.google.firebase:firebase-bom:30.0.1"))
                 implementation(project(":shared"))
+                api(libs.koin.android)
             }
         }
     }

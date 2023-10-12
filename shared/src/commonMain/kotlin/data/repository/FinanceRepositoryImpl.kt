@@ -3,7 +3,8 @@ package data.repository
 import core.mapper.ResultMapper
 import core.network.ResponseResult
 import core.sealed.GenericState
-import data.firebase.FirebaseFinance
+import data.source.database.DatabaseFinance
+import data.source.firebase.FirebaseFinance
 import domain.repository.FinanceRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -27,13 +28,14 @@ import utils.toNumberOfTwoDigits
 import kotlin.math.roundToInt
 
 class FinanceRepositoryImpl(
-    private val firebaseFinance: FirebaseFinance
+    private val firebaseFinance: FirebaseFinance,
+    private val databaseFinance: DatabaseFinance
 ) : FinanceRepository {
 
     override suspend fun getFinance(monthKey: String): GenericState<FinanceScreenModel> =
         withContext(Dispatchers.Default) {
-            val expenses = async { firebaseFinance.getAllMonthExpenses(monthKey) }.await()
-            val income = async { firebaseFinance.getAllMonthIncome(monthKey) }.await()
+            val expenses = async { databaseFinance.getAllMonthExpenses(monthKey) }.await()
+            val income = async { databaseFinance.getAllMonthIncome(monthKey) }.await()
 
             if (expenses is ResponseResult.Success && income is ResponseResult.Success) {
                 val expenseTotal = expenses.data.sumOf { it.amount }
@@ -63,7 +65,7 @@ class FinanceRepositoryImpl(
                 val monthExpense =
                     MonthExpense(
                         incomeTotal = incomeTotal / 100.0,
-                        percentage = if (incomeTotal != 0) expenseTotal * 100 / incomeTotal else 100
+                        percentage = if (incomeTotal != 0L) expenseTotal * 100 / incomeTotal else 100
                     )
                 val date = createLocalDateTime(
                     year = monthKey.substring(2, 6).toInt(),
@@ -83,9 +85,8 @@ class FinanceRepositoryImpl(
                     val year =
                         localDateTime.year
                     ExpenseScreenModel(
-                        id = expense.id.orEmpty(),
+                        id = expense.id,
                         amount = expense.amount,
-                        userId = expense.userId,
                         note = expense.note.replaceFirstChar { it.uppercase() },
                         category = expense.category,
                         localDateTime = localDateTime,
@@ -223,7 +224,14 @@ class FinanceRepositoryImpl(
             when (val result = firebaseFinance.getCategoryMonthDetail(categoryEnum, monthKey)) {
                 is ResponseResult.Error -> GenericState.Error(result.error.message.orEmpty())
                 is ResponseResult.Success -> {
-                    val monthAmount = result.data.sumOf { it.amount }
+                    GenericState.Success(
+                        MonthDetailScreenModel(
+                            monthAmount = 1,
+                            expenseScreenModel = listOf(),
+                            daySpent = mapOf()
+                        )
+                    )
+                    /*val monthAmount = result.data.sumOf { it.amount }
                     val expenseScreenModelList = result.data.map { expense ->
                         val localDate: LocalDate = expense.dateInMillis.toLocalDate()
                         val localDateTime = createLocalDateTime(
@@ -240,7 +248,6 @@ class FinanceRepositoryImpl(
                         ExpenseScreenModel(
                             id = expense.id.orEmpty(),
                             amount = expense.amount,
-                            userId = expense.userId,
                             note = expense.note.replaceFirstChar { it.uppercase() },
                             category = expense.category,
                             localDateTime = localDateTime,
@@ -268,7 +275,7 @@ class FinanceRepositoryImpl(
                             expenseScreenModel = expenseScreenModelList,
                             daySpent = daySpent
                         )
-                    )
+                    )*/
                 }
             }
         }

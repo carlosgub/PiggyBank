@@ -12,9 +12,8 @@ data class MonthDetailScreenModel(
 
 @Serializable
 data class ExpenseScreenModel(
-    val id: String,
-    val amount: Int,
-    val userId: String,
+    val id: Long,
+    val amount: Long,
     val note: String,
     val category: String,
     val localDateTime: LocalDateTime,

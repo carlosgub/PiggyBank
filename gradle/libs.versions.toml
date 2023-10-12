@@ -1,5 +1,6 @@
 [versions]
 activityComposeVersion = "1.7.2"
+delightVersion = "2.0.0-alpha05"
 appcompatVersion = "1.6.1"
 chartsVersion = "1.0.4"
 coreKtxVersion = "1.12.0"
@@ -22,6 +23,7 @@ activity-compose = { module = "androidx.activity:activity-compose", version.ref 
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
 
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinCoreVersion" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCoreVersion" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeVersion" }
 
@@ -35,6 +37,9 @@ firebase-common = { module = "dev.gitlive:firebase-common", version.ref = "fireb
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetimeVersion" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJsonVersion" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-common", version.ref = "kotlinStdlibVersion" }
+
+delight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "delightVersion" }
+delight-ios = { module = "app.cash.sqldelight:native-driver", version.ref = "delightVersion" }
 
 
 [bundles]

@@ -6,17 +6,17 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class FinanceScreenModel(
     val localDateTime: LocalDateTime,
-    val expenseAmount: Int,
+    val expenseAmount: Long,
     val monthExpense: MonthExpense,
     val expenses: List<FinanceScreenExpenses>,
     val income: List<FinanceScreenExpenses>,
-    val daySpent: Map<LocalDateTime, Int>
+    val daySpent: Map<LocalDateTime, Long>
 )
 
 @Serializable
 data class FinanceScreenExpenses(
     val category: CategoryEnum,
-    val amount: Int,
+    val amount: Long,
     val count: Int,
     val percentage: Int
 )
@@ -24,5 +24,5 @@ data class FinanceScreenExpenses(
 @Serializable
 data class MonthExpense(
     val incomeTotal: Double,
-    val percentage: Int
+    val percentage: Long
 )
