@@ -134,7 +134,7 @@ class FinanceRepositoryImpl(
     ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             ResultMapper.toGenericState(
-                firebaseFinance.createExpense(
+                databaseFinance.createExpense(
                     amount = amount,
                     category = category,
                     note = note,
@@ -150,7 +150,7 @@ class FinanceRepositoryImpl(
     ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             ResultMapper.toGenericState(
-                firebaseFinance.createIncome(
+                databaseFinance.createIncome(
                     amount = amount,
                     note = note,
                     dateInMillis = dateInMillis
@@ -221,17 +221,10 @@ class FinanceRepositoryImpl(
         monthKey: String
     ): GenericState<MonthDetailScreenModel> =
         withContext(Dispatchers.Default) {
-            when (val result = firebaseFinance.getCategoryMonthDetail(categoryEnum, monthKey)) {
+            when (val result = databaseFinance.getCategoryMonthDetail(categoryEnum, monthKey)) {
                 is ResponseResult.Error -> GenericState.Error(result.error.message.orEmpty())
                 is ResponseResult.Success -> {
-                    GenericState.Success(
-                        MonthDetailScreenModel(
-                            monthAmount = 1,
-                            expenseScreenModel = listOf(),
-                            daySpent = mapOf()
-                        )
-                    )
-                    /*val monthAmount = result.data.sumOf { it.amount }
+                    val monthAmount = result.data.sumOf { it.amount }
                     val expenseScreenModelList = result.data.map { expense ->
                         val localDate: LocalDate = expense.dateInMillis.toLocalDate()
                         val localDateTime = createLocalDateTime(
@@ -246,7 +239,7 @@ class FinanceRepositoryImpl(
                         val year =
                             localDateTime.year
                         ExpenseScreenModel(
-                            id = expense.id.orEmpty(),
+                            id = expense.id,
                             amount = expense.amount,
                             note = expense.note.replaceFirstChar { it.uppercase() },
                             category = expense.category,
@@ -275,7 +268,7 @@ class FinanceRepositoryImpl(
                             expenseScreenModel = expenseScreenModelList,
                             daySpent = daySpent
                         )
-                    )*/
+                    )
                 }
             }
         }

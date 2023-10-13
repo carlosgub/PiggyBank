@@ -6,6 +6,10 @@ fun Database.getExpenseList(month: String): List<Expense> {
     return expenseQueries.getExpenseList(month).executeAsList()
 }
 
+fun Database.getExpenseListPerCategory(month: String, category: String): List<Expense> {
+    return expenseQueries.getExpensePerCategoryList(month,category).executeAsList()
+}
+
 fun Database.createExpense(expense: Expense) {
     expenseQueries.insert(
         id = null,

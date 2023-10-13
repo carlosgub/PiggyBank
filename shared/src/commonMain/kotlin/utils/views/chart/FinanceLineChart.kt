@@ -28,7 +28,7 @@ import utils.toMonthString
 
 @Composable
 fun FinanceLineChart(
-    daySpent: Map<LocalDateTime, Int>,
+    daySpent: Map<LocalDateTime, Long>,
     lineColor: Color = ColorPrimary,
     withYChart: Boolean,
     contentColor: Color = Color.Black

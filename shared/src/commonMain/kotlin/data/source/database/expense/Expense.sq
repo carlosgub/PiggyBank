@@ -12,6 +12,9 @@ CREATE INDEX expense_id_dateInMillis ON Expense(id,dateInMillis);
 getExpenseList:
     SELECT id,amount,note,category,month,dateInMillis FROM Expense WHERE month = ?;
 
+getExpensePerCategoryList:
+    SELECT id,amount,note,category,month,dateInMillis FROM Expense WHERE month = ? AND category = ?;
+
 insert:
     INSERT INTO Expense
     VALUES(? , ?,  ?, ?,?,?);

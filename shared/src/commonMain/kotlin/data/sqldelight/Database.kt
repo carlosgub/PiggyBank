@@ -9,14 +9,14 @@ class SharedDatabase(
 
     private suspend fun initDatabase() {
         if (database == null) {
-            database = Database.invoke(
+            database = Database(
                 driverProvider.createDriver()
             )
         }
     }
 
-    suspend operator fun <R> invoke(block: suspend (Database) -> R): R {
+    suspend operator fun invoke(): Database {
         initDatabase()
-        return block(database!!)
+        return database!!
     }
 }

@@ -51,11 +51,14 @@ import model.ExpenseScreenModel
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
+import moe.tlaster.precompose.viewmodel.ViewModel
+import moe.tlaster.precompose.viewmodel.viewModel
 import presentation.navigation.Screen
 import presentation.viewmodel.CategoryMonthDetailViewModel
 import theme.Gray600
 import theme.Gray900
 import theme.White
+import utils.get
 import utils.getCategoryEnumFromName
 import utils.toMoneyFormat
 import utils.views.ExpenseDivider
@@ -68,7 +71,9 @@ fun CategoryMonthDetailScreen(
     navigator: Navigator,
     args: CategoryMonthDetailArgs
 ) {
-    val viewModel = koinViewModel(CategoryMonthDetailViewModel::class)
+    val viewModel = viewModel(CategoryMonthDetailViewModel::class) {
+        CategoryMonthDetailViewModel(get())
+    }
     ExpenseMonthDetailContainer(
         args = args,
         navigator = navigator,
@@ -308,8 +313,8 @@ private fun CategoryMonthExpenseItem(
 
 @Composable
 private fun CategoryMonthDetailHeader(
-    monthTotal: Int,
-    daySpent: Map<LocalDateTime, Int>
+    monthTotal: Long,
+    daySpent: Map<LocalDateTime, Long>
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
