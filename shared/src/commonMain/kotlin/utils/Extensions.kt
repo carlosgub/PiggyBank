@@ -80,5 +80,5 @@ fun FinanceEnum.isExpense() = this == FinanceEnum.EXPENSE
 
 inline fun <reified T> get(
     qualifier: Qualifier? = null,
-    noinline parameters: ParametersDefinition? = null,
+    noinline parameters: ParametersDefinition? = null
 ): T = KoinPlatformTools.defaultContext().get().get(qualifier, parameters)

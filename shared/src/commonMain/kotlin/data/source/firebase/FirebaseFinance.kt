@@ -21,7 +21,7 @@ class FirebaseFinance constructor(
     private val firebaseFirestore: FirebaseFirestore
 ) {
 
-    private val userId = "test" //123
+    private val userId = "test" // 123
 
     suspend fun createExpense(
         amount: Int,

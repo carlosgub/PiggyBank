@@ -1,8 +1,6 @@
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import di.dataModule
-import di.homeModule
 import kotlinx.serialization.json.Json
 import model.CategoryMonthDetailArgs
 import model.CreateArgs
@@ -11,7 +9,6 @@ import model.HomeArgs
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
-import org.koin.compose.KoinApplication
 import presentation.navigation.NavArgs
 import presentation.navigation.Screen
 import presentation.screen.CategoryMonthDetailScreen

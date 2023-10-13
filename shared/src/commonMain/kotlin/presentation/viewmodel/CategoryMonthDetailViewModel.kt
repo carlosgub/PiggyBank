@@ -24,14 +24,14 @@ class CategoryMonthDetailViewModel(
         _uiState.value = GenericState.Loading
         viewModelScope.launch {
             _uiState.emit(
-                if(categoryEnum.type == FinanceEnum.EXPENSE){
+                if (categoryEnum.type == FinanceEnum.EXPENSE) {
                     getCategoryMonthDetailUseCase.getExpenseMonthDetail(
                         GetExpenseMonthDetailUseCase.Params(
                             categoryEnum = categoryEnum,
                             monthKey = monthKey
                         )
                     )
-                }else{
+                } else {
                     getIncomeMonthDetailUseCase.getIncomeMonthDetail(
                         GetIncomeMonthDetailUseCase.Params(
                             monthKey = monthKey

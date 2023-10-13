@@ -49,9 +49,7 @@ import model.CategoryMonthDetailArgs
 import model.EditArgs
 import model.ExpenseScreenModel
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
-import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
-import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModel
 import presentation.navigation.Screen
 import presentation.viewmodel.CategoryMonthDetailViewModel
@@ -72,7 +70,7 @@ fun CategoryMonthDetailScreen(
     args: CategoryMonthDetailArgs
 ) {
     val viewModel = viewModel(CategoryMonthDetailViewModel::class) {
-        CategoryMonthDetailViewModel(get(),get())
+        CategoryMonthDetailViewModel(get(), get())
     }
     ExpenseMonthDetailContainer(
         args = args,

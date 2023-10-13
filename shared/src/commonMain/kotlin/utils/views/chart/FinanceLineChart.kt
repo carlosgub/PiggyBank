@@ -90,7 +90,7 @@ fun FinanceLineChart(
             overlayDataEntryLabel = { _, value ->
                 OverlayDataEntryLabel(value, contentColor)
             },
-            animation = ChartAnimation.Sequenced(),
+            animation = ChartAnimation.Sequenced()
         )
     }
 }

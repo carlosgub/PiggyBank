@@ -1,8 +1,8 @@
 package di
 
-import data.source.firebase.FirebaseFinance
 import data.repository.FinanceRepositoryImpl
 import data.source.database.DatabaseFinance
+import data.source.firebase.FirebaseFinance
 import data.sqldelight.SharedDatabase
 import domain.repository.FinanceRepository
 import domain.usecase.CreateExpenseUseCase

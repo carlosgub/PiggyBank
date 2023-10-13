@@ -1,5 +1,6 @@
 @file:OptIn(
-    ExperimentalMaterialApi::class, ExperimentalFoundationApi::class,
+    ExperimentalMaterialApi::class,
+    ExperimentalFoundationApi::class,
     ExperimentalAnimationApi::class
 )
 
@@ -216,12 +217,12 @@ private fun HomeObserver(
         targetState = viewModel.uiState.collectAsStateWithLifecycle().value,
         transitionSpec = {
             (
-                    fadeIn(animationSpec = tween(delayMillis = 90)) +
-                            slideIntoContainer(
-                                animationSpec = tween(delayMillis = 90),
-                                towards = AnimatedContentTransitionScope.SlideDirection.Left
-                            )
+                fadeIn(animationSpec = tween(delayMillis = 90)) +
+                    slideIntoContainer(
+                        animationSpec = tween(delayMillis = 90),
+                        towards = AnimatedContentTransitionScope.SlideDirection.Left
                     )
+                )
                 .togetherWith(fadeOut(animationSpec = tween(90)))
         }
     ) { targetState ->
@@ -483,7 +484,7 @@ private fun HomeBodySecondPageContent(
                     targetState = overlayData,
                     transitionSpec = {
                         fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith
-                                fadeOut(animationSpec = tween(durationMillis = 300))
+                            fadeOut(animationSpec = tween(durationMillis = 300))
                     },
                     contentAlignment = Alignment.Center
                 ) { overlayData ->

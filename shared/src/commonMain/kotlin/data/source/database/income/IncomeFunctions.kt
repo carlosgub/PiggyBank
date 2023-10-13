@@ -1,7 +1,6 @@
 package data.source.database.income
 
 import com.carlosgub.myfinance.app.Database
-import data.source.database.expense.Expense
 
 fun Database.getIncomeList(month: String): List<Income> {
     return incomeQueries.getIncomeList(month).executeAsList()
@@ -35,6 +34,6 @@ fun Database.updateIncome(income: Income) {
 
 fun Database.deleteIncome(id: Long) {
     incomeQueries.delete(
-        id = id,
+        id = id
     )
 }

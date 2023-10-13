@@ -7,7 +7,7 @@ fun Database.getExpenseList(month: String): List<Expense> {
 }
 
 fun Database.getExpenseListPerCategory(month: String, category: String): List<Expense> {
-    return expenseQueries.getExpensePerCategoryList(month,category).executeAsList()
+    return expenseQueries.getExpensePerCategoryList(month, category).executeAsList()
 }
 
 fun Database.createExpense(expense: Expense) {
@@ -34,6 +34,6 @@ fun Database.updateExpense(expense: Expense) {
 
 fun Database.deleteExpense(id: Long) {
     expenseQueries.delete(
-        id = id,
+        id = id
     )
 }

@@ -17,8 +17,6 @@ import data.sqldelight.SharedDatabase
 import kotlinx.datetime.LocalDate
 import model.CategoryEnum
 import model.FinanceEnum
-import utils.COLLECTION_EXPENSE
-import utils.COLLECTION_INCOME
 import utils.toLocalDate
 import utils.toMonthString
 
@@ -33,7 +31,6 @@ class DatabaseFinance constructor(
         } catch (e: Exception) {
             ResponseResult.Error(e)
         }
-
 
     suspend fun getAllMonthIncome(
         monthKey: String
@@ -176,7 +173,6 @@ class DatabaseFinance constructor(
                 sharedDatabase().deleteExpense(id)
             } else {
                 sharedDatabase().deleteIncome(id)
-
             }
             ResponseResult.Success(Unit)
         } catch (e: Exception) {
