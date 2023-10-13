@@ -64,10 +64,10 @@ fun EditScreen(
                 financeEnum = args.financeEnum,
                 onBack = { navigator.goBackWith(false) },
                 onDelete = {
-                    /*viewModel.delete(
+                    viewModel.delete(
                         id = args.expenseScreenModel.id,
                         financeEnum = category.type
-                    )*/
+                    )
                 }
             )
         }
@@ -82,7 +82,7 @@ fun EditScreen(
                 viewModel = viewModel,
                 financeEnum = args.financeEnum,
                 initialDateInMillis = dateInMillis,
-                id = args.expenseScreenModel.id.toString()
+                id = args.expenseScreenModel.id
             )
             EditObserver(
                 viewModel = viewModel,
@@ -97,7 +97,7 @@ private fun EditContent(
     viewModel: EditViewModel,
     financeEnum: FinanceEnum,
     initialDateInMillis: Long,
-    id: String
+    id: Long
 ) {
     val selectedSelected = viewModel.category.collectAsStateWithLifecycle().value
     val amountText = viewModel.amountField.collectAsStateWithLifecycle().value

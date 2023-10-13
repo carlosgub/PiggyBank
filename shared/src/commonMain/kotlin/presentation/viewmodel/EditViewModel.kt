@@ -82,7 +82,7 @@ class EditViewModel(
 
     fun create(
         financeEnum: FinanceEnum,
-        id: String
+        id: Long
     ) {
         if (_amountValueField.value <= 0) {
             showError(true)
@@ -96,13 +96,13 @@ class EditViewModel(
         }
     }
 
-    private fun editExpense(id: String) {
+    private fun editExpense(id: Long) {
         viewModelScope.launch {
             _uiState.emit(
                 SingleEvent(
                     editExpenseUseCase.editExpense(
                         EditExpenseUseCase.Params(
-                            amount = (_amountValueField.value * 100).toInt(),
+                            amount = (_amountValueField.value * 100).toLong(),
                             category = _category.value.name,
                             note = _noteField.value,
                             dateInMillis = _dateInMillis.value,
@@ -114,13 +114,13 @@ class EditViewModel(
         }
     }
 
-    private fun editIncome(id: String) {
+    private fun editIncome(id: Long) {
         viewModelScope.launch {
             _uiState.emit(
                 SingleEvent(
                     editIncomeUseCase.editIncome(
                         EditIncomeUseCase.Params(
-                            amount = (_amountValueField.value * 100).toInt(),
+                            amount = (_amountValueField.value * 100).toLong(),
                             note = _noteField.value,
                             dateInMillis = _dateInMillis.value,
                             id = id
@@ -158,7 +158,7 @@ class EditViewModel(
     }
 
     fun delete(
-        id: String,
+        id: Long,
         financeEnum: FinanceEnum
     ) {
         _uiState.value = SingleEvent(EditState.Loading)

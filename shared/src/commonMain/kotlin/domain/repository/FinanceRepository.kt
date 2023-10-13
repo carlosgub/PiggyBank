@@ -24,23 +24,23 @@ interface FinanceRepository {
     ): GenericState<Unit>
 
     suspend fun editExpense(
-        amount: Int,
+        amount: Long,
         category: String,
         note: String,
         dateInMillis: Long,
-        id: String
+        id: Long
     ): EditState
 
     suspend fun editIncome(
-        amount: Int,
+        amount: Long,
         note: String,
         dateInMillis: Long,
-        id: String
+        id: Long
     ): EditState
 
     suspend fun delete(
         financeEnum: FinanceEnum,
-        id: String
+        id: Long
     ): EditState
 
     suspend fun getExpenseMonthDetail(

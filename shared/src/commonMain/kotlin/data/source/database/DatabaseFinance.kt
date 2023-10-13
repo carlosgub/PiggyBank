@@ -3,15 +3,22 @@ package data.source.database
 import core.network.ResponseResult
 import data.source.database.expense.Expense
 import data.source.database.expense.createExpense
+import data.source.database.expense.deleteExpense
 import data.source.database.expense.getExpenseList
 import data.source.database.expense.getExpenseListPerCategory
+import data.source.database.expense.updateExpense
 import data.source.database.income.Income
 import data.source.database.income.createIncome
+import data.source.database.income.deleteIncome
 import data.source.database.income.getIncomeList
 import data.source.database.income.getIncomeListPerCategory
+import data.source.database.income.updateIncome
 import data.sqldelight.SharedDatabase
 import kotlinx.datetime.LocalDate
 import model.CategoryEnum
+import model.FinanceEnum
+import utils.COLLECTION_EXPENSE
+import utils.COLLECTION_INCOME
 import utils.toLocalDate
 import utils.toMonthString
 
@@ -107,6 +114,71 @@ class DatabaseFinance constructor(
                 category = CategoryEnum.WORK.name
             )
             ResponseResult.Success(list)
+        } catch (e: Exception) {
+            ResponseResult.Error(e)
+        }
+
+    suspend fun editExpense(
+        amount: Long,
+        category: String,
+        note: String,
+        dateInMillis: Long,
+        id: Long
+    ): ResponseResult<Unit> =
+        try {
+            val date: LocalDate = dateInMillis.toLocalDate()
+            val currentMonthKey = "${date.month.toMonthString()}${date.year}"
+            sharedDatabase().updateExpense(
+                Expense(
+                    id = id,
+                    note = note,
+                    category = category,
+                    amount = amount,
+                    dateInMillis = dateInMillis,
+                    month = currentMonthKey
+                )
+            )
+            ResponseResult.Success(Unit)
+        } catch (e: Exception) {
+            ResponseResult.Error(e)
+        }
+
+    suspend fun editIncome(
+        amount: Long,
+        note: String,
+        dateInMillis: Long,
+        id: Long
+    ): ResponseResult<Unit> =
+        try {
+            val date: LocalDate = dateInMillis.toLocalDate()
+            val currentMonthKey = "${date.month.toMonthString()}${date.year}"
+            sharedDatabase().updateIncome(
+                Income(
+                    id = id,
+                    note = note,
+                    category = CategoryEnum.WORK.name,
+                    amount = amount,
+                    dateInMillis = dateInMillis,
+                    month = currentMonthKey
+                )
+            )
+            ResponseResult.Success(Unit)
+        } catch (e: Exception) {
+            ResponseResult.Error(e)
+        }
+
+    suspend fun delete(
+        financeEnum: FinanceEnum,
+        id: Long
+    ): ResponseResult<Unit> =
+        try {
+            if (financeEnum == FinanceEnum.EXPENSE) {
+                sharedDatabase().deleteExpense(id)
+            } else {
+                sharedDatabase().deleteIncome(id)
+
+            }
+            ResponseResult.Success(Unit)
         } catch (e: Exception) {
             ResponseResult.Error(e)
         }

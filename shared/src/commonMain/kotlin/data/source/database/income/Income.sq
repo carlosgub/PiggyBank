@@ -28,6 +28,6 @@ insert:
     VALUES(? , ?,  ?, ?,?,?);
 
 updateIncome {
-    INSERT INTO Income(id,amount,note,category,month,dateInMillis)
+    INSERT OR REPLACE INTO Income(id,amount,note,category,month,dateInMillis)
     VALUES(:id, :amount,  :note, :category,:month,:dateInMillis);
 }

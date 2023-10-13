@@ -24,6 +24,6 @@ insert:
     VALUES(? , ?,  ?, ?,?,?);
 
 updateExpense{
-    INSERT INTO Expense(id,amount,note,category,month,dateInMillis)
+    INSERT OR REPLACE INTO Expense(id,amount,note,category,month,dateInMillis)
     VALUES(:id, :amount,  :note, :category,:month,:dateInMillis);
 }
