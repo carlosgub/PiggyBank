@@ -72,7 +72,7 @@ fun CategoryMonthDetailScreen(
     args: CategoryMonthDetailArgs
 ) {
     val viewModel = viewModel(CategoryMonthDetailViewModel::class) {
-        CategoryMonthDetailViewModel(get())
+        CategoryMonthDetailViewModel(get(),get())
     }
     ExpenseMonthDetailContainer(
         args = args,

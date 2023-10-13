@@ -196,51 +196,6 @@ class FirebaseFinance constructor(
             ResponseResult.Error(e)
         }
 
-    suspend fun getCategoryMonthDetail(
-        categoryEnum: CategoryEnum,
-        monthKey: String
-    ): ResponseResult<List<Expense>> =
-        try {
-            val collection = if (categoryEnum.type == FinanceEnum.EXPENSE) {
-                COLLECTION_EXPENSE
-            } else {
-                COLLECTION_INCOME
-            }
-            val costsResponse =
-                firebaseFirestore.collection(collection)
-                    .where("userId", userId)
-                    .where("month", monthKey)
-                    .where("category", categoryEnum.name)
-                    .orderBy("timestamp", Direction.DESCENDING).get()
-
-            val list = costsResponse.documents.map {
-                it.data<Expense>().copy(
-                    id = it.id
-                )
-            }
-            ResponseResult.Success(list)
-        } catch (e: Exception) {
-            ResponseResult.Error(e)
-        }
-
-    suspend fun getAllMonthExpenses(
-        monthKey: String
-    ): ResponseResult<List<Expense>> =
-        try {
-            val costsResponse =
-                firebaseFirestore.collection(COLLECTION_EXPENSE)
-                    .where("month", monthKey)
-                    .where("userId", userId)
-                    .orderBy("timestamp", Direction.DESCENDING).get()
-
-            val list = costsResponse.documents.map {
-                it.data<Expense>()
-            }
-            ResponseResult.Success(list)
-        } catch (e: Exception) {
-            ResponseResult.Error(e)
-        }
-
     suspend fun getAllMonthIncome(
         monthKey: String
     ): ResponseResult<List<Expense>> =

@@ -10,8 +10,9 @@ import domain.usecase.CreateIncomeUseCase
 import domain.usecase.DeleteUseCase
 import domain.usecase.EditExpenseUseCase
 import domain.usecase.EditIncomeUseCase
-import domain.usecase.GetCategoryMonthDetailUseCase
+import domain.usecase.GetExpenseMonthDetailUseCase
 import domain.usecase.GetFinanceUseCase
+import domain.usecase.GetIncomeMonthDetailUseCase
 import domain.usecase.GetMonthsUseCase
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
@@ -47,7 +48,8 @@ val homeModule = module {
 
     factory {
         CategoryMonthDetailViewModel(
-            getCategoryMonthDetailUseCase = get()
+            getCategoryMonthDetailUseCase = get(),
+            getIncomeMonthDetailUseCase = get()
         )
     }
 
@@ -96,7 +98,13 @@ val homeModule = module {
     }
 
     factory {
-        GetCategoryMonthDetailUseCase(
+        GetExpenseMonthDetailUseCase(
+            financeRepository = get()
+        )
+    }
+
+    factory {
+        GetIncomeMonthDetailUseCase(
             financeRepository = get()
         )
     }

@@ -15,6 +15,10 @@ getExpenseList:
 getExpensePerCategoryList:
     SELECT id,amount,note,category,month,dateInMillis FROM Expense WHERE month = ? AND category = ?;
 
+delete:
+    DELETE FROM Expense
+    WHERE id = ?;
+
 insert:
     INSERT INTO Expense
     VALUES(? , ?,  ?, ?,?,?);

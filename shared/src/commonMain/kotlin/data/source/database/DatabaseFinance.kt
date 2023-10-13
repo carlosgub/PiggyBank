@@ -12,9 +12,6 @@ import data.source.database.income.getIncomeListPerCategory
 import data.sqldelight.SharedDatabase
 import kotlinx.datetime.LocalDate
 import model.CategoryEnum
-import model.FinanceEnum
-import utils.COLLECTION_EXPENSE
-import utils.COLLECTION_INCOME
 import utils.toLocalDate
 import utils.toMonthString
 
@@ -87,7 +84,7 @@ class DatabaseFinance constructor(
             ResponseResult.Error(e)
         }
 
-    suspend fun getCategoryMonthDetail(
+    suspend fun getExpenseMonthDetail(
         categoryEnum: CategoryEnum,
         monthKey: String
     ): ResponseResult<List<Expense>> =
@@ -95,6 +92,19 @@ class DatabaseFinance constructor(
             val list = sharedDatabase().getExpenseListPerCategory(
                 month = monthKey,
                 category = categoryEnum.name
+            )
+            ResponseResult.Success(list)
+        } catch (e: Exception) {
+            ResponseResult.Error(e)
+        }
+
+    suspend fun getIncomeMonthDetail(
+        monthKey: String
+    ): ResponseResult<List<Income>> =
+        try {
+            val list = sharedDatabase().getIncomeListPerCategory(
+                month = monthKey,
+                category = CategoryEnum.WORK.name
             )
             ResponseResult.Success(list)
         } catch (e: Exception) {

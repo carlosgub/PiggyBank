@@ -32,3 +32,9 @@ fun Database.updateIncome(income: Income) {
         dateInMillis = income.dateInMillis
     )
 }
+
+fun Database.deleteIncome(id: Long) {
+    incomeQueries.delete(
+        id = id,
+    )
+}

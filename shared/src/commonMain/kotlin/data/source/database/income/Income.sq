@@ -19,6 +19,10 @@ getIncomePerCategoryList:
     FROM Income
     WHERE month = ? AND category = ?;
 
+delete:
+    DELETE FROM Income
+    WHERE id = ?;
+
 insert:
     INSERT INTO Income
     VALUES(? , ?,  ?, ?,?,?);

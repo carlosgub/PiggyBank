@@ -216,12 +216,66 @@ class FinanceRepositoryImpl(
             }
         }
 
-    override suspend fun getCategoryMonthDetail(
+    override suspend fun getExpenseMonthDetail(
         categoryEnum: CategoryEnum,
         monthKey: String
     ): GenericState<MonthDetailScreenModel> =
         withContext(Dispatchers.Default) {
-            when (val result = databaseFinance.getCategoryMonthDetail(categoryEnum, monthKey)) {
+            when (val result = databaseFinance.getExpenseMonthDetail(categoryEnum, monthKey)) {
+                is ResponseResult.Error -> GenericState.Error(result.error.message.orEmpty())
+                is ResponseResult.Success -> {
+                    val monthAmount = result.data.sumOf { it.amount }
+                    val expenseScreenModelList = result.data.map { expense ->
+                        val localDate: LocalDate = expense.dateInMillis.toLocalDate()
+                        val localDateTime = createLocalDateTime(
+                            year = localDate.year,
+                            monthNumber = localDate.monthNumber,
+                            dayOfMonth = localDate.dayOfMonth
+                        )
+                        val dayOfMonth = localDateTime.dayOfMonth.toNumberOfTwoDigits()
+                        val month =
+                            localDateTime.month.name.lowercase()
+                                .replaceFirstChar { it.uppercase() }
+                        val year =
+                            localDateTime.year
+                        ExpenseScreenModel(
+                            id = expense.id,
+                            amount = expense.amount,
+                            note = expense.note.replaceFirstChar { it.uppercase() },
+                            category = expense.category,
+                            localDateTime = localDateTime,
+                            date = "$dayOfMonth $month $year"
+                        )
+                    }.sortedByDescending { it.localDateTime }
+                    val date = createLocalDateTime(
+                        year = monthKey.substring(2, 6).toInt(),
+                        monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
+                    )
+                    val daySpent =
+                        (1..date.monthNumber.monthLength(isLeapYear(date.year))).associate { day ->
+                            val dateInternal = createLocalDateTime(
+                                year = monthKey.substring(2, 6).toInt(),
+                                monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
+                                dayOfMonth = day
+                            )
+                            dateInternal to expenseScreenModelList.filter { expense ->
+                                expense.localDateTime == dateInternal
+                            }.sumOf { it.amount }
+                        }
+                    GenericState.Success(
+                        MonthDetailScreenModel(
+                            monthAmount = monthAmount,
+                            expenseScreenModel = expenseScreenModelList,
+                            daySpent = daySpent
+                        )
+                    )
+                }
+            }
+        }
+
+    override suspend fun getIncomeMonthDetail(monthKey: String): GenericState<MonthDetailScreenModel> =
+        withContext(Dispatchers.Default) {
+            when (val result = databaseFinance.getIncomeMonthDetail(monthKey)) {
                 is ResponseResult.Error -> GenericState.Error(result.error.message.orEmpty())
                 is ResponseResult.Success -> {
                     val monthAmount = result.data.sumOf { it.amount }

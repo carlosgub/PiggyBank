@@ -31,3 +31,9 @@ fun Database.updateExpense(expense: Expense) {
         dateInMillis = expense.dateInMillis
     )
 }
+
+fun Database.deleteExpense(id: Long) {
+    expenseQueries.delete(
+        id = id,
+    )
+}

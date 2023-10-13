@@ -43,8 +43,12 @@ interface FinanceRepository {
         id: String
     ): EditState
 
-    suspend fun getCategoryMonthDetail(
+    suspend fun getExpenseMonthDetail(
         categoryEnum: CategoryEnum,
+        monthKey: String
+    ): GenericState<MonthDetailScreenModel>
+
+    suspend fun getIncomeMonthDetail(
         monthKey: String
     ): GenericState<MonthDetailScreenModel>
 
