@@ -36,12 +36,13 @@ import core.sealed.GenericState
 import kotlinx.datetime.LocalDateTime
 import model.HomeArgs
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
-import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
+import moe.tlaster.precompose.viewmodel.viewModel
 import presentation.navigation.Screen
 import presentation.viewmodel.MonthsScreenViewModel
 import theme.ColorPrimary
 import theme.White
+import utils.get
 import utils.toMonthString
 import utils.views.ExpenseDivider
 import utils.views.Loading
@@ -51,7 +52,9 @@ import utils.views.Toolbar
 fun MonthsScreen(
     navigator: Navigator
 ) {
-    val viewModel = koinViewModel(MonthsScreenViewModel::class)
+    val viewModel = viewModel(MonthsScreenViewModel::class) {
+        MonthsScreenViewModel(get())
+    }
     Scaffold(
         topBar = {
             MonthsToolbar(

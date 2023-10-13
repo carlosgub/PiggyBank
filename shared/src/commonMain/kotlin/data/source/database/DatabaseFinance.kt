@@ -13,10 +13,13 @@ import data.source.database.income.deleteIncome
 import data.source.database.income.getIncomeList
 import data.source.database.income.getIncomeListPerCategory
 import data.source.database.income.updateIncome
+import data.source.database.month.createMonth
+import data.source.database.month.getMonthList
 import data.sqldelight.SharedDatabase
 import kotlinx.datetime.LocalDate
 import model.CategoryEnum
 import model.FinanceEnum
+import model.MonthModel
 import utils.toLocalDate
 import utils.toMonthString
 
@@ -60,6 +63,9 @@ class DatabaseFinance constructor(
                     month = currentMonthKey
                 )
             )
+            sharedDatabase().createMonth(
+                currentMonthKey
+            )
             ResponseResult.Success(Unit)
         } catch (e: Exception) {
             ResponseResult.Error(e)
@@ -82,6 +88,9 @@ class DatabaseFinance constructor(
                     dateInMillis = dateInMillis,
                     month = currentMonthKey
                 )
+            )
+            sharedDatabase().createMonth(
+                currentMonthKey
             )
             ResponseResult.Success(Unit)
         } catch (e: Exception) {
@@ -175,6 +184,20 @@ class DatabaseFinance constructor(
                 sharedDatabase().deleteIncome(id)
             }
             ResponseResult.Success(Unit)
+        } catch (e: Exception) {
+            ResponseResult.Error(e)
+        }
+
+    suspend fun getMonths(): ResponseResult<List<MonthModel>> =
+        try {
+            val list = sharedDatabase().getMonthList().map { monthKey ->
+                MonthModel(
+                    id = monthKey,
+                    month = monthKey.take(2),
+                    year = monthKey.takeLast(4)
+                )
+            }.sortedByDescending { it.month }
+            ResponseResult.Success(list)
         } catch (e: Exception) {
             ResponseResult.Error(e)
         }

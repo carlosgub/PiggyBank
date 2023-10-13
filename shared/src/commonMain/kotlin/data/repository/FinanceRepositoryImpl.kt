@@ -329,7 +329,7 @@ class FinanceRepositoryImpl(
 
     override suspend fun getMonths(): GenericState<Map<Int, List<LocalDateTime>>> =
         withContext(Dispatchers.Default) {
-            when (val result = firebaseFinance.getMonths()) {
+            when (val result = databaseFinance.getMonths()) {
                 is ResponseResult.Success -> {
                     GenericState.Success(
                         result.data.map { month ->
