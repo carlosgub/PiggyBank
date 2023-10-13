@@ -2,7 +2,6 @@ package di
 
 import data.repository.FinanceRepositoryImpl
 import data.source.database.DatabaseFinance
-import data.source.firebase.FirebaseFinance
 import data.sqldelight.SharedDatabase
 import domain.repository.FinanceRepository
 import domain.usecase.CreateExpenseUseCase
@@ -118,14 +117,7 @@ val homeModule = module {
 
     factory<FinanceRepository> {
         FinanceRepositoryImpl(
-            firebaseFinance = get(),
             databaseFinance = get()
-        )
-    }
-
-    single {
-        FirebaseFinance(
-            firebaseFirestore = get()
         )
     }
 
@@ -141,7 +133,6 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
         appDeclaration()
         modules(
             homeModule,
-            dataModule,
             sqlDelightModule,
             platformModule()
         )

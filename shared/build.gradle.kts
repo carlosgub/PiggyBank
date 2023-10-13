@@ -52,7 +52,6 @@ kotlin {
                 api(libs.koin.core)
                 implementation(libs.koin.compose)
                 api(libs.bundles.precompose)
-                implementation(libs.bundles.firebase)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlin.stdlib)
                 implementation(libs.charts)

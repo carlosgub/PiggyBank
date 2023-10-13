@@ -4,7 +4,6 @@ import core.mapper.ResultMapper
 import core.network.ResponseResult
 import core.sealed.GenericState
 import data.source.database.DatabaseFinance
-import data.source.firebase.FirebaseFinance
 import domain.repository.FinanceRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -28,7 +27,6 @@ import utils.toNumberOfTwoDigits
 import kotlin.math.roundToInt
 
 class FinanceRepositoryImpl(
-    private val firebaseFinance: FirebaseFinance,
     private val databaseFinance: DatabaseFinance
 ) : FinanceRepository {
 
