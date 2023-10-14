@@ -216,14 +216,10 @@ private fun HomeObserver(
     AnimatedContent(
         targetState = viewModel.uiState.collectAsStateWithLifecycle().value,
         transitionSpec = {
-            (
-                fadeIn(animationSpec = tween(delayMillis = 90)) +
-                    slideIntoContainer(
-                        animationSpec = tween(delayMillis = 90),
-                        towards = AnimatedContentTransitionScope.SlideDirection.Left
-                    )
+            fadeIn(animationSpec = tween(delayMillis = 90))
+                .togetherWith(
+                    fadeOut(animationSpec = tween(90))
                 )
-                .togetherWith(fadeOut(animationSpec = tween(90)))
         }
     ) { targetState ->
         when (targetState) {
@@ -296,16 +292,34 @@ private fun HomeBodyMonthExpense(
     modifier: Modifier,
     financeScreenModel: FinanceScreenModel
 ) {
-    Column(
-        modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+    var visible by rememberSaveable { mutableStateOf(false) }
+    AnimatedContent(
+        targetState = visible,
+        modifier = modifier,
+        transitionSpec = {
+            slideIntoContainer(
+                animationSpec = tween(delayMillis = 90),
+                towards = AnimatedContentTransitionScope.SlideDirection.Down
+            ).togetherWith(
+                fadeOut(animationSpec = tween(90))
+            )
+        }
     ) {
-        HomeBodyContent(
-            monthAmount = financeScreenModel.expenseAmount,
-            month = financeScreenModel.localDateTime.month,
-            daySpent = financeScreenModel.daySpent
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            HomeBodyContent(
+                monthAmount = financeScreenModel.expenseAmount,
+                month = financeScreenModel.localDateTime.month,
+                daySpent = financeScreenModel.daySpent
+            )
+        }
+    }
+    LaunchedEffect(visible) {
+        if (!visible) {
+            visible = true
+        }
     }
 }
 
@@ -519,70 +533,86 @@ private fun CardExpenses(
     income: List<FinanceScreenExpenses>,
     onCategoryClick: (FinanceScreenExpenses) -> Unit
 ) {
-    Card(
+    var visible by rememberSaveable { mutableStateOf(false) }
+    AnimatedContent(
+        targetState = visible,
         modifier = modifier,
-        shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MonthBudgetCardColor
-        )
+        transitionSpec = {
+            slideIntoContainer(
+                animationSpec = tween(delayMillis = 90),
+                towards = AnimatedContentTransitionScope.SlideDirection.Up
+            ).togetherWith(
+                fadeOut(animationSpec = tween(90))
+            )
+        }
     ) {
-        CardMonthExpenseContent(
-            monthExpense = monthExpense
-        )
-        Column {
-            Card(
-                modifier = modifier,
-                shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White
-                )
-            ) {
-                val tabs = FinanceEnum.entries.toList()
-                val firstTimeDelayAnimation = rememberSaveable { mutableStateOf(true) }
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 24.dp, top = 24.dp, end = 24.dp)
+        Card(
+            shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MonthBudgetCardColor
+            )
+        ) {
+            CardMonthExpenseContent(
+                monthExpense = monthExpense
+            )
+            Column {
+                Card(
+                    modifier = modifier,
+                    shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    )
                 ) {
-                    var tabIndex by remember { mutableStateOf(FinanceEnum.EXPENSE) }
-                    TabRow(
-                        selectedTabIndex = tabs.binarySearch(tabIndex),
-                        containerColor = Color.White,
-                        divider = {}
+                    val tabs = FinanceEnum.entries.toList()
+                    val firstTimeDelayAnimation = rememberSaveable { mutableStateOf(true) }
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(start = 24.dp, top = 24.dp, end = 24.dp)
                     ) {
-                        tabs.forEach { financeEnum ->
-                            Tab(
-                                text = {
-                                    Text(
-                                        text = financeEnum.financeName,
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        color = Color.Black
-                                    )
-                                },
-                                selected = tabIndex == financeEnum,
-                                onClick = { tabIndex = financeEnum }
-                            )
+                        var tabIndex by remember { mutableStateOf(FinanceEnum.EXPENSE) }
+                        TabRow(
+                            selectedTabIndex = tabs.binarySearch(tabIndex),
+                            containerColor = Color.White,
+                            divider = {}
+                        ) {
+                            tabs.forEach { financeEnum ->
+                                Tab(
+                                    text = {
+                                        Text(
+                                            text = financeEnum.financeName,
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            color = Color.Black
+                                        )
+                                    },
+                                    selected = tabIndex == financeEnum,
+                                    onClick = { tabIndex = financeEnum }
+                                )
+                            }
                         }
-                    }
-                    when (tabIndex) {
-                        FinanceEnum.EXPENSE -> {
-                            HomeFooterContent(
-                                expenses = expenses,
-                                onCategoryClick = onCategoryClick,
-                                firstTimeDelayAnimation = firstTimeDelayAnimation.value
-                            )
-                            firstTimeDelayAnimation.value = false
-                        }
+                        when (tabIndex) {
+                            FinanceEnum.EXPENSE -> {
+                                HomeFooterContent(
+                                    expenses = expenses,
+                                    onCategoryClick = onCategoryClick,
+                                    firstTimeDelayAnimation = firstTimeDelayAnimation.value
+                                )
+                                firstTimeDelayAnimation.value = false
+                            }
 
-                        FinanceEnum.INCOME ->
-                            HomeFooterContent(
-                                expenses = income,
-                                onCategoryClick = onCategoryClick
-                            )
+                            FinanceEnum.INCOME ->
+                                HomeFooterContent(
+                                    expenses = income,
+                                    onCategoryClick = onCategoryClick
+                                )
+                        }
                     }
                 }
             }
         }
+    }
+    LaunchedEffect(Unit) {
+        visible = true
     }
 }
 
