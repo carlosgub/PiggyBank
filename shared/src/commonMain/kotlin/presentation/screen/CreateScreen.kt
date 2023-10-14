@@ -83,7 +83,6 @@ private fun CreateContent(
     val showError = viewModel.showError.collectAsStateWithLifecycle().value
     val showNoteError = viewModel.showNoteError.collectAsStateWithLifecycle().value
     val showDateError = viewModel.showDateError.collectAsStateWithLifecycle().value
-    val noteText = viewModel.noteField.collectAsStateWithLifecycle().value
     val dateValue = viewModel.dateValue.collectAsStateWithLifecycle().value
     val keyboard = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -137,7 +136,7 @@ private fun CreateContent(
             }
         )
         NoteOutlineTextField(
-            noteValue = noteText,
+            firstValue = "",
             keyboard = keyboard,
             focusManager = focusManager,
             onValueChange = { value ->

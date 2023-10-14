@@ -29,7 +29,6 @@ class EditViewModel(
     private val _amountField = MutableStateFlow(0.0.toMoneyFormat())
     val amountField = _amountField.asStateFlow()
     private val _noteField = MutableStateFlow("")
-    val noteField = _noteField.asStateFlow()
     private val _dateValue = MutableStateFlow("")
     val dateValue = _dateValue.asStateFlow()
     private val _showError = MutableStateFlow(false)
