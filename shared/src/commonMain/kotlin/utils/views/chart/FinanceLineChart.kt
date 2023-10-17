@@ -115,7 +115,7 @@ private fun OverlayHeaderLabel(
         monthNumber = day.monthNumber,
         dayOfMonth = day.dayOfMonth
     )
-    val moneySpent = ((daySpent[localDateTime] ?: (0 / 100.0))).toFloat().toMoneyFormat()
+    val moneySpent = ((daySpent[localDateTime] ?: 0) / 100.0).toFloat().toMoneyFormat()
     Text(
         text = "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}\n" +
                 moneySpent,
