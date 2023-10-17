@@ -1,16 +1,20 @@
 package di
 
-import data.firebase.FirebaseFinance
 import data.repository.FinanceRepositoryImpl
+import data.source.database.DatabaseFinance
+import data.sqldelight.SharedDatabase
 import domain.repository.FinanceRepository
 import domain.usecase.CreateExpenseUseCase
 import domain.usecase.CreateIncomeUseCase
 import domain.usecase.DeleteUseCase
 import domain.usecase.EditExpenseUseCase
 import domain.usecase.EditIncomeUseCase
-import domain.usecase.GetCategoryMonthDetailUseCase
+import domain.usecase.GetExpenseMonthDetailUseCase
 import domain.usecase.GetFinanceUseCase
+import domain.usecase.GetIncomeMonthDetailUseCase
 import domain.usecase.GetMonthsUseCase
+import org.koin.core.context.startKoin
+import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 import presentation.viewmodel.CategoryMonthDetailViewModel
 import presentation.viewmodel.CreateViewModel
@@ -43,7 +47,8 @@ val homeModule = module {
 
     factory {
         CategoryMonthDetailViewModel(
-            getCategoryMonthDetailUseCase = get()
+            getCategoryMonthDetailUseCase = get(),
+            getIncomeMonthDetailUseCase = get()
         )
     }
 
@@ -92,7 +97,13 @@ val homeModule = module {
     }
 
     factory {
-        GetCategoryMonthDetailUseCase(
+        GetExpenseMonthDetailUseCase(
+            financeRepository = get()
+        )
+    }
+
+    factory {
+        GetIncomeMonthDetailUseCase(
             financeRepository = get()
         )
     }
@@ -106,13 +117,29 @@ val homeModule = module {
 
     factory<FinanceRepository> {
         FinanceRepositoryImpl(
-            firebaseFinance = get()
+            databaseFinance = get()
         )
     }
 
     single {
-        FirebaseFinance(
-            firebaseFirestore = get()
+        DatabaseFinance(
+            sharedDatabase = get()
         )
     }
 }
+
+fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
+    startKoin {
+        appDeclaration()
+        modules(
+            homeModule,
+            sqlDelightModule,
+            platformModule()
+        )
+    }
+
+val sqlDelightModule = module {
+    single { SharedDatabase(get()) }
+}
+
+fun initKoin() = initKoin {}

@@ -1,0 +1,15 @@
+CREATE TABLE Month (
+  month TEXT PRIMARY KEY NOT NULL
+);
+
+getMonthListList:
+    SELECT month
+    FROM Month;
+
+delete:
+    DELETE FROM Month
+    WHERE month = ?;
+
+insert:
+    INSERT OR REPLACE INTO Month
+    VALUES(?);

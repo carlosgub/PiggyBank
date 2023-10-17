@@ -1,0 +1,35 @@
+CREATE TABLE Income (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  amount INTEGER NOT NULL,
+  note TEXT NOT NULL,
+  category TEXT NOT NULL,
+  month TEXT NOT NULL,
+  dateInMillis INTEGER NOT NULL
+);
+
+CREATE INDEX income_id_dateInMillis ON Income(id,dateInMillis);
+
+getIncomeList:
+    SELECT id,amount,note,category,month,dateInMillis
+    FROM Income
+    WHERE month = ?
+    ORDER BY id DESC;
+
+getIncomePerCategoryList:
+    SELECT id,amount,note,category,month,dateInMillis
+    FROM Income
+    WHERE month = ? AND category = ?
+    ORDER BY id DESC;
+
+delete:
+    DELETE FROM Income
+    WHERE id = ?;
+
+insert:
+    INSERT INTO Income
+    VALUES(? , ?,  ?, ?,?,?);
+
+updateIncome {
+    INSERT OR REPLACE INTO Income(id,amount,note,category,month,dateInMillis)
+    VALUES(:id, :amount,  :note, :category,:month,:dateInMillis);
+}

@@ -9,7 +9,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.carlosgub.kotlinm.charts.ChartAnimation
 import com.carlosgub.kotlinm.charts.bar.BarChart
 import com.carlosgub.kotlinm.charts.bar.BarChartCategory
 import com.carlosgub.kotlinm.charts.bar.BarChartData
@@ -22,23 +21,23 @@ import utils.toMonthString
 
 @Composable
 fun FinanceBarChart(
-    daySpent: Map<LocalDateTime, Int>,
-    lineColor: Color = ColorPrimary,
+    daySpent: Map<LocalDateTime, Long>,
+    barColor: Color = ColorPrimary,
     withYChart: Boolean,
     contentColor: Color = Color.Black,
-    onOverlayData: (String) -> Unit,
-    modifier: Modifier
+    onOverlayData: (String) -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     val lineData = remember {
         BarChartData(
             categories = listOf(
                 BarChartCategory(
-                    name = "Expense",
+                    name = "",
                     entries = daySpent.map { day ->
                         BarChartEntry(
                             x = "${day.key.dayOfMonth.toDayString()}/${day.key.month.toMonthString()}",
                             y = (day.value / 100.0).toFloat(),
-                            color = lineColor
+                            color = barColor
                         )
                     }
                 )
@@ -48,14 +47,16 @@ fun FinanceBarChart(
     BarChart(
         data = lineData,
         modifier = modifier,
-        xAxisLabel = {
-            XAxisLabel(it, contentColor)
-        },
         yAxisLabel = {
             if (withYChart) {
+                val text = if (it is Int) {
+                    "0"
+                } else {
+                    (it as Float).toMoneyFormat()
+                }
                 Text(
                     fontSize = 12.sp,
-                    text = (it as Float).toMoneyFormat(),
+                    text = text,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .offset(x = 20.dp),
@@ -65,19 +66,6 @@ fun FinanceBarChart(
         },
         overlayDataEntryLabel = { date, value ->
             onOverlayData("$date\n${(value as Float).toMoneyFormat()}")
-        },
-        animation = ChartAnimation.Sequenced()
-    )
-}
-
-@Composable
-private fun XAxisLabel(it: Any, contentColor: Color) {
-    Text(
-        fontSize = 12.sp,
-        text = it as String,
-        textAlign = TextAlign.Center,
-        modifier = Modifier
-            .offset(x = 20.dp),
-        color = contentColor
+        }
     )
 }

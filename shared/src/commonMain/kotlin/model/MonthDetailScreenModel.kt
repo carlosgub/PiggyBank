@@ -5,16 +5,15 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MonthDetailScreenModel(
-    val monthAmount: Int,
-    val daySpent: Map<LocalDateTime, Int> = mapOf(),
+    val monthAmount: Long,
+    val daySpent: Map<LocalDateTime, Long> = mapOf(),
     val expenseScreenModel: List<ExpenseScreenModel>
 )
 
 @Serializable
 data class ExpenseScreenModel(
-    val id: String,
-    val amount: Int,
-    val userId: String,
+    val id: Long,
+    val amount: Long,
     val note: String,
     val category: String,
     val localDateTime: LocalDateTime,

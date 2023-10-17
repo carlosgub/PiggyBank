@@ -1,5 +1,6 @@
 [versions]
 activityComposeVersion = "1.7.2"
+delightVersion = "2.0.0-alpha05"
 appcompatVersion = "1.6.1"
 chartsVersion = "1.0.4"
 coreKtxVersion = "1.12.0"
@@ -8,7 +9,6 @@ koinCoreVersion = "3.5.0"
 koinComposeVersion = "1.1.0"
 kotlinxSerializationJsonVersion = "1.6.0"
 precomposeVersion = "1.5.4"
-firebaseVersion = "1.10.2"
 datetimeVersion = "0.4.1"
 kotlinStdlibVersion = "1.9.10"
 
@@ -22,19 +22,19 @@ activity-compose = { module = "androidx.activity:activity-compose", version.ref 
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
 
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinCoreVersion" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCoreVersion" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeVersion" }
 
 precompose-core = { module = "moe.tlaster:precompose", version.ref = "precomposeVersion" }
 precompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "precomposeVersion" }
-precompose-koin = { module = "moe.tlaster:precompose-koin", version.ref = "precomposeVersion" }
-
-firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebaseVersion" }
-firebase-common = { module = "dev.gitlive:firebase-common", version.ref = "firebaseVersion" }
 
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetimeVersion" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJsonVersion" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-common", version.ref = "kotlinStdlibVersion" }
+
+delight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "delightVersion" }
+delight-ios = { module = "app.cash.sqldelight:native-driver", version.ref = "delightVersion" }
 
 
 [bundles]
@@ -45,10 +45,5 @@ android = [
 ]
 precompose = [
     "precompose-core",
-    "precompose-viewmodel",
-    "precompose-koin",
-]
-firebase = [
-    "firebase-firestore",
-    "firebase-common"
+    "precompose-viewmodel"
 ]

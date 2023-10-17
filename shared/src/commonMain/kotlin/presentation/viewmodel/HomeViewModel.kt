@@ -2,6 +2,7 @@ package presentation.viewmodel
 
 import core.sealed.GenericState
 import domain.usecase.GetFinanceUseCase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -21,6 +22,7 @@ class HomeViewModel(
     fun getFinanceStatus(monthKey: String) {
         _uiState.value = GenericState.Loading
         viewModelScope.launch {
+            delay(200)
             _uiState.emit(
                 getFinanceUseCase.getFinance(
                     GetFinanceUseCase.Params(

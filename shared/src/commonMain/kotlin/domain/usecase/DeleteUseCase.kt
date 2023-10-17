@@ -15,6 +15,6 @@ class DeleteUseCase(
 
     data class Params(
         val financeEnum: FinanceEnum,
-        val id: String
+        val id: Long
     )
 }

@@ -2,6 +2,7 @@ package presentation.viewmodel
 
 import core.sealed.GenericState
 import domain.usecase.GetMonthsUseCase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ class MonthsScreenViewModel(
     fun getMonths() {
         _uiState.value = GenericState.Loading
         viewModelScope.launch {
+            delay(200)
             _uiState.emit(
                 getMonthsUseCase.getMonths()
             )

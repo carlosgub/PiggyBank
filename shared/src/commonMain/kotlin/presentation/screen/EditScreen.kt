@@ -82,7 +82,8 @@ fun EditScreen(
                 viewModel = viewModel,
                 financeEnum = args.financeEnum,
                 initialDateInMillis = dateInMillis,
-                id = args.expenseScreenModel.id
+                id = args.expenseScreenModel.id,
+                noteValue = args.expenseScreenModel.note
             )
             EditObserver(
                 viewModel = viewModel,
@@ -97,14 +98,14 @@ private fun EditContent(
     viewModel: EditViewModel,
     financeEnum: FinanceEnum,
     initialDateInMillis: Long,
-    id: String
+    id: Long,
+    noteValue: String
 ) {
     val selectedSelected = viewModel.category.collectAsStateWithLifecycle().value
     val amountText = viewModel.amountField.collectAsStateWithLifecycle().value
     val showError = viewModel.showError.collectAsStateWithLifecycle().value
     val showNoteError = viewModel.showNoteError.collectAsStateWithLifecycle().value
     val showDateError = viewModel.showDateError.collectAsStateWithLifecycle().value
-    val noteText = viewModel.noteField.collectAsStateWithLifecycle().value
     val dateValue = viewModel.dateValue.collectAsStateWithLifecycle().value
     val keyboard = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -159,7 +160,7 @@ private fun EditContent(
             }
         )
         NoteOutlineTextField(
-            noteValue = noteText,
+            firstValue = noteValue,
             keyboard = keyboard,
             focusManager = focusManager,
             onValueChange = { value ->

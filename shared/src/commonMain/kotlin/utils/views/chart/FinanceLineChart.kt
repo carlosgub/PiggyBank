@@ -21,6 +21,7 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import theme.ColorPrimary
+import utils.createLocalDateTime
 import utils.toDayString
 import utils.toLocalDate
 import utils.toMoneyFormat
@@ -28,7 +29,7 @@ import utils.toMonthString
 
 @Composable
 fun FinanceLineChart(
-    daySpent: Map<LocalDateTime, Int>,
+    daySpent: Map<LocalDateTime, Long>,
     lineColor: Color = ColorPrimary,
     withYChart: Boolean,
     contentColor: Color = Color.Black
@@ -61,7 +62,7 @@ fun FinanceLineChart(
             yAxisLabel = {
                 Text(
                     fontSize = 12.sp,
-                    text = "${(it as Float).toMoneyFormat()}",
+                    text = (it as Float).toMoneyFormat(),
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .offset(x = 20.dp),
@@ -69,10 +70,13 @@ fun FinanceLineChart(
                 )
             },
             overlayHeaderLabel = { localDate ->
-                OverlayHeaderLabel(localDate as Long, contentColor)
+                OverlayHeaderLabel(
+                    localDate = localDate as Long,
+                    contentColor = contentColor,
+                    daySpent = daySpent
+                )
             },
-            overlayDataEntryLabel = { _, value ->
-                OverlayDataEntryLabel(value, contentColor)
+            overlayDataEntryLabel = { _, _ ->
             },
             animation = ChartAnimation.Sequenced()
         )
@@ -85,33 +89,37 @@ fun FinanceLineChart(
                 XAxisLabel(it, contentColor)
             },
             overlayHeaderLabel = { localDate ->
-                OverlayHeaderLabel(localDate as Long, contentColor)
+                OverlayHeaderLabel(
+                    localDate = localDate as Long,
+                    contentColor = contentColor,
+                    daySpent = daySpent
+                )
             },
-            overlayDataEntryLabel = { _, value ->
-                OverlayDataEntryLabel(value, contentColor)
+            overlayDataEntryLabel = { _, _ ->
+
             },
-            animation = ChartAnimation.Sequenced(),
+            animation = ChartAnimation.Sequenced()
         )
     }
 }
 
 @Composable
-private fun OverlayDataEntryLabel(value: Any, contentColor: Color) {
-    Text(
-        text = "$value",
-        color = contentColor
-    )
-}
-
-@Composable
 private fun OverlayHeaderLabel(
     localDate: Long,
-    contentColor: Color
+    contentColor: Color,
+    daySpent: Map<LocalDateTime, Long>
 ) {
     val day: LocalDate = localDate.toLocalDate()
+    val localDateTime = createLocalDateTime(
+        year = day.year,
+        monthNumber = day.monthNumber,
+        dayOfMonth = day.dayOfMonth
+    )
+    val moneySpent = ((daySpent[localDateTime] ?: 0) / 100.0).toFloat().toMoneyFormat()
     Text(
-        text = "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}",
-        style = MaterialTheme.typography.labelSmall,
+        text = "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}\n" +
+                moneySpent,
+        style = MaterialTheme.typography.bodyMedium,
         color = contentColor
     )
 }

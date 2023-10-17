@@ -15,9 +15,9 @@ class EditIncomeUseCase(
         )
 
     data class Params(
-        val amount: Int,
+        val amount: Long,
         val note: String,
         val dateInMillis: Long,
-        val id: String
+        val id: Long
     )
 }
