@@ -513,7 +513,7 @@ private fun HomeBodySecondPageContent(
         }
         FinanceBarChart(
             daySpent = daySpent,
-            lineColor = Color.White,
+            barColor = Color.White,
             withYChart = true,
             contentColor = Color.White,
             modifier = Modifier

@@ -28,7 +28,6 @@ koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComp
 
 precompose-core = { module = "moe.tlaster:precompose", version.ref = "precomposeVersion" }
 precompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "precomposeVersion" }
-precompose-koin = { module = "moe.tlaster:precompose-koin", version.ref = "precomposeVersion" }
 
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetimeVersion" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJsonVersion" }
@@ -46,6 +45,5 @@ android = [
 ]
 precompose = [
     "precompose-core",
-    "precompose-viewmodel",
-    "precompose-koin",
+    "precompose-viewmodel"
 ]

@@ -22,7 +22,7 @@ class HomeViewModel(
     fun getFinanceStatus(monthKey: String) {
         _uiState.value = GenericState.Loading
         viewModelScope.launch {
-            delay(300)
+            delay(200)
             _uiState.emit(
                 getFinanceUseCase.getFinance(
                     GetFinanceUseCase.Params(

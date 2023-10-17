@@ -2,14 +2,11 @@
 
 package presentation.screen
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.expandVertically
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -31,12 +28,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -239,7 +239,10 @@ fun CategoryMonthDetailBody(
                     }
                     CategoryMonthExpenseItem(
                         expense = expense,
-                        expenseClicked = expenseClicked
+                        expenseClicked = expenseClicked,
+                        modifier = Modifier.animateItemPlacement(
+                            animationSpec = tween(600)
+                        )
                     )
                 }
             }
@@ -247,64 +250,52 @@ fun CategoryMonthDetailBody(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun CategoryMonthExpenseItem(
     expense: ExpenseScreenModel,
-    expenseClicked: (ExpenseScreenModel) -> Unit
+    expenseClicked: (ExpenseScreenModel) -> Unit,
+    modifier: Modifier
 ) {
-    val enter: EnterTransition = expandVertically() + fadeIn()
-    val exit: ExitTransition = fadeOut() + shrinkVertically()
-    val state = remember {
-        MutableTransitionState(false).apply {
-            // Start the animation immediately.
-            targetState = true
-        }
-    }
-    AnimatedVisibility(
-        visibleState = state,
-        enter = enter,
-        exit = exit
+    Row(
+        modifier = modifier
+            .combinedClickable(
+                onClick = {
+                },
+                onLongClick = {
+                    expenseClicked(expense)
+                }
+            )
+            .padding(vertical = 16.dp)
     ) {
-        Row(
-            modifier = Modifier
-                .combinedClickable(
-                    onClick = {
-                    },
-                    onLongClick = {
-                        expenseClicked(expense)
-                    }
-                )
-                .padding(vertical = 16.dp)
+        Column(
+            modifier = Modifier.weight(1f).padding(end = 16.dp)
         ) {
-            Column(
-                modifier = Modifier.weight(1f).padding(end = 16.dp)
-            ) {
-                Text(
-                    text = expense.note,
-                    style = MaterialTheme.typography.bodySmall,
-                    fontWeight = FontWeight.Medium,
-                    color = Gray900
-                )
-                Text(
-                    text = expense.date,
-                    style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier.padding(top = 4.dp),
-                    color = Gray600,
-                    fontWeight = FontWeight.Normal
-                )
-            }
-            Column(
-                horizontalAlignment = Alignment.End,
-                verticalArrangement = Arrangement.Top
-            ) {
-                Text(
-                    text = (expense.amount / 100.0).toMoneyFormat(),
-                    style = MaterialTheme.typography.bodySmall,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.End,
-                    color = Gray900
-                )
-            }
+            Text(
+                text = expense.note,
+                style = MaterialTheme.typography.bodySmall,
+                fontWeight = FontWeight.Medium,
+                color = Gray900
+            )
+            Text(
+                text = expense.date,
+                style = MaterialTheme.typography.labelMedium,
+                modifier = Modifier.padding(top = 4.dp),
+                color = Gray600,
+                fontWeight = FontWeight.Normal
+            )
+        }
+        Column(
+            horizontalAlignment = Alignment.End,
+            verticalArrangement = Arrangement.Top
+        ) {
+            Text(
+                text = (expense.amount / 100.0).toMoneyFormat(),
+                style = MaterialTheme.typography.bodySmall,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.End,
+                color = Gray900
+            )
         }
     }
 }
@@ -314,6 +305,7 @@ private fun CategoryMonthDetailHeader(
     monthTotal: Long,
     daySpent: Map<LocalDateTime, Long>
 ) {
+    var overlayData by remember { mutableStateOf("") }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -334,6 +326,38 @@ private fun CategoryMonthDetailHeader(
                     color = Gray900,
                     modifier = Modifier.padding(24.dp)
                 )
+            }
+            if (overlayData.isNotEmpty()) {
+                Box(
+                    Modifier
+                        .padding(
+                            horizontal = 8.dp,
+                            vertical = 6.dp
+                        )
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Gray900)
+                        .padding(
+                            horizontal = 8.dp,
+                            vertical = 6.dp
+                        )
+                        .align(Alignment.TopEnd)
+                ) {
+                    AnimatedContent(
+                        targetState = overlayData,
+                        transitionSpec = {
+                            fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith
+                                    fadeOut(animationSpec = tween(durationMillis = 300))
+                        },
+                        contentAlignment = Alignment.Center
+                    ) { overlayData ->
+                        Text(
+                            text = overlayData,
+                            color = Color.White,
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                }
             }
         }
     }

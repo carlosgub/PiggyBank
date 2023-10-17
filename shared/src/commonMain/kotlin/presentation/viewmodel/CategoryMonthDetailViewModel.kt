@@ -3,6 +3,7 @@ package presentation.viewmodel
 import core.sealed.GenericState
 import domain.usecase.GetExpenseMonthDetailUseCase
 import domain.usecase.GetIncomeMonthDetailUseCase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -23,6 +24,7 @@ class CategoryMonthDetailViewModel(
     fun getMonthDetail(categoryEnum: CategoryEnum, monthKey: String) {
         _uiState.value = GenericState.Loading
         viewModelScope.launch {
+            delay(200)
             _uiState.emit(
                 if (categoryEnum.type == FinanceEnum.EXPENSE) {
                     getCategoryMonthDetailUseCase.getExpenseMonthDetail(

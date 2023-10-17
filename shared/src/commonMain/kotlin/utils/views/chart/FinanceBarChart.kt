@@ -22,11 +22,11 @@ import utils.toMonthString
 @Composable
 fun FinanceBarChart(
     daySpent: Map<LocalDateTime, Long>,
-    lineColor: Color = ColorPrimary,
+    barColor: Color = ColorPrimary,
     withYChart: Boolean,
     contentColor: Color = Color.Black,
-    onOverlayData: (String) -> Unit,
-    modifier: Modifier
+    onOverlayData: (String) -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     val lineData = remember {
         BarChartData(
@@ -37,7 +37,7 @@ fun FinanceBarChart(
                         BarChartEntry(
                             x = "${day.key.dayOfMonth.toDayString()}/${day.key.month.toMonthString()}",
                             y = (day.value / 100.0).toFloat(),
-                            color = lineColor
+                            color = barColor
                         )
                     }
                 )
@@ -47,9 +47,6 @@ fun FinanceBarChart(
     BarChart(
         data = lineData,
         modifier = modifier,
-        xAxisLabel = {
-            XAxisLabel(it, contentColor)
-        },
         yAxisLabel = {
             if (withYChart) {
                 val text = if (it is Int) {
@@ -70,17 +67,5 @@ fun FinanceBarChart(
         overlayDataEntryLabel = { date, value ->
             onOverlayData("$date\n${(value as Float).toMoneyFormat()}")
         }
-    )
-}
-
-@Composable
-private fun XAxisLabel(it: Any, contentColor: Color) {
-    Text(
-        fontSize = 12.sp,
-        text = it as String,
-        textAlign = TextAlign.Center,
-        modifier = Modifier
-            .offset(x = 20.dp),
-        color = contentColor
     )
 }
