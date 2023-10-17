@@ -10,10 +10,14 @@ CREATE TABLE Expense (
 CREATE INDEX expense_id_dateInMillis ON Expense(id,dateInMillis);
 
 getExpenseList:
-    SELECT id,amount,note,category,month,dateInMillis FROM Expense WHERE month = ?;
+    SELECT id,amount,note,category,month,dateInMillis FROM Expense
+    WHERE month = ?
+    ORDER BY id DESC;
 
 getExpensePerCategoryList:
-    SELECT id,amount,note,category,month,dateInMillis FROM Expense WHERE month = ? AND category = ?;
+    SELECT id,amount,note,category,month,dateInMillis FROM Expense
+    WHERE month = ? AND category = ?
+    ORDER BY id DESC;
 
 delete:
     DELETE FROM Expense

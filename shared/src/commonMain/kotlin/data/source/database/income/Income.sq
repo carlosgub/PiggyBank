@@ -12,12 +12,14 @@ CREATE INDEX income_id_dateInMillis ON Income(id,dateInMillis);
 getIncomeList:
     SELECT id,amount,note,category,month,dateInMillis
     FROM Income
-    WHERE month = ?;
+    WHERE month = ?
+    ORDER BY id DESC;
 
 getIncomePerCategoryList:
     SELECT id,amount,note,category,month,dateInMillis
     FROM Income
-    WHERE month = ? AND category = ?;
+    WHERE month = ? AND category = ?
+    ORDER BY id DESC;
 
 delete:
     DELETE FROM Income
