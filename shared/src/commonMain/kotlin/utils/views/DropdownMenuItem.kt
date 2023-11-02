@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
+import theme.spacing_2
 
 @Composable
 fun DropdownMenuItem(
@@ -24,7 +24,7 @@ fun DropdownMenuItem(
             Text(
                 text = text,
                 style = MaterialTheme.typography.labelSmall,
-                modifier = Modifier.padding(horizontal = 8.dp),
+                modifier = Modifier.padding(horizontal = spacing_2),
                 color = Color.Black
             )
         },

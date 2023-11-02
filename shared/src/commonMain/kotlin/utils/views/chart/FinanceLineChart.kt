@@ -96,7 +96,6 @@ fun FinanceLineChart(
                 )
             },
             overlayDataEntryLabel = { _, _ ->
-
             },
             animation = ChartAnimation.Sequenced()
         )
@@ -118,7 +117,7 @@ private fun OverlayHeaderLabel(
     val moneySpent = ((daySpent[localDateTime] ?: 0) / 100.0).toFloat().toMoneyFormat()
     Text(
         text = "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}\n" +
-                moneySpent,
+            moneySpent,
         style = MaterialTheme.typography.bodyMedium,
         color = contentColor
     )

@@ -57,6 +57,7 @@ import theme.Gray600
 import theme.Gray900
 import theme.White
 import theme.spacing_1
+import theme.spacing_1_2
 import theme.spacing_2
 import theme.spacing_4
 import theme.spacing_6
@@ -328,21 +329,21 @@ private fun CategoryMonthDetailHeader(
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = Gray900,
-                    modifier = Modifier.padding(24.dp)
+                    modifier = Modifier.padding(spacing_6)
                 )
             }
             if (overlayData.isNotEmpty()) {
                 Box(
                     Modifier
                         .padding(
-                            horizontal = 8.dp,
-                            vertical = 6.dp
+                            horizontal = spacing_2,
+                            vertical = spacing_1_2
                         )
                         .clip(RoundedCornerShape(16.dp))
                         .background(Gray900)
                         .padding(
-                            horizontal = 8.dp,
-                            vertical = 6.dp
+                            horizontal = spacing_2,
+                            vertical = spacing_1_2
                         )
                         .align(Alignment.TopEnd)
                 ) {
@@ -350,7 +351,7 @@ private fun CategoryMonthDetailHeader(
                         targetState = overlayData,
                         transitionSpec = {
                             fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith
-                                    fadeOut(animationSpec = tween(durationMillis = 300))
+                                fadeOut(animationSpec = tween(durationMillis = 300))
                         },
                         contentAlignment = Alignment.Center
                     ) { overlayData ->

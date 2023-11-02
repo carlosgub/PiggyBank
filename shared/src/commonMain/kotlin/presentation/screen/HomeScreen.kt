@@ -554,7 +554,7 @@ private fun HomeBodySecondPageContent(
                     targetState = overlayData,
                     transitionSpec = {
                         fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith
-                                fadeOut(animationSpec = tween(durationMillis = 300))
+                            fadeOut(animationSpec = tween(durationMillis = 300))
                     },
                     contentAlignment = Alignment.Center
                 ) { overlayData ->
@@ -737,7 +737,6 @@ fun HomeFooterContent(
     onAddNew: (FinanceEnum) -> Unit,
     firstTimeDelayAnimation: Boolean = false
 ) {
-
     val animationDelay = if (financeType == FinanceEnum.EXPENSE && firstTimeDelayAnimation) {
         AnimationConstants.DefaultDurationMillis
     } else {
@@ -828,7 +827,6 @@ fun HomeFooterDataZero(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxSize()
     ) {
-
         Text(
             "Ooops! It's Empty",
             style = MaterialTheme.typography.titleMedium,

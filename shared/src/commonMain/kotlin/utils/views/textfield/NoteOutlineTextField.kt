@@ -12,10 +12,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -23,11 +23,12 @@ import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import theme.spacing_2
+import theme.spacing_4
 
 @Composable
 fun NoteOutlineTextField(
@@ -68,7 +69,7 @@ fun NoteOutlineTextField(
         ),
         shape = MaterialTheme.shapes.small,
         modifier = Modifier
-            .padding(top = 8.dp)
+            .padding(top = spacing_2)
             .fillMaxWidth()
     )
 
@@ -77,7 +78,7 @@ fun NoteOutlineTextField(
             text = "Write a note",
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.padding(start = 16.dp)
+            modifier = Modifier.padding(start = spacing_4)
         )
     }
 }

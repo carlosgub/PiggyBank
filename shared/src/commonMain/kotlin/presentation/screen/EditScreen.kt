@@ -23,7 +23,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.unit.dp
 import model.EditArgs
 import model.FinanceEnum
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
@@ -32,6 +31,7 @@ import org.koin.compose.koinInject
 import presentation.viewmodel.EditViewModel
 import presentation.viewmodel.state.EditState
 import theme.Gray400
+import theme.spacing_4
 import theme.spacing_6
 import utils.NoRippleInteractionSource
 import utils.getCategoryEnumFromName
@@ -130,7 +130,7 @@ private fun EditContent(
                 keyboard?.hide()
                 focusManager.clearFocus()
             }
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = spacing_4)
     ) {
         AmountOutlineTextField(
             amountTextFieldValue = amountTextFieldValue.value,

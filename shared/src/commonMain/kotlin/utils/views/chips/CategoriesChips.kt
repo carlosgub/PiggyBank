@@ -27,6 +27,8 @@ import theme.ColorPrimary
 import theme.Gray100
 import theme.Gray400
 import theme.Gray600
+import theme.spacing_2
+import theme.spacing_4
 
 @Composable
 fun CategoriesChips(
@@ -40,11 +42,11 @@ fun CategoriesChips(
         Text(
             "Categories",
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(top = 16.dp)
+            modifier = Modifier.padding(top = spacing_4)
         )
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(spacing_2)
         ) {
             categoriesList.forEach { categoryEnum ->
                 CategoryChip(

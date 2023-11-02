@@ -22,7 +22,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import theme.ColorPrimary
 import theme.spacing_1
 import theme.spacing_2
-import theme.spacing_7
 import theme.view_6
 
 @Composable

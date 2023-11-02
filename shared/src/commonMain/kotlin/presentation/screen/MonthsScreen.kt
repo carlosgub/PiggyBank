@@ -41,6 +41,9 @@ import presentation.navigation.Screen
 import presentation.viewmodel.MonthsScreenViewModel
 import theme.ColorPrimary
 import theme.White
+import theme.spacing_1_2
+import theme.spacing_2
+import theme.spacing_3
 import utils.get
 import utils.toMonthString
 import utils.views.ExpenseDivider
@@ -157,7 +160,7 @@ fun YearStickyHeader(year: Int) {
         textAlign = TextAlign.Center,
         modifier = Modifier.fillMaxSize()
             .background(ColorPrimary)
-            .padding(6.dp)
+            .padding(spacing_1_2)
     )
 }
 
@@ -176,8 +179,8 @@ fun MonthItem(
                 )
             }
             .padding(
-                horizontal = 12.dp,
-                vertical = 8.dp
+                horizontal = spacing_3,
+                vertical = spacing_2
             )
     ) {
         Box(
@@ -201,7 +204,7 @@ fun MonthItem(
             localDateTime.month.name,
             color = ColorPrimary,
             modifier = Modifier.fillMaxSize()
-                .padding(8.dp)
+                .padding(spacing_2)
         )
     }
 }

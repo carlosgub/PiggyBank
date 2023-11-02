@@ -71,10 +71,10 @@ fun Toolbar(
                     imageVector = navigationIcon,
                     contentDescription = null,
                     modifier = Modifier
-                        .padding(8.dp)
+                        .padding(spacing_2)
                         .size(40.dp)
                         .clickable { navigation() }
-                        .padding(8.dp),
+                        .padding(spacing_2),
                     tint = contentColor
                 )
             }

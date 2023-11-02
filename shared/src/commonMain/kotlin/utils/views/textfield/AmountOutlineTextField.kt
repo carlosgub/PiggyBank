@@ -17,7 +17,8 @@ import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.unit.dp
+import theme.spacing_2
+import theme.spacing_4
 
 @Composable
 fun AmountOutlineTextField(
@@ -46,7 +47,7 @@ fun AmountOutlineTextField(
         ),
         shape = MaterialTheme.shapes.small,
         modifier = Modifier
-            .padding(top = 8.dp)
+            .padding(top = spacing_2)
             .fillMaxWidth()
     )
     AnimatedVisibility(showError) {
@@ -54,7 +55,7 @@ fun AmountOutlineTextField(
             text = "Enter an amount greather than zero",
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.padding(start = 16.dp)
+            modifier = Modifier.padding(start = spacing_4)
         )
     }
 }
