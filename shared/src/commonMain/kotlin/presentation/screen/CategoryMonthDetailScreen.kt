@@ -56,6 +56,10 @@ import presentation.viewmodel.CategoryMonthDetailViewModel
 import theme.Gray600
 import theme.Gray900
 import theme.White
+import theme.spacing_1
+import theme.spacing_2
+import theme.spacing_4
+import theme.spacing_6
 import utils.get
 import utils.getCategoryEnumFromName
 import utils.toMoneyFormat
@@ -212,7 +216,7 @@ fun CategoryMonthDetailBody(
 ) {
     Card(
         modifier = Modifier
-            .padding(top = 8.dp)
+            .padding(top = spacing_2)
             .fillMaxSize(),
         shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
         elevation = CardDefaults.cardElevation(
@@ -227,9 +231,9 @@ fun CategoryMonthDetailBody(
                 .background(White)
                 .fillMaxSize()
                 .padding(
-                    top = 24.dp,
-                    start = 24.dp,
-                    end = 24.dp
+                    top = spacing_6,
+                    start = spacing_6,
+                    end = spacing_6
                 )
         ) {
             itemsIndexed(list) { count, expense ->
@@ -266,10 +270,10 @@ private fun CategoryMonthExpenseItem(
                     expenseClicked(expense)
                 }
             )
-            .padding(vertical = 16.dp)
+            .padding(vertical = spacing_4)
     ) {
         Column(
-            modifier = Modifier.weight(1f).padding(end = 16.dp)
+            modifier = Modifier.weight(1f).padding(end = spacing_4)
         ) {
             Text(
                 text = expense.note,
@@ -280,7 +284,7 @@ private fun CategoryMonthExpenseItem(
             Text(
                 text = expense.date,
                 style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier.padding(top = 4.dp),
+                modifier = Modifier.padding(top = spacing_1),
                 color = Gray600,
                 fontWeight = FontWeight.Normal
             )

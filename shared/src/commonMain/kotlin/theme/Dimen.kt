@@ -16,6 +16,7 @@ val spacing_6: Dp = 24.dp
 val spacing_7: Dp = 28.dp
 val spacing_8: Dp = 32.dp
 val spacing_10: Dp = 40.dp
+val spacing_16: Dp = 64.dp
 val spacing_25: Dp = 100.dp
 val spacing_37_2: Dp = 150.dp
 /*endregion*/
