@@ -1,14 +1,12 @@
 @file:OptIn(
     ExperimentalMaterialApi::class,
-    ExperimentalFoundationApi::class,
-    ExperimentalAnimationApi::class
+    ExperimentalFoundationApi::class
 )
 
 package presentation.screen
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.AnimationConstants
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -30,6 +28,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
@@ -104,8 +103,17 @@ import theme.Gray400
 import theme.Gray600
 import theme.Gray900
 import theme.MonthBudgetCardColor
+import theme.spacing_1
+import theme.spacing_16
+import theme.spacing_1_2
+import theme.spacing_2
+import theme.spacing_3
+import theme.spacing_4
+import theme.spacing_6
+import theme.spacing_8
 import utils.get
 import utils.toMoneyFormat
+import utils.views.DataZero
 import utils.views.ExpenseDivider
 import utils.views.Loading
 import utils.views.Toolbar
@@ -134,32 +142,20 @@ fun HomeScreen(
             HomeToolbar(
                 isHome = args.isHome,
                 onAddExpensePressed = {
-                    coroutine.launch {
-                        val result = navigator.navigateForResult(
-                            Screen.CreateScreen.createRoute(
-                                CreateArgs(
-                                    FinanceEnum.EXPENSE
-                                )
-                            )
-                        )
-                        if (result as Boolean) {
-                            viewModel.getFinanceStatus(args.monthKey)
-                        }
-                    }
+                    navigateToAddExpenseScreen(
+                        coroutine = coroutine,
+                        navigator = navigator,
+                        viewModel = viewModel,
+                        monthKey = args.monthKey
+                    )
                 },
                 onAddIncomePressed = {
-                    coroutine.launch {
-                        val result = navigator.navigateForResult(
-                            Screen.CreateScreen.createRoute(
-                                CreateArgs(
-                                    FinanceEnum.INCOME
-                                )
-                            )
-                        )
-                        if (result as Boolean) {
-                            viewModel.getFinanceStatus(args.monthKey)
-                        }
-                    }
+                    navigateToAddIncomeScreen(
+                        coroutine = coroutine,
+                        navigator = navigator,
+                        viewModel = viewModel,
+                        monthKey = args.monthKey
+                    )
                 },
                 onSeeMonths = {
                     navigator.navigate(Screen.MonthsScreen.route)
@@ -205,6 +201,46 @@ fun HomeScreen(
     }
 }
 
+private fun navigateToAddIncomeScreen(
+    coroutine: CoroutineScope,
+    navigator: Navigator,
+    viewModel: HomeViewModel,
+    monthKey: String
+) {
+    coroutine.launch {
+        val result = navigator.navigateForResult(
+            Screen.CreateScreen.createRoute(
+                CreateArgs(
+                    FinanceEnum.INCOME
+                )
+            )
+        )
+        if (result as Boolean) {
+            viewModel.getFinanceStatus(monthKey)
+        }
+    }
+}
+
+private fun navigateToAddExpenseScreen(
+    coroutine: CoroutineScope,
+    navigator: Navigator,
+    viewModel: HomeViewModel,
+    monthKey: String
+) {
+    coroutine.launch {
+        val result = navigator.navigateForResult(
+            Screen.CreateScreen.createRoute(
+                CreateArgs(
+                    FinanceEnum.EXPENSE
+                )
+            )
+        )
+        if (result as Boolean) {
+            viewModel.getFinanceStatus(monthKey)
+        }
+    }
+}
+
 @Composable
 private fun HomeObserver(
     viewModel: HomeViewModel,
@@ -241,6 +277,23 @@ private fun HomeObserver(
                             }
                         }
                     },
+                    onAddNew = { financeEnum ->
+                        if (financeEnum == FinanceEnum.EXPENSE) {
+                            navigateToAddExpenseScreen(
+                                coroutine = coroutine,
+                                navigator = navigator,
+                                viewModel = viewModel,
+                                monthKey = monthKey
+                            )
+                        } else {
+                            navigateToAddIncomeScreen(
+                                coroutine = coroutine,
+                                navigator = navigator,
+                                viewModel = viewModel,
+                                monthKey = monthKey
+                            )
+                        }
+                    },
                     modifier = modifier
                 )
             }
@@ -262,6 +315,7 @@ private fun HomeObserver(
 private fun HomeContent(
     data: FinanceScreenModel,
     onCategoryClick: (FinanceScreenExpenses) -> Unit,
+    onAddNew: (FinanceEnum) -> Unit,
     modifier: Modifier
 ) {
     Column(
@@ -282,7 +336,8 @@ private fun HomeContent(
             expenses = data.expenses,
             income = data.income,
             monthExpense = data.monthExpense,
-            onCategoryClick = onCategoryClick
+            onCategoryClick = onCategoryClick,
+            onAddNew = onAddNew
         )
     }
 }
@@ -384,7 +439,7 @@ private fun HomeBodyRightContent(
                 contentDescription = null,
                 tint = Color.White,
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = spacing_4)
                     .clip(CircleShape)
                     .border(
                         border = BorderStroke(
@@ -393,7 +448,7 @@ private fun HomeBodyRightContent(
                         ),
                         shape = CircleShape
                     )
-                    .padding(8.dp)
+                    .padding(spacing_2)
             )
         },
         modifier = Modifier
@@ -426,7 +481,7 @@ private fun HomeBodyLeftIcon(
                 contentDescription = null,
                 tint = Color.White,
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = spacing_4)
                     .clip(CircleShape)
                     .border(
                         border = BorderStroke(
@@ -435,7 +490,7 @@ private fun HomeBodyLeftIcon(
                         ),
                         shape = CircleShape
                     )
-                    .padding(8.dp)
+                    .padding(spacing_2)
             )
         },
         modifier = Modifier
@@ -469,7 +524,7 @@ private fun HomeBodySecondPageContent(
             text = (monthAmount / 100.0).toMoneyFormat(),
             style = MaterialTheme.typography.headlineMedium,
             color = Color.White,
-            modifier = Modifier.padding(top = 16.dp)
+            modifier = Modifier.padding(top = spacing_4)
         )
     }
 }
@@ -486,11 +541,11 @@ private fun HomeBodySecondPageContent(
         if (overlayData.isNotEmpty()) {
             Box(
                 Modifier
-                    .clip(RoundedCornerShape(16.dp))
+                    .clip(RoundedCornerShape(spacing_4))
                     .background(Gray900)
                     .padding(
-                        horizontal = 8.dp,
-                        vertical = 6.dp
+                        horizontal = spacing_2,
+                        vertical = spacing_1_2
                     )
                     .align(Alignment.TopEnd)
             ) {
@@ -531,7 +586,8 @@ private fun CardExpenses(
     monthExpense: MonthExpense,
     expenses: List<FinanceScreenExpenses>,
     income: List<FinanceScreenExpenses>,
-    onCategoryClick: (FinanceScreenExpenses) -> Unit
+    onCategoryClick: (FinanceScreenExpenses) -> Unit,
+    onAddNew: (FinanceEnum) -> Unit
 ) {
     var visible by rememberSaveable { mutableStateOf(false) }
     AnimatedContent(
@@ -568,7 +624,7 @@ private fun CardExpenses(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(start = 24.dp, top = 24.dp, end = 24.dp)
+                            .padding(start = spacing_6, top = spacing_6, end = spacing_6)
                     ) {
                         var tabIndex by remember { mutableStateOf(FinanceEnum.EXPENSE) }
                         TabRow(
@@ -593,17 +649,21 @@ private fun CardExpenses(
                         when (tabIndex) {
                             FinanceEnum.EXPENSE -> {
                                 HomeFooterContent(
+                                    financeType = FinanceEnum.EXPENSE,
                                     expenses = expenses,
                                     onCategoryClick = onCategoryClick,
-                                    firstTimeDelayAnimation = firstTimeDelayAnimation.value
+                                    firstTimeDelayAnimation = firstTimeDelayAnimation.value,
+                                    onAddNew = onAddNew
                                 )
                                 firstTimeDelayAnimation.value = false
                             }
 
                             FinanceEnum.INCOME ->
                                 HomeFooterContent(
+                                    financeType = FinanceEnum.INCOME,
                                     expenses = income,
-                                    onCategoryClick = onCategoryClick
+                                    onCategoryClick = onCategoryClick,
+                                    onAddNew = onAddNew
                                 )
                         }
                     }
@@ -623,8 +683,8 @@ fun CardMonthExpenseContent(
     Column(
         modifier = Modifier.fillMaxWidth()
             .padding(
-                horizontal = 24.dp,
-                vertical = 32.dp
+                horizontal = spacing_6,
+                vertical = spacing_8
             )
     ) {
         Row {
@@ -635,7 +695,7 @@ fun CardMonthExpenseContent(
             )
             Text(
                 monthExpense.incomeTotal.toMoneyFormat(),
-                modifier = Modifier.padding(start = 12.dp),
+                modifier = Modifier.padding(start = spacing_3),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Gray600,
                 fontWeight = FontWeight.Normal
@@ -657,7 +717,7 @@ fun CardMonthExpenseContent(
             progress = progressAnimation,
             color = ColorPrimary,
             modifier = Modifier.fillMaxWidth()
-                .padding(top = 8.dp)
+                .padding(top = spacing_2)
                 .height(6.dp),
             strokeCap = StrokeCap.Round
         )
@@ -670,23 +730,30 @@ fun CardMonthExpenseContent(
 
 @Composable
 fun HomeFooterContent(
+    financeType: FinanceEnum,
     expenses: List<FinanceScreenExpenses>,
     onCategoryClick: (FinanceScreenExpenses) -> Unit = {},
+    onAddNew: (FinanceEnum) -> Unit,
     firstTimeDelayAnimation: Boolean = false
 ) {
+    val animationDelay = if (financeType == FinanceEnum.EXPENSE && firstTimeDelayAnimation) {
+        AnimationConstants.DefaultDurationMillis
+    } else {
+        0
+    }
     if (expenses.isNotEmpty()) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
             LazyColumn(
-                modifier = Modifier.padding(top = 12.dp)
+                modifier = Modifier.padding(top = spacing_3)
             ) {
                 itemsIndexed(expenses) { count, expense ->
                     Column {
                         if (count != 0) {
                             ExpenseDivider(
                                 modifier = Modifier.padding(
-                                    start = 64.dp
+                                    start = spacing_16
                                 )
                             )
                         }
@@ -696,23 +763,15 @@ fun HomeFooterContent(
                                 .clickable {
                                     onCategoryClick(expense)
                                 }
-                                .padding(vertical = 12.dp)
+                                .padding(vertical = spacing_3)
 
                         ) {
-                            val animationDelay =
-                                if (expense.category.type == FinanceEnum.EXPENSE &&
-                                    firstTimeDelayAnimation
-                                ) {
-                                    AnimationConstants.DefaultDurationMillis
-                                } else {
-                                    0
-                                }
                             ExpenseIconProgress(
                                 expense = expense,
                                 animationDelay = animationDelay
                             )
                             Column(
-                                modifier = Modifier.weight(1f).padding(start = 16.dp)
+                                modifier = Modifier.weight(1f).padding(start = spacing_4)
                             ) {
                                 Text(
                                     text = expense.category.categoryName,
@@ -722,13 +781,13 @@ fun HomeFooterContent(
                                 Text(
                                     text = "${expense.percentage}% of budget",
                                     style = MaterialTheme.typography.labelMedium,
-                                    modifier = Modifier.padding(top = 4.dp),
+                                    modifier = Modifier.padding(top = spacing_1),
                                     color = Gray600,
                                     fontWeight = FontWeight.Normal
                                 )
                             }
                             Column(
-                                modifier = Modifier.padding(start = 16.dp),
+                                modifier = Modifier.padding(start = spacing_4),
                                 horizontalAlignment = Alignment.End
                             ) {
                                 Text(
@@ -739,7 +798,7 @@ fun HomeFooterContent(
                                 Text(
                                     text = "${expense.count} transactions",
                                     style = MaterialTheme.typography.labelMedium,
-                                    modifier = Modifier.padding(top = 4.dp),
+                                    modifier = Modifier.padding(top = spacing_1),
                                     color = Gray600,
                                     fontWeight = FontWeight.Normal
                                 )
@@ -750,7 +809,15 @@ fun HomeFooterContent(
             }
         }
     } else {
-        // TODO
+        DataZero(
+            title = "Ooops! It's Empty",
+            message = "Looks like you don't have anything in your ${financeType.financeName.lowercase()}",
+            hasButton = true,
+            valueToPass = financeType,
+            onButtonClick = { financeEnum ->
+                onAddNew(financeEnum)
+            }
+        )
     }
 }
 

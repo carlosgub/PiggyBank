@@ -56,9 +56,15 @@ import presentation.viewmodel.CategoryMonthDetailViewModel
 import theme.Gray600
 import theme.Gray900
 import theme.White
+import theme.spacing_1
+import theme.spacing_1_2
+import theme.spacing_2
+import theme.spacing_4
+import theme.spacing_6
 import utils.get
 import utils.getCategoryEnumFromName
 import utils.toMoneyFormat
+import utils.views.DataZero
 import utils.views.ExpenseDivider
 import utils.views.Loading
 import utils.views.Toolbar
@@ -132,7 +138,8 @@ private fun CategoryMonthDetailObserver(
                 },
                 body = {
                     CategoryMonthDetailBody(
-                        uiState.data.expenseScreenModel
+                        uiState.data.expenseScreenModel,
+                        categoryEnum
                     ) { expenseScreenModel ->
                         coroutine.launch {
                             val result = navigator.navigateForResult(
@@ -208,11 +215,12 @@ fun CategoryMonthDetailContent(
 @Composable
 fun CategoryMonthDetailBody(
     list: List<ExpenseScreenModel>,
+    categoryEnum: CategoryEnum,
     expenseClicked: (ExpenseScreenModel) -> Unit
 ) {
     Card(
         modifier = Modifier
-            .padding(top = 8.dp)
+            .padding(top = spacing_2)
             .fillMaxSize(),
         shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
         elevation = CardDefaults.cardElevation(
@@ -222,30 +230,39 @@ fun CategoryMonthDetailBody(
             containerColor = White
         )
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .background(White)
-                .fillMaxSize()
-                .padding(
-                    top = 24.dp,
-                    start = 24.dp,
-                    end = 24.dp
-                )
-        ) {
-            itemsIndexed(list) { count, expense ->
-                Column {
-                    if (count != 0) {
-                        ExpenseDivider()
-                    }
-                    CategoryMonthExpenseItem(
-                        expense = expense,
-                        expenseClicked = expenseClicked,
-                        modifier = Modifier.animateItemPlacement(
-                            animationSpec = tween(600)
-                        )
+        if (list.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier
+                    .background(White)
+                    .fillMaxSize()
+                    .padding(
+                        top = spacing_6,
+                        start = spacing_6,
+                        end = spacing_6
                     )
+            ) {
+                itemsIndexed(list) { count, expense ->
+                    Column {
+                        if (count != 0) {
+                            ExpenseDivider()
+                        }
+                        CategoryMonthExpenseItem(
+                            expense = expense,
+                            expenseClicked = expenseClicked,
+                            modifier = Modifier.animateItemPlacement(
+                                animationSpec = tween(600)
+                            )
+                        )
+                    }
                 }
             }
+        } else {
+            DataZero<Any>(
+                title = "Ooops! It's Empty",
+                message = "Looks like you don't have anything in this category",
+                modifier = Modifier
+                    .background(White)
+            )
         }
     }
 }
@@ -266,10 +283,10 @@ private fun CategoryMonthExpenseItem(
                     expenseClicked(expense)
                 }
             )
-            .padding(vertical = 16.dp)
+            .padding(vertical = spacing_4)
     ) {
         Column(
-            modifier = Modifier.weight(1f).padding(end = 16.dp)
+            modifier = Modifier.weight(1f).padding(end = spacing_4)
         ) {
             Text(
                 text = expense.note,
@@ -280,7 +297,7 @@ private fun CategoryMonthExpenseItem(
             Text(
                 text = expense.date,
                 style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier.padding(top = 4.dp),
+                modifier = Modifier.padding(top = spacing_1),
                 color = Gray600,
                 fontWeight = FontWeight.Normal
             )
@@ -324,21 +341,21 @@ private fun CategoryMonthDetailHeader(
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = Gray900,
-                    modifier = Modifier.padding(24.dp)
+                    modifier = Modifier.padding(spacing_6)
                 )
             }
             if (overlayData.isNotEmpty()) {
                 Box(
                     Modifier
                         .padding(
-                            horizontal = 8.dp,
-                            vertical = 6.dp
+                            horizontal = spacing_2,
+                            vertical = spacing_1_2
                         )
                         .clip(RoundedCornerShape(16.dp))
                         .background(Gray900)
                         .padding(
-                            horizontal = 8.dp,
-                            vertical = 6.dp
+                            horizontal = spacing_2,
+                            vertical = spacing_1_2
                         )
                         .align(Alignment.TopEnd)
                 ) {
@@ -346,7 +363,7 @@ private fun CategoryMonthDetailHeader(
                         targetState = overlayData,
                         transitionSpec = {
                             fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith
-                                    fadeOut(animationSpec = tween(durationMillis = 300))
+                                fadeOut(animationSpec = tween(durationMillis = 300))
                         },
                         contentAlignment = Alignment.Center
                     ) { overlayData ->

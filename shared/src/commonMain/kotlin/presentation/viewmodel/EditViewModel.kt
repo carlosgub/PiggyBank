@@ -158,7 +158,8 @@ class EditViewModel(
 
     fun delete(
         id: Long,
-        financeEnum: FinanceEnum
+        financeEnum: FinanceEnum,
+        monthKey: String
     ) {
         _uiState.value = SingleEvent(EditState.Loading)
         viewModelScope.launch {
@@ -167,7 +168,8 @@ class EditViewModel(
                     deleteUseCase.delete(
                         DeleteUseCase.Params(
                             financeEnum = financeEnum,
-                            id = id
+                            id = id,
+                            monthKey = monthKey
                         )
                     )
                 )

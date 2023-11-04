@@ -88,7 +88,8 @@ class FinanceRepositoryImpl(
                         note = expense.note.replaceFirstChar { it.uppercase() },
                         category = expense.category,
                         localDateTime = localDateTime,
-                        date = "$dayOfMonth $month $year"
+                        date = "$dayOfMonth $month $year",
+                        monthKey = monthKey
                     )
                 }.sortedByDescending { it.localDateTime }
                 val daySpent =
@@ -200,13 +201,15 @@ class FinanceRepositoryImpl(
 
     override suspend fun delete(
         financeEnum: FinanceEnum,
-        id: Long
+        id: Long,
+        monthKey: String
     ): EditState =
         withContext(Dispatchers.Default) {
             when (
                 val result = databaseFinance.delete(
                     financeEnum = financeEnum,
-                    id = id
+                    id = id,
+                    monthKey = monthKey
                 )
             ) {
                 is ResponseResult.Success -> EditState.Success
@@ -242,7 +245,8 @@ class FinanceRepositoryImpl(
                             note = expense.note.replaceFirstChar { it.uppercase() },
                             category = expense.category,
                             localDateTime = localDateTime,
-                            date = "$dayOfMonth $month $year"
+                            date = "$dayOfMonth $month $year",
+                            monthKey = monthKey
                         )
                     }.sortedByDescending { it.localDateTime }
                     val date = createLocalDateTime(
@@ -296,7 +300,8 @@ class FinanceRepositoryImpl(
                             note = expense.note.replaceFirstChar { it.uppercase() },
                             category = expense.category,
                             localDateTime = localDateTime,
-                            date = "$dayOfMonth $month $year"
+                            date = "$dayOfMonth $month $year",
+                            monthKey = monthKey
                         )
                     }.sortedByDescending { it.localDateTime }
                     val date = createLocalDateTime(

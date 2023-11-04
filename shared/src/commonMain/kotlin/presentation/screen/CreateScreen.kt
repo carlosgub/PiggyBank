@@ -20,7 +20,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.unit.dp
 import core.sealed.GenericState
 import model.CreateArgs
 import model.FinanceEnum
@@ -29,6 +28,7 @@ import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
 import presentation.viewmodel.CreateViewModel
 import theme.Gray400
+import theme.spacing_4
 import theme.spacing_6
 import utils.NoRippleInteractionSource
 import utils.isExpense
@@ -107,7 +107,7 @@ private fun CreateContent(
                 keyboard?.hide()
                 focusManager.clearFocus()
             }
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = spacing_4)
     ) {
         AmountOutlineTextField(
             amountTextFieldValue = amountTextFieldValue.value,

@@ -1,5 +1,6 @@
 package utils.views
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -20,7 +22,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import theme.ColorPrimary
 import theme.spacing_1
 import theme.spacing_2
-import theme.spacing_7
 import theme.view_6
 
 @Composable
@@ -32,14 +33,15 @@ fun PrimaryButton(
     onClick: () -> Unit = {},
     enabled: Boolean = true,
     backgroundColor: Color = ColorPrimary,
-    fontColor: Color = Color.White
+    fontColor: Color = Color.White,
+    shape: Shape = MaterialTheme.shapes.medium
 ) {
     Button(
         onClick = onClick,
         enabled = enabled,
         modifier = modifier
             .fillMaxWidth(),
-        shape = MaterialTheme.shapes.medium,
+        shape = shape,
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor,
             contentColor = fontColor
@@ -62,6 +64,7 @@ fun PrimaryButtonContent(
     fontColor: Color = Color.White
 ) {
     Row(
+        horizontalArrangement = Arrangement.Center,
         modifier = Modifier
             .padding(vertical = spacing_2)
             .fillMaxWidth()
@@ -95,14 +98,10 @@ fun PrimaryButtonContent(
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
             modifier = Modifier
-                .weight(1f)
+                .fillMaxWidth()
                 .padding(
-                    start = spacing_1,
-                    end = if (iconVector != null || iconPainter != null) {
-                        spacing_7
-                    } else {
-                        spacing_1
-                    }
+                    start = spacing_2,
+                    end = spacing_2
                 )
         )
     }

@@ -28,6 +28,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
+import theme.spacing_2
+import theme.spacing_4
 
 @Composable
 fun DayPicker(
@@ -54,7 +56,7 @@ fun DayPicker(
         shape = MaterialTheme.shapes.small,
         readOnly = true,
         modifier = Modifier
-            .padding(top = 8.dp)
+            .padding(top = spacing_2)
             .fillMaxWidth()
             .clickable {
                 keyboard?.hide()
@@ -73,7 +75,7 @@ fun DayPicker(
             text = "Enter a date",
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.padding(start = 16.dp)
+            modifier = Modifier.padding(start = spacing_4)
         )
     }
     AnimatedVisibility(isVisible) {

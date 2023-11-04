@@ -40,7 +40,8 @@ interface FinanceRepository {
 
     suspend fun delete(
         financeEnum: FinanceEnum,
-        id: Long
+        id: Long,
+        monthKey: String
     ): EditState
 
     suspend fun getExpenseMonthDetail(
