@@ -64,6 +64,7 @@ import theme.spacing_6
 import utils.get
 import utils.getCategoryEnumFromName
 import utils.toMoneyFormat
+import utils.views.DataZero
 import utils.views.ExpenseDivider
 import utils.views.Loading
 import utils.views.Toolbar
@@ -137,7 +138,8 @@ private fun CategoryMonthDetailObserver(
                 },
                 body = {
                     CategoryMonthDetailBody(
-                        uiState.data.expenseScreenModel
+                        uiState.data.expenseScreenModel,
+                        categoryEnum
                     ) { expenseScreenModel ->
                         coroutine.launch {
                             val result = navigator.navigateForResult(
@@ -213,6 +215,7 @@ fun CategoryMonthDetailContent(
 @Composable
 fun CategoryMonthDetailBody(
     list: List<ExpenseScreenModel>,
+    categoryEnum: CategoryEnum,
     expenseClicked: (ExpenseScreenModel) -> Unit
 ) {
     Card(
@@ -227,30 +230,39 @@ fun CategoryMonthDetailBody(
             containerColor = White
         )
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .background(White)
-                .fillMaxSize()
-                .padding(
-                    top = spacing_6,
-                    start = spacing_6,
-                    end = spacing_6
-                )
-        ) {
-            itemsIndexed(list) { count, expense ->
-                Column {
-                    if (count != 0) {
-                        ExpenseDivider()
-                    }
-                    CategoryMonthExpenseItem(
-                        expense = expense,
-                        expenseClicked = expenseClicked,
-                        modifier = Modifier.animateItemPlacement(
-                            animationSpec = tween(600)
-                        )
+        if (list.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier
+                    .background(White)
+                    .fillMaxSize()
+                    .padding(
+                        top = spacing_6,
+                        start = spacing_6,
+                        end = spacing_6
                     )
+            ) {
+                itemsIndexed(list) { count, expense ->
+                    Column {
+                        if (count != 0) {
+                            ExpenseDivider()
+                        }
+                        CategoryMonthExpenseItem(
+                            expense = expense,
+                            expenseClicked = expenseClicked,
+                            modifier = Modifier.animateItemPlacement(
+                                animationSpec = tween(600)
+                            )
+                        )
+                    }
                 }
             }
+        } else {
+            DataZero<Any>(
+                title = "Ooops! It's Empty",
+                message = "Looks like you don't have anything in this category",
+                modifier = Modifier
+                    .background(White)
+            )
         }
     }
 }

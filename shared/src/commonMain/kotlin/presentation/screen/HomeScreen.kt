@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -114,9 +113,9 @@ import theme.spacing_6
 import theme.spacing_8
 import utils.get
 import utils.toMoneyFormat
+import utils.views.DataZero
 import utils.views.ExpenseDivider
 import utils.views.Loading
-import utils.views.PrimaryButton
 import utils.views.Toolbar
 import utils.views.chart.FinanceBarChart
 import kotlin.time.Duration.Companion.milliseconds
@@ -810,57 +809,14 @@ fun HomeFooterContent(
             }
         }
     } else {
-        HomeFooterDataZero(
-            financeType = financeType,
-            onAddNew = onAddNew
-        )
-    }
-}
-
-@Composable
-fun HomeFooterDataZero(
-    financeType: FinanceEnum,
-    onAddNew: (FinanceEnum) -> Unit
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Text(
-            "Ooops! It's Empty",
-            style = MaterialTheme.typography.titleMedium,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(
-                top = spacing_1,
-                start = spacing_2,
-                end = spacing_2
-            )
-        )
-        Text(
-            "Looks like you don't have anything in your ${financeType.financeName.lowercase()}",
-            style = MaterialTheme.typography.bodySmall,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(
-                top = spacing_1,
-                start = spacing_2,
-                end = spacing_2
-            )
-        )
-        PrimaryButton(
-            buttonText = "Add new",
-            iconVector = Icons.Default.Add,
-            shape = MaterialTheme.shapes.extraLarge,
-            onClick = {
-                onAddNew(financeType)
-            },
-            modifier = Modifier
-                .padding(
-                    top = spacing_4,
-                    start = spacing_2,
-                    end = spacing_2
-                )
-                .width(IntrinsicSize.Max)
+        DataZero(
+            title = "Ooops! It's Empty",
+            message = "Looks like you don't have anything in your ${financeType.financeName.lowercase()}",
+            hasButton = true,
+            valueToPass = financeType,
+            onButtonClick = { financeEnum ->
+                onAddNew(financeEnum)
+            }
         )
     }
 }

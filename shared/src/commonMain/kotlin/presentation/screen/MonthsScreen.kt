@@ -46,6 +46,7 @@ import theme.spacing_2
 import theme.spacing_3
 import utils.get
 import utils.toMonthString
+import utils.views.DataZero
 import utils.views.ExpenseDivider
 import utils.views.Loading
 import utils.views.Toolbar
@@ -94,18 +95,25 @@ private fun MonthsObserver(
                 MonthsContent(
                     paddingValues,
                     content = {
-                        MonthList(
-                            months = targetState.data,
-                            onClickItem = { monthKey ->
-                                navigator.navigate(
-                                    Screen.Home.createRoute(
-                                        HomeArgs(
-                                            monthKey
+                        if (targetState.data.isNotEmpty()) {
+                            MonthList(
+                                months = targetState.data,
+                                onClickItem = { monthKey ->
+                                    navigator.navigate(
+                                        Screen.Home.createRoute(
+                                            HomeArgs(
+                                                monthKey
+                                            )
                                         )
                                     )
-                                )
-                            }
-                        )
+                                }
+                            )
+                        } else {
+                            DataZero<Any>(
+                                title = "Ooops! It's Empty",
+                                message = "Looks like you don't any month"
+                            )
+                        }
                     }
                 )
             }

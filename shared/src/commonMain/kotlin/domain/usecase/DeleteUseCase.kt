@@ -10,11 +10,13 @@ class DeleteUseCase(
     suspend fun delete(params: Params): EditState =
         financeRepository.delete(
             financeEnum = params.financeEnum,
-            id = params.id
+            id = params.id,
+            monthKey = params.monthKey
         )
 
     data class Params(
         val financeEnum: FinanceEnum,
-        val id: Long
+        val id: Long,
+        val monthKey: String
     )
 }

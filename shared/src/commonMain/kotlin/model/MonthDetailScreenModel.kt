@@ -17,5 +17,6 @@ data class ExpenseScreenModel(
     val note: String,
     val category: String,
     val localDateTime: LocalDateTime,
-    val date: String
+    val date: String,
+    val monthKey: String
 )

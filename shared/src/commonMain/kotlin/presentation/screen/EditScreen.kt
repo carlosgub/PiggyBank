@@ -66,7 +66,8 @@ fun EditScreen(
                 onDelete = {
                     viewModel.delete(
                         id = args.expenseScreenModel.id,
-                        financeEnum = category.type
+                        financeEnum = category.type,
+                        monthKey = args.expenseScreenModel.monthKey
                     )
                 }
             )

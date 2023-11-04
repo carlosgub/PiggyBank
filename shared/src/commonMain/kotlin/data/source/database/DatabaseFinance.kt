@@ -14,6 +14,7 @@ import data.source.database.income.getIncomeList
 import data.source.database.income.getIncomeListPerCategory
 import data.source.database.income.updateIncome
 import data.source.database.month.createMonth
+import data.source.database.month.deleteMonth
 import data.source.database.month.getMonthList
 import data.sqldelight.SharedDatabase
 import kotlinx.datetime.LocalDate
@@ -175,13 +176,23 @@ class DatabaseFinance constructor(
 
     suspend fun delete(
         financeEnum: FinanceEnum,
-        id: Long
+        id: Long,
+        monthKey: String
     ): ResponseResult<Unit> =
         try {
             if (financeEnum == FinanceEnum.EXPENSE) {
-                sharedDatabase().deleteExpense(id)
+                sharedDatabase().deleteExpense(
+                    id = id
+                )
             } else {
-                sharedDatabase().deleteIncome(id)
+                sharedDatabase().deleteIncome(
+                    id = id
+                )
+            }
+            val expenses = sharedDatabase().getExpenseList(monthKey)
+            val income = sharedDatabase().getIncomeList(monthKey)
+            if (expenses.isEmpty() && income.isEmpty()) {
+                sharedDatabase().deleteMonth(monthKey)
             }
             ResponseResult.Success(Unit)
         } catch (e: Exception) {
