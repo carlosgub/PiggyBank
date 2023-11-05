@@ -889,7 +889,9 @@ private fun HomeToolbar(
             MenuItem(
                 name = "Add Wish",
                 icon = Icons.Filled.Favorite,
-                onItemClicked = onAddExpensePressed
+                onItemClicked = {
+                    0/0
+                }
             )
         )
     )
