@@ -10,7 +10,7 @@
     - [x] Arreglar el de lo meses
     - [x] Arreglar home
 - [ ] ponerlo en español y ingles
-- [ ] Agregar crashanalytics
+- [x] Agregar crashanalytics
 - [ ] Esperar que el fix del calendario en apple este en compose-multiplatform
 - [x] Agregar data zero
     - [x] lista months
