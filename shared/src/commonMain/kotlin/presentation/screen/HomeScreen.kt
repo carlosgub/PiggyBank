@@ -885,13 +885,6 @@ private fun HomeToolbar(
                 name = "Add Income",
                 icon = Icons.Filled.AttachMoney,
                 onItemClicked = onAddIncomePressed
-            ),
-            MenuItem(
-                name = "Add Wish",
-                icon = Icons.Filled.Favorite,
-                onItemClicked = {
-                    0/0
-                }
             )
         )
     )
