@@ -2,6 +2,8 @@ plugins {
     kotlin("multiplatform")
     id("com.android.application")
     id("org.jetbrains.compose")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 kotlin {
@@ -10,10 +12,18 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(project(":shared"))
+                implementation(platform("com.google.firebase:firebase-bom:30.0.1"))
+                implementation("com.google.firebase:firebase-crashlytics")
+                implementation("com.google.firebase:firebase-analytics")
                 api(libs.koin.android)
             }
         }
     }
+}
+
+// This Lines to add firebase-common
+dependencies {
+    implementation(libs.firebase.common.ktx)
 }
 
 android {
@@ -28,7 +38,7 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
     defaultConfig {
-        applicationId = "com.myfinance.app"
+        applicationId = "com.carlosgub.myfinance.app"
         minSdk = (findProperty("android.minSdk") as String).toInt()
         targetSdk = (findProperty("android.targetSdk") as String).toInt()
         versionCode = 1
