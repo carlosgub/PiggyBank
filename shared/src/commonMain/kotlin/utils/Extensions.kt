@@ -77,8 +77,3 @@ fun LocalDateTime.toMillis(): Long =
     this.toInstant(TimeZone.UTC).toEpochMilliseconds()
 
 fun FinanceEnum.isExpense() = this == FinanceEnum.EXPENSE
-
-inline fun <reified T> get(
-    qualifier: Qualifier? = null,
-    noinline parameters: ParametersDefinition? = null
-): T = KoinPlatformTools.defaultContext().get().get(qualifier, parameters)

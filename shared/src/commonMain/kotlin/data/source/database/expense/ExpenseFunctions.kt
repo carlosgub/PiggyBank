@@ -1,6 +1,7 @@
 package data.source.database.expense
 
 import com.carlosgub.myfinance.app.Database
+import expense.Expense
 
 fun Database.getExpenseList(month: String): List<Expense> {
     return expenseQueries.getExpenseList(month).executeAsList()
@@ -10,7 +11,7 @@ fun Database.getExpenseListPerCategory(month: String, category: String): List<Ex
     return expenseQueries.getExpensePerCategoryList(month, category).executeAsList()
 }
 
-fun Database.createExpense(expense: Expense) {
+suspend fun Database.createExpense(expense: Expense) {
     expenseQueries.insert(
         id = null,
         amount = expense.amount,
@@ -21,7 +22,7 @@ fun Database.createExpense(expense: Expense) {
     )
 }
 
-fun Database.updateExpense(expense: Expense) {
+suspend fun Database.updateExpense(expense: Expense) {
     expenseQueries.updateExpense(
         id = expense.id,
         amount = expense.amount,
@@ -32,7 +33,7 @@ fun Database.updateExpense(expense: Expense) {
     )
 }
 
-fun Database.deleteExpense(id: Long) {
+suspend fun Database.deleteExpense(id: Long) {
     expenseQueries.delete(
         id = id
     )

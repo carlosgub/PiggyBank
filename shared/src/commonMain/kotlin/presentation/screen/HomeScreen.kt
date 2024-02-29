@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
@@ -46,7 +45,6 @@ import androidx.compose.material.icons.filled.ArrowLeft
 import androidx.compose.material.icons.filled.ArrowRight
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.MoneyOff
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -94,8 +92,8 @@ import model.HomeArgs
 import model.MenuItem
 import model.MonthExpense
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
+import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
-import moe.tlaster.precompose.viewmodel.viewModel
 import presentation.navigation.Screen
 import presentation.viewmodel.HomeViewModel
 import theme.ColorPrimary
@@ -111,7 +109,6 @@ import theme.spacing_3
 import theme.spacing_4
 import theme.spacing_6
 import theme.spacing_8
-import utils.get
 import utils.toMoneyFormat
 import utils.views.DataZero
 import utils.views.ExpenseDivider
@@ -125,11 +122,7 @@ fun HomeScreen(
     navigator: Navigator,
     args: HomeArgs
 ) {
-    val viewModel = viewModel(HomeViewModel::class) {
-        HomeViewModel(
-            getFinanceUseCase = get()
-        )
-    }
+    val viewModel = koinViewModel(vmClass = HomeViewModel::class)
     val pullRefreshState = rememberPullRefreshState(
         refreshing = viewModel.isRefreshing,
         onRefresh = {
@@ -553,7 +546,7 @@ private fun HomeBodySecondPageContent(
                     targetState = overlayData,
                     transitionSpec = {
                         fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith
-                            fadeOut(animationSpec = tween(durationMillis = 300))
+                                fadeOut(animationSpec = tween(durationMillis = 300))
                     },
                     contentAlignment = Alignment.Center
                 ) { overlayData ->

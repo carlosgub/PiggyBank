@@ -35,8 +35,8 @@ import core.sealed.GenericState
 import kotlinx.datetime.LocalDateTime
 import model.HomeArgs
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
+import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
-import moe.tlaster.precompose.viewmodel.viewModel
 import presentation.navigation.Screen
 import presentation.viewmodel.MonthsScreenViewModel
 import theme.ColorPrimary
@@ -44,7 +44,6 @@ import theme.White
 import theme.spacing_1_2
 import theme.spacing_2
 import theme.spacing_3
-import utils.get
 import utils.toMonthString
 import utils.views.DataZero
 import utils.views.ExpenseDivider
@@ -55,9 +54,7 @@ import utils.views.Toolbar
 fun MonthsScreen(
     navigator: Navigator
 ) {
-    val viewModel = viewModel(MonthsScreenViewModel::class) {
-        MonthsScreenViewModel(get())
-    }
+    val viewModel = koinViewModel(vmClass = MonthsScreenViewModel::class)
     Scaffold(
         topBar = {
             MonthsToolbar(
@@ -81,12 +78,12 @@ private fun MonthsObserver(
         targetState = viewModel.uiState.collectAsStateWithLifecycle().value,
         transitionSpec = {
             (
-                fadeIn(animationSpec = tween(300, delayMillis = 90)) +
-                    slideIntoContainer(
-                        animationSpec = tween(300, delayMillis = 90),
-                        towards = AnimatedContentTransitionScope.SlideDirection.Left
+                    fadeIn(animationSpec = tween(300, delayMillis = 90)) +
+                            slideIntoContainer(
+                                animationSpec = tween(300, delayMillis = 90),
+                                towards = AnimatedContentTransitionScope.SlideDirection.Left
+                            )
                     )
-                )
                 .togetherWith(fadeOut(animationSpec = tween(90)))
         }
     ) { targetState ->

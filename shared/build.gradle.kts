@@ -4,7 +4,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.compose")
     kotlin("plugin.serialization") version "1.9.0"
-    id("app.cash.sqldelight") version "2.0.0-alpha05"
+    id("app.cash.sqldelight") version "2.0.1"
     id("org.jlleitschuh.gradle.ktlint")
 }
 
@@ -104,7 +104,7 @@ sqldelight {
     databases {
         create("Database") {
             packageName.set("com.carlosgub.myfinance.app")
-            sourceFolders.set(listOf("kotlin"))
+            generateAsync.set(true)
         }
     }
 }

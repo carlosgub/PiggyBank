@@ -6,13 +6,13 @@ fun Database.getMonthList(): List<String> {
     return monthQueries.getMonthListList().executeAsList()
 }
 
-fun Database.createMonth(month: String) {
+suspend fun Database.createMonth(month: String) {
     monthQueries.insert(
         month = month
     )
 }
 
-fun Database.deleteMonth(month: String) {
+suspend fun Database.deleteMonth(month: String) {
     monthQueries.delete(
         month = month
     )

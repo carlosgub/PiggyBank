@@ -1,13 +1,11 @@
 package data.source.database
 
 import core.network.ResponseResult
-import data.source.database.expense.Expense
 import data.source.database.expense.createExpense
 import data.source.database.expense.deleteExpense
 import data.source.database.expense.getExpenseList
 import data.source.database.expense.getExpenseListPerCategory
 import data.source.database.expense.updateExpense
-import data.source.database.income.Income
 import data.source.database.income.createIncome
 import data.source.database.income.deleteIncome
 import data.source.database.income.getIncomeList
@@ -17,6 +15,8 @@ import data.source.database.month.createMonth
 import data.source.database.month.deleteMonth
 import data.source.database.month.getMonthList
 import data.sqldelight.SharedDatabase
+import expense.Expense
+import income.Income
 import kotlinx.datetime.LocalDate
 import model.CategoryEnum
 import model.FinanceEnum
@@ -24,7 +24,7 @@ import model.MonthModel
 import utils.toLocalDate
 import utils.toMonthString
 
-class DatabaseFinance constructor(
+class DatabaseFinance(
     private val sharedDatabase: SharedDatabase
 ) {
     suspend fun getAllMonthExpenses(

@@ -1,5 +1,6 @@
 package data.sqldelight
 
+import app.cash.sqldelight.db.SqlDriver
 import com.carlosgub.myfinance.app.Database
 
 class SharedDatabase(
@@ -7,11 +8,9 @@ class SharedDatabase(
 ) {
     private var database: Database? = null
 
-    private suspend fun initDatabase() {
+    suspend fun initDatabase() {
         if (database == null) {
-            database = Database(
-                driverProvider.createDriver()
-            )
+            database = driverProvider.createDriver(Database.Schema).createDatabase()
         }
     }
 
@@ -19,4 +18,7 @@ class SharedDatabase(
         initDatabase()
         return database!!
     }
+
+    private fun SqlDriver.createDatabase(): Database = Database(this)
+
 }

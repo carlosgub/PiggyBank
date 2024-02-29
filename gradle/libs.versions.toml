@@ -1,17 +1,17 @@
 [versions]
-activityComposeVersion = "1.7.2"
-delightVersion = "2.0.0-alpha05"
+activityComposeVersion = "1.8.2"
+delightVersion = "2.0.1"
 appcompatVersion = "1.6.1"
 chartsVersion = "1.0.4"
 coreKtxVersion = "1.12.0"
-firebaseCommonKtxVersion = "20.3.3"
+firebaseCommonKtxVersion = "20.4.2"
 kamelImageVersion = "0.6.0"
-koinCoreVersion = "3.5.0"
-koinComposeVersion = "1.1.0"
+koinCoreVersion = "3.5.3"
+koinComposeVersion = "1.1.2"
 kotlinxSerializationJsonVersion = "1.6.0"
-precomposeVersion = "1.5.4"
-datetimeVersion = "0.4.1"
-kotlinStdlibVersion = "1.9.10"
+precomposeVersion = "1.5.11"
+datetimeVersion = "0.5.0"
+kotlinStdlibVersion = "1.9.22"
 
 
 [libraries]
@@ -28,8 +28,10 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinCore
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCoreVersion" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeVersion" }
 
+
 precompose-core = { module = "moe.tlaster:precompose", version.ref = "precomposeVersion" }
 precompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "precomposeVersion" }
+precompose-koin = { module = "moe.tlaster:precompose-koin", version.ref = "precomposeVersion" }
 
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetimeVersion" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJsonVersion" }
@@ -47,5 +49,6 @@ android = [
 ]
 precompose = [
     "precompose-core",
-    "precompose-viewmodel"
+    "precompose-viewmodel",
+    "precompose-koin"
 ]

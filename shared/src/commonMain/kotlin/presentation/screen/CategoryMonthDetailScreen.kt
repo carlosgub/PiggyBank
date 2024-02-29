@@ -49,8 +49,8 @@ import model.CategoryMonthDetailArgs
 import model.EditArgs
 import model.ExpenseScreenModel
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
+import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
-import moe.tlaster.precompose.viewmodel.viewModel
 import presentation.navigation.Screen
 import presentation.viewmodel.CategoryMonthDetailViewModel
 import theme.Gray600
@@ -61,7 +61,6 @@ import theme.spacing_1_2
 import theme.spacing_2
 import theme.spacing_4
 import theme.spacing_6
-import utils.get
 import utils.getCategoryEnumFromName
 import utils.toMoneyFormat
 import utils.views.DataZero
@@ -75,9 +74,7 @@ fun CategoryMonthDetailScreen(
     navigator: Navigator,
     args: CategoryMonthDetailArgs
 ) {
-    val viewModel = viewModel(CategoryMonthDetailViewModel::class) {
-        CategoryMonthDetailViewModel(get(), get())
-    }
+    val viewModel = koinViewModel(vmClass = CategoryMonthDetailViewModel::class)
     ExpenseMonthDetailContainer(
         args = args,
         navigator = navigator,
@@ -363,7 +360,7 @@ private fun CategoryMonthDetailHeader(
                         targetState = overlayData,
                         transitionSpec = {
                             fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith
-                                fadeOut(animationSpec = tween(durationMillis = 300))
+                                    fadeOut(animationSpec = tween(durationMillis = 300))
                         },
                         contentAlignment = Alignment.Center
                     ) { overlayData ->
