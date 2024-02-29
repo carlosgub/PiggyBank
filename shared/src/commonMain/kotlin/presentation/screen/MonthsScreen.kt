@@ -24,6 +24,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,6 +39,7 @@ import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
+import presentation.viewmodel.MonthsScreenIntents
 import presentation.viewmodel.MonthsScreenViewModel
 import theme.ColorPrimary
 import theme.White
@@ -64,18 +66,27 @@ fun MonthsScreen(
             )
         }
     ) { paddingValues ->
-        MonthsObserver(navigator, viewModel, paddingValues)
+        val sideEffect by viewModel.container.sideEffectFlow.collectAsStateWithLifecycle(
+            GenericState.Initial
+        )
+        MonthsObserver(
+            navigator = navigator,
+            sideEffect = sideEffect,
+            paddingValues = paddingValues,
+            intents = viewModel
+        )
     }
 }
 
 @Composable
 private fun MonthsObserver(
     navigator: Navigator,
-    viewModel: MonthsScreenViewModel,
-    paddingValues: PaddingValues
+    sideEffect: GenericState<Map<Int, List<LocalDateTime>>>,
+    paddingValues: PaddingValues,
+    intents: MonthsScreenIntents
 ) {
     AnimatedContent(
-        targetState = viewModel.uiState.collectAsStateWithLifecycle().value,
+        targetState = sideEffect,
         transitionSpec = {
             (
                     fadeIn(animationSpec = tween(300, delayMillis = 90)) +
@@ -92,23 +103,13 @@ private fun MonthsObserver(
                 MonthsContent(
                     paddingValues,
                     content = {
-                        if (targetState.data.isNotEmpty()) {
-                            MonthList(
-                                months = targetState.data,
-                                onClickItem = { monthKey ->
-                                    navigator.navigate(
-                                        Screen.Home.createRoute(
-                                            HomeArgs(
-                                                monthKey
-                                            )
-                                        )
+                        MonthsScreenSuccessContent(targetState.data) { monthKey ->
+                            navigator.navigate(
+                                Screen.Home.createRoute(
+                                    HomeArgs(
+                                        monthKey
                                     )
-                                }
-                            )
-                        } else {
-                            DataZero<Any>(
-                                title = "Ooops! It's Empty",
-                                message = "Looks like you don't any month"
+                                )
                             )
                         }
                     }
@@ -125,11 +126,29 @@ private fun MonthsObserver(
             }
 
             GenericState.Initial -> {
-                viewModel.getMonths()
+                intents.getMonths()
             }
 
             else -> Unit
         }
+    }
+}
+
+@Composable
+private fun MonthsScreenSuccessContent(
+    data: Map<Int, List<LocalDateTime>>,
+    onClickItem: (String) -> Unit
+) {
+    if (data.isNotEmpty()) {
+        MonthList(
+            months = data,
+            onClickItem = onClickItem
+        )
+    } else {
+        DataZero<Any>(
+            title = "Ooops! It's Empty",
+            message = "Looks like you don't any month"
+        )
     }
 }
 

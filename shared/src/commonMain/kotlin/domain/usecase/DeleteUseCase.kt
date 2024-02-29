@@ -2,12 +2,12 @@ package domain.usecase
 
 import domain.repository.FinanceRepository
 import model.FinanceEnum
-import presentation.viewmodel.state.EditState
+import presentation.viewmodel.state.EditSideEffects
 
 class DeleteUseCase(
     private val financeRepository: FinanceRepository
 ) {
-    suspend fun delete(params: Params): EditState =
+    suspend fun delete(params: Params): EditSideEffects =
         financeRepository.delete(
             financeEnum = params.financeEnum,
             id = params.id,

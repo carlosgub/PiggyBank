@@ -1,16 +1,19 @@
 package presentation.viewmodel
 
-import core.result.SingleEvent
 import core.sealed.GenericState
 import domain.usecase.CreateExpenseUseCase
 import domain.usecase.CreateIncomeUseCase
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.Job
 import model.CategoryEnum
 import model.FinanceEnum
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
+import org.orbitmvi.orbit.Container
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.container
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
+import org.orbitmvi.orbit.syntax.simple.reduce
 import utils.isExpense
 import utils.toLocalDate
 import utils.toMoneyFormat
@@ -19,42 +22,70 @@ import utils.toNumberOfTwoDigits
 class CreateViewModel(
     val createExpenseUseCase: CreateExpenseUseCase,
     val createIncomeUseCase: CreateIncomeUseCase
-) : ViewModel() {
+) : ViewModel(), ContainerHost<CreateScreenState, GenericState<Unit>>, CreateScreenIntents {
 
-    private val _category = MutableStateFlow(CategoryEnum.FOOD)
-    val category = _category.asStateFlow()
-    private val _dateInMillis = MutableStateFlow(0L)
-    private val _amountField = MutableStateFlow(0.0.toMoneyFormat())
-    val amountField = _amountField.asStateFlow()
-    private val _noteField = MutableStateFlow("")
-    private val _dateValue = MutableStateFlow("")
-    val dateValue = _dateValue.asStateFlow()
-    private val _showError = MutableStateFlow(false)
-    val showError = _showError.asStateFlow()
-    private val _showNoteError = MutableStateFlow(false)
-    val showNoteError = _showNoteError.asStateFlow()
-    private val _showDateError = MutableStateFlow(false)
-    val showDateError = _showDateError.asStateFlow()
-    private val _amountValueField = MutableStateFlow(0.0)
-    private val _uiState =
-        MutableStateFlow<SingleEvent<GenericState<Unit>>>(SingleEvent(GenericState.Initial))
-    val uiState = _uiState.asStateFlow()
 
-    fun setCategory(categoryEnum: CategoryEnum) {
-        viewModelScope.launch {
-            _category.emit(categoryEnum)
+    override fun create(financeEnum: FinanceEnum): Job = intent {
+        if (state.amount <= 0) {
+            showError(true)
+        } else if (state.dateInMillis == 0L) {
+            showDateError(true)
+        } else if (state.note.trim().isBlank()) {
+            showNoteError(true)
+        } else {
+            postSideEffect(
+                GenericState.Loading
+            )
+            if (financeEnum.isExpense()) createExpense() else createIncome()
         }
     }
 
-    fun setDateInMillis(dateInMillis: Long) {
-        viewModelScope.launch {
-            _dateInMillis.value = dateInMillis
-        }
-        setDateValue()
+    private fun createExpense(): Job = intent {
+        val result = createExpenseUseCase.createExpense(
+            CreateExpenseUseCase.Params(
+                amount = (state.amount * 100).toInt(),
+                note = state.note,
+                dateInMillis = state.dateInMillis,
+                category = state.category.name
+            )
+        )
+        postSideEffect(
+            result
+        )
     }
 
-    fun amountFieldChange(textFieldValue: String) {
-        if (textFieldValue != _amountField.value) {
+    private fun createIncome(): Job = intent {
+        val result = createIncomeUseCase.createIncome(
+            CreateIncomeUseCase.Params(
+                amount = (state.amount * 100).toInt(),
+                note = state.note,
+                dateInMillis = state.dateInMillis
+            )
+        )
+        postSideEffect(
+            result
+        )
+    }
+
+    override fun setNote(note: String): Job = intent {
+        reduce { state.copy(note = note) }
+    }
+
+    override fun setDate(date: Long): Job = intent {
+        reduce { state.copy(dateInMillis = date) }
+        val localDate = date.toLocalDate()
+        val dateFormat = "${localDate.dayOfMonth.toNumberOfTwoDigits()}/" +
+                "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
+                "${localDate.year}"
+        reduce { state.copy(date = dateFormat) }
+    }
+
+    override fun setCategory(categoryEnum: CategoryEnum): Job = intent {
+        reduce { state.copy(category = categoryEnum) }
+    }
+
+    override fun setAmount(textFieldValue: String): Job = intent {
+        if (textFieldValue != state.amountField) {
             val cleanString: String =
                 textFieldValue.replace("""[$,.A-Za-z]""".toRegex(), "").trim().trimStart('0')
             val parsed = if (cleanString.isBlank()) {
@@ -64,90 +95,50 @@ class CreateViewModel(
             }
             val amount = parsed / 100
 
-            viewModelScope.launch {
-                _amountField.emit(amount.toMoneyFormat())
-                _amountValueField.emit(amount)
+            reduce {
+                state.copy(
+                    amountField = amount.toMoneyFormat(),
+                    amount = amount
+                )
             }
         }
     }
 
-    fun noteFieldChange(note: String) {
-        viewModelScope.launch {
-            _noteField.value = note
-        }
+    override fun showDateError(boolean: Boolean): Job = intent {
+        reduce { state.copy(showDateError = boolean) }
     }
 
-    fun create(financeEnum: FinanceEnum) {
-        if (_amountValueField.value <= 0) {
-            showError(true)
-        } else if (_dateInMillis.value == 0L) {
-            showDateError(true)
-        } else if (_noteField.value.trim().isBlank()) {
-            showNoteError(true)
-        } else {
-            _uiState.value = SingleEvent(
-                GenericState.Loading
-            )
-            if (financeEnum.isExpense()) createExpense() else createIncome()
-        }
+    override fun showNoteError(boolean: Boolean): Job = intent {
+        reduce { state.copy(showNoteError = boolean) }
     }
 
-    private fun createExpense() {
-        viewModelScope.launch {
-            _uiState.emit(
-                SingleEvent(
-                    createExpenseUseCase.createExpense(
-                        CreateExpenseUseCase.Params(
-                            amount = (_amountValueField.value * 100).toInt(),
-                            category = _category.value.name,
-                            note = _noteField.value,
-                            dateInMillis = _dateInMillis.value
-                        )
-                    )
-                )
-            )
-        }
+    override fun showError(boolean: Boolean): Job = intent {
+        reduce { state.copy(showError = boolean) }
     }
 
-    private fun createIncome() {
-        viewModelScope.launch {
-            _uiState.emit(
-                SingleEvent(
-                    createIncomeUseCase.createIncome(
-                        CreateIncomeUseCase.Params(
-                            amount = (_amountValueField.value * 100).toInt(),
-                            note = _noteField.value,
-                            dateInMillis = _dateInMillis.value
-                        )
-                    )
-                )
-            )
-        }
-    }
+    override val container: Container<CreateScreenState, GenericState<Unit>> =
+        viewModelScope.container(CreateScreenState())
+}
 
-    fun showError(show: Boolean) {
-        viewModelScope.launch {
-            _showError.emit(show)
-        }
-    }
+data class CreateScreenState(
+    val category: CategoryEnum = CategoryEnum.FOOD,
+    val amountField: String = 0.0.toMoneyFormat(),
+    val amount: Double = 0.0,
+    val showDateError: Boolean = false,
+    val showNoteError: Boolean = false,
+    val showError: Boolean = false,
+    val note: String = "",
+    val date: String = "",
+    val dateInMillis: Long = 0L
+)
 
-    fun showNoteError(show: Boolean) {
-        viewModelScope.launch {
-            _showNoteError.emit(show)
-        }
-    }
-
-    fun showDateError(show: Boolean) {
-        viewModelScope.launch {
-            _showDateError.emit(show)
-        }
-    }
-
-    private fun setDateValue() {
-        val date = _dateInMillis.value.toLocalDate()
-        _dateValue.value =
-            "${date.dayOfMonth.toNumberOfTwoDigits()}/" +
-            "${date.monthNumber.toNumberOfTwoDigits()}/" +
-            "${date.year}"
-    }
+interface CreateScreenIntents {
+    fun setCategory(categoryEnum: CategoryEnum): Job
+    fun setAmount(textFieldValue: String): Job
+    fun showDateError(boolean: Boolean): Job
+    fun showNoteError(boolean: Boolean): Job
+    fun showError(boolean: Boolean): Job
+    fun setNote(note: String): Job
+    fun setDate(date: Long): Job
+    fun create(financeEnum: FinanceEnum): Job
 }

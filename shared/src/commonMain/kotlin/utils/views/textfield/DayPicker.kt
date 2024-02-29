@@ -38,9 +38,14 @@ fun DayPicker(
     dateInMillis: Long? = null,
     dayValueInMillis: (Long) -> Unit
 ) {
+    val initialDateMillis = if (dateInMillis != null && dateInMillis > 0L) {
+        dateInMillis
+    } else {
+        null
+    }
     var isVisible by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = dateInMillis
+        initialSelectedDateMillis = initialDateMillis
     )
     val keyboard = LocalSoftwareKeyboardController.current
     OutlinedTextField(

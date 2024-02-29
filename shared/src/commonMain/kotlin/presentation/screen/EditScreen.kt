@@ -14,7 +14,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -28,8 +31,10 @@ import model.FinanceEnum
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
+import presentation.viewmodel.EditScreenIntents
+import presentation.viewmodel.EditScreenState
 import presentation.viewmodel.EditViewModel
-import presentation.viewmodel.state.EditState
+import presentation.viewmodel.state.EditSideEffects
 import theme.Gray400
 import theme.spacing_4
 import theme.spacing_6
@@ -52,12 +57,13 @@ fun EditScreen(
     navigator: Navigator,
     args: EditArgs
 ) {
-    val category = getCategoryEnumFromName(args.expenseScreenModel.category)
-    val dateInMillis = args.expenseScreenModel.localDateTime.toMillis()
-    viewModel.amountFieldChange(args.expenseScreenModel.amount.toString())
-    viewModel.setCategory(category)
-    viewModel.setDateInMillis(dateInMillis)
-    viewModel.noteFieldChange(args.expenseScreenModel.note)
+    val editScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
+    val editScreenSideEffect by viewModel.container.sideEffectFlow.collectAsState(
+        EditSideEffects.Initial
+    )
+    LaunchedEffect(Unit) {
+        viewModel.updateValues(args.expenseScreenModel)
+    }
     Scaffold(
         topBar = {
             EditToolbar(
@@ -66,7 +72,7 @@ fun EditScreen(
                 onDelete = {
                     viewModel.delete(
                         id = args.expenseScreenModel.id,
-                        financeEnum = category.type,
+                        financeEnum = args.financeEnum,
                         monthKey = args.expenseScreenModel.monthKey
                     )
                 }
@@ -80,14 +86,13 @@ fun EditScreen(
                 )
         ) {
             EditContent(
-                viewModel = viewModel,
+                state = editScreenState,
+                intents = viewModel,
                 financeEnum = args.financeEnum,
-                initialDateInMillis = dateInMillis,
-                id = args.expenseScreenModel.id,
-                noteValue = args.expenseScreenModel.note
+                id = args.expenseScreenModel.id
             )
             EditObserver(
-                viewModel = viewModel,
+                sideEffect = editScreenSideEffect,
                 navigator = navigator
             )
         }
@@ -96,31 +101,24 @@ fun EditScreen(
 
 @Composable
 private fun EditContent(
-    viewModel: EditViewModel,
+    state: EditScreenState,
+    intents: EditScreenIntents,
     financeEnum: FinanceEnum,
-    initialDateInMillis: Long,
-    id: Long,
-    noteValue: String
+    id: Long
 ) {
-    val selectedSelected = viewModel.category.collectAsStateWithLifecycle().value
-    val amountText = viewModel.amountField.collectAsStateWithLifecycle().value
-    val showError = viewModel.showError.collectAsStateWithLifecycle().value
-    val showNoteError = viewModel.showNoteError.collectAsStateWithLifecycle().value
-    val showDateError = viewModel.showDateError.collectAsStateWithLifecycle().value
-    val dateValue = viewModel.dateValue.collectAsStateWithLifecycle().value
     val keyboard = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     val amountTextFieldValue = remember {
         mutableStateOf(
             TextFieldValue(
-                text = amountText,
-                selection = TextRange(amountText.length)
+                text = state.amountField,
+                selection = TextRange(state.amountField.length)
             )
         )
     }
     amountTextFieldValue.value = TextFieldValue(
-        text = amountText,
-        selection = TextRange(amountText.length)
+        text = state.amountField,
+        selection = TextRange(state.amountField.length)
     )
     Column(
         modifier = Modifier.fillMaxSize()
@@ -138,37 +136,37 @@ private fun EditContent(
             keyboard = keyboard,
             focusManager = focusManager,
             onValueChange = { value ->
-                viewModel.amountFieldChange(value)
-                viewModel.showError(false)
+                intents.setAmount(value)
+                intents.showError(false)
             },
-            showError = showError
+            showError = state.showError
         )
         if (financeEnum.isExpense()) {
             CategoriesChips(
-                selectedSelected,
+                selectedSelected = state.category,
                 onChipPressed = { categoryEnumSelected ->
-                    viewModel.setCategory(categoryEnumSelected)
+                    intents.setCategory(categoryEnumSelected)
                 }
             )
         }
         DayPicker(
-            dateValue = dateValue,
-            showError = showDateError,
-            dateInMillis = initialDateInMillis,
+            dateValue = state.date,
+            showError = state.showDateError,
+            dateInMillis = state.dateInMillis,
             dayValueInMillis = { dateInMillis ->
-                viewModel.showDateError(false)
-                viewModel.setDateInMillis(dateInMillis)
+                intents.showDateError(false)
+                intents.setDate(dateInMillis)
             }
         )
         NoteOutlineTextField(
-            firstValue = noteValue,
+            firstValue = state.note,
             keyboard = keyboard,
             focusManager = focusManager,
             onValueChange = { value ->
-                viewModel.noteFieldChange(value)
-                viewModel.showNoteError(false)
+                intents.setNote(value)
+                intents.showNoteError(false)
             },
-            showNoteError
+            showError = state.showNoteError
         )
         Box(
             modifier = Modifier.weight(1.0f)
@@ -178,9 +176,9 @@ private fun EditContent(
             modifier = Modifier.padding(
                 bottom = spacing_6
             ),
-            buttonText = "Create $title",
+            buttonText = "Edit $title",
             onClick = {
-                viewModel.create(
+                intents.create(
                     financeEnum = financeEnum,
                     id = id
                 )
@@ -191,18 +189,17 @@ private fun EditContent(
 
 @Composable
 private fun EditObserver(
-    viewModel: EditViewModel,
+    sideEffect: EditSideEffects,
     navigator: Navigator
 ) {
-    when (viewModel.uiState.collectAsStateWithLifecycle().value.get()) {
-        is EditState.Error -> {
+    when (sideEffect) {
+        is EditSideEffects.Error -> {
         }
 
-        EditState.Initial -> Unit
-        EditState.Loading -> Loading(Modifier.background(Gray400.copy(alpha = 0.5f)))
-        is EditState.Success -> navigator.goBackWith(true)
-        EditState.Delete -> navigator.goBackWith(true)
-        else -> Unit
+        EditSideEffects.Initial -> Unit
+        EditSideEffects.Loading -> Loading(Modifier.background(Gray400.copy(alpha = 0.5f)))
+        is EditSideEffects.Success -> navigator.goBackWith(true)
+        EditSideEffects.Delete -> navigator.goBackWith(true)
     }
 }
 
