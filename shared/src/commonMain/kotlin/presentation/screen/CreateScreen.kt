@@ -62,7 +62,7 @@ fun CreateScreen(
         ) {
             val createScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
             val createScreenSideEffect by viewModel.container.sideEffectFlow.collectAsState(
-                GenericState.Loading
+                GenericState.Initial
             )
             CreateContent(
                 state = createScreenState,
