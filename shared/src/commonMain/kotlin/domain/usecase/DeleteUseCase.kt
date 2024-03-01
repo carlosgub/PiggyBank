@@ -2,7 +2,7 @@ package domain.usecase
 
 import domain.repository.FinanceRepository
 import model.FinanceEnum
-import presentation.viewmodel.state.EditSideEffects
+import presentation.viewmodel.EditSideEffects
 
 class DeleteUseCase(
     private val financeRepository: FinanceRepository

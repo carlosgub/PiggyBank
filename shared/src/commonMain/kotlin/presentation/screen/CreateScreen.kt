@@ -45,6 +45,10 @@ fun CreateScreen(
     navigator: Navigator,
     args: CreateArgs
 ) {
+    val createScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
+    val createScreenSideEffect by viewModel.container.sideEffectFlow.collectAsState(
+        GenericState.Initial
+    )
     Scaffold(
         topBar = {
             CreateToolbar(
@@ -60,10 +64,6 @@ fun CreateScreen(
                     top = paddingValues.calculateTopPadding()
                 )
         ) {
-            val createScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
-            val createScreenSideEffect by viewModel.container.sideEffectFlow.collectAsState(
-                GenericState.Initial
-            )
             CreateContent(
                 state = createScreenState,
                 intents = viewModel,

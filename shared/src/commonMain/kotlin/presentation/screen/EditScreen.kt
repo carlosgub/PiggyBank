@@ -33,15 +33,13 @@ import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
 import presentation.viewmodel.EditScreenIntents
 import presentation.viewmodel.EditScreenState
+import presentation.viewmodel.EditSideEffects
 import presentation.viewmodel.EditViewModel
-import presentation.viewmodel.state.EditSideEffects
 import theme.Gray400
 import theme.spacing_4
 import theme.spacing_6
 import utils.NoRippleInteractionSource
-import utils.getCategoryEnumFromName
 import utils.isExpense
-import utils.toMillis
 import utils.views.AlertDialogFinance
 import utils.views.Loading
 import utils.views.PrimaryButton
@@ -57,8 +55,8 @@ fun EditScreen(
     navigator: Navigator,
     args: EditArgs
 ) {
-    val editScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
-    val editScreenSideEffect by viewModel.container.sideEffectFlow.collectAsState(
+    val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
+    val sideEffect by viewModel.container.sideEffectFlow.collectAsState(
         EditSideEffects.Initial
     )
     LaunchedEffect(Unit) {
@@ -85,14 +83,16 @@ fun EditScreen(
                     top = paddingValues.calculateTopPadding()
                 )
         ) {
-            EditContent(
-                state = editScreenState,
-                intents = viewModel,
-                financeEnum = args.financeEnum,
-                id = args.expenseScreenModel.id
-            )
+            if(state.initialDataLoaded){
+                EditContent(
+                    state = state,
+                    intents = viewModel,
+                    financeEnum = args.financeEnum,
+                    id = args.expenseScreenModel.id
+                )
+            }
             EditObserver(
-                sideEffect = editScreenSideEffect,
+                sideEffect = sideEffect,
                 navigator = navigator
             )
         }
@@ -193,13 +193,10 @@ private fun EditObserver(
     navigator: Navigator
 ) {
     when (sideEffect) {
-        is EditSideEffects.Error -> {
-        }
-
-        EditSideEffects.Initial -> Unit
         EditSideEffects.Loading -> Loading(Modifier.background(Gray400.copy(alpha = 0.5f)))
         is EditSideEffects.Success -> navigator.goBackWith(true)
         EditSideEffects.Delete -> navigator.goBackWith(true)
+        else -> Unit
     }
 }
 

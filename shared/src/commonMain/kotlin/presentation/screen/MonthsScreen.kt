@@ -58,6 +58,10 @@ fun MonthsScreen(
     navigator: Navigator
 ) {
     val viewModel = koinViewModel(vmClass = MonthsScreenViewModel::class)
+    val sideEffect by viewModel.container.sideEffectFlow.collectAsStateWithLifecycle(
+        GenericState.Initial
+    )
+    val monthsScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     Scaffold(
         topBar = {
             MonthsToolbar(
@@ -67,10 +71,6 @@ fun MonthsScreen(
             )
         }
     ) { paddingValues ->
-        val sideEffect by viewModel.container.sideEffectFlow.collectAsStateWithLifecycle(
-            GenericState.Initial
-        )
-        val monthsScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
         MonthsObserver(
             sideEffect = sideEffect,
             intents = viewModel

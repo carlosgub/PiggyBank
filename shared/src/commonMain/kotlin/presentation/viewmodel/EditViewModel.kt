@@ -15,7 +15,6 @@ import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
-import presentation.viewmodel.state.EditSideEffects
 import utils.getCategoryEnumFromName
 import utils.isExpense
 import utils.toLocalDate
@@ -146,6 +145,7 @@ class EditViewModel(
         setCategory(getCategoryEnumFromName(expenseScreenModel.category))
         setDate(expenseScreenModel.localDateTime.toMillis())
         setNote(expenseScreenModel.note)
+        reduce { state.copy(initialDataLoaded = true) }
     }
 
     override val container: Container<EditScreenState, EditSideEffects> =
@@ -161,7 +161,8 @@ data class EditScreenState(
     val showError: Boolean = false,
     val note: String = "",
     val date: String = "",
-    val dateInMillis: Long = 0L
+    val dateInMillis: Long = 0L,
+    val initialDataLoaded: Boolean = false
 )
 
 interface EditScreenIntents {
@@ -182,4 +183,12 @@ interface EditScreenIntents {
     fun updateValues(
         expenseScreenModel: ExpenseScreenModel
     ): Job
+}
+
+sealed class EditSideEffects {
+    object Loading : EditSideEffects()
+    object Initial : EditSideEffects()
+    data class Error(val message: String) : EditSideEffects()
+    object Success : EditSideEffects()
+    object Delete : EditSideEffects()
 }

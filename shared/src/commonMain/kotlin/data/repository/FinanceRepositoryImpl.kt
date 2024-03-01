@@ -17,7 +17,7 @@ import model.FinanceScreenExpenses
 import model.FinanceScreenModel
 import model.MonthDetailScreenModel
 import model.MonthExpense
-import presentation.viewmodel.state.EditSideEffects
+import presentation.viewmodel.EditSideEffects
 import utils.createLocalDateTime
 import utils.getCategoryEnumFromName
 import utils.isLeapYear

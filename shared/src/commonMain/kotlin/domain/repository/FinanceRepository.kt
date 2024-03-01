@@ -6,7 +6,7 @@ import model.CategoryEnum
 import model.FinanceEnum
 import model.FinanceScreenModel
 import model.MonthDetailScreenModel
-import presentation.viewmodel.state.EditSideEffects
+import presentation.viewmodel.EditSideEffects
 
 interface FinanceRepository {
     suspend fun getFinance(monthKey: String): GenericState<FinanceScreenModel>

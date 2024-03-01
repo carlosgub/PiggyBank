@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MonthDetailScreenModel(
-    val monthAmount: Long,
+    val monthAmount: Long = 0L,
     val daySpent: Map<LocalDateTime, Long> = mapOf(),
-    val expenseScreenModel: List<ExpenseScreenModel>
+    val expenseScreenModel: List<ExpenseScreenModel> = listOf()
 )
 
 @Serializable

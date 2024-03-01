@@ -63,7 +63,6 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -98,6 +97,7 @@ import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
 import presentation.viewmodel.HomeScreenIntents
+import presentation.viewmodel.HomeScreenState
 import presentation.viewmodel.HomeViewModel
 import theme.ColorPrimary
 import theme.Gray400
@@ -127,7 +127,7 @@ fun HomeScreen(
 ) {
     val viewModel = koinViewModel(vmClass = HomeViewModel::class)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
-    val sideEffect by viewModel.container.sideEffectFlow.collectAsState(
+    val sideEffect by viewModel.container.sideEffectFlow.collectAsStateWithLifecycle(
         GenericState.Initial
     )
     viewModel.setMonthKey(args.monthKey)
@@ -184,6 +184,7 @@ fun HomeScreen(
                     HomeObserver(
                         sideEffect = sideEffect,
                         intents = viewModel,
+                        state = state,
                         modifier = Modifier
                             .height(this@BoxWithConstraints.maxHeight)
                     )
@@ -293,7 +294,8 @@ private fun navigateMonthDetailScreen(
 private fun HomeObserver(
     sideEffect: GenericState<FinanceScreenModel>,
     modifier: Modifier,
-    intents: HomeScreenIntents
+    intents: HomeScreenIntents,
+    state: HomeScreenState
 ) {
     when (sideEffect) {
         is GenericState.Success -> {
@@ -306,7 +308,7 @@ private fun HomeObserver(
         }
 
         GenericState.Initial -> {
-            intents.getFinanceStatus()
+            if (state.isInitialDataLoaded.not()) intents.getFinanceStatus()
         }
 
         else -> Unit
@@ -603,12 +605,12 @@ private fun CardExpenses(
         visible = visible,
         enter = slideInVertically(
             initialOffsetY = {
-                it / 2
+                it
             },
         ),
         exit = slideOutVertically(
             targetOffsetY = {
-                it / 2
+                0
             },
         ),
         modifier = modifier

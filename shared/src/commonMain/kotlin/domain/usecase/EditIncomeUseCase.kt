@@ -1,7 +1,7 @@
 package domain.usecase
 
 import domain.repository.FinanceRepository
-import presentation.viewmodel.state.EditSideEffects
+import presentation.viewmodel.EditSideEffects
 
 class EditIncomeUseCase(
     private val financeRepository: FinanceRepository
