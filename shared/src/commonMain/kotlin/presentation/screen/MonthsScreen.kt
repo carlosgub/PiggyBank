@@ -40,6 +40,7 @@ import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
 import presentation.viewmodel.MonthsScreenIntents
+import presentation.viewmodel.MonthsScreenState
 import presentation.viewmodel.MonthsScreenViewModel
 import theme.ColorPrimary
 import theme.White
@@ -69,80 +70,58 @@ fun MonthsScreen(
         val sideEffect by viewModel.container.sideEffectFlow.collectAsStateWithLifecycle(
             GenericState.Initial
         )
+        val monthsScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
         MonthsObserver(
-            navigator = navigator,
             sideEffect = sideEffect,
-            paddingValues = paddingValues,
             intents = viewModel
+        )
+        MonthsContent(
+            monthsScreenState = monthsScreenState,
+            paddingValues = paddingValues,
+            onMonthClicked = { monthKey ->
+                navigator.navigate(
+                    Screen.Home.createRoute(
+                        HomeArgs(
+                            monthKey
+                        )
+                    )
+                )
+            }
         )
     }
 }
 
 @Composable
 private fun MonthsObserver(
-    navigator: Navigator,
     sideEffect: GenericState<Map<Int, List<LocalDateTime>>>,
-    paddingValues: PaddingValues,
     intents: MonthsScreenIntents
 ) {
-    AnimatedContent(
-        targetState = sideEffect,
-        transitionSpec = {
-            (
-                    fadeIn(animationSpec = tween(300, delayMillis = 90)) +
-                            slideIntoContainer(
-                                animationSpec = tween(300, delayMillis = 90),
-                                towards = AnimatedContentTransitionScope.SlideDirection.Left
-                            )
-                    )
-                .togetherWith(fadeOut(animationSpec = tween(90)))
+    when (sideEffect) {
+        is GenericState.Success -> {
+            intents.setMonths(sideEffect.data)
         }
-    ) { targetState ->
-        when (targetState) {
-            is GenericState.Success -> {
-                MonthsContent(
-                    paddingValues,
-                    content = {
-                        MonthsScreenSuccessContent(targetState.data) { monthKey ->
-                            navigator.navigate(
-                                Screen.Home.createRoute(
-                                    HomeArgs(
-                                        monthKey
-                                    )
-                                )
-                            )
-                        }
-                    }
-                )
-            }
 
-            GenericState.Loading -> {
-                MonthsContent(
-                    paddingValues,
-                    content = {
-                        Loading()
-                    }
-                )
-            }
-
-            GenericState.Initial -> {
-                intents.getMonths()
-            }
-
-            else -> Unit
+        GenericState.Loading -> {
+            intents.showLoading()
         }
+
+        GenericState.Initial -> {
+            intents.getMonths()
+        }
+
+        else -> Unit
     }
 }
 
 @Composable
 private fun MonthsScreenSuccessContent(
     data: Map<Int, List<LocalDateTime>>,
-    onClickItem: (String) -> Unit
+    onMonthClicked: (String) -> Unit
 ) {
     if (data.isNotEmpty()) {
         MonthList(
             months = data,
-            onClickItem = onClickItem
+            onClickItem = onMonthClicked
         )
     } else {
         DataZero<Any>(
@@ -235,18 +214,40 @@ fun MonthItem(
 
 @Composable
 fun MonthsContent(
+    monthsScreenState: MonthsScreenState,
     paddingValues: PaddingValues,
-    content: @Composable () -> Unit
+    onMonthClicked: (String) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .background(White)
-            .padding(
-                top = paddingValues.calculateTopPadding()
-            )
-            .fillMaxSize()
-    ) {
-        content()
+    AnimatedContent(
+        targetState = monthsScreenState,
+        transitionSpec = {
+            (
+                    fadeIn(animationSpec = tween(300, delayMillis = 90)) +
+                            slideIntoContainer(
+                                animationSpec = tween(300, delayMillis = 90),
+                                towards = AnimatedContentTransitionScope.SlideDirection.Left
+                            )
+                    )
+                .togetherWith(fadeOut(animationSpec = tween(90)))
+        }
+    ) { targetState ->
+        Column(
+            modifier = Modifier
+                .background(White)
+                .padding(
+                    top = paddingValues.calculateTopPadding()
+                )
+                .fillMaxSize()
+        ) {
+            if (targetState.showLoading) {
+                Loading()
+            } else {
+                MonthsScreenSuccessContent(
+                    data = monthsScreenState.months,
+                    onMonthClicked = onMonthClicked
+                )
+            }
+        }
     }
 }
 

@@ -6,12 +6,14 @@
 package presentation.screen
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.AnimationConstants
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -31,7 +33,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -40,9 +41,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowLeft
+import androidx.compose.material.icons.automirrored.filled.ArrowRight
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowLeft
-import androidx.compose.material.icons.filled.ArrowRight
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.MoneyOff
@@ -62,6 +63,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -95,6 +97,7 @@ import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
+import presentation.viewmodel.HomeScreenIntents
 import presentation.viewmodel.HomeViewModel
 import theme.ColorPrimary
 import theme.Gray400
@@ -123,10 +126,15 @@ fun HomeScreen(
     args: HomeArgs
 ) {
     val viewModel = koinViewModel(vmClass = HomeViewModel::class)
+    val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
+    val sideEffect by viewModel.container.sideEffectFlow.collectAsState(
+        GenericState.Initial
+    )
+    viewModel.setMonthKey(args.monthKey)
     val pullRefreshState = rememberPullRefreshState(
-        refreshing = viewModel.isRefreshing,
+        refreshing = state.showLoading && state.isInitialDataLoaded,
         onRefresh = {
-            viewModel.getFinanceStatus(args.monthKey)
+            viewModel.getFinanceStatus()
         }
     )
     val coroutine = rememberCoroutineScope()
@@ -138,16 +146,14 @@ fun HomeScreen(
                     navigateToAddExpenseScreen(
                         coroutine = coroutine,
                         navigator = navigator,
-                        viewModel = viewModel,
-                        monthKey = args.monthKey
+                        intents = viewModel
                     )
                 },
                 onAddIncomePressed = {
                     navigateToAddIncomeScreen(
                         coroutine = coroutine,
                         navigator = navigator,
-                        viewModel = viewModel,
-                        monthKey = args.monthKey
+                        intents = viewModel
                     )
                 },
                 onSeeMonths = {
@@ -176,15 +182,44 @@ fun HomeScreen(
                         .verticalScroll(scrollState)
                 ) {
                     HomeObserver(
-                        viewModel = viewModel,
-                        navigator = navigator,
-                        monthKey = args.monthKey,
+                        sideEffect = sideEffect,
+                        intents = viewModel,
                         modifier = Modifier
-                            .height(this@BoxWithConstraints.maxHeight),
-                        coroutine = coroutine
+                            .height(this@BoxWithConstraints.maxHeight)
                     )
+                    if (state.isInitialDataLoaded) {
+                        HomeContent(
+                            data = state.financeScreenModel,
+                            onCategoryClick = { financeScreenExpenses ->
+                                navigateMonthDetailScreen(
+                                    coroutine = coroutine,
+                                    navigator = navigator,
+                                    intents = viewModel,
+                                    category = financeScreenExpenses.category.name,
+                                    monthKey = state.monthKey
+                                )
+                            },
+                            onAddNew = { financeEnum ->
+                                if (financeEnum == FinanceEnum.EXPENSE) {
+                                    navigateToAddExpenseScreen(
+                                        coroutine = coroutine,
+                                        navigator = navigator,
+                                        intents = viewModel
+                                    )
+                                } else {
+                                    navigateToAddIncomeScreen(
+                                        coroutine = coroutine,
+                                        navigator = navigator,
+                                        intents = viewModel
+                                    )
+                                }
+                            },
+                            modifier = Modifier
+                                .height(this@BoxWithConstraints.maxHeight)
+                        )
+                    }
                     PullRefreshIndicator(
-                        refreshing = viewModel.isRefreshing,
+                        refreshing = state.showLoading && state.isInitialDataLoaded,
                         state = pullRefreshState,
                         modifier = Modifier.align(Alignment.TopCenter)
                     )
@@ -197,8 +232,7 @@ fun HomeScreen(
 private fun navigateToAddIncomeScreen(
     coroutine: CoroutineScope,
     navigator: Navigator,
-    viewModel: HomeViewModel,
-    monthKey: String
+    intents: HomeScreenIntents
 ) {
     coroutine.launch {
         val result = navigator.navigateForResult(
@@ -209,7 +243,7 @@ private fun navigateToAddIncomeScreen(
             )
         )
         if (result as Boolean) {
-            viewModel.getFinanceStatus(monthKey)
+            intents.getFinanceStatus()
         }
     }
 }
@@ -217,8 +251,7 @@ private fun navigateToAddIncomeScreen(
 private fun navigateToAddExpenseScreen(
     coroutine: CoroutineScope,
     navigator: Navigator,
-    viewModel: HomeViewModel,
-    monthKey: String
+    intents: HomeScreenIntents
 ) {
     coroutine.launch {
         val result = navigator.navigateForResult(
@@ -229,78 +262,54 @@ private fun navigateToAddExpenseScreen(
             )
         )
         if (result as Boolean) {
-            viewModel.getFinanceStatus(monthKey)
+            intents.getFinanceStatus()
+        }
+    }
+}
+
+private fun navigateMonthDetailScreen(
+    coroutine: CoroutineScope,
+    navigator: Navigator,
+    intents: HomeScreenIntents,
+    category: String,
+    monthKey: String
+) {
+    coroutine.launch {
+        val result = navigator.navigateForResult(
+            Screen.CategoryMonthDetailScreen.createRoute(
+                CategoryMonthDetailArgs(
+                    category = category,
+                    month = monthKey
+                )
+            )
+        )
+        if (result as Boolean) {
+            intents.getFinanceStatus()
         }
     }
 }
 
 @Composable
 private fun HomeObserver(
-    viewModel: HomeViewModel,
-    navigator: Navigator,
-    monthKey: String,
+    sideEffect: GenericState<FinanceScreenModel>,
     modifier: Modifier,
-    coroutine: CoroutineScope
+    intents: HomeScreenIntents
 ) {
-    AnimatedContent(
-        targetState = viewModel.uiState.collectAsStateWithLifecycle().value,
-        transitionSpec = {
-            fadeIn(animationSpec = tween(delayMillis = 90))
-                .togetherWith(
-                    fadeOut(animationSpec = tween(90))
-                )
+    when (sideEffect) {
+        is GenericState.Success -> {
+            intents.setFinance(sideEffect.data)
         }
-    ) { targetState ->
-        when (targetState) {
-            is GenericState.Success -> {
-                HomeContent(
-                    data = targetState.data,
-                    onCategoryClick = {
-                        coroutine.launch {
-                            val result = navigator.navigateForResult(
-                                Screen.CategoryMonthDetailScreen.createRoute(
-                                    CategoryMonthDetailArgs(
-                                        category = it.category.name,
-                                        month = monthKey
-                                    )
-                                )
-                            )
-                            if (result as Boolean) {
-                                viewModel.getFinanceStatus(monthKey)
-                            }
-                        }
-                    },
-                    onAddNew = { financeEnum ->
-                        if (financeEnum == FinanceEnum.EXPENSE) {
-                            navigateToAddExpenseScreen(
-                                coroutine = coroutine,
-                                navigator = navigator,
-                                viewModel = viewModel,
-                                monthKey = monthKey
-                            )
-                        } else {
-                            navigateToAddIncomeScreen(
-                                coroutine = coroutine,
-                                navigator = navigator,
-                                viewModel = viewModel,
-                                monthKey = monthKey
-                            )
-                        }
-                    },
-                    modifier = modifier
-                )
-            }
 
-            GenericState.Loading -> {
-                Loading(modifier = modifier.background(ColorPrimary))
-            }
-
-            GenericState.Initial -> {
-                viewModel.getFinanceStatus(monthKey)
-            }
-
-            else -> Unit
+        GenericState.Loading -> {
+            intents.showLoading()
+            Loading(modifier = modifier.background(ColorPrimary))
         }
+
+        GenericState.Initial -> {
+            intents.getFinanceStatus()
+        }
+
+        else -> Unit
     }
 }
 
@@ -341,17 +350,19 @@ private fun HomeBodyMonthExpense(
     financeScreenModel: FinanceScreenModel
 ) {
     var visible by rememberSaveable { mutableStateOf(false) }
-    AnimatedContent(
-        targetState = visible,
-        modifier = modifier,
-        transitionSpec = {
-            slideIntoContainer(
-                animationSpec = tween(delayMillis = 90),
-                towards = AnimatedContentTransitionScope.SlideDirection.Down
-            ).togetherWith(
-                fadeOut(animationSpec = tween(90))
-            )
-        }
+    AnimatedVisibility(
+        visible = visible,
+        enter = slideInVertically(
+            initialOffsetY = {
+                -it
+            },
+        ),
+        exit = slideOutVertically(
+            targetOffsetY = {
+                it
+            },
+        ),
+        modifier = modifier
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -359,15 +370,13 @@ private fun HomeBodyMonthExpense(
         ) {
             HomeBodyContent(
                 monthAmount = financeScreenModel.expenseAmount,
-                month = financeScreenModel.localDateTime.month,
+                month = financeScreenModel.month,
                 daySpent = financeScreenModel.daySpent
             )
         }
     }
-    LaunchedEffect(visible) {
-        if (!visible) {
-            visible = true
-        }
+    LaunchedEffect(Unit) {
+        visible = true
     }
 }
 
@@ -385,7 +394,14 @@ private fun HomeBodyContent(monthAmount: Long, month: Month, daySpent: Map<Local
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxSize()
         ) {
-            HomeBodyLeftIcon(pagerState, coroutine)
+            HomeBodyLeftIcon(
+                currentPage = pagerState.currentPage,
+                onIconClicked = {
+                    coroutine.launch {
+                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                    }
+                }
+            )
             if (page == 0) {
                 HomeBodySecondPageContent(
                     month = month,
@@ -401,10 +417,14 @@ private fun HomeBodyContent(monthAmount: Long, month: Month, daySpent: Map<Local
                 )
             }
             HomeBodyRightContent(
-                pagerState = pagerState,
+                currentPage = pagerState.currentPage,
                 pageCount = pageCount,
-                coroutine = coroutine,
-                monthAmount = monthAmount
+                monthAmount = monthAmount,
+                onIconClicked = {
+                    coroutine.launch {
+                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                    }
+                }
             )
         }
     }
@@ -412,23 +432,21 @@ private fun HomeBodyContent(monthAmount: Long, month: Month, daySpent: Map<Local
 
 @Composable
 private fun HomeBodyRightContent(
-    pagerState: PagerState,
+    currentPage: Int,
     pageCount: Int,
-    coroutine: CoroutineScope,
-    monthAmount: Long
+    monthAmount: Long,
+    onIconClicked: () -> Unit
 ) {
-    val isEnabled = pagerState.currentPage + 1 < pageCount && monthAmount > 0
+    val isEnabled = currentPage + 1 < pageCount && monthAmount > 0
     IconButton(
         onClick = {
             if (isEnabled) {
-                coroutine.launch {
-                    pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                }
+                onIconClicked()
             }
         },
         content = {
             Icon(
-                imageVector = Icons.Filled.ArrowRight,
+                imageVector = Icons.AutoMirrored.Filled.ArrowRight,
                 contentDescription = null,
                 tint = Color.White,
                 modifier = Modifier
@@ -457,20 +475,18 @@ private fun HomeBodyRightContent(
 
 @Composable
 private fun HomeBodyLeftIcon(
-    pagerState: PagerState,
-    coroutine: CoroutineScope
+    currentPage: Int,
+    onIconClicked: () -> Unit
 ) {
     IconButton(
         onClick = {
-            if (pagerState.currentPage > 0) {
-                coroutine.launch {
-                    pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                }
+            if (currentPage > 0) {
+                onIconClicked()
             }
         },
         content = {
             Icon(
-                imageVector = Icons.Filled.ArrowLeft,
+                imageVector = Icons.AutoMirrored.Filled.ArrowLeft,
                 contentDescription = null,
                 tint = Color.White,
                 modifier = Modifier
@@ -488,7 +504,7 @@ private fun HomeBodyLeftIcon(
         },
         modifier = Modifier
             .alpha(
-                if (pagerState.currentPage > 0) {
+                if (currentPage > 0) {
                     1f
                 } else {
                     0f
@@ -583,17 +599,19 @@ private fun CardExpenses(
     onAddNew: (FinanceEnum) -> Unit
 ) {
     var visible by rememberSaveable { mutableStateOf(false) }
-    AnimatedContent(
-        targetState = visible,
-        modifier = modifier,
-        transitionSpec = {
-            slideIntoContainer(
-                animationSpec = tween(delayMillis = 90),
-                towards = AnimatedContentTransitionScope.SlideDirection.Up
-            ).togetherWith(
-                fadeOut(animationSpec = tween(90))
-            )
-        }
+    AnimatedVisibility(
+        visible = visible,
+        enter = slideInVertically(
+            initialOffsetY = {
+                it / 2
+            },
+        ),
+        exit = slideOutVertically(
+            targetOffsetY = {
+                it / 2
+            },
+        ),
+        modifier = modifier
     ) {
         Card(
             shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
@@ -707,7 +725,7 @@ fun CardMonthExpenseContent(
             animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
         )
         LinearProgressIndicator(
-            progress = progressAnimation,
+            progress = { progressAnimation },
             color = ColorPrimary,
             modifier = Modifier.fillMaxWidth()
                 .padding(top = spacing_2)
@@ -827,13 +845,17 @@ fun ExpenseIconProgress(
             animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
         )
         CircularProgressIndicator(
-            progress = 1f,
+            progress = {
+                1f
+            },
             modifier = Modifier.size(56.dp),
             strokeWidth = 3.dp,
             color = Gray400
         )
         CircularProgressIndicator(
-            progress = progressAnimation,
+            progress = {
+                progressAnimation
+            },
             modifier = Modifier.size(56.dp),
             strokeWidth = 3.dp,
             color = expense.category.color

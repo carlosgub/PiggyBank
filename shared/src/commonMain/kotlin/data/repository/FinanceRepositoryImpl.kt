@@ -108,10 +108,10 @@ class FinanceRepositoryImpl(
                         expenseAmount = expenseTotal,
                         expenses = expenseList,
                         income = incomeList,
-                        localDateTime = createLocalDateTime(
+                        month = createLocalDateTime(
                             year = monthKey.substring(2, 6).toInt(),
                             monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
-                        ),
+                        ).month,
                         monthExpense = monthExpense,
                         daySpent = daySpent
                     )
