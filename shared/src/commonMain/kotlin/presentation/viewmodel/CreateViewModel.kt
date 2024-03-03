@@ -26,15 +26,14 @@ class CreateViewModel(
 
 
     override fun create(financeEnum: FinanceEnum): Job = intent {
-        if (state.amount <= 0) {
-            showError(true)
-        } else if (state.dateInMillis == 0L) {
-            showDateError(true)
-        } else if (state.note.trim().isBlank()) {
-            showNoteError(true)
-        } else {
-            showLoading()
-            if (financeEnum.isExpense()) createExpense() else createIncome()
+        when {
+            state.amount <= 0 -> showError(true)
+            state.dateInMillis == 0L -> showDateError(true)
+            state.note.trim().isBlank() -> showNoteError(true)
+            else -> {
+                showLoading()
+                if (financeEnum.isExpense()) createExpense() else createIncome()
+            }
         }
     }
 
