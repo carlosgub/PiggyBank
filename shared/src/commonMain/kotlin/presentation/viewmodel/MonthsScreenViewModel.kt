@@ -2,28 +2,58 @@ package presentation.viewmodel
 
 import core.sealed.GenericState
 import domain.usecase.GetMonthsUseCase
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
+import org.orbitmvi.orbit.Container
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.container
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.reduce
 
 class MonthsScreenViewModel(
     private val getMonthsUseCase: GetMonthsUseCase
-) : ViewModel() {
+) : ViewModel(), ContainerHost<MonthsScreenState, Nothing>,
+    MonthsScreenIntents {
 
-    private val _uiState = MutableStateFlow<GenericState<Map<Int, List<LocalDateTime>>>>(GenericState.Initial)
-    val uiState = _uiState.asStateFlow()
+    override val container: Container<MonthsScreenState, Nothing> =
+        viewModelScope.container(MonthsScreenState()) {
+            getMonths()
+        }
 
-    fun getMonths() {
-        _uiState.value = GenericState.Loading
-        viewModelScope.launch {
-            delay(200)
-            _uiState.emit(
-                getMonthsUseCase.getMonths()
+    override fun getMonths(): Job = intent {
+        showLoading()
+        delay(200)
+        when (val result = getMonthsUseCase.getMonths()) {
+            is GenericState.Success -> {
+                setMonths(result.data)
+            }
+
+            else -> Unit
+        }
+    }
+
+    private fun setMonths(months: Map<Int, List<LocalDateTime>>): Job = intent {
+        reduce {
+            state.copy(
+                showLoading = false,
+                months = months
             )
         }
     }
+
+    private fun showLoading(): Job = intent {
+        reduce { state.copy(showLoading = true) }
+    }
+}
+
+data class MonthsScreenState(
+    val months: Map<Int, List<LocalDateTime>> = mapOf(),
+    val showLoading: Boolean = false
+)
+
+interface MonthsScreenIntents {
+    fun getMonths(): Job
 }

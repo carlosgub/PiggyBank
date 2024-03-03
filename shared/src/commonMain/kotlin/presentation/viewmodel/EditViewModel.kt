@@ -1,19 +1,25 @@
 package presentation.viewmodel
 
-import core.result.SingleEvent
+import core.sealed.GenericState
 import domain.usecase.DeleteUseCase
 import domain.usecase.EditExpenseUseCase
 import domain.usecase.EditIncomeUseCase
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.Job
 import model.CategoryEnum
+import model.ExpenseScreenModel
 import model.FinanceEnum
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
-import presentation.viewmodel.state.EditState
+import org.orbitmvi.orbit.Container
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.container
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
+import org.orbitmvi.orbit.syntax.simple.reduce
+import utils.getCategoryEnumFromName
 import utils.isExpense
 import utils.toLocalDate
+import utils.toMillis
 import utils.toMoneyFormat
 import utils.toNumberOfTwoDigits
 
@@ -21,42 +27,23 @@ class EditViewModel(
     val editExpenseUseCase: EditExpenseUseCase,
     val editIncomeUseCase: EditIncomeUseCase,
     val deleteUseCase: DeleteUseCase
-) : ViewModel() {
+) : ViewModel(), ContainerHost<EditScreenState, GenericState<Unit>>, EditScreenIntents {
 
-    private val _category = MutableStateFlow(CategoryEnum.FOOD)
-    val category = _category.asStateFlow()
-    private val _dateInMillis = MutableStateFlow(0L)
-    private val _amountField = MutableStateFlow(0.0.toMoneyFormat())
-    val amountField = _amountField.asStateFlow()
-    private val _noteField = MutableStateFlow("")
-    private val _dateValue = MutableStateFlow("")
-    val dateValue = _dateValue.asStateFlow()
-    private val _showError = MutableStateFlow(false)
-    val showError = _showError.asStateFlow()
-    private val _showNoteError = MutableStateFlow(false)
-    val showNoteError = _showNoteError.asStateFlow()
-    private val _showDateError = MutableStateFlow(false)
-    val showDateError = _showDateError.asStateFlow()
-    private val _amountValueField = MutableStateFlow(0.0)
-    private val _uiState =
-        MutableStateFlow<SingleEvent<EditState>>(SingleEvent(EditState.Initial))
-    val uiState = _uiState.asStateFlow()
-
-    fun setCategory(categoryEnum: CategoryEnum) {
-        viewModelScope.launch {
-            _category.emit(categoryEnum)
-        }
+    override fun setCategory(categoryEnum: CategoryEnum): Job = intent {
+        reduce { state.copy(category = categoryEnum) }
     }
 
-    fun setDateInMillis(dateInMillis: Long) {
-        viewModelScope.launch {
-            _dateInMillis.value = dateInMillis
-        }
-        setDateValue()
+    override fun setDate(date: Long): Job = intent {
+        reduce { state.copy(dateInMillis = date) }
+        val localDate = date.toLocalDate()
+        val dateFormat = "${localDate.dayOfMonth.toNumberOfTwoDigits()}/" +
+                "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
+                "${localDate.year}"
+        reduce { state.copy(date = dateFormat) }
     }
 
-    fun amountFieldChange(textFieldValue: String) {
-        if (textFieldValue != _amountField.value) {
+    override fun setAmount(textFieldValue: String): Job = intent {
+        if (textFieldValue != state.amountField) {
             val cleanString: String =
                 textFieldValue.replace("""[$,.A-Za-z]""".toRegex(), "").trim().trimStart('0')
             val parsed = if (cleanString.isBlank()) {
@@ -66,114 +53,137 @@ class EditViewModel(
             }
             val amount = parsed / 100
 
-            viewModelScope.launch {
-                _amountField.emit(amount.toMoneyFormat())
-                _amountValueField.emit(amount)
+            reduce {
+                state.copy(
+                    amountField = amount.toMoneyFormat(),
+                    amount = amount
+                )
             }
         }
     }
 
-    fun noteFieldChange(note: String) {
-        viewModelScope.launch {
-            _noteField.emit(note)
-        }
+    override fun setNote(note: String): Job = intent {
+        reduce { state.copy(note = note) }
     }
 
-    fun create(
+    override fun create(
         financeEnum: FinanceEnum,
         id: Long
-    ) {
-        if (_amountValueField.value <= 0) {
+    ): Job = intent {
+        if (state.amount <= 0) {
             showError(true)
-        } else if (_dateInMillis.value == 0L) {
+        } else if (state.dateInMillis == 0L) {
             showDateError(true)
-        } else if (_noteField.value.trim().isBlank()) {
+        } else if (state.note.trim().isBlank()) {
             showNoteError(true)
         } else {
-            _uiState.value = SingleEvent(EditState.Loading)
+            showLoading()
             if (financeEnum.isExpense()) editExpense(id = id) else editIncome(id = id)
         }
     }
 
-    private fun editExpense(id: Long) {
-        viewModelScope.launch {
-            _uiState.emit(
-                SingleEvent(
-                    editExpenseUseCase.editExpense(
-                        EditExpenseUseCase.Params(
-                            amount = (_amountValueField.value * 100).toLong(),
-                            category = _category.value.name,
-                            note = _noteField.value,
-                            dateInMillis = _dateInMillis.value,
-                            id = id
-                        )
-                    )
-                )
+    private fun editExpense(id: Long): Job = intent {
+        val result = editExpenseUseCase.editExpense(
+            EditExpenseUseCase.Params(
+                amount = (state.amount * 100).toLong(),
+                note = state.note,
+                dateInMillis = state.dateInMillis,
+                id = id,
+                category = state.category.name
             )
-        }
+        )
+        postSideEffect(
+            result
+        )
     }
 
-    private fun editIncome(id: Long) {
-        viewModelScope.launch {
-            _uiState.emit(
-                SingleEvent(
-                    editIncomeUseCase.editIncome(
-                        EditIncomeUseCase.Params(
-                            amount = (_amountValueField.value * 100).toLong(),
-                            note = _noteField.value,
-                            dateInMillis = _dateInMillis.value,
-                            id = id
-                        )
-                    )
-                )
+    private fun editIncome(id: Long): Job = intent {
+        val result = editIncomeUseCase.editIncome(
+            EditIncomeUseCase.Params(
+                amount = (state.amount * 100).toLong(),
+                note = state.note,
+                dateInMillis = state.dateInMillis,
+                id = id
             )
-        }
+        )
+        postSideEffect(
+            result
+        )
     }
 
-    fun showError(show: Boolean) {
-        viewModelScope.launch {
-            _showError.emit(show)
-        }
+    override fun showDateError(boolean: Boolean): Job = intent {
+        reduce { state.copy(showDateError = boolean) }
     }
 
-    fun showNoteError(show: Boolean) {
-        viewModelScope.launch {
-            _showNoteError.emit(show)
-        }
+    override fun showNoteError(boolean: Boolean): Job = intent {
+        reduce { state.copy(showNoteError = boolean) }
     }
 
-    fun showDateError(show: Boolean) {
-        viewModelScope.launch {
-            _showDateError.emit(show)
-        }
+    override fun showError(boolean: Boolean): Job = intent {
+        reduce { state.copy(showError = boolean) }
     }
 
-    private fun setDateValue() {
-        val date = _dateInMillis.value.toLocalDate()
-        _dateValue.value =
-            "${date.dayOfMonth.toNumberOfTwoDigits()}/" +
-            "${date.monthNumber.toNumberOfTwoDigits()}/" +
-            "${date.year}"
+    override fun delete(
+        id: Long,
+        financeEnum: FinanceEnum,
+        monthKey: String
+    ): Job = intent {
+        val result = deleteUseCase.delete(
+            DeleteUseCase.Params(
+                financeEnum = financeEnum,
+                id = id,
+                monthKey = monthKey
+            )
+        )
+        postSideEffect(result)
     }
 
+    private fun showLoading(): Job = intent {
+        reduce { state.copy(showLoading = true) }
+    }
+
+    override fun updateValues(expenseScreenModel: ExpenseScreenModel): Job = intent {
+        setAmount(expenseScreenModel.amount.toString())
+        setCategory(getCategoryEnumFromName(expenseScreenModel.category))
+        setDate(expenseScreenModel.localDateTime.toMillis())
+        setNote(expenseScreenModel.note)
+        reduce { state.copy(initialDataLoaded = true) }
+    }
+
+    override val container: Container<EditScreenState, GenericState<Unit>> =
+        viewModelScope.container(EditScreenState())
+}
+
+data class EditScreenState(
+    val category: CategoryEnum = CategoryEnum.FOOD,
+    val amountField: String = 0.0.toMoneyFormat(),
+    val amount: Double = 0.0,
+    val showDateError: Boolean = false,
+    val showNoteError: Boolean = false,
+    val showError: Boolean = false,
+    val note: String = "",
+    val date: String = "",
+    val dateInMillis: Long = 0L,
+    val initialDataLoaded: Boolean = false,
+    val showLoading: Boolean = false
+)
+
+interface EditScreenIntents {
+    fun setCategory(categoryEnum: CategoryEnum): Job
+    fun setAmount(textFieldValue: String): Job
+    fun showDateError(boolean: Boolean): Job
+    fun showNoteError(boolean: Boolean): Job
+    fun showError(boolean: Boolean): Job
+    fun setNote(note: String): Job
+    fun setDate(date: Long): Job
+    fun create(financeEnum: FinanceEnum, id: Long): Job
     fun delete(
         id: Long,
         financeEnum: FinanceEnum,
         monthKey: String
-    ) {
-        _uiState.value = SingleEvent(EditState.Loading)
-        viewModelScope.launch {
-            _uiState.emit(
-                SingleEvent(
-                    deleteUseCase.delete(
-                        DeleteUseCase.Params(
-                            financeEnum = financeEnum,
-                            id = id,
-                            monthKey = monthKey
-                        )
-                    )
-                )
-            )
-        }
-    }
+    ): Job
+
+    fun updateValues(
+        expenseScreenModel: ExpenseScreenModel
+    ): Job
 }

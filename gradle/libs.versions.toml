@@ -12,6 +12,7 @@ kotlinxSerializationJsonVersion = "1.6.0"
 precomposeVersion = "1.5.11"
 datetimeVersion = "0.5.0"
 kotlinStdlibVersion = "1.9.22"
+orbit = "6.1.1"
 
 
 [libraries]
@@ -40,6 +41,7 @@ kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-common", version.
 delight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "delightVersion" }
 delight-ios = { module = "app.cash.sqldelight:native-driver", version.ref = "delightVersion" }
 
+orbit_core = { module = "org.orbit-mvi:orbit-core", version.ref = "orbit" }
 
 [bundles]
 android = [

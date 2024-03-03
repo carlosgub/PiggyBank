@@ -17,7 +17,6 @@ import model.FinanceScreenExpenses
 import model.FinanceScreenModel
 import model.MonthDetailScreenModel
 import model.MonthExpense
-import presentation.viewmodel.state.EditState
 import utils.createLocalDateTime
 import utils.getCategoryEnumFromName
 import utils.isLeapYear
@@ -108,10 +107,10 @@ class FinanceRepositoryImpl(
                         expenseAmount = expenseTotal,
                         expenses = expenseList,
                         income = incomeList,
-                        localDateTime = createLocalDateTime(
+                        month = createLocalDateTime(
                             year = monthKey.substring(2, 6).toInt(),
                             monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
-                        ),
+                        ).month,
                         monthExpense = monthExpense,
                         daySpent = daySpent
                     )
@@ -163,7 +162,7 @@ class FinanceRepositoryImpl(
         note: String,
         dateInMillis: Long,
         id: Long
-    ): EditState =
+    ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             when (
                 val result = databaseFinance.editExpense(
@@ -174,8 +173,8 @@ class FinanceRepositoryImpl(
                     id = id
                 )
             ) {
-                is ResponseResult.Success -> EditState.Success
-                is ResponseResult.Error -> EditState.Error(result.error.message.toString())
+                is ResponseResult.Success -> GenericState.Success(Unit)
+                is ResponseResult.Error -> GenericState.Error(result.error.message.toString())
             }
         }
 
@@ -184,7 +183,7 @@ class FinanceRepositoryImpl(
         note: String,
         dateInMillis: Long,
         id: Long
-    ): EditState =
+    ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             when (
                 val result = databaseFinance.editIncome(
@@ -194,8 +193,8 @@ class FinanceRepositoryImpl(
                     id = id
                 )
             ) {
-                is ResponseResult.Success -> EditState.Success
-                is ResponseResult.Error -> EditState.Error(result.error.message.toString())
+                is ResponseResult.Success -> GenericState.Success(Unit)
+                is ResponseResult.Error -> GenericState.Error(result.error.message.toString())
             }
         }
 
@@ -203,7 +202,7 @@ class FinanceRepositoryImpl(
         financeEnum: FinanceEnum,
         id: Long,
         monthKey: String
-    ): EditState =
+    ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             when (
                 val result = databaseFinance.delete(
@@ -212,8 +211,8 @@ class FinanceRepositoryImpl(
                     monthKey = monthKey
                 )
             ) {
-                is ResponseResult.Success -> EditState.Success
-                is ResponseResult.Error -> EditState.Error(result.error.message.toString())
+                is ResponseResult.Success -> GenericState.Success(Unit)
+                is ResponseResult.Error -> GenericState.Error(result.error.message.toString())
             }
         }
 

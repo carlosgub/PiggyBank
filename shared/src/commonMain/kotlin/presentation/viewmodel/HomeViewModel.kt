@@ -2,34 +2,75 @@ package presentation.viewmodel
 
 import core.sealed.GenericState
 import domain.usecase.GetFinanceUseCase
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import model.FinanceScreenModel
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
+import org.orbitmvi.orbit.Container
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.container
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.reduce
 
 class HomeViewModel(
     private val getFinanceUseCase: GetFinanceUseCase
-) : ViewModel() {
+) : ViewModel(), ContainerHost<HomeScreenState, Nothing>,
+    HomeScreenIntents {
 
-    private val _uiState = MutableStateFlow<GenericState<FinanceScreenModel>>(GenericState.Initial)
-    val uiState = _uiState.asStateFlow()
+    override fun getFinanceStatus(): Job = intent {
+        showLoading()
+        delay(200)
+        val result = getFinanceUseCase.getFinance(
+            GetFinanceUseCase.Params(
+                monthKey = state.monthKey
+            )
+        )
+        when (result) {
+            is GenericState.Success -> setFinance(result.data)
+            else -> Unit
+        }
+    }
 
-    val isRefreshing: Boolean = (_uiState.value is GenericState.Loading)
+    override val container: Container<HomeScreenState, Nothing> =
+        viewModelScope.container(HomeScreenState()) {
+            getFinanceStatus()
+        }
 
-    fun getFinanceStatus(monthKey: String) {
-        _uiState.value = GenericState.Loading
-        viewModelScope.launch {
-            delay(200)
-            _uiState.emit(
-                getFinanceUseCase.getFinance(
-                    GetFinanceUseCase.Params(
-                        monthKey = monthKey
-                    )
-                )
+    private fun setFinance(financeScreenModel: FinanceScreenModel): Job = intent {
+        reduce {
+            state.copy(
+                showLoading = false,
+                financeScreenModel = financeScreenModel,
+                isInitialDataLoaded = true
             )
         }
     }
+
+    private fun showLoading(): Job = intent {
+        reduce {
+            state.copy(
+                showLoading = true,
+                isInitialDataLoaded = false,
+                financeScreenModel = FinanceScreenModel()
+            )
+        }
+    }
+
+    override fun setMonthKey(monthKey: String): Job = intent {
+        reduce { state.copy(monthKey = monthKey) }
+    }
+}
+
+
+data class HomeScreenState(
+    val financeScreenModel: FinanceScreenModel = FinanceScreenModel(),
+    val showLoading: Boolean = false,
+    val monthKey: String = "",
+    val isInitialDataLoaded: Boolean = false
+)
+
+interface HomeScreenIntents {
+    fun getFinanceStatus(): Job
+    fun setMonthKey(monthKey: String): Job
 }

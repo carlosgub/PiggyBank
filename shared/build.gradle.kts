@@ -55,6 +55,7 @@ kotlin {
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlin.stdlib)
                 implementation(libs.charts)
+                api(libs.orbit.core)
             }
         }
         val androidMain by getting {

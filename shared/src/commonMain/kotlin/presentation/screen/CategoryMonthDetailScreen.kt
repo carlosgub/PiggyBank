@@ -2,11 +2,7 @@
 
 package presentation.screen
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -30,21 +26,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import core.sealed.GenericState
 import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalDateTime
-import model.CategoryEnum
 import model.CategoryMonthDetailArgs
 import model.EditArgs
 import model.ExpenseScreenModel
@@ -52,12 +42,12 @@ import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
+import presentation.viewmodel.CategoryMonthDetailScreenState
 import presentation.viewmodel.CategoryMonthDetailViewModel
 import theme.Gray600
 import theme.Gray900
 import theme.White
 import theme.spacing_1
-import theme.spacing_1_2
 import theme.spacing_2
 import theme.spacing_4
 import theme.spacing_6
@@ -75,111 +65,48 @@ fun CategoryMonthDetailScreen(
     args: CategoryMonthDetailArgs
 ) {
     val viewModel = koinViewModel(vmClass = CategoryMonthDetailViewModel::class)
-    ExpenseMonthDetailContainer(
-        args = args,
-        navigator = navigator,
-        viewModel = viewModel
-    )
-}
-
-@Composable
-private fun ExpenseMonthDetailContainer(
-    args: CategoryMonthDetailArgs,
-    navigator: Navigator,
-    viewModel: CategoryMonthDetailViewModel
-) {
+    val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
+    viewModel.setInitialConfiguration(args)
     val updateBackScreen = rememberSaveable { mutableStateOf(false) }
-    val categoryEnum = getCategoryEnumFromName(args.category)
+    val coroutine = rememberCoroutineScope()
     Scaffold(
         topBar = {
             ExpenseMonthDetailToolbar(
-                category = categoryEnum.categoryName,
+                category = state.category.categoryName,
                 onBack = {
                     navigator.goBackWith(updateBackScreen.value)
                 }
             )
         }
     ) { paddingValues ->
-        CategoryMonthDetailObserver(
-            viewModel = viewModel,
-            categoryEnum = categoryEnum,
-            monthKey = args.month,
-            paddingValues = paddingValues,
-            navigator = navigator,
-            updateBackScreen = {
-                updateBackScreen.value = true
-            }
-        )
-    }
-}
-
-@Composable
-private fun CategoryMonthDetailObserver(
-    viewModel: CategoryMonthDetailViewModel,
-    categoryEnum: CategoryEnum,
-    monthKey: String,
-    paddingValues: PaddingValues,
-    navigator: Navigator,
-    updateBackScreen: () -> Unit
-) {
-    val coroutine = rememberCoroutineScope()
-    when (val uiState = viewModel.uiState.collectAsStateWithLifecycle().value) {
-        is GenericState.Success -> {
-            CategoryMonthDetailContent(
-                paddingValues,
-                header = {
-                    CategoryMonthDetailHeader(
-                        uiState.data.monthAmount,
-                        uiState.data.daySpent
-                    )
-                },
-                body = {
-                    CategoryMonthDetailBody(
-                        uiState.data.expenseScreenModel,
-                        categoryEnum
-                    ) { expenseScreenModel ->
-                        coroutine.launch {
-                            val result = navigator.navigateForResult(
-                                Screen.EditScreen.createRoute(
-                                    EditArgs(
-                                        financeEnum = getCategoryEnumFromName(expenseScreenModel.category).type,
-                                        expenseScreenModel = expenseScreenModel
-                                    )
+        CategoryMonthDetailContent(
+            paddingValues,
+            header = {
+                CategoryMonthDetailHeader(
+                    state
+                )
+            },
+            body = {
+                CategoryMonthDetailBody(
+                    state
+                ) { expenseScreenModel ->
+                    coroutine.launch {
+                        val result = navigator.navigateForResult(
+                            Screen.EditScreen.createRoute(
+                                EditArgs(
+                                    financeEnum = getCategoryEnumFromName(expenseScreenModel.category).type,
+                                    expenseScreenModel = expenseScreenModel
                                 )
                             )
-                            if (result as Boolean) {
-                                updateBackScreen()
-                                viewModel.getMonthDetail(
-                                    categoryEnum,
-                                    monthKey
-                                )
-                            }
+                        )
+                        if (result as Boolean) {
+                            updateBackScreen.value = true
+                            viewModel.getMonthDetail()
                         }
                     }
                 }
-            )
-        }
-
-        GenericState.Loading -> {
-            CategoryMonthDetailContent(
-                paddingValues,
-                header = {
-                    Loading()
-                },
-                body = {
-                    Loading()
-                }
-            )
-        }
-
-        GenericState.Initial -> {
-            viewModel.getMonthDetail(
-                categoryEnum,
-                monthKey
-            )
-        }
-
-        else -> Unit
+            }
+        )
     }
 }
 
@@ -211,55 +138,58 @@ fun CategoryMonthDetailContent(
 
 @Composable
 fun CategoryMonthDetailBody(
-    list: List<ExpenseScreenModel>,
-    categoryEnum: CategoryEnum,
+    state: CategoryMonthDetailScreenState,
     expenseClicked: (ExpenseScreenModel) -> Unit
 ) {
-    Card(
-        modifier = Modifier
-            .padding(top = spacing_2)
-            .fillMaxSize(),
-        shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 8.dp
-        ),
-        colors = CardDefaults.cardColors(
-            containerColor = White
-        )
-    ) {
-        if (list.isNotEmpty()) {
-            LazyColumn(
-                modifier = Modifier
-                    .background(White)
-                    .fillMaxSize()
-                    .padding(
-                        top = spacing_6,
-                        start = spacing_6,
-                        end = spacing_6
-                    )
-            ) {
-                itemsIndexed(list) { count, expense ->
-                    Column {
-                        if (count != 0) {
-                            ExpenseDivider()
-                        }
-                        CategoryMonthExpenseItem(
-                            expense = expense,
-                            expenseClicked = expenseClicked,
-                            modifier = Modifier.animateItemPlacement(
-                                animationSpec = tween(600)
-                            )
+    if (state.showLoading || state.isInitialDataLoaded.not()) {
+        Loading()
+    } else {
+        Card(
+            modifier = Modifier
+                .padding(top = spacing_2)
+                .fillMaxSize(),
+            shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 8.dp
+            ),
+            colors = CardDefaults.cardColors(
+                containerColor = White
+            )
+        ) {
+            if (state.monthDetail.expenseScreenModel.isNotEmpty()) {
+                LazyColumn(
+                    modifier = Modifier
+                        .background(White)
+                        .fillMaxSize()
+                        .padding(
+                            top = spacing_6,
+                            start = spacing_6,
+                            end = spacing_6
                         )
+                ) {
+                    itemsIndexed(state.monthDetail.expenseScreenModel) { count, expense ->
+                        Column {
+                            if (count != 0) {
+                                ExpenseDivider()
+                            }
+                            CategoryMonthExpenseItem(
+                                expense = expense,
+                                expenseClicked = expenseClicked,
+                                modifier = Modifier.animateItemPlacement(
+                                    animationSpec = tween(600)
+                                )
+                            )
+                        }
                     }
                 }
+            } else {
+                DataZero<Any>(
+                    title = "Ooops! It's Empty",
+                    message = "Looks like you don't have anything in this category",
+                    modifier = Modifier
+                        .background(White)
+                )
             }
-        } else {
-            DataZero<Any>(
-                title = "Ooops! It's Empty",
-                message = "Looks like you don't have anything in this category",
-                modifier = Modifier
-                    .background(White)
-            )
         }
     }
 }
@@ -316,61 +246,31 @@ private fun CategoryMonthExpenseItem(
 
 @Composable
 private fun CategoryMonthDetailHeader(
-    monthTotal: Long,
-    daySpent: Map<LocalDateTime, Long>
+    state: CategoryMonthDetailScreenState
 ) {
-    var overlayData by remember { mutableStateOf("") }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Box {
-            Column {
-                Spacer(modifier = Modifier.weight(0.2f))
-                FinanceLineChart(
-                    daySpent,
-                    withYChart = false
-                )
-            }
-            Column {
-                Text(
-                    text = (monthTotal / 100.0).toMoneyFormat(),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = Gray900,
-                    modifier = Modifier.padding(spacing_6)
-                )
-            }
-            if (overlayData.isNotEmpty()) {
-                Box(
-                    Modifier
-                        .padding(
-                            horizontal = spacing_2,
-                            vertical = spacing_1_2
-                        )
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Gray900)
-                        .padding(
-                            horizontal = spacing_2,
-                            vertical = spacing_1_2
-                        )
-                        .align(Alignment.TopEnd)
-                ) {
-                    AnimatedContent(
-                        targetState = overlayData,
-                        transitionSpec = {
-                            fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith
-                                    fadeOut(animationSpec = tween(durationMillis = 300))
-                        },
-                        contentAlignment = Alignment.Center
-                    ) { overlayData ->
-                        Text(
-                            text = overlayData,
-                            color = Color.White,
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
+        if (state.showLoading || state.isInitialDataLoaded.not()) {
+            Loading()
+        } else {
+            Box {
+                Column {
+                    Spacer(modifier = Modifier.weight(0.2f))
+                    FinanceLineChart(
+                        state.monthDetail.daySpent,
+                        withYChart = false
+                    )
+                }
+                Column {
+                    Text(
+                        text = (state.monthDetail.monthAmount / 100.0).toMoneyFormat(),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = Gray900,
+                        modifier = Modifier.padding(spacing_6)
+                    )
                 }
             }
         }

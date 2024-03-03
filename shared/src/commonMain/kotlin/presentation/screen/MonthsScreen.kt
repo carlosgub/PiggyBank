@@ -2,12 +2,9 @@
 
 package presentation.screen
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,6 +21,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,13 +33,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import core.sealed.GenericState
 import kotlinx.datetime.LocalDateTime
 import model.HomeArgs
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
+import presentation.viewmodel.MonthsScreenState
 import presentation.viewmodel.MonthsScreenViewModel
 import theme.ColorPrimary
 import theme.White
@@ -55,6 +57,7 @@ fun MonthsScreen(
     navigator: Navigator
 ) {
     val viewModel = koinViewModel(vmClass = MonthsScreenViewModel::class)
+    val monthsScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     Scaffold(
         topBar = {
             MonthsToolbar(
@@ -64,72 +67,56 @@ fun MonthsScreen(
             )
         }
     ) { paddingValues ->
-        MonthsObserver(navigator, viewModel, paddingValues)
+        MonthsContent(
+            monthsScreenState = monthsScreenState,
+            paddingValues = paddingValues,
+            onMonthClicked = { monthKey ->
+                navigator.navigate(
+                    Screen.Home.createRoute(
+                        HomeArgs(
+                            monthKey
+                        )
+                    )
+                )
+            }
+        )
     }
 }
 
 @Composable
-private fun MonthsObserver(
-    navigator: Navigator,
-    viewModel: MonthsScreenViewModel,
-    paddingValues: PaddingValues
+private fun MonthsScreenSuccessContent(
+    data: Map<Int, List<LocalDateTime>>,
+    onMonthClicked: (String) -> Unit
 ) {
-    AnimatedContent(
-        targetState = viewModel.uiState.collectAsStateWithLifecycle().value,
-        transitionSpec = {
-            (
-                    fadeIn(animationSpec = tween(300, delayMillis = 90)) +
-                            slideIntoContainer(
-                                animationSpec = tween(300, delayMillis = 90),
-                                towards = AnimatedContentTransitionScope.SlideDirection.Left
-                            )
-                    )
-                .togetherWith(fadeOut(animationSpec = tween(90)))
+    var visible by rememberSaveable { mutableStateOf(false) }
+    AnimatedVisibility(
+        visible = visible,
+        enter = slideInHorizontally(
+            initialOffsetX = {
+                it
+            },
+        ),
+        exit = slideOutHorizontally(
+            targetOffsetX = {
+                0
+            },
+        ),
+        modifier = Modifier.fillMaxSize()
+    ) {
+        if (data.isNotEmpty()) {
+            MonthList(
+                months = data,
+                onClickItem = onMonthClicked
+            )
+        } else {
+            DataZero<Any>(
+                title = "Ooops! It's Empty",
+                message = "Looks like you don't any month"
+            )
         }
-    ) { targetState ->
-        when (targetState) {
-            is GenericState.Success -> {
-                MonthsContent(
-                    paddingValues,
-                    content = {
-                        if (targetState.data.isNotEmpty()) {
-                            MonthList(
-                                months = targetState.data,
-                                onClickItem = { monthKey ->
-                                    navigator.navigate(
-                                        Screen.Home.createRoute(
-                                            HomeArgs(
-                                                monthKey
-                                            )
-                                        )
-                                    )
-                                }
-                            )
-                        } else {
-                            DataZero<Any>(
-                                title = "Ooops! It's Empty",
-                                message = "Looks like you don't any month"
-                            )
-                        }
-                    }
-                )
-            }
-
-            GenericState.Loading -> {
-                MonthsContent(
-                    paddingValues,
-                    content = {
-                        Loading()
-                    }
-                )
-            }
-
-            GenericState.Initial -> {
-                viewModel.getMonths()
-            }
-
-            else -> Unit
-        }
+    }
+    LaunchedEffect(Unit) {
+        visible = true
     }
 }
 
@@ -216,8 +203,9 @@ fun MonthItem(
 
 @Composable
 fun MonthsContent(
+    monthsScreenState: MonthsScreenState,
     paddingValues: PaddingValues,
-    content: @Composable () -> Unit
+    onMonthClicked: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -227,7 +215,14 @@ fun MonthsContent(
             )
             .fillMaxSize()
     ) {
-        content()
+        if (monthsScreenState.showLoading) {
+            Loading()
+        } else {
+            MonthsScreenSuccessContent(
+                data = monthsScreenState.months,
+                onMonthClicked = onMonthClicked
+            )
+        }
     }
 }
 
