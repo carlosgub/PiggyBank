@@ -24,7 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -35,17 +34,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import core.sealed.GenericState
 import kotlinx.coroutines.launch
 import model.CategoryMonthDetailArgs
 import model.EditArgs
 import model.ExpenseScreenModel
-import model.MonthDetailScreenModel
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
-import presentation.viewmodel.CategoryMonthDetailScreenIntents
 import presentation.viewmodel.CategoryMonthDetailScreenState
 import presentation.viewmodel.CategoryMonthDetailViewModel
 import theme.Gray600
@@ -70,9 +66,6 @@ fun CategoryMonthDetailScreen(
 ) {
     val viewModel = koinViewModel(vmClass = CategoryMonthDetailViewModel::class)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
-    val sideEffect by viewModel.container.sideEffectFlow.collectAsState(
-        GenericState.Initial
-    )
     viewModel.setInitialConfiguration(args)
     val updateBackScreen = rememberSaveable { mutableStateOf(false) }
     val coroutine = rememberCoroutineScope()
@@ -86,10 +79,6 @@ fun CategoryMonthDetailScreen(
             )
         }
     ) { paddingValues ->
-        CategoryMonthDetailObserver(
-            intents = viewModel,
-            sideEffect = sideEffect
-        )
         CategoryMonthDetailContent(
             paddingValues,
             header = {
@@ -118,28 +107,6 @@ fun CategoryMonthDetailScreen(
                 }
             }
         )
-    }
-}
-
-@Composable
-private fun CategoryMonthDetailObserver(
-    sideEffect: GenericState<MonthDetailScreenModel>,
-    intents: CategoryMonthDetailScreenIntents,
-) {
-    when (sideEffect) {
-        is GenericState.Success -> {
-            intents.setMonthDetailScreenModel(sideEffect.data)
-        }
-
-        GenericState.Loading -> {
-            intents.showLoading()
-        }
-
-        GenericState.Initial -> {
-            intents.getMonthDetail()
-        }
-
-        else -> Unit
     }
 }
 

@@ -1,6 +1,5 @@
 package presentation.screen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +16,9 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import core.sealed.GenericState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import model.CreateArgs
 import model.FinanceEnum
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
@@ -26,12 +27,10 @@ import org.koin.compose.koinInject
 import presentation.viewmodel.CreateScreenIntents
 import presentation.viewmodel.CreateScreenState
 import presentation.viewmodel.CreateViewModel
-import theme.Gray400
 import theme.spacing_4
 import theme.spacing_6
 import utils.NoRippleInteractionSource
 import utils.isExpense
-import utils.views.Loading
 import utils.views.PrimaryButton
 import utils.views.Toolbar
 import utils.views.chips.CategoriesChips
@@ -45,10 +44,16 @@ fun CreateScreen(
     navigator: Navigator,
     args: CreateArgs
 ) {
+    val scope = CoroutineScope(Dispatchers.Main)
     val createScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
-    val createScreenSideEffect by viewModel.container.sideEffectFlow.collectAsState(
-        GenericState.Initial
-    )
+    scope.launch {
+        viewModel.container.sideEffectFlow.collect { sideEffect ->
+            observeSideEffect(
+                sideEffect = sideEffect,
+                navigator = navigator
+            )
+        }
+    }
     Scaffold(
         topBar = {
             CreateToolbar(
@@ -69,10 +74,7 @@ fun CreateScreen(
                 intents = viewModel,
                 financeEnum = args.financeEnum
             )
-            CreateObserver(
-                sideEffect = createScreenSideEffect,
-                navigator = navigator
-            )
+
         }
     }
 }
@@ -160,8 +162,7 @@ private fun CreateContent(
     }
 }
 
-@Composable
-private fun CreateObserver(
+private fun observeSideEffect(
     sideEffect: GenericState<Unit>,
     navigator: Navigator
 ) {
@@ -169,8 +170,6 @@ private fun CreateObserver(
         is GenericState.Error -> {
         }
 
-        GenericState.Initial -> Unit
-        GenericState.Loading -> Loading(Modifier.background(Gray400.copy(alpha = 0.5f)))
         is GenericState.Success -> {
             navigator.goBackWith(true)
         }

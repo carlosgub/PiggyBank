@@ -4,7 +4,6 @@
 
 package presentation.screen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,7 +15,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +24,10 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import core.sealed.GenericState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import model.EditArgs
 import model.FinanceEnum
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
@@ -33,15 +35,12 @@ import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
 import presentation.viewmodel.EditScreenIntents
 import presentation.viewmodel.EditScreenState
-import presentation.viewmodel.EditSideEffects
 import presentation.viewmodel.EditViewModel
-import theme.Gray400
 import theme.spacing_4
 import theme.spacing_6
 import utils.NoRippleInteractionSource
 import utils.isExpense
 import utils.views.AlertDialogFinance
-import utils.views.Loading
 import utils.views.PrimaryButton
 import utils.views.Toolbar
 import utils.views.chips.CategoriesChips
@@ -55,12 +54,18 @@ fun EditScreen(
     navigator: Navigator,
     args: EditArgs
 ) {
+    val scope = CoroutineScope(Dispatchers.Main)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
-    val sideEffect by viewModel.container.sideEffectFlow.collectAsState(
-        EditSideEffects.Initial
-    )
     LaunchedEffect(Unit) {
         viewModel.updateValues(args.expenseScreenModel)
+    }
+    scope.launch {
+        viewModel.container.sideEffectFlow.collect { sideEffect ->
+            observeSideEffect(
+                sideEffect = sideEffect,
+                navigator = navigator
+            )
+        }
     }
     Scaffold(
         topBar = {
@@ -83,7 +88,7 @@ fun EditScreen(
                     top = paddingValues.calculateTopPadding()
                 )
         ) {
-            if(state.initialDataLoaded){
+            if (state.initialDataLoaded) {
                 EditContent(
                     state = state,
                     intents = viewModel,
@@ -91,10 +96,6 @@ fun EditScreen(
                     id = args.expenseScreenModel.id
                 )
             }
-            EditObserver(
-                sideEffect = sideEffect,
-                navigator = navigator
-            )
         }
     }
 }
@@ -187,15 +188,12 @@ private fun EditContent(
     }
 }
 
-@Composable
-private fun EditObserver(
-    sideEffect: EditSideEffects,
+private fun observeSideEffect(
+    sideEffect: GenericState<Unit>,
     navigator: Navigator
 ) {
     when (sideEffect) {
-        EditSideEffects.Loading -> Loading(Modifier.background(Gray400.copy(alpha = 0.5f)))
-        is EditSideEffects.Success -> navigator.goBackWith(true)
-        EditSideEffects.Delete -> navigator.goBackWith(true)
+        is GenericState.Success -> navigator.goBackWith(true)
         else -> Unit
     }
 }

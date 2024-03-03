@@ -6,7 +6,6 @@ import model.CategoryEnum
 import model.FinanceEnum
 import model.FinanceScreenModel
 import model.MonthDetailScreenModel
-import presentation.viewmodel.EditSideEffects
 
 interface FinanceRepository {
     suspend fun getFinance(monthKey: String): GenericState<FinanceScreenModel>
@@ -29,20 +28,20 @@ interface FinanceRepository {
         note: String,
         dateInMillis: Long,
         id: Long
-    ): EditSideEffects
+    ): GenericState<Unit>
 
     suspend fun editIncome(
         amount: Long,
         note: String,
         dateInMillis: Long,
         id: Long
-    ): EditSideEffects
+    ): GenericState<Unit>
 
     suspend fun delete(
         financeEnum: FinanceEnum,
         id: Long,
         monthKey: String
-    ): EditSideEffects
+    ): GenericState<Unit>
 
     suspend fun getExpenseMonthDetail(
         categoryEnum: CategoryEnum,

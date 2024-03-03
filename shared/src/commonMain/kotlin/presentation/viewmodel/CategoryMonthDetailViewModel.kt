@@ -4,7 +4,6 @@ import core.sealed.GenericState
 import domain.usecase.GetExpenseMonthDetailUseCase
 import domain.usecase.GetIncomeMonthDetailUseCase
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import model.CategoryEnum
 import model.CategoryMonthDetailArgs
 import model.FinanceEnum
@@ -15,7 +14,6 @@ import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import utils.getCategoryEnumFromName
 
@@ -27,8 +25,7 @@ class CategoryMonthDetailViewModel(
     CategoryMonthDetailScreenIntents {
 
     override fun getMonthDetail(): Job = intent {
-        postSideEffect(GenericState.Loading)
-        delay(200)
+        showLoading()
         val result = if (state.category.type == FinanceEnum.EXPENSE) {
             getCategoryMonthDetailUseCase.getExpenseMonthDetail(
                 GetExpenseMonthDetailUseCase.Params(
@@ -43,7 +40,11 @@ class CategoryMonthDetailViewModel(
                 )
             )
         }
-        postSideEffect(result)
+        when (result) {
+            is GenericState.Success -> setMonthDetailScreenModel(result.data)
+            else -> Unit
+        }
+
     }
 
     override fun setInitialConfiguration(args: CategoryMonthDetailArgs): Job = intent {
@@ -53,9 +54,10 @@ class CategoryMonthDetailViewModel(
                 category = getCategoryEnumFromName(args.category)
             )
         }
+        getMonthDetail()
     }
 
-    override fun setMonthDetailScreenModel(monthDetail: MonthDetailScreenModel): Job = intent {
+    private fun setMonthDetailScreenModel(monthDetail: MonthDetailScreenModel): Job = intent {
         reduce {
             state.copy(
                 monthDetail = monthDetail,
@@ -65,7 +67,7 @@ class CategoryMonthDetailViewModel(
         }
     }
 
-    override fun showLoading(): Job = intent {
+    private fun showLoading(): Job = intent {
         reduce {
             state.copy(
                 showLoading = true,
@@ -91,6 +93,4 @@ data class CategoryMonthDetailScreenState(
 interface CategoryMonthDetailScreenIntents {
     fun setInitialConfiguration(args: CategoryMonthDetailArgs): Job
     fun getMonthDetail(): Job
-    fun setMonthDetailScreenModel(monthDetail: MonthDetailScreenModel): Job
-    fun showLoading(): Job
 }

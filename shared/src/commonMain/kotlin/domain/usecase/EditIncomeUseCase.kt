@@ -1,12 +1,12 @@
 package domain.usecase
 
+import core.sealed.GenericState
 import domain.repository.FinanceRepository
-import presentation.viewmodel.EditSideEffects
 
 class EditIncomeUseCase(
     private val financeRepository: FinanceRepository
 ) {
-    suspend fun editIncome(params: Params): EditSideEffects =
+    suspend fun editIncome(params: Params): GenericState<Unit> =
         financeRepository.editIncome(
             amount = params.amount,
             note = params.note,

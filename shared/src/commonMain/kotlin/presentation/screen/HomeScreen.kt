@@ -78,7 +78,6 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import core.sealed.GenericState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -97,7 +96,6 @@ import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
 import presentation.viewmodel.HomeScreenIntents
-import presentation.viewmodel.HomeScreenState
 import presentation.viewmodel.HomeViewModel
 import theme.ColorPrimary
 import theme.Gray400
@@ -115,7 +113,6 @@ import theme.spacing_8
 import utils.toMoneyFormat
 import utils.views.DataZero
 import utils.views.ExpenseDivider
-import utils.views.Loading
 import utils.views.Toolbar
 import utils.views.chart.FinanceBarChart
 import kotlin.time.Duration.Companion.milliseconds
@@ -127,9 +124,6 @@ fun HomeScreen(
 ) {
     val viewModel = koinViewModel(vmClass = HomeViewModel::class)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
-    val sideEffect by viewModel.container.sideEffectFlow.collectAsStateWithLifecycle(
-        GenericState.Initial
-    )
     viewModel.setMonthKey(args.monthKey)
     val pullRefreshState = rememberPullRefreshState(
         refreshing = state.showLoading && state.isInitialDataLoaded,
@@ -181,13 +175,6 @@ fun HomeScreen(
                         .pullRefresh(pullRefreshState)
                         .verticalScroll(scrollState)
                 ) {
-                    HomeObserver(
-                        sideEffect = sideEffect,
-                        intents = viewModel,
-                        state = state,
-                        modifier = Modifier
-                            .height(this@BoxWithConstraints.maxHeight)
-                    )
                     if (state.isInitialDataLoaded) {
                         HomeContent(
                             data = state.financeScreenModel,
@@ -287,31 +274,6 @@ private fun navigateMonthDetailScreen(
         if (result as Boolean) {
             intents.getFinanceStatus()
         }
-    }
-}
-
-@Composable
-private fun HomeObserver(
-    sideEffect: GenericState<FinanceScreenModel>,
-    modifier: Modifier,
-    intents: HomeScreenIntents,
-    state: HomeScreenState
-) {
-    when (sideEffect) {
-        is GenericState.Success -> {
-            intents.setFinance(sideEffect.data)
-        }
-
-        GenericState.Loading -> {
-            intents.showLoading()
-            Loading(modifier = modifier.background(ColorPrimary))
-        }
-
-        GenericState.Initial -> {
-            if (state.isInitialDataLoaded.not()) intents.getFinanceStatus()
-        }
-
-        else -> Unit
     }
 }
 

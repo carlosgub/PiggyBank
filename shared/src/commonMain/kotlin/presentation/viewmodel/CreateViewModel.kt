@@ -33,11 +33,14 @@ class CreateViewModel(
         } else if (state.note.trim().isBlank()) {
             showNoteError(true)
         } else {
-            postSideEffect(
-                GenericState.Loading
-            )
+            showLoading()
             if (financeEnum.isExpense()) createExpense() else createIncome()
         }
+    }
+
+
+    private fun showLoading(): Job = intent {
+        reduce { state.copy(showLoading = true) }
     }
 
     private fun createExpense(): Job = intent {
@@ -129,7 +132,8 @@ data class CreateScreenState(
     val showError: Boolean = false,
     val note: String = "",
     val date: String = "",
-    val dateInMillis: Long = 0L
+    val dateInMillis: Long = 0L,
+    val showLoading: Boolean = false
 )
 
 interface CreateScreenIntents {

@@ -1,5 +1,6 @@
 package presentation.viewmodel
 
+import core.sealed.GenericState
 import domain.usecase.DeleteUseCase
 import domain.usecase.EditExpenseUseCase
 import domain.usecase.EditIncomeUseCase
@@ -26,7 +27,7 @@ class EditViewModel(
     val editExpenseUseCase: EditExpenseUseCase,
     val editIncomeUseCase: EditIncomeUseCase,
     val deleteUseCase: DeleteUseCase
-) : ViewModel(), ContainerHost<EditScreenState, EditSideEffects>, EditScreenIntents {
+) : ViewModel(), ContainerHost<EditScreenState, GenericState<Unit>>, EditScreenIntents {
 
     override fun setCategory(categoryEnum: CategoryEnum): Job = intent {
         reduce { state.copy(category = categoryEnum) }
@@ -76,9 +77,7 @@ class EditViewModel(
         } else if (state.note.trim().isBlank()) {
             showNoteError(true)
         } else {
-            postSideEffect(
-                EditSideEffects.Loading
-            )
+            showLoading()
             if (financeEnum.isExpense()) editExpense(id = id) else editIncome(id = id)
         }
     }
@@ -129,7 +128,6 @@ class EditViewModel(
         financeEnum: FinanceEnum,
         monthKey: String
     ): Job = intent {
-        postSideEffect(EditSideEffects.Loading)
         val result = deleteUseCase.delete(
             DeleteUseCase.Params(
                 financeEnum = financeEnum,
@@ -140,6 +138,10 @@ class EditViewModel(
         postSideEffect(result)
     }
 
+    private fun showLoading(): Job = intent {
+        reduce { state.copy(showLoading = true) }
+    }
+
     override fun updateValues(expenseScreenModel: ExpenseScreenModel): Job = intent {
         setAmount(expenseScreenModel.amount.toString())
         setCategory(getCategoryEnumFromName(expenseScreenModel.category))
@@ -148,7 +150,7 @@ class EditViewModel(
         reduce { state.copy(initialDataLoaded = true) }
     }
 
-    override val container: Container<EditScreenState, EditSideEffects> =
+    override val container: Container<EditScreenState, GenericState<Unit>> =
         viewModelScope.container(EditScreenState())
 }
 
@@ -162,7 +164,8 @@ data class EditScreenState(
     val note: String = "",
     val date: String = "",
     val dateInMillis: Long = 0L,
-    val initialDataLoaded: Boolean = false
+    val initialDataLoaded: Boolean = false,
+    val showLoading: Boolean = false
 )
 
 interface EditScreenIntents {
@@ -183,12 +186,4 @@ interface EditScreenIntents {
     fun updateValues(
         expenseScreenModel: ExpenseScreenModel
     ): Job
-}
-
-sealed class EditSideEffects {
-    object Loading : EditSideEffects()
-    object Initial : EditSideEffects()
-    data class Error(val message: String) : EditSideEffects()
-    object Success : EditSideEffects()
-    object Delete : EditSideEffects()
 }
