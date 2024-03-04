@@ -1,4 +1,4 @@
-package presentation.viewmodel
+package presentation.viewmodel.edit
 
 import core.sealed.GenericState
 import domain.usecase.DeleteUseCase
@@ -152,38 +152,4 @@ class EditViewModel(
 
     override val container: Container<EditScreenState, GenericState<Unit>> =
         viewModelScope.container(EditScreenState())
-}
-
-data class EditScreenState(
-    val category: CategoryEnum = CategoryEnum.FOOD,
-    val amountField: String = 0.0.toMoneyFormat(),
-    val amount: Double = 0.0,
-    val showDateError: Boolean = false,
-    val showNoteError: Boolean = false,
-    val showError: Boolean = false,
-    val note: String = "",
-    val date: String = "",
-    val dateInMillis: Long = 0L,
-    val initialDataLoaded: Boolean = false,
-    val showLoading: Boolean = false
-)
-
-interface EditScreenIntents {
-    fun setCategory(categoryEnum: CategoryEnum): Job
-    fun setAmount(textFieldValue: String): Job
-    fun showDateError(boolean: Boolean): Job
-    fun showNoteError(boolean: Boolean): Job
-    fun showError(boolean: Boolean): Job
-    fun setNote(note: String): Job
-    fun setDate(date: Long): Job
-    fun create(financeEnum: FinanceEnum, id: Long): Job
-    fun delete(
-        id: Long,
-        financeEnum: FinanceEnum,
-        monthKey: String
-    ): Job
-
-    fun updateValues(
-        expenseScreenModel: ExpenseScreenModel
-    ): Job
 }

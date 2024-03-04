@@ -95,8 +95,8 @@ import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
-import presentation.viewmodel.HomeScreenIntents
-import presentation.viewmodel.HomeViewModel
+import presentation.viewmodel.home.HomeScreenIntents
+import presentation.viewmodel.home.HomeViewModel
 import theme.ColorPrimary
 import theme.Gray400
 import theme.Gray600

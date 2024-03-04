@@ -1,4 +1,4 @@
-package presentation.viewmodel
+package presentation.viewmodel.months
 
 import core.sealed.GenericState
 import domain.usecase.GetMonthsUseCase
@@ -47,13 +47,4 @@ class MonthsScreenViewModel(
     private fun showLoading(): Job = intent {
         reduce { state.copy(showLoading = true) }
     }
-}
-
-data class MonthsScreenState(
-    val months: Map<Int, List<LocalDateTime>> = mapOf(),
-    val showLoading: Boolean = false
-)
-
-interface MonthsScreenIntents {
-    fun getMonths(): Job
 }

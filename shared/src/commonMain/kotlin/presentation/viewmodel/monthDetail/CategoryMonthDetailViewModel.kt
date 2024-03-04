@@ -1,10 +1,9 @@
-package presentation.viewmodel
+package presentation.viewmodel.monthDetail
 
 import core.sealed.GenericState
 import domain.usecase.GetExpenseMonthDetailUseCase
 import domain.usecase.GetIncomeMonthDetailUseCase
 import kotlinx.coroutines.Job
-import model.CategoryEnum
 import model.CategoryMonthDetailArgs
 import model.FinanceEnum
 import model.MonthDetailScreenModel
@@ -79,18 +78,4 @@ class CategoryMonthDetailViewModel(
 
     override val container: Container<CategoryMonthDetailScreenState, GenericState<MonthDetailScreenModel>> =
         viewModelScope.container(CategoryMonthDetailScreenState())
-}
-
-
-data class CategoryMonthDetailScreenState(
-    val monthDetail: MonthDetailScreenModel = MonthDetailScreenModel(),
-    val showLoading: Boolean = false,
-    val monthKey: String = "",
-    val category: CategoryEnum = CategoryEnum.FOOD,
-    val isInitialDataLoaded: Boolean = false
-)
-
-interface CategoryMonthDetailScreenIntents {
-    fun setInitialConfiguration(args: CategoryMonthDetailArgs): Job
-    fun getMonthDetail(): Job
 }

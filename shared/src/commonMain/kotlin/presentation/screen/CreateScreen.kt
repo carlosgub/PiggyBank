@@ -24,9 +24,9 @@ import model.FinanceEnum
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
-import presentation.viewmodel.CreateScreenIntents
-import presentation.viewmodel.CreateScreenState
-import presentation.viewmodel.CreateViewModel
+import presentation.viewmodel.create.CreateScreenIntents
+import presentation.viewmodel.create.CreateScreenState
+import presentation.viewmodel.create.CreateViewModel
 import theme.spacing_4
 import theme.spacing_6
 import utils.NoRippleInteractionSource

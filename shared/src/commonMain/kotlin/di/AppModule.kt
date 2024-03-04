@@ -16,11 +16,11 @@ import domain.usecase.GetMonthsUseCase
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
-import presentation.viewmodel.CategoryMonthDetailViewModel
-import presentation.viewmodel.CreateViewModel
-import presentation.viewmodel.EditViewModel
-import presentation.viewmodel.HomeViewModel
-import presentation.viewmodel.MonthsScreenViewModel
+import presentation.viewmodel.monthDetail.CategoryMonthDetailViewModel
+import presentation.viewmodel.create.CreateViewModel
+import presentation.viewmodel.edit.EditViewModel
+import presentation.viewmodel.home.HomeViewModel
+import presentation.viewmodel.months.MonthsScreenViewModel
 
 val homeModule = module {
     /*region ViewModels*/

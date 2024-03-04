@@ -42,8 +42,8 @@ import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
-import presentation.viewmodel.CategoryMonthDetailScreenState
-import presentation.viewmodel.CategoryMonthDetailViewModel
+import presentation.viewmodel.monthDetail.CategoryMonthDetailScreenState
+import presentation.viewmodel.monthDetail.CategoryMonthDetailViewModel
 import theme.Gray600
 import theme.Gray900
 import theme.White

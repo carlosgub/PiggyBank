@@ -1,4 +1,4 @@
-package presentation.viewmodel
+package presentation.viewmodel.home
 
 import core.sealed.GenericState
 import domain.usecase.GetFinanceUseCase
@@ -60,17 +60,4 @@ class HomeViewModel(
     override fun setMonthKey(monthKey: String): Job = intent {
         reduce { state.copy(monthKey = monthKey) }
     }
-}
-
-
-data class HomeScreenState(
-    val financeScreenModel: FinanceScreenModel = FinanceScreenModel(),
-    val showLoading: Boolean = false,
-    val monthKey: String = "",
-    val isInitialDataLoaded: Boolean = false
-)
-
-interface HomeScreenIntents {
-    fun getFinanceStatus(): Job
-    fun setMonthKey(monthKey: String): Job
 }
