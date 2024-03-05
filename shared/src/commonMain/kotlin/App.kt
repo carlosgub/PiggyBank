@@ -14,7 +14,7 @@ import presentation.navigation.Screen
 import presentation.screen.CategoryMonthDetailScreen
 import presentation.screen.CreateScreen
 import presentation.screen.EditScreen
-import presentation.screen.HomeScreen
+import presentation.screen.home.HomeScreen
 import presentation.screen.MonthsScreen
 import theme.ColorPrimary
 import theme.Shapes
