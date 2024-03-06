@@ -2,8 +2,7 @@ package presentation.viewmodel.edit
 
 import kotlinx.coroutines.Job
 import model.CategoryEnum
-import model.ExpenseScreenModel
-import model.FinanceEnum
+import model.EditArgs
 
 interface EditScreenIntents {
     fun setCategory(categoryEnum: CategoryEnum): Job
@@ -13,14 +12,10 @@ interface EditScreenIntents {
     fun showError(boolean: Boolean): Job
     fun setNote(note: String): Job
     fun setDate(date: Long): Job
-    fun create(financeEnum: FinanceEnum, id: Long): Job
-    fun delete(
-        id: Long,
-        financeEnum: FinanceEnum,
-        monthKey: String
-    ): Job
+    fun edit(): Job
+    fun delete(): Job
 
     fun updateValues(
-        expenseScreenModel: ExpenseScreenModel
+        args: EditArgs
     ): Job
 }

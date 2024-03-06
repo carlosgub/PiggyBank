@@ -12,8 +12,8 @@ import moe.tlaster.precompose.navigation.rememberNavigator
 import presentation.navigation.NavArgs
 import presentation.navigation.Screen
 import presentation.screen.CategoryMonthDetailScreen
-import presentation.screen.CreateScreen
-import presentation.screen.EditScreen
+import presentation.screen.create.CreateScreen
+import presentation.screen.edit.EditScreen
 import presentation.screen.home.HomeScreen
 import presentation.screen.MonthsScreen
 import theme.ColorPrimary
