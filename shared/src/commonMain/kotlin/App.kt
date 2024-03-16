@@ -11,11 +11,11 @@ import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
 import presentation.navigation.NavArgs
 import presentation.navigation.Screen
-import presentation.screen.CategoryMonthDetailScreen
+import presentation.screen.categorymonthdetail.CategoryMonthDetailScreen
 import presentation.screen.create.CreateScreen
 import presentation.screen.edit.EditScreen
 import presentation.screen.home.HomeScreen
-import presentation.screen.MonthsScreen
+import presentation.screen.month.MonthsScreen
 import theme.ColorPrimary
 import theme.Shapes
 import theme.Typography

@@ -5,20 +5,22 @@ import domain.usecase.GetMonthsUseCase
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.datetime.LocalDateTime
+import model.HomeArgs
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 
-class MonthsScreenViewModel(
+class MonthsViewModel(
     private val getMonthsUseCase: GetMonthsUseCase
-) : ViewModel(), ContainerHost<MonthsScreenState, Nothing>,
+) : ViewModel(), ContainerHost<MonthsScreenState, MonthsScreenSideEffect>,
     MonthsScreenIntents {
 
-    override val container: Container<MonthsScreenState, Nothing> =
+    override val container: Container<MonthsScreenState, MonthsScreenSideEffect> =
         viewModelScope.container(MonthsScreenState()) {
             getMonths()
         }
@@ -33,6 +35,10 @@ class MonthsScreenViewModel(
 
             else -> Unit
         }
+    }
+
+    override fun navigateToMonthDetail(homeArgs: HomeArgs): Job = intent {
+        postSideEffect(MonthsScreenSideEffect.NavigateToMonthDetail(homeArgs))
     }
 
     private fun setMonths(months: Map<Int, List<LocalDateTime>>): Job = intent {

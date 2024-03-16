@@ -20,7 +20,7 @@ import presentation.viewmodel.monthDetail.CategoryMonthDetailViewModel
 import presentation.viewmodel.create.CreateViewModel
 import presentation.viewmodel.edit.EditViewModel
 import presentation.viewmodel.home.HomeViewModel
-import presentation.viewmodel.months.MonthsScreenViewModel
+import presentation.viewmodel.months.MonthsViewModel
 
 val homeModule = module {
     /*region ViewModels*/
@@ -53,7 +53,7 @@ val homeModule = module {
     }
 
     factory {
-        MonthsScreenViewModel(
+        MonthsViewModel(
             getMonthsUseCase = get()
         )
     }

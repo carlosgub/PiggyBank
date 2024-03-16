@@ -5,6 +5,7 @@ import domain.usecase.GetExpenseMonthDetailUseCase
 import domain.usecase.GetIncomeMonthDetailUseCase
 import kotlinx.coroutines.Job
 import model.CategoryMonthDetailArgs
+import model.ExpenseScreenModel
 import model.FinanceEnum
 import model.MonthDetailScreenModel
 import moe.tlaster.precompose.viewmodel.ViewModel
@@ -13,6 +14,7 @@ import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import utils.getCategoryEnumFromName
 
@@ -20,7 +22,7 @@ class CategoryMonthDetailViewModel(
     private val getCategoryMonthDetailUseCase: GetExpenseMonthDetailUseCase,
     private val getIncomeMonthDetailUseCase: GetIncomeMonthDetailUseCase
 ) : ViewModel(),
-    ContainerHost<CategoryMonthDetailScreenState, GenericState<MonthDetailScreenModel>>,
+    ContainerHost<CategoryMonthDetailScreenState, CategoryMonthDetailScreenSideEffect>,
     CategoryMonthDetailScreenIntents {
 
     override fun getMonthDetail(): Job = intent {
@@ -43,7 +45,18 @@ class CategoryMonthDetailViewModel(
             is GenericState.Success -> setMonthDetailScreenModel(result.data)
             else -> Unit
         }
+    }
 
+    override fun navigateToEditExpense(expenseScreenModel: ExpenseScreenModel): Job = intent {
+        postSideEffect(CategoryMonthDetailScreenSideEffect.NavigateToMonthDetail(expenseScreenModel))
+    }
+
+    override fun updateBackScreen(): Job = intent {
+        reduce {
+            state.copy(
+                updateBackScreen = true
+            )
+        }
     }
 
     override fun setInitialConfiguration(args: CategoryMonthDetailArgs): Job = intent {
@@ -76,6 +89,6 @@ class CategoryMonthDetailViewModel(
         }
     }
 
-    override val container: Container<CategoryMonthDetailScreenState, GenericState<MonthDetailScreenModel>> =
+    override val container: Container<CategoryMonthDetailScreenState, CategoryMonthDetailScreenSideEffect> =
         viewModelScope.container(CategoryMonthDetailScreenState())
 }

@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
-package presentation.screen
+package presentation.screen.month.content
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInHorizontally
@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,13 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.LocalDateTime
-import model.HomeArgs
-import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
-import moe.tlaster.precompose.koin.koinViewModel
-import moe.tlaster.precompose.navigation.Navigator
-import presentation.navigation.Screen
 import presentation.viewmodel.months.MonthsScreenState
-import presentation.viewmodel.months.MonthsScreenViewModel
 import theme.ColorPrimary
 import theme.White
 import theme.spacing_1_2
@@ -50,36 +43,29 @@ import utils.toMonthString
 import utils.views.DataZero
 import utils.views.ExpenseDivider
 import utils.views.Loading
-import utils.views.Toolbar
 
 @Composable
-fun MonthsScreen(
-    navigator: Navigator
+fun MonthsContent(
+    monthsScreenState: MonthsScreenState,
+    paddingValues: PaddingValues,
+    onMonthClicked: (String) -> Unit
 ) {
-    val viewModel = koinViewModel(vmClass = MonthsScreenViewModel::class)
-    val monthsScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
-    Scaffold(
-        topBar = {
-            MonthsToolbar(
-                onBack = {
-                    navigator.goBack()
-                }
+    Column(
+        modifier = Modifier
+            .background(White)
+            .padding(
+                top = paddingValues.calculateTopPadding()
+            )
+            .fillMaxSize()
+    ) {
+        if (monthsScreenState.showLoading) {
+            Loading()
+        } else {
+            MonthsScreenSuccessContent(
+                data = monthsScreenState.months,
+                onMonthClicked = onMonthClicked
             )
         }
-    ) { paddingValues ->
-        MonthsContent(
-            monthsScreenState = monthsScreenState,
-            paddingValues = paddingValues,
-            onMonthClicked = { monthKey ->
-                navigator.navigate(
-                    Screen.Home.createRoute(
-                        HomeArgs(
-                            monthKey
-                        )
-                    )
-                )
-            }
-        )
     }
 }
 
@@ -199,42 +185,4 @@ fun MonthItem(
                 .padding(spacing_2)
         )
     }
-}
-
-@Composable
-fun MonthsContent(
-    monthsScreenState: MonthsScreenState,
-    paddingValues: PaddingValues,
-    onMonthClicked: (String) -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .background(White)
-            .padding(
-                top = paddingValues.calculateTopPadding()
-            )
-            .fillMaxSize()
-    ) {
-        if (monthsScreenState.showLoading) {
-            Loading()
-        } else {
-            MonthsScreenSuccessContent(
-                data = monthsScreenState.months,
-                onMonthClicked = onMonthClicked
-            )
-        }
-    }
-}
-
-@Composable
-private fun MonthsToolbar(
-    onBack: () -> Unit
-) {
-    Toolbar(
-        backgroundColor = Color.White,
-        hasNavigationIcon = true,
-        navigation = onBack,
-        contentColor = Color.Black,
-        title = "Months"
-    )
 }
