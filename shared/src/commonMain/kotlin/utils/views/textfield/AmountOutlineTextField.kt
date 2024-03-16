@@ -11,10 +11,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import theme.spacing_2
@@ -22,12 +27,24 @@ import theme.spacing_4
 
 @Composable
 fun AmountOutlineTextField(
-    amountTextFieldValue: TextFieldValue,
+    amountField: String,
     keyboard: SoftwareKeyboardController?,
     focusManager: FocusManager,
     onValueChange: (String) -> Unit,
     showError: Boolean
 ) {
+    var amountTextFieldValue by remember {
+        mutableStateOf(
+            TextFieldValue(
+                text = amountField,
+                selection = TextRange(amountField.length)
+            )
+        )
+    }
+    amountTextFieldValue = TextFieldValue(
+        text = amountField,
+        selection = TextRange(amountField.length)
+    )
     OutlinedTextField(
         value = amountTextFieldValue,
         onValueChange = { value ->

@@ -9,10 +9,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 @Composable
 fun AlertDialogFinance(
-    onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
     dialogTitle: String,
     dialogText: String,
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit,
     icon: ImageVector? = null
 ) {
     AlertDialog(

@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
-package presentation.screen
+package presentation.screen.categorymonthdetail.content
 
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -21,29 +21,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
-import model.CategoryMonthDetailArgs
-import model.EditArgs
 import model.ExpenseScreenModel
-import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
-import moe.tlaster.precompose.koin.koinViewModel
-import moe.tlaster.precompose.navigation.Navigator
-import presentation.navigation.Screen
-import presentation.viewmodel.CategoryMonthDetailScreenState
-import presentation.viewmodel.CategoryMonthDetailViewModel
+import presentation.viewmodel.monthDetail.CategoryMonthDetailScreenState
 import theme.Gray600
 import theme.Gray900
 import theme.White
@@ -51,70 +37,17 @@ import theme.spacing_1
 import theme.spacing_2
 import theme.spacing_4
 import theme.spacing_6
-import utils.getCategoryEnumFromName
 import utils.toMoneyFormat
 import utils.views.DataZero
 import utils.views.ExpenseDivider
 import utils.views.Loading
-import utils.views.Toolbar
 import utils.views.chart.FinanceLineChart
-
-@Composable
-fun CategoryMonthDetailScreen(
-    navigator: Navigator,
-    args: CategoryMonthDetailArgs
-) {
-    val viewModel = koinViewModel(vmClass = CategoryMonthDetailViewModel::class)
-    val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
-    viewModel.setInitialConfiguration(args)
-    val updateBackScreen = rememberSaveable { mutableStateOf(false) }
-    val coroutine = rememberCoroutineScope()
-    Scaffold(
-        topBar = {
-            ExpenseMonthDetailToolbar(
-                category = state.category.categoryName,
-                onBack = {
-                    navigator.goBackWith(updateBackScreen.value)
-                }
-            )
-        }
-    ) { paddingValues ->
-        CategoryMonthDetailContent(
-            paddingValues,
-            header = {
-                CategoryMonthDetailHeader(
-                    state
-                )
-            },
-            body = {
-                CategoryMonthDetailBody(
-                    state
-                ) { expenseScreenModel ->
-                    coroutine.launch {
-                        val result = navigator.navigateForResult(
-                            Screen.EditScreen.createRoute(
-                                EditArgs(
-                                    financeEnum = getCategoryEnumFromName(expenseScreenModel.category).type,
-                                    expenseScreenModel = expenseScreenModel
-                                )
-                            )
-                        )
-                        if (result as Boolean) {
-                            updateBackScreen.value = true
-                            viewModel.getMonthDetail()
-                        }
-                    }
-                }
-            }
-        )
-    }
-}
 
 @Composable
 fun CategoryMonthDetailContent(
     paddingValues: PaddingValues,
-    header: @Composable () -> Unit,
-    body: @Composable () -> Unit
+    state: CategoryMonthDetailScreenState,
+    expenseClicked: (ExpenseScreenModel) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -126,12 +59,17 @@ fun CategoryMonthDetailContent(
         Column(
             modifier = Modifier.fillMaxWidth().weight(0.35f)
         ) {
-            header()
+            CategoryMonthDetailHeader(
+                state = state
+            )
         }
         Column(
             modifier = Modifier.fillMaxWidth().weight(0.65f)
         ) {
-            body()
+            CategoryMonthDetailBody(
+                state = state,
+                expenseClicked = expenseClicked
+            )
         }
     }
 }
@@ -275,18 +213,4 @@ private fun CategoryMonthDetailHeader(
             }
         }
     }
-}
-
-@Composable
-private fun ExpenseMonthDetailToolbar(
-    category: String,
-    onBack: () -> Unit
-) {
-    Toolbar(
-        backgroundColor = Color.White,
-        title = category,
-        hasNavigationIcon = true,
-        navigation = onBack,
-        contentColor = Color.Black
-    )
 }

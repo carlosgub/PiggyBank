@@ -1,4 +1,4 @@
-package presentation.viewmodel
+package presentation.viewmodel.edit
 
 import core.sealed.GenericState
 import domain.usecase.DeleteUseCase
@@ -6,8 +6,7 @@ import domain.usecase.EditExpenseUseCase
 import domain.usecase.EditIncomeUseCase
 import kotlinx.coroutines.Job
 import model.CategoryEnum
-import model.ExpenseScreenModel
-import model.FinanceEnum
+import model.EditArgs
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
 import org.orbitmvi.orbit.Container
@@ -66,19 +65,19 @@ class EditViewModel(
         reduce { state.copy(note = note) }
     }
 
-    override fun create(
-        financeEnum: FinanceEnum,
-        id: Long
-    ): Job = intent {
-        if (state.amount <= 0) {
-            showError(true)
-        } else if (state.dateInMillis == 0L) {
-            showDateError(true)
-        } else if (state.note.trim().isBlank()) {
-            showNoteError(true)
-        } else {
-            showLoading()
-            if (financeEnum.isExpense()) editExpense(id = id) else editIncome(id = id)
+    override fun edit(): Job = intent {
+        when {
+            state.amount <= 0 -> showError(true)
+            state.dateInMillis == 0L -> showDateError(true)
+            state.note.trim().isBlank() -> showNoteError(true)
+            else -> {
+                showLoading()
+                if (state.financeEnum.isExpense()) {
+                    editExpense(id = state.id)
+                } else {
+                    editIncome(id = state.id)
+                }
+            }
         }
     }
 
@@ -123,16 +122,12 @@ class EditViewModel(
         reduce { state.copy(showError = boolean) }
     }
 
-    override fun delete(
-        id: Long,
-        financeEnum: FinanceEnum,
-        monthKey: String
-    ): Job = intent {
+    override fun delete(): Job = intent {
         val result = deleteUseCase.delete(
             DeleteUseCase.Params(
-                financeEnum = financeEnum,
-                id = id,
-                monthKey = monthKey
+                financeEnum = state.financeEnum,
+                id = state.id,
+                monthKey = state.monthKey
             )
         )
         postSideEffect(result)
@@ -142,48 +137,23 @@ class EditViewModel(
         reduce { state.copy(showLoading = true) }
     }
 
-    override fun updateValues(expenseScreenModel: ExpenseScreenModel): Job = intent {
-        setAmount(expenseScreenModel.amount.toString())
-        setCategory(getCategoryEnumFromName(expenseScreenModel.category))
-        setDate(expenseScreenModel.localDateTime.toMillis())
-        setNote(expenseScreenModel.note)
-        reduce { state.copy(initialDataLoaded = true) }
+    override fun updateValues(
+        args: EditArgs
+    ): Job = intent {
+        setAmount(args.expenseScreenModel.amount.toString())
+        setCategory(getCategoryEnumFromName(args.expenseScreenModel.category))
+        setDate(args.expenseScreenModel.localDateTime.toMillis())
+        setNote(args.expenseScreenModel.note)
+        reduce {
+            state.copy(
+                initialDataLoaded = true,
+                id = args.expenseScreenModel.id,
+                financeEnum = args.financeEnum,
+                monthKey = args.expenseScreenModel.monthKey
+            )
+        }
     }
 
     override val container: Container<EditScreenState, GenericState<Unit>> =
         viewModelScope.container(EditScreenState())
-}
-
-data class EditScreenState(
-    val category: CategoryEnum = CategoryEnum.FOOD,
-    val amountField: String = 0.0.toMoneyFormat(),
-    val amount: Double = 0.0,
-    val showDateError: Boolean = false,
-    val showNoteError: Boolean = false,
-    val showError: Boolean = false,
-    val note: String = "",
-    val date: String = "",
-    val dateInMillis: Long = 0L,
-    val initialDataLoaded: Boolean = false,
-    val showLoading: Boolean = false
-)
-
-interface EditScreenIntents {
-    fun setCategory(categoryEnum: CategoryEnum): Job
-    fun setAmount(textFieldValue: String): Job
-    fun showDateError(boolean: Boolean): Job
-    fun showNoteError(boolean: Boolean): Job
-    fun showError(boolean: Boolean): Job
-    fun setNote(note: String): Job
-    fun setDate(date: Long): Job
-    fun create(financeEnum: FinanceEnum, id: Long): Job
-    fun delete(
-        id: Long,
-        financeEnum: FinanceEnum,
-        monthKey: String
-    ): Job
-
-    fun updateValues(
-        expenseScreenModel: ExpenseScreenModel
-    ): Job
 }
