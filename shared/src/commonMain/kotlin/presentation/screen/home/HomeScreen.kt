@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.MoneyOff
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import core.navigation.LocalNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,7 +16,6 @@ import model.HomeArgs
 import model.MenuItem
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
-import moe.tlaster.precompose.navigation.Navigator
 import presentation.screen.home.content.HomeContent
 import presentation.screen.home.content.homeObserver
 import presentation.viewmodel.home.HomeViewModel
@@ -23,9 +23,9 @@ import utils.views.Toolbar
 
 @Composable
 fun HomeScreen(
-    navigator: Navigator,
     args: HomeArgs
 ) {
+    val navigator = LocalNavController.current
     val viewModel = koinViewModel(vmClass = HomeViewModel::class)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     viewModel.setMonthKey(args.monthKey)
@@ -33,7 +33,7 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             HomeToolbar(
-                isHome = args.isHome,
+                showLeftIcon = args.showLeftIcon,
                 onAddExpensePressed = {
                     viewModel.navigateToAddExpense()
                 },
@@ -70,15 +70,15 @@ fun HomeScreen(
 
 @Composable
 private fun HomeToolbar(
-    isHome: Boolean,
+    showLeftIcon: Boolean,
     onAddExpensePressed: () -> Unit,
     onAddIncomePressed: () -> Unit,
     onCalendarPressed: () -> Unit,
     onBack: () -> Unit
 ) {
-    val leftIcon = if (isHome) Icons.Filled.CalendarMonth else null
+    val leftIcon = if (showLeftIcon) Icons.Filled.CalendarMonth else null
     Toolbar(
-        hasNavigationIcon = !isHome,
+        hasNavigationIcon = !showLeftIcon,
         navigation = onBack,
         title = "My Finances",
         dropDownIcon = Icons.Filled.Add,

@@ -4,13 +4,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import core.navigation.LocalNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import model.CategoryMonthDetailArgs
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
-import moe.tlaster.precompose.navigation.Navigator
 import presentation.screen.categorymonthdetail.content.CategoryMonthDetailContent
 import presentation.screen.categorymonthdetail.content.categoryMonthDetailObserver
 import presentation.viewmodel.monthDetail.CategoryMonthDetailViewModel
@@ -18,9 +18,9 @@ import utils.views.Toolbar
 
 @Composable
 fun CategoryMonthDetailScreen(
-    navigator: Navigator,
     args: CategoryMonthDetailArgs
 ) {
+    val navigator = LocalNavController.current
     val viewModel = koinViewModel(vmClass = CategoryMonthDetailViewModel::class)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     viewModel.setInitialConfiguration(args)

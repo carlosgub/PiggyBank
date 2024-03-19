@@ -5,13 +5,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import core.navigation.LocalNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import model.CreateArgs
 import model.FinanceEnum
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
-import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
 import presentation.screen.create.content.CreateContent
 import presentation.screen.create.content.createObserver
@@ -22,9 +22,9 @@ import utils.views.Toolbar
 @Composable
 fun CreateScreen(
     viewModel: CreateViewModel = koinInject(),
-    navigator: Navigator,
     args: CreateArgs
 ) {
+    val navigator = LocalNavController.current
     val scope = CoroutineScope(Dispatchers.Main)
     val createScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     scope.launch {

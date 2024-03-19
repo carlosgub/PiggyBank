@@ -9,13 +9,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import core.navigation.LocalNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import model.EditArgs
 import model.FinanceEnum
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
-import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
 import presentation.screen.edit.content.EditContent
 import presentation.screen.edit.content.editObserver
@@ -27,9 +27,9 @@ import utils.views.Toolbar
 @Composable
 fun EditScreen(
     viewModel: EditViewModel = koinInject(),
-    navigator: Navigator,
     args: EditArgs
 ) {
+    val navigator = LocalNavController.current
     val scope = CoroutineScope(Dispatchers.Main)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
