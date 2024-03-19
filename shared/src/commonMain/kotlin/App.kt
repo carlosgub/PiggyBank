@@ -6,6 +6,7 @@ import model.CategoryMonthDetailArgs
 import model.CreateArgs
 import model.EditArgs
 import model.HomeArgs
+import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
@@ -23,53 +24,55 @@ import utils.getCurrentMonthKey
 
 @Composable
 fun App() {
-    val navigator = rememberNavigator()
-    AppTheme {
-        NavHost(
-            navigator = navigator,
-            initialRoute = Screen.Home.createRoute(
-                HomeArgs(
-                    monthKey = getCurrentMonthKey(),
-                    isHome = true
+    PreComposeApp {
+        val navigator = rememberNavigator()
+        AppTheme {
+            NavHost(
+                navigator = navigator,
+                initialRoute = Screen.Home.createRoute(
+                    HomeArgs(
+                        monthKey = getCurrentMonthKey(),
+                        isHome = true
+                    )
                 )
-            )
-        ) {
-            scene(route = Screen.Home.route) { backStackEntry ->
-                val args: HomeArgs =
-                    Json.decodeFromString(backStackEntry.path<String>(NavArgs.HomeArgs.key)!!)
-                HomeScreen(
-                    navigator = navigator,
-                    args = args
-                )
-            }
-            scene(route = Screen.CreateScreen.route) { backStackEntry ->
-                val args: CreateArgs =
-                    Json.decodeFromString(backStackEntry.path<String>(NavArgs.CreateArgs.key)!!)
-                CreateScreen(
-                    navigator = navigator,
-                    args = args
-                )
-            }
-            scene(route = Screen.EditScreen.route) { backStackEntry ->
-                val args: EditArgs =
-                    Json.decodeFromString(backStackEntry.path<String>(NavArgs.EditArgs.key)!!)
-                EditScreen(
-                    navigator = navigator,
-                    args = args
-                )
-            }
-            scene(route = Screen.MonthsScreen.route) {
-                MonthsScreen(
-                    navigator = navigator
-                )
-            }
-            scene(route = Screen.CategoryMonthDetailScreen.route) { backStackEntry ->
-                val args: CategoryMonthDetailArgs =
-                    Json.decodeFromString(backStackEntry.path<String>(NavArgs.CategoryMonthDetailArgs.key)!!)
-                CategoryMonthDetailScreen(
-                    navigator = navigator,
-                    args = args
-                )
+            ) {
+                scene(route = Screen.Home.route) { backStackEntry ->
+                    val args: HomeArgs =
+                        Json.decodeFromString(backStackEntry.path<String>(NavArgs.HomeArgs.key)!!)
+                    HomeScreen(
+                        navigator = navigator,
+                        args = args
+                    )
+                }
+                scene(route = Screen.CreateScreen.route) { backStackEntry ->
+                    val args: CreateArgs =
+                        Json.decodeFromString(backStackEntry.path<String>(NavArgs.CreateArgs.key)!!)
+                    CreateScreen(
+                        navigator = navigator,
+                        args = args
+                    )
+                }
+                scene(route = Screen.EditScreen.route) { backStackEntry ->
+                    val args: EditArgs =
+                        Json.decodeFromString(backStackEntry.path<String>(NavArgs.EditArgs.key)!!)
+                    EditScreen(
+                        navigator = navigator,
+                        args = args
+                    )
+                }
+                scene(route = Screen.MonthsScreen.route) {
+                    MonthsScreen(
+                        navigator = navigator
+                    )
+                }
+                scene(route = Screen.CategoryMonthDetailScreen.route) { backStackEntry ->
+                    val args: CategoryMonthDetailArgs =
+                        Json.decodeFromString(backStackEntry.path<String>(NavArgs.CategoryMonthDetailArgs.key)!!)
+                    CategoryMonthDetailScreen(
+                        navigator = navigator,
+                        args = args
+                    )
+                }
             }
         }
     }

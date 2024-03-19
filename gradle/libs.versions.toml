@@ -4,8 +4,6 @@ delightVersion = "2.0.1"
 appcompatVersion = "1.6.1"
 chartsVersion = "1.0.4"
 coreKtxVersion = "1.12.0"
-firebaseCommonKtxVersion = "20.4.2"
-kamelImageVersion = "0.6.0"
 koinCoreVersion = "3.5.3"
 koinComposeVersion = "1.1.2"
 kotlinxSerializationJsonVersion = "1.6.0"
@@ -18,8 +16,6 @@ orbit = "6.1.1"
 [libraries]
 
 charts = { module = "com.carlosgub.kotlinm.charts:charts", version.ref = "chartsVersion" }
-firebase-common-ktx = { module = "com.google.firebase:firebase-common-ktx", version.ref = "firebaseCommonKtxVersion" }
-kamel-image = { module = "media.kamel:kamel-image", version.ref = "kamelImageVersion" }
 
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityComposeVersion" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }

@@ -1,3 +1,3 @@
-import moe.tlaster.precompose.PreComposeApplication
+import androidx.compose.ui.window.ComposeUIViewController
 
-fun MainViewController() = PreComposeApplication { App() }
+fun MainViewController() = ComposeUIViewController { App() }

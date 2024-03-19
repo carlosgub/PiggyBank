@@ -47,7 +47,6 @@ kotlin {
                 implementation(compose.materialIconsExtended)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
-                implementation(libs.kamel.image)
                 implementation(libs.kotlinx.serialization.json)
                 api(libs.koin.core)
                 implementation(libs.koin.compose)
