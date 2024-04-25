@@ -13,13 +13,13 @@ import core.navigation.LocalNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import model.EditArgs
 import model.FinanceEnum
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import org.koin.compose.koinInject
 import presentation.screen.edit.content.EditContent
 import presentation.screen.edit.content.editObserver
 import presentation.viewmodel.edit.EditViewModel
+import utils.getFinanceEnumFromName
 import utils.isExpense
 import utils.views.AlertDialogFinance
 import utils.views.Toolbar
@@ -27,13 +27,18 @@ import utils.views.Toolbar
 @Composable
 fun EditScreen(
     viewModel: EditViewModel = koinInject(),
-    args: EditArgs
+    id: Long,
+    financeName: String
 ) {
     val navigator = LocalNavController.current
     val scope = CoroutineScope(Dispatchers.Main)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
+    val financeEnum = getFinanceEnumFromName(financeName)
     LaunchedEffect(Unit) {
-        viewModel.updateValues(args)
+        viewModel.getFinance(
+            id = id,
+            financeEnum = financeEnum
+        )
     }
     scope.launch {
         viewModel.container.sideEffectFlow.collect { sideEffect ->
@@ -46,7 +51,7 @@ fun EditScreen(
     Scaffold(
         topBar = {
             EditToolbar(
-                financeEnum = args.financeEnum,
+                financeEnum = financeEnum,
                 onBack = { navigator.goBackWith(false) },
                 onDelete = {
                     viewModel.delete()

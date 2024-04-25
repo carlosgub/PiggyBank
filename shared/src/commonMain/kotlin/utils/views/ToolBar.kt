@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DropdownMenu
@@ -38,7 +38,7 @@ fun Toolbar(
     backgroundColor: Color = ColorPrimary,
     title: String,
     hasNavigationIcon: Boolean = false,
-    navigationIcon: ImageVector = Icons.Filled.ArrowBack,
+    navigationIcon: ImageVector = Icons.AutoMirrored.Filled.ArrowBack,
     navigation: () -> Unit = {},
     leftIcon: ImageVector? = null,
     onLeftIconPressed: () -> Unit = {},

@@ -3,7 +3,6 @@ package presentation.screen.home.content
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import model.CategoryMonthDetailArgs
-import model.CreateArgs
 import model.FinanceEnum
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
@@ -52,9 +51,7 @@ private fun navigateToAddIncomeScreen(
     coroutine.launch {
         val result = navigator.navigateForResult(
             Screen.CreateScreen.createRoute(
-                CreateArgs(
-                    FinanceEnum.INCOME
-                )
+                FinanceEnum.INCOME.name
             )
         )
         if (result as Boolean) {
@@ -71,9 +68,7 @@ private fun navigateToAddExpenseScreen(
     coroutine.launch {
         val result = navigator.navigateForResult(
             Screen.CreateScreen.createRoute(
-                CreateArgs(
-                    FinanceEnum.EXPENSE
-                )
+                FinanceEnum.EXPENSE.name
             )
         )
         if (result as Boolean) {

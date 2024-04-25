@@ -9,24 +9,25 @@ import core.navigation.LocalNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import model.CreateArgs
 import model.FinanceEnum
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import org.koin.compose.koinInject
 import presentation.screen.create.content.CreateContent
 import presentation.screen.create.content.createObserver
 import presentation.viewmodel.create.CreateViewModel
+import utils.getFinanceEnumFromName
 import utils.isExpense
 import utils.views.Toolbar
 
 @Composable
 fun CreateScreen(
     viewModel: CreateViewModel = koinInject(),
-    args: CreateArgs
+    financeName: String
 ) {
     val navigator = LocalNavController.current
     val scope = CoroutineScope(Dispatchers.Main)
     val createScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
+    val financeEnum = getFinanceEnumFromName(financeName)
     scope.launch {
         viewModel.container.sideEffectFlow.collect { sideEffect ->
             createObserver(
@@ -38,7 +39,7 @@ fun CreateScreen(
     Scaffold(
         topBar = {
             CreateToolbar(
-                financeEnum = args.financeEnum,
+                financeEnum = financeEnum,
                 onBack = {
                     navigator.goBackWith(false)
                 }
@@ -48,7 +49,7 @@ fun CreateScreen(
         CreateContent(
             state = createScreenState,
             intents = viewModel,
-            financeEnum = args.financeEnum,
+            financeEnum = financeEnum,
             modifier = Modifier
                 .padding(paddingValues)
         )

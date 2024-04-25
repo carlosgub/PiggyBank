@@ -7,7 +7,11 @@ suspend fun Database.getIncomeList(month: String): List<Income> {
     return incomeQueries.getIncomeList(month).executeAsList()
 }
 
-suspend fun Database.getIncomeListPerCategory(month: String, category: String): List<Income> {
+fun Database.getIncome(id: Long): Income {
+    return incomeQueries.getIncome(id).executeAsOne()
+}
+
+fun Database.getIncomeListPerCategory(month: String, category: String): List<Income> {
     return incomeQueries.getIncomePerCategoryList(month, category).executeAsList()
 }
 

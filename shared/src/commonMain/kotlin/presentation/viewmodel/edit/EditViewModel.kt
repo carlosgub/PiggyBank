@@ -4,9 +4,11 @@ import core.sealed.GenericState
 import domain.usecase.DeleteUseCase
 import domain.usecase.EditExpenseUseCase
 import domain.usecase.EditIncomeUseCase
+import domain.usecase.GetFinanceUseCase
+import domain.usecase.GetOneFinanceUseCase
 import kotlinx.coroutines.Job
 import model.CategoryEnum
-import model.EditArgs
+import model.FinanceEnum
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
 import org.orbitmvi.orbit.Container
@@ -25,7 +27,8 @@ import utils.toNumberOfTwoDigits
 class EditViewModel(
     val editExpenseUseCase: EditExpenseUseCase,
     val editIncomeUseCase: EditIncomeUseCase,
-    val deleteUseCase: DeleteUseCase
+    val deleteUseCase: DeleteUseCase,
+    val getOneFinanceUseCase: GetOneFinanceUseCase
 ) : ViewModel(), ContainerHost<EditScreenState, GenericState<Unit>>, EditScreenIntents {
 
     override fun setCategory(categoryEnum: CategoryEnum): Job = intent {
@@ -137,20 +140,28 @@ class EditViewModel(
         reduce { state.copy(showLoading = true) }
     }
 
-    override fun updateValues(
-        args: EditArgs
+    override fun getFinance(
+        id: Long,
+        financeEnum: FinanceEnum
     ): Job = intent {
-        setAmount(args.expenseScreenModel.amount.toString())
-        setCategory(getCategoryEnumFromName(args.expenseScreenModel.category))
-        setDate(args.expenseScreenModel.localDateTime.toMillis())
-        setNote(args.expenseScreenModel.note)
-        reduce {
-            state.copy(
-                initialDataLoaded = true,
-                id = args.expenseScreenModel.id,
-                financeEnum = args.financeEnum,
-                monthKey = args.expenseScreenModel.monthKey
+        val result = getOneFinanceUseCase(
+            GetOneFinanceUseCase.Params(
+                id = id, financeEnum = financeEnum
             )
+        )
+        if (result is GenericState.Success) {
+            setAmount(result.data.amount.toString())
+            setCategory(getCategoryEnumFromName(result.data.category))
+            setDate(result.data.localDateTime.toMillis())
+            setNote(result.data.note)
+            reduce {
+                state.copy(
+                    initialDataLoaded = true,
+                    id = result.data.id,
+                    financeEnum = financeEnum,
+                    monthKey = result.data.monthKey
+                )
+            }
         }
     }
 

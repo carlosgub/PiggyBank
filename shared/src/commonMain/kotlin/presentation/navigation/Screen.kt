@@ -3,24 +3,22 @@ package presentation.navigation
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import model.CategoryMonthDetailArgs
-import model.CreateArgs
-import model.EditArgs
-import model.HomeArgs
 
 sealed class Screen(val route: String) {
     object Home : Screen("Home/{${NavArgs.HomeArgs.key}}") {
-        fun createRoute(homeArgs: HomeArgs) =
-            "Home/${Json.encodeToString(homeArgs)}"
+        fun createRoute(monthKey: String) =
+            "Home/$monthKey"
     }
 
     object CreateScreen : Screen("CreateScreen/{${NavArgs.CreateArgs.key}}") {
-        fun createRoute(createArgs: CreateArgs) =
-            "CreateScreen/${Json.encodeToString(createArgs)}"
+        fun createRoute(financeName: String) =
+            "CreateScreen/$financeName"
     }
 
-    object EditScreen : Screen("EditScreen/{${NavArgs.EditArgs.key}}") {
-        fun createRoute(editArgs: EditArgs) =
-            "EditScreen/${Json.encodeToString(editArgs)}"
+    object EditScreen :
+        Screen("EditScreen/{${NavArgs.EditId.key}}/{${NavArgs.EditFinanceName.key}}") {
+        fun createRoute(id: Long, financeName: String) =
+            "EditScreen/$id/$financeName"
     }
 
     object MonthsScreen : Screen("MonthsScreen")
@@ -36,5 +34,6 @@ enum class NavArgs(val key: String) {
     CategoryMonthDetailArgs("CategoryMonthDetailArgs"),
     HomeArgs("HomeArgs"),
     CreateArgs("CreateArgs"),
-    EditArgs("EditArgs")
+    EditId("EditId"),
+    EditFinanceName("EditFinanceName")
 }

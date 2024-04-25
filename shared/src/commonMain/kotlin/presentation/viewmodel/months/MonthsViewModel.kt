@@ -5,7 +5,6 @@ import domain.usecase.GetMonthsUseCase
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.datetime.LocalDateTime
-import model.HomeArgs
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
 import org.orbitmvi.orbit.Container
@@ -37,8 +36,8 @@ class MonthsViewModel(
         }
     }
 
-    override fun navigateToMonthDetail(homeArgs: HomeArgs): Job = intent {
-        postSideEffect(MonthsScreenSideEffect.NavigateToMonthDetail(homeArgs))
+    override fun navigateToMonthDetail(monthKey: String): Job = intent {
+        postSideEffect(MonthsScreenSideEffect.NavigateToMonthDetail(monthKey))
     }
 
     private fun setMonths(months: Map<Int, List<LocalDateTime>>): Job = intent {

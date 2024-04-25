@@ -2,7 +2,6 @@ package presentation.screen.categorymonthdetail.content
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import model.EditArgs
 import model.ExpenseScreenModel
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
@@ -35,10 +34,8 @@ private fun navigateToEditScreen(
     coroutine.launch {
         val result = navigator.navigateForResult(
             Screen.EditScreen.createRoute(
-                EditArgs(
-                    financeEnum = getCategoryEnumFromName(expenseScreenModel.category).type,
-                    expenseScreenModel = expenseScreenModel
-                )
+                id = expenseScreenModel.id,
+                financeName = getCategoryEnumFromName(name = expenseScreenModel.category).type.name
             )
         )
         if (result as Boolean) {

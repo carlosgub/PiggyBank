@@ -8,11 +8,12 @@ import domain.repository.FinanceRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import model.CategoryEnum
 import model.ExpenseScreenModel
 import model.FinanceEnum
+import model.FinanceLocalDate
+import model.FinanceModel
 import model.FinanceScreenExpenses
 import model.FinanceScreenModel
 import model.MonthDetailScreenModel
@@ -22,7 +23,6 @@ import utils.getCategoryEnumFromName
 import utils.isLeapYear
 import utils.monthLength
 import utils.toLocalDate
-import utils.toNumberOfTwoDigits
 import kotlin.math.roundToInt
 
 class FinanceRepositoryImpl(
@@ -69,25 +69,14 @@ class FinanceRepositoryImpl(
                     monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
                 )
                 val expenseScreenModelList = expenses.data.map { expense ->
-                    val localDate: LocalDate = expense.dateInMillis.toLocalDate()
-                    val localDateTime = createLocalDateTime(
-                        year = localDate.year,
-                        monthNumber = localDate.monthNumber,
-                        dayOfMonth = localDate.dayOfMonth
-                    )
-                    val dayOfMonth = localDateTime.dayOfMonth.toNumberOfTwoDigits()
-                    val month =
-                        localDateTime.month.name.lowercase()
-                            .replaceFirstChar { it.uppercase() }
-                    val year =
-                        localDateTime.year
+                    val localDate = FinanceLocalDate(expense.dateInMillis.toLocalDate())
                     ExpenseScreenModel(
                         id = expense.id,
                         amount = expense.amount,
                         note = expense.note.replaceFirstChar { it.uppercase() },
                         category = expense.category,
-                        localDateTime = localDateTime,
-                        date = "$dayOfMonth $month $year",
+                        localDateTime = localDate.localDateTime,
+                        date = localDate.date,
                         monthKey = monthKey
                     )
                 }.sortedByDescending { it.localDateTime }
@@ -120,6 +109,50 @@ class FinanceRepositoryImpl(
                     GenericState.Error(expenses.error.message.orEmpty())
                 } else {
                     GenericState.Error((income as ResponseResult.Error).error.message.orEmpty())
+                }
+            }
+        }
+
+    override suspend fun getOneFinance(
+        id: Long,
+        financeEnum: FinanceEnum
+    ): GenericState<FinanceModel> =
+        withContext(Dispatchers.Default) {
+            if (financeEnum == FinanceEnum.EXPENSE) {
+                val expense = databaseFinance.getExpense(id)
+                if (expense is ResponseResult.Success) {
+                    val localDate = FinanceLocalDate(expense.data.dateInMillis.toLocalDate())
+                    GenericState.Success(
+                        FinanceModel(
+                            id = expense.data.id,
+                            amount = expense.data.amount,
+                            note = expense.data.note,
+                            category = expense.data.category,
+                            localDateTime = localDate.localDateTime,
+                            date = localDate.date,
+                            monthKey = expense.data.month
+                        )
+                    )
+                } else {
+                    GenericState.Error("")
+                }
+            } else {
+                val income = databaseFinance.getIncome(id)
+                if (income is ResponseResult.Success) {
+                    val localDate = FinanceLocalDate(income.data.dateInMillis.toLocalDate())
+                    GenericState.Success(
+                        FinanceModel(
+                            id = income.data.id,
+                            amount = income.data.amount,
+                            note = income.data.note,
+                            category = income.data.category,
+                            localDateTime = localDate.localDateTime,
+                            date = localDate.date,
+                            monthKey = income.data.month
+                        )
+                    )
+                } else {
+                    GenericState.Error("")
                 }
             }
         }
@@ -226,25 +259,14 @@ class FinanceRepositoryImpl(
                 is ResponseResult.Success -> {
                     val monthAmount = result.data.sumOf { it.amount }
                     val expenseScreenModelList = result.data.map { expense ->
-                        val localDate: LocalDate = expense.dateInMillis.toLocalDate()
-                        val localDateTime = createLocalDateTime(
-                            year = localDate.year,
-                            monthNumber = localDate.monthNumber,
-                            dayOfMonth = localDate.dayOfMonth
-                        )
-                        val dayOfMonth = localDateTime.dayOfMonth.toNumberOfTwoDigits()
-                        val month =
-                            localDateTime.month.name.lowercase()
-                                .replaceFirstChar { it.uppercase() }
-                        val year =
-                            localDateTime.year
+                        val localDate = FinanceLocalDate(expense.dateInMillis.toLocalDate())
                         ExpenseScreenModel(
                             id = expense.id,
                             amount = expense.amount,
                             note = expense.note.replaceFirstChar { it.uppercase() },
                             category = expense.category,
-                            localDateTime = localDateTime,
-                            date = "$dayOfMonth $month $year",
+                            localDateTime = localDate.localDateTime,
+                            date = localDate.date,
                             monthKey = monthKey
                         )
                     }.sortedByDescending { it.localDateTime }
@@ -281,25 +303,14 @@ class FinanceRepositoryImpl(
                 is ResponseResult.Success -> {
                     val monthAmount = result.data.sumOf { it.amount }
                     val expenseScreenModelList = result.data.map { expense ->
-                        val localDate: LocalDate = expense.dateInMillis.toLocalDate()
-                        val localDateTime = createLocalDateTime(
-                            year = localDate.year,
-                            monthNumber = localDate.monthNumber,
-                            dayOfMonth = localDate.dayOfMonth
-                        )
-                        val dayOfMonth = localDateTime.dayOfMonth.toNumberOfTwoDigits()
-                        val month =
-                            localDateTime.month.name.lowercase()
-                                .replaceFirstChar { it.uppercase() }
-                        val year =
-                            localDateTime.year
+                        val localDate = FinanceLocalDate(expense.dateInMillis.toLocalDate())
                         ExpenseScreenModel(
                             id = expense.id,
                             amount = expense.amount,
                             note = expense.note.replaceFirstChar { it.uppercase() },
                             category = expense.category,
-                            localDateTime = localDateTime,
-                            date = "$dayOfMonth $month $year",
+                            localDateTime = localDate.localDateTime,
+                            date = localDate.date,
                             monthKey = monthKey
                         )
                     }.sortedByDescending { it.localDateTime }
