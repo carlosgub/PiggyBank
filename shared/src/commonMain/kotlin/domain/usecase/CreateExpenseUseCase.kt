@@ -6,7 +6,7 @@ import domain.repository.FinanceRepository
 class CreateExpenseUseCase(
     private val financeRepository: FinanceRepository
 ) {
-    suspend fun createExpense(params: Params): GenericState<Unit> =
+    suspend operator fun invoke(params: Params): GenericState<Unit> =
         financeRepository.createExpense(
             amount = params.amount,
             category = params.category,

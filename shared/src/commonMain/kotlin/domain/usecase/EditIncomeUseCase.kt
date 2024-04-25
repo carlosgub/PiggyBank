@@ -6,7 +6,7 @@ import domain.repository.FinanceRepository
 class EditIncomeUseCase(
     private val financeRepository: FinanceRepository
 ) {
-    suspend fun editIncome(params: Params): GenericState<Unit> =
+    suspend operator fun invoke(params: Params): GenericState<Unit> =
         financeRepository.editIncome(
             amount = params.amount,
             note = params.note,

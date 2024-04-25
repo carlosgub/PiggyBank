@@ -27,14 +27,14 @@ class CategoryMonthDetailViewModel(
     override fun getMonthDetail(): Job = intent {
         showLoading()
         val result = if (state.category.type == FinanceEnum.EXPENSE) {
-            getCategoryMonthDetailUseCase.getExpenseMonthDetail(
+            getCategoryMonthDetailUseCase(
                 GetExpenseMonthDetailUseCase.Params(
                     categoryEnum = state.category,
                     monthKey = state.monthKey
                 )
             )
         } else {
-            getIncomeMonthDetailUseCase.getIncomeMonthDetail(
+            getIncomeMonthDetailUseCase(
                 GetIncomeMonthDetailUseCase.Params(
                     monthKey = state.monthKey
                 )

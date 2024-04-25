@@ -41,7 +41,7 @@ class CreateViewModel(
     }
 
     private fun createExpense(): Job = intent {
-        val result = createExpenseUseCase.createExpense(
+        val result = createExpenseUseCase(
             CreateExpenseUseCase.Params(
                 amount = (state.amount * 100).toInt(),
                 note = state.note,
@@ -55,7 +55,7 @@ class CreateViewModel(
     }
 
     private fun createIncome(): Job = intent {
-        val result = createIncomeUseCase.createIncome(
+        val result = createIncomeUseCase(
             CreateIncomeUseCase.Params(
                 amount = (state.amount * 100).toInt(),
                 note = state.note,

@@ -24,7 +24,7 @@ class HomeViewModel(
     override fun getFinanceStatus(): Job = intent {
         showLoading()
         delay(200)
-        val result = getFinanceUseCase.getFinance(
+        val result = getFinanceUseCase(
             GetFinanceUseCase.Params(
                 monthKey = state.monthKey
             )

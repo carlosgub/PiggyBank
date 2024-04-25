@@ -84,7 +84,7 @@ class EditViewModel(
     }
 
     private fun editExpense(id: Long): Job = intent {
-        val result = editExpenseUseCase.editExpense(
+        val result = editExpenseUseCase(
             EditExpenseUseCase.Params(
                 amount = (state.amount * 100).toLong(),
                 note = state.note,
@@ -99,7 +99,7 @@ class EditViewModel(
     }
 
     private fun editIncome(id: Long): Job = intent {
-        val result = editIncomeUseCase.editIncome(
+        val result = editIncomeUseCase(
             EditIncomeUseCase.Params(
                 amount = (state.amount * 100).toLong(),
                 note = state.note,
@@ -125,7 +125,7 @@ class EditViewModel(
     }
 
     override fun delete(): Job = intent {
-        val result = deleteUseCase.delete(
+        val result = deleteUseCase(
             DeleteUseCase.Params(
                 financeEnum = state.financeEnum,
                 id = state.id,

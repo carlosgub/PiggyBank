@@ -8,7 +8,7 @@ import model.MonthDetailScreenModel
 class GetExpenseMonthDetailUseCase(
     private val financeRepository: FinanceRepository
 ) {
-    suspend fun getExpenseMonthDetail(params: Params): GenericState<MonthDetailScreenModel> =
+    suspend operator fun invoke(params: Params): GenericState<MonthDetailScreenModel> =
         financeRepository.getExpenseMonthDetail(
             categoryEnum = params.categoryEnum,
             monthKey = params.monthKey

@@ -7,7 +7,7 @@ import model.FinanceEnum
 class DeleteUseCase(
     private val financeRepository: FinanceRepository
 ) {
-    suspend fun delete(params: Params): GenericState<Unit> =
+    suspend operator fun invoke(params: Params): GenericState<Unit> =
         financeRepository.delete(
             financeEnum = params.financeEnum,
             id = params.id,

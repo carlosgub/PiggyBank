@@ -7,6 +7,6 @@ import kotlinx.datetime.LocalDateTime
 class GetMonthsUseCase(
     private val financeRepository: FinanceRepository
 ) {
-    suspend fun getMonths(): GenericState<Map<Int, List<LocalDateTime>>> =
+    suspend operator fun invoke(): GenericState<Map<Int, List<LocalDateTime>>> =
         financeRepository.getMonths()
 }

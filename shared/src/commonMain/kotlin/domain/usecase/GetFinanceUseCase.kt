@@ -7,7 +7,7 @@ import model.FinanceScreenModel
 class GetFinanceUseCase(
     private val financeRepository: FinanceRepository
 ) {
-    suspend fun getFinance(params: Params): GenericState<FinanceScreenModel> =
+    suspend operator fun invoke(params: Params): GenericState<FinanceScreenModel> =
         financeRepository.getFinance(params.monthKey)
 
     data class Params(

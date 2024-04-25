@@ -28,7 +28,7 @@ class MonthsViewModel(
     override fun getMonths(): Job = intent {
         showLoading()
         delay(200)
-        when (val result = getMonthsUseCase.getMonths()) {
+        when (val result = getMonthsUseCase()) {
             is GenericState.Success -> {
                 setMonths(result.data)
             }

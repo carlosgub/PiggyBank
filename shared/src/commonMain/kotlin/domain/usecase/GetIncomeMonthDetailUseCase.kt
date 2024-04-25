@@ -7,7 +7,7 @@ import model.MonthDetailScreenModel
 class GetIncomeMonthDetailUseCase(
     private val financeRepository: FinanceRepository
 ) {
-    suspend fun getIncomeMonthDetail(params: Params): GenericState<MonthDetailScreenModel> =
+    suspend operator fun invoke(params: Params): GenericState<MonthDetailScreenModel> =
         financeRepository.getIncomeMonthDetail(
             monthKey = params.monthKey
         )
