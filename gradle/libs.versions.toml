@@ -6,7 +6,6 @@ chartsVersion = "1.0.4"
 coreKtxVersion = "1.12.0"
 koinCoreVersion = "3.5.3"
 koinComposeVersion = "1.1.2"
-kotlinxSerializationJsonVersion = "1.6.0"
 precomposeVersion = "1.5.11"
 datetimeVersion = "0.5.0"
 kotlinStdlibVersion = "1.9.22"
@@ -31,7 +30,6 @@ precompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.re
 precompose-koin = { module = "moe.tlaster:precompose-koin", version.ref = "precomposeVersion" }
 
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetimeVersion" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJsonVersion" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-common", version.ref = "kotlinStdlibVersion" }
 
 delight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "delightVersion" }

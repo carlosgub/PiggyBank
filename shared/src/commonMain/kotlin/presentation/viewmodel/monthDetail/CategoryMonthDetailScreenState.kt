@@ -9,5 +9,5 @@ data class CategoryMonthDetailScreenState(
     val monthKey: String = "",
     val category: CategoryEnum = CategoryEnum.FOOD,
     val isInitialDataLoaded: Boolean = false,
-    val updateBackScreen:Boolean = false
+    val updateBackScreen: Boolean = false
 )

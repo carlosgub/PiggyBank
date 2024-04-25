@@ -1,14 +1,7 @@
 package model
 
 import kotlinx.datetime.LocalDateTime
-
-data class MonthDetailScreenModel(
-    val monthAmount: Long = 0L,
-    val daySpent: Map<LocalDateTime, Long> = mapOf(),
-    val expenseScreenModel: List<ExpenseScreenModel> = listOf()
-)
-
-data class ExpenseScreenModel(
+data class FinanceModel(
     val id: Long,
     val amount: Long,
     val note: String,

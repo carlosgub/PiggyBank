@@ -3,11 +3,13 @@ package data.source.database
 import core.network.ResponseResult
 import data.source.database.expense.createExpense
 import data.source.database.expense.deleteExpense
+import data.source.database.expense.getExpense
 import data.source.database.expense.getExpenseList
 import data.source.database.expense.getExpenseListPerCategory
 import data.source.database.expense.updateExpense
 import data.source.database.income.createIncome
 import data.source.database.income.deleteIncome
+import data.source.database.income.getIncome
 import data.source.database.income.getIncomeList
 import data.source.database.income.getIncomeListPerCategory
 import data.source.database.income.updateIncome
@@ -41,6 +43,24 @@ class DatabaseFinance(
     ): ResponseResult<List<Income>> =
         try {
             ResponseResult.Success(sharedDatabase().getIncomeList(monthKey))
+        } catch (e: Exception) {
+            ResponseResult.Error(e)
+        }
+
+    suspend fun getExpense(
+        id: Long
+    ): ResponseResult<Expense> =
+        try {
+            ResponseResult.Success(sharedDatabase().getExpense(id))
+        } catch (e: Exception) {
+            ResponseResult.Error(e)
+        }
+
+    suspend fun getIncome(
+        id: Long
+    ): ResponseResult<Income> =
+        try {
+            ResponseResult.Success(sharedDatabase().getIncome(id))
         } catch (e: Exception) {
             ResponseResult.Error(e)
         }

@@ -24,7 +24,6 @@ class CreateViewModel(
     val createIncomeUseCase: CreateIncomeUseCase
 ) : ViewModel(), ContainerHost<CreateScreenState, GenericState<Unit>>, CreateScreenIntents {
 
-
     override fun create(financeEnum: FinanceEnum): Job = intent {
         when {
             state.amount <= 0 -> showError(true)
@@ -36,7 +35,6 @@ class CreateViewModel(
             }
         }
     }
-
 
     private fun showLoading(): Job = intent {
         reduce { state.copy(showLoading = true) }
@@ -77,8 +75,8 @@ class CreateViewModel(
         reduce { state.copy(dateInMillis = date) }
         val localDate = date.toLocalDate()
         val dateFormat = "${localDate.dayOfMonth.toNumberOfTwoDigits()}/" +
-                "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
-                "${localDate.year}"
+            "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
+            "${localDate.year}"
         reduce { state.copy(date = dateFormat) }
     }
 

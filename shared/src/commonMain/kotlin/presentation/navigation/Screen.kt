@@ -1,40 +1,34 @@
 package presentation.navigation
 
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import model.CategoryMonthDetailArgs
-import model.CreateArgs
-import model.EditArgs
-import model.HomeArgs
-
 sealed class Screen(val route: String) {
-    object Home : Screen("Home/{${NavArgs.HomeArgs.key}}") {
-        fun createRoute(homeArgs: HomeArgs) =
-            "Home/${Json.encodeToString(homeArgs)}"
+    object Home : Screen("Home/{${NavArgs.MONTH_KEY.key}}") {
+        fun createRoute(monthKey: String) =
+            "Home/$monthKey"
     }
 
-    object CreateScreen : Screen("CreateScreen/{${NavArgs.CreateArgs.key}}") {
-        fun createRoute(createArgs: CreateArgs) =
-            "CreateScreen/${Json.encodeToString(createArgs)}"
+    object CreateScreen : Screen("CreateScreen/{${NavArgs.FINANCE_NAME.key}}") {
+        fun createRoute(financeName: String) =
+            "CreateScreen/$financeName"
     }
 
-    object EditScreen : Screen("EditScreen/{${NavArgs.EditArgs.key}}") {
-        fun createRoute(editArgs: EditArgs) =
-            "EditScreen/${Json.encodeToString(editArgs)}"
+    object EditScreen :
+        Screen("EditScreen/{${NavArgs.ID.key}}/{${NavArgs.FINANCE_NAME.key}}") {
+        fun createRoute(id: Long, financeName: String) =
+            "EditScreen/$id/$financeName"
     }
 
     object MonthsScreen : Screen("MonthsScreen")
 
     object CategoryMonthDetailScreen :
-        Screen("CategoryMonthDetailScreen/{${NavArgs.CategoryMonthDetailArgs.key}}") {
-        fun createRoute(categoryMonthDetailArgs: CategoryMonthDetailArgs) =
-            "CategoryMonthDetailScreen/${Json.encodeToString(categoryMonthDetailArgs)}"
+        Screen("CategoryMonthDetailScreen/{${NavArgs.MONTH_KEY.key}}/{${NavArgs.CATEGORY_NAME.key}}") {
+        fun createRoute(monthKey: String, categoryName: String) =
+            "CategoryMonthDetailScreen/$monthKey/$categoryName"
     }
 }
 
 enum class NavArgs(val key: String) {
-    CategoryMonthDetailArgs("CategoryMonthDetailArgs"),
-    HomeArgs("HomeArgs"),
-    CreateArgs("CreateArgs"),
-    EditArgs("EditArgs")
+    ID("id"),
+    MONTH_KEY("monthKey"),
+    FINANCE_NAME("financeName"),
+    CATEGORY_NAME("categoryName")
 }

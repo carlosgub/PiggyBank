@@ -8,7 +8,6 @@ import core.navigation.LocalNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import model.CategoryMonthDetailArgs
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import presentation.screen.categorymonthdetail.content.CategoryMonthDetailContent
@@ -18,12 +17,13 @@ import utils.views.Toolbar
 
 @Composable
 fun CategoryMonthDetailScreen(
-    args: CategoryMonthDetailArgs
+    monthKey: String,
+    categoryName: String
 ) {
     val navigator = LocalNavController.current
     val viewModel = koinViewModel(vmClass = CategoryMonthDetailViewModel::class)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
-    viewModel.setInitialConfiguration(args)
+    viewModel.setInitialConfiguration(monthKey = monthKey, category = categoryName)
     val scope = CoroutineScope(Dispatchers.Main)
     Scaffold(
         topBar = {

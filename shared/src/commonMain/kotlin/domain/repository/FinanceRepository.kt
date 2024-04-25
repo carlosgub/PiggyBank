@@ -4,11 +4,17 @@ import core.sealed.GenericState
 import kotlinx.datetime.LocalDateTime
 import model.CategoryEnum
 import model.FinanceEnum
+import model.FinanceModel
 import model.FinanceScreenModel
 import model.MonthDetailScreenModel
 
 interface FinanceRepository {
     suspend fun getFinance(monthKey: String): GenericState<FinanceScreenModel>
+    suspend fun getOneFinance(
+        id: Long,
+        financeEnum: FinanceEnum
+    ): GenericState<FinanceModel>
+
     suspend fun createExpense(
         amount: Int,
         category: String,

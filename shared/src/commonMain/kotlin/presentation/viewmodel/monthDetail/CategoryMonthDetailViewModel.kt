@@ -4,7 +4,6 @@ import core.sealed.GenericState
 import domain.usecase.GetExpenseMonthDetailUseCase
 import domain.usecase.GetIncomeMonthDetailUseCase
 import kotlinx.coroutines.Job
-import model.CategoryMonthDetailArgs
 import model.ExpenseScreenModel
 import model.FinanceEnum
 import model.MonthDetailScreenModel
@@ -59,11 +58,14 @@ class CategoryMonthDetailViewModel(
         }
     }
 
-    override fun setInitialConfiguration(args: CategoryMonthDetailArgs): Job = intent {
+    override fun setInitialConfiguration(
+        monthKey: String,
+        category: String
+    ): Job = intent {
         reduce {
             state.copy(
-                monthKey = args.month,
-                category = getCategoryEnumFromName(args.category)
+                monthKey = monthKey,
+                category = getCategoryEnumFromName(category)
             )
         }
         getMonthDetail()

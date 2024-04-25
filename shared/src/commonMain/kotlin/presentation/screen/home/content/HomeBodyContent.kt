@@ -226,7 +226,6 @@ private fun CardMonthFinanceTabContent(
     state: HomeScreenState,
     intents: HomeScreenIntents
 ) {
-
     when (tabIndex) {
         FinanceEnum.EXPENSE -> {
             CardMonthFinanceCategoryContent(
@@ -260,7 +259,9 @@ fun CardMonthFinanceCategoryContent(
             ) {
                 itemsIndexed(expenses) { count, expense ->
                     FinanceCategoryItem(
-                        count = count, intents = intents, expense = expense
+                        count = count,
+                        intents = intents,
+                        expense = expense
                     )
                 }
             }

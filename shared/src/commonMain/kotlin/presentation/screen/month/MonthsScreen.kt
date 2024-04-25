@@ -8,7 +8,6 @@ import core.navigation.LocalNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import model.HomeArgs
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import presentation.screen.month.content.MonthsContent
@@ -36,9 +35,7 @@ fun MonthsScreen() {
             paddingValues = paddingValues,
             onMonthClicked = { monthKey ->
                 viewModel.navigateToMonthDetail(
-                    homeArgs = HomeArgs(
-                        monthKey = monthKey
-                    )
+                    monthKey = monthKey
                 )
             }
         )

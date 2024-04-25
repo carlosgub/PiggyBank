@@ -20,5 +20,4 @@ class SharedDatabase(
     }
 
     private fun SqlDriver.createDatabase(): Database = Database(this)
-
 }

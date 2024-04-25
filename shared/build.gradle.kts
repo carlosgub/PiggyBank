@@ -3,7 +3,6 @@ plugins {
     kotlin("native.cocoapods")
     id("com.android.library")
     id("org.jetbrains.compose")
-    kotlin("plugin.serialization") version "1.9.0"
     id("app.cash.sqldelight") version "2.0.1"
     id("org.jlleitschuh.gradle.ktlint")
 }
@@ -47,7 +46,6 @@ kotlin {
                 implementation(compose.materialIconsExtended)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
-                implementation(libs.kotlinx.serialization.json)
                 api(libs.koin.core)
                 implementation(libs.koin.compose)
                 api(libs.bundles.precompose)

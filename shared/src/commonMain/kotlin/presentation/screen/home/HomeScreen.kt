@@ -12,28 +12,28 @@ import core.navigation.LocalNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import model.HomeArgs
 import model.MenuItem
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import presentation.screen.home.content.HomeContent
 import presentation.screen.home.content.homeObserver
 import presentation.viewmodel.home.HomeViewModel
+import utils.getCurrentMonthKey
 import utils.views.Toolbar
 
 @Composable
 fun HomeScreen(
-    args: HomeArgs
+    monthKey: String
 ) {
     val navigator = LocalNavController.current
     val viewModel = koinViewModel(vmClass = HomeViewModel::class)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
-    viewModel.setMonthKey(args.monthKey)
+    viewModel.setMonthKey(monthKey)
     val scope = CoroutineScope(Dispatchers.Main)
     Scaffold(
         topBar = {
             HomeToolbar(
-                showLeftIcon = args.showLeftIcon,
+                showLeftIcon = monthKey == getCurrentMonthKey(),
                 onAddExpensePressed = {
                     viewModel.navigateToAddExpense()
                 },

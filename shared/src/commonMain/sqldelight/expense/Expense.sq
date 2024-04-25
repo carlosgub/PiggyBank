@@ -19,6 +19,10 @@ getExpensePerCategoryList:
     WHERE month = ? AND category = ?
     ORDER BY id DESC;
 
+getExpense:
+    SELECT id,amount,note,category,month,dateInMillis FROM Expense
+    WHERE id = ?;
+
 delete:
     DELETE FROM Expense
     WHERE id = ?;

@@ -29,6 +29,10 @@ insert:
     INSERT INTO Income
     VALUES(? , ?,  ?, ?,?,?);
 
+getIncome:
+    SELECT id,amount,note,category,month,dateInMillis FROM Income
+    WHERE id = ?;
+
 updateIncome {
     INSERT OR REPLACE INTO Income(id,amount,note,category,month,dateInMillis)
     VALUES(:id, :amount,  :note, :category,:month,:dateInMillis);
