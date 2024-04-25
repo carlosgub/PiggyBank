@@ -2,7 +2,6 @@ package presentation.screen.home.content
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import model.CategoryMonthDetailArgs
 import model.FinanceEnum
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
@@ -32,11 +31,11 @@ fun homeObserver(
         )
 
         is HomeScreenSideEffect.NavigateToMonthDetail -> navigateMonthDetailScreen(
-            coroutine,
-            navigator,
-            intents,
-            sideEffect.financeScreenExpenses.category.name,
-            state.monthKey
+            coroutine = coroutine,
+            navigator = navigator,
+            intents = intents,
+            categoryName = sideEffect.financeScreenExpenses.category.name,
+            monthKey = state.monthKey
         )
 
         HomeScreenSideEffect.NavigateToMonths -> navigator.navigate(Screen.MonthsScreen.route)
@@ -81,16 +80,14 @@ private fun navigateMonthDetailScreen(
     coroutine: CoroutineScope,
     navigator: Navigator,
     intents: HomeScreenIntents,
-    category: String,
+    categoryName: String,
     monthKey: String
 ) {
     coroutine.launch {
         val result = navigator.navigateForResult(
             Screen.CategoryMonthDetailScreen.createRoute(
-                CategoryMonthDetailArgs(
-                    category = category,
-                    month = monthKey
-                )
+                monthKey = monthKey,
+                categoryName = categoryName
             )
         )
         if (result as Boolean) {

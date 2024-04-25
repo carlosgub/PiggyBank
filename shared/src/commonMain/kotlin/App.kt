@@ -1,10 +1,8 @@
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.graphics.Color
 import core.navigation.LocalNavController
-import kotlinx.serialization.json.Json
-import model.CategoryMonthDetailArgs
 import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.path
@@ -34,21 +32,21 @@ fun App() {
                     )
                 ) {
                     scene(route = Screen.Home.route) { backStackEntry ->
-                        val monthKey: String = backStackEntry.path<String>(NavArgs.HomeArgs.key)!!
+                        val monthKey: String = backStackEntry.path<String>(NavArgs.MONTH_KEY.key)!!
                         HomeScreen(
                             monthKey = monthKey
                         )
                     }
                     scene(route = Screen.CreateScreen.route) { backStackEntry ->
                         val financeName: String =
-                            backStackEntry.path<String>(NavArgs.CreateArgs.key)!!
+                            backStackEntry.path<String>(NavArgs.FINANCE_NAME.key)!!
                         CreateScreen(
                             financeName = financeName
                         )
                     }
                     scene(route = Screen.EditScreen.route) { backStackEntry ->
-                        val id = backStackEntry.path<Long>(NavArgs.EditId.key)!!
-                        val financeName = backStackEntry.path<String>(NavArgs.EditFinanceName.key)!!
+                        val id = backStackEntry.path<Long>(NavArgs.ID.key)!!
+                        val financeName = backStackEntry.path<String>(NavArgs.FINANCE_NAME.key)!!
                         EditScreen(
                             id = id,
                             financeName = financeName
@@ -58,10 +56,13 @@ fun App() {
                         MonthsScreen()
                     }
                     scene(route = Screen.CategoryMonthDetailScreen.route) { backStackEntry ->
-                        val args: CategoryMonthDetailArgs =
-                            Json.decodeFromString(backStackEntry.path<String>(NavArgs.CategoryMonthDetailArgs.key)!!)
+                        val monthKey =
+                            backStackEntry.path<String>(NavArgs.MONTH_KEY.key)!!
+                        val categoryName =
+                            backStackEntry.path<String>(NavArgs.CATEGORY_NAME.key)!!
                         CategoryMonthDetailScreen(
-                            args = args
+                            monthKey = monthKey,
+                            categoryName = categoryName
                         )
                     }
                 }

@@ -2,9 +2,7 @@ package model
 
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
-import kotlinx.serialization.Serializable
 
-@Serializable
 data class FinanceScreenModel(
     val month: Month = Month.JANUARY,
     val expenseAmount: Long = 0L,
@@ -14,7 +12,6 @@ data class FinanceScreenModel(
     val daySpent: Map<LocalDateTime, Long> = mapOf()
 )
 
-@Serializable
 data class FinanceScreenExpenses(
     val category: CategoryEnum,
     val amount: Long,
@@ -22,7 +19,6 @@ data class FinanceScreenExpenses(
     val percentage: Int
 )
 
-@Serializable
 data class MonthExpense(
     val incomeTotal: Double = 0.0,
     val percentage: Long = 0L
