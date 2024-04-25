@@ -31,7 +31,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -176,7 +175,7 @@ private fun CardMonthFinanceContent(
                 .fillMaxSize()
                 .padding(start = spacing_6, top = spacing_6, end = spacing_6)
         ) {
-            var tabIndex by remember { mutableStateOf(FinanceEnum.EXPENSE) }
+            var tabIndex by rememberSaveable { mutableStateOf(FinanceEnum.EXPENSE) }
             CardMonthFinanceTabRow(
                 tabs = tabs,
                 tabIndex = tabIndex,
