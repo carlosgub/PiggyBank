@@ -16,7 +16,8 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 
 class MonthsViewModel(
     private val getMonthsUseCase: GetMonthsUseCase
-) : ViewModel(), ContainerHost<MonthsScreenState, MonthsScreenSideEffect>,
+) : ViewModel(),
+    ContainerHost<MonthsScreenState, MonthsScreenSideEffect>,
     MonthsScreenIntents {
 
     override val container: Container<MonthsScreenState, MonthsScreenSideEffect> =

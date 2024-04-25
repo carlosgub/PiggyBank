@@ -17,7 +17,8 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 
 class HomeViewModel(
     private val getFinanceUseCase: GetFinanceUseCase
-) : ViewModel(), ContainerHost<HomeScreenState, HomeScreenSideEffect>,
+) : ViewModel(),
+    ContainerHost<HomeScreenState, HomeScreenSideEffect>,
     HomeScreenIntents {
 
     override fun getFinanceStatus(): Job = intent {

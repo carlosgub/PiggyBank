@@ -195,7 +195,7 @@ private fun HomeHeaderSecondPage(
             contentColor = Color.White,
             modifier = Modifier
                 .fillMaxSize(),
-            onOverlayData = {data ->
+            onOverlayData = { data ->
                 overlayData = data
             }
         )
@@ -222,7 +222,7 @@ private fun OverlayData(
                 targetState = overlayData,
                 transitionSpec = {
                     fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith
-                            fadeOut(animationSpec = tween(durationMillis = 300))
+                        fadeOut(animationSpec = tween(durationMillis = 300))
                 },
                 contentAlignment = Alignment.Center
             ) { overlayData ->

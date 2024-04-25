@@ -9,9 +9,6 @@ import kotlinx.datetime.number
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import model.FinanceEnum
-import org.koin.core.parameter.ParametersDefinition
-import org.koin.core.qualifier.Qualifier
-import org.koin.mp.KoinPlatformTools
 import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.pow

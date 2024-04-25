@@ -4,7 +4,6 @@ import core.sealed.GenericState
 import domain.usecase.DeleteUseCase
 import domain.usecase.EditExpenseUseCase
 import domain.usecase.EditIncomeUseCase
-import domain.usecase.GetFinanceUseCase
 import domain.usecase.GetOneFinanceUseCase
 import kotlinx.coroutines.Job
 import model.CategoryEnum
@@ -39,8 +38,8 @@ class EditViewModel(
         reduce { state.copy(dateInMillis = date) }
         val localDate = date.toLocalDate()
         val dateFormat = "${localDate.dayOfMonth.toNumberOfTwoDigits()}/" +
-                "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
-                "${localDate.year}"
+            "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
+            "${localDate.year}"
         reduce { state.copy(date = dateFormat) }
     }
 
@@ -146,7 +145,8 @@ class EditViewModel(
     ): Job = intent {
         val result = getOneFinanceUseCase(
             GetOneFinanceUseCase.Params(
-                id = id, financeEnum = financeEnum
+                id = id,
+                financeEnum = financeEnum
             )
         )
         if (result is GenericState.Success) {

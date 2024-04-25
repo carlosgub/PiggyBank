@@ -4,7 +4,6 @@ import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
 import presentation.viewmodel.months.MonthsScreenSideEffect
 
-
 fun monthsObserver(
     sideEffect: MonthsScreenSideEffect,
     navigator: Navigator

@@ -17,10 +17,10 @@ import domain.usecase.GetOneFinanceUseCase
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
-import presentation.viewmodel.monthDetail.CategoryMonthDetailViewModel
 import presentation.viewmodel.create.CreateViewModel
 import presentation.viewmodel.edit.EditViewModel
 import presentation.viewmodel.home.HomeViewModel
+import presentation.viewmodel.monthDetail.CategoryMonthDetailViewModel
 import presentation.viewmodel.months.MonthsViewModel
 
 val homeModule = module {

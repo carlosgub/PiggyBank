@@ -9,7 +9,6 @@ import presentation.viewmodel.home.HomeScreenIntents
 import presentation.viewmodel.home.HomeScreenSideEffect
 import presentation.viewmodel.home.HomeScreenState
 
-
 fun homeObserver(
     coroutine: CoroutineScope,
     sideEffect: HomeScreenSideEffect,

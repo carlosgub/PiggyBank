@@ -4,7 +4,6 @@ import core.sealed.GenericState
 import domain.repository.FinanceRepository
 import model.FinanceEnum
 import model.FinanceModel
-import model.FinanceScreenModel
 
 class GetOneFinanceUseCase(
     private val financeRepository: FinanceRepository

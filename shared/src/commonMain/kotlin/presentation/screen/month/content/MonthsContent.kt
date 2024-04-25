@@ -80,12 +80,12 @@ private fun MonthsScreenSuccessContent(
         enter = slideInHorizontally(
             initialOffsetX = {
                 it
-            },
+            }
         ),
         exit = slideOutHorizontally(
             targetOffsetX = {
                 0
-            },
+            }
         ),
         modifier = Modifier.fillMaxSize()
     ) {

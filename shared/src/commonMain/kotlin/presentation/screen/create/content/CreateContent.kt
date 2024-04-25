@@ -82,7 +82,8 @@ fun CreateContent(
             modifier = Modifier.weight(1.0f)
         )
         CreateButton(
-            financeEnum = financeEnum, intents = intents
+            financeEnum = financeEnum,
+            intents = intents
         )
     }
 }
