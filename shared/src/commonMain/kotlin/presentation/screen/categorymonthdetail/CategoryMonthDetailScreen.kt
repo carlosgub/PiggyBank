@@ -30,7 +30,7 @@ fun CategoryMonthDetailScreen(
             ExpenseMonthDetailToolbar(
                 category = state.category.categoryName,
                 onBack = {
-                    navigator.goBackWith(state.updateBackScreen)
+                    navigator.popBackStack()
                 }
             )
         }
@@ -47,9 +47,7 @@ fun CategoryMonthDetailScreen(
         viewModel.container.sideEffectFlow.collect { sideEffect ->
             categoryMonthDetailObserver(
                 sideEffect = sideEffect,
-                navigator = navigator,
-                intents = viewModel,
-                coroutine = this
+                navigator = navigator
             )
         }
     }

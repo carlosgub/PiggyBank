@@ -10,37 +10,25 @@ import presentation.viewmodel.monthDetail.CategoryMonthDetailScreenSideEffect
 import utils.getCategoryEnumFromName
 
 fun categoryMonthDetailObserver(
-    coroutine: CoroutineScope,
     sideEffect: CategoryMonthDetailScreenSideEffect,
     navigator: Navigator,
-    intents: CategoryMonthDetailScreenIntents
 ) {
     when (sideEffect) {
         is CategoryMonthDetailScreenSideEffect.NavigateToMonthDetail -> navigateToEditScreen(
-            coroutine = coroutine,
             navigator = navigator,
             expenseScreenModel = sideEffect.expenseScreenModel,
-            intents = intents
         )
     }
 }
 
 private fun navigateToEditScreen(
-    coroutine: CoroutineScope,
     navigator: Navigator,
-    expenseScreenModel: ExpenseScreenModel,
-    intents: CategoryMonthDetailScreenIntents
+    expenseScreenModel: ExpenseScreenModel
 ) {
-    coroutine.launch {
-        val result = navigator.navigateForResult(
-            Screen.EditScreen.createRoute(
-                id = expenseScreenModel.id,
-                financeName = getCategoryEnumFromName(name = expenseScreenModel.category).type.name
-            )
+    navigator.navigate(
+        Screen.EditScreen.createRoute(
+            id = expenseScreenModel.id,
+            financeName = getCategoryEnumFromName(name = expenseScreenModel.category).type.name
         )
-        if (result as Boolean) {
-            intents.updateBackScreen()
-            intents.getMonthDetail()
-        }
-    }
+    )
 }

@@ -19,6 +19,11 @@ import data.source.database.month.getMonthList
 import data.sqldelight.SharedDatabase
 import expense.Expense
 import income.Income
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.isActive
 import kotlinx.datetime.LocalDate
 import model.CategoryEnum
 import model.FinanceEnum
@@ -31,21 +36,31 @@ class DatabaseFinance(
 ) {
     suspend fun getAllMonthExpenses(
         monthKey: String
-    ): ResponseResult<List<Expense>> =
+    ): Flow<ResponseResult<List<Expense>>> = flow {
         try {
-            ResponseResult.Success(sharedDatabase().getExpenseList(monthKey))
+            sharedDatabase().getExpenseList(monthKey).collect {
+                emit(ResponseResult.Success(it))
+            }
         } catch (e: Exception) {
-            ResponseResult.Error(e)
+            emit(ResponseResult.Error(e))
         }
+    }
+
 
     suspend fun getAllMonthIncome(
         monthKey: String
-    ): ResponseResult<List<Income>> =
-        try {
-            ResponseResult.Success(sharedDatabase().getIncomeList(monthKey))
-        } catch (e: Exception) {
-            ResponseResult.Error(e)
+    ): Flow<ResponseResult<List<Income>>> = flow {
+        if (currentCoroutineContext().isActive) {
+            try {
+                sharedDatabase().getIncomeList(monthKey).collect {
+                    emit(ResponseResult.Success(it))
+                }
+            } catch (e: Exception) {
+                emit(ResponseResult.Error(e))
+            }
         }
+    }
+
 
     suspend fun getExpense(
         id: Long
@@ -121,29 +136,34 @@ class DatabaseFinance(
     suspend fun getExpenseMonthDetail(
         categoryEnum: CategoryEnum,
         monthKey: String
-    ): ResponseResult<List<Expense>> =
+    ): Flow<ResponseResult<List<Expense>>> = flow {
         try {
-            val list = sharedDatabase().getExpenseListPerCategory(
+            sharedDatabase().getExpenseListPerCategory(
                 month = monthKey,
                 category = categoryEnum.name
-            )
-            ResponseResult.Success(list)
+            ).collect { list ->
+                emit(ResponseResult.Success(list))
+            }
         } catch (e: Exception) {
-            ResponseResult.Error(e)
+            emit(ResponseResult.Error(e))
         }
+    }
 
     suspend fun getIncomeMonthDetail(
         monthKey: String
-    ): ResponseResult<List<Income>> =
+    ): Flow<ResponseResult<List<Income>>> = flow {
         try {
-            val list = sharedDatabase().getIncomeListPerCategory(
+            sharedDatabase().getIncomeListPerCategory(
                 month = monthKey,
                 category = CategoryEnum.WORK.name
-            )
-            ResponseResult.Success(list)
+            ).collect { list ->
+                emit(ResponseResult.Success(list))
+            }
         } catch (e: Exception) {
-            ResponseResult.Error(e)
+            emit(ResponseResult.Error(e))
         }
+    }
+
 
     suspend fun editExpense(
         amount: Long,
@@ -209,8 +229,8 @@ class DatabaseFinance(
                     id = id
                 )
             }
-            val expenses = sharedDatabase().getExpenseList(monthKey)
-            val income = sharedDatabase().getIncomeList(monthKey)
+            val expenses = sharedDatabase().getExpenseList(monthKey).first()
+            val income = sharedDatabase().getIncomeList(monthKey).first()
             if (expenses.isEmpty() && income.isEmpty()) {
                 sharedDatabase().deleteMonth(monthKey)
             }
@@ -219,17 +239,23 @@ class DatabaseFinance(
             ResponseResult.Error(e)
         }
 
-    suspend fun getMonths(): ResponseResult<List<MonthModel>> =
+    suspend fun getMonths(): Flow<ResponseResult<List<MonthModel>>> = flow {
         try {
-            val list = sharedDatabase().getMonthList().map { monthKey ->
-                MonthModel(
-                    id = monthKey,
-                    month = monthKey.take(2),
-                    year = monthKey.takeLast(4)
-                )
-            }.sortedByDescending { it.month }
-            ResponseResult.Success(list)
+            sharedDatabase().getMonthList()
+                .collect { listMonth ->
+                    val list = listMonth.map { monthKey ->
+                        MonthModel(
+                            id = monthKey,
+                            month = monthKey.take(2),
+                            year = monthKey.takeLast(4)
+                        )
+                    }.sortedByDescending { it.month }
+                    emit(ResponseResult.Success(list))
+                }
+
         } catch (e: Exception) {
-            ResponseResult.Error(e)
+            emit(ResponseResult.Error(e))
         }
+    }
+
 }

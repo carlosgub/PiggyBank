@@ -1,6 +1,7 @@
 package domain.repository
 
 import core.sealed.GenericState
+import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDateTime
 import model.CategoryEnum
 import model.FinanceEnum
@@ -9,7 +10,7 @@ import model.FinanceScreenModel
 import model.MonthDetailScreenModel
 
 interface FinanceRepository {
-    suspend fun getFinance(monthKey: String): GenericState<FinanceScreenModel>
+    suspend fun getFinance(monthKey: String): Flow<GenericState<FinanceScreenModel>>
     suspend fun getOneFinance(
         id: Long,
         financeEnum: FinanceEnum
@@ -52,11 +53,11 @@ interface FinanceRepository {
     suspend fun getExpenseMonthDetail(
         categoryEnum: CategoryEnum,
         monthKey: String
-    ): GenericState<MonthDetailScreenModel>
+    ): Flow<GenericState<MonthDetailScreenModel>>
 
     suspend fun getIncomeMonthDetail(
         monthKey: String
-    ): GenericState<MonthDetailScreenModel>
+    ): Flow<GenericState<MonthDetailScreenModel>>
 
-    suspend fun getMonths(): GenericState<Map<Int, List<LocalDateTime>>>
+    suspend fun getMonths(): Flow<GenericState<Map<Int, List<LocalDateTime>>>>
 }

@@ -12,7 +12,7 @@ fun createObserver(
         }
 
         is GenericState.Success -> {
-            navigator.goBackWith(true)
+            navigator.popBackStack()
         }
     }
 }

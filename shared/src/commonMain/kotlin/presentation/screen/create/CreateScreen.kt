@@ -41,7 +41,7 @@ fun CreateScreen(
             CreateToolbar(
                 financeEnum = financeEnum,
                 onBack = {
-                    navigator.goBackWith(false)
+                    navigator.popBackStack()
                 }
             )
         }

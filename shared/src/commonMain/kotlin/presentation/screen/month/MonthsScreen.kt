@@ -25,7 +25,7 @@ fun MonthsScreen() {
         topBar = {
             MonthsToolbar(
                 onBack = {
-                    navigator.goBack()
+                    navigator.popBackStack()
                 }
             )
         }

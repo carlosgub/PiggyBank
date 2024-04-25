@@ -11,5 +11,4 @@ interface CategoryMonthDetailScreenIntents {
 
     fun getMonthDetail(): Job
     fun navigateToEditExpense(expenseScreenModel: ExpenseScreenModel): Job
-    fun updateBackScreen(): Job
 }

@@ -53,6 +53,7 @@ kotlin {
                 implementation(libs.kotlin.stdlib)
                 implementation(libs.charts)
                 api(libs.orbit.core)
+                implementation(libs.delight.extension)
             }
         }
         val androidMain by getting {

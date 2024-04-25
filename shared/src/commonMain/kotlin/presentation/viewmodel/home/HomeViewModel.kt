@@ -24,15 +24,17 @@ class HomeViewModel(
     override fun getFinanceStatus(): Job = intent {
         showLoading()
         delay(200)
-        val result = getFinanceUseCase(
+        getFinanceUseCase(
             GetFinanceUseCase.Params(
                 monthKey = state.monthKey
             )
-        )
-        when (result) {
-            is GenericState.Success -> setFinance(result.data)
-            else -> Unit
+        ).collect { result ->
+            when (result) {
+                is GenericState.Success -> setFinance(result.data)
+                else -> Unit
+            }
         }
+
     }
 
     override val container: Container<HomeScreenState, HomeScreenSideEffect> =

@@ -34,6 +34,7 @@ kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-common", version.
 
 delight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "delightVersion" }
 delight-ios = { module = "app.cash.sqldelight:native-driver", version.ref = "delightVersion" }
+delight-extension = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "delightVersion" }
 
 orbit_core = { module = "org.orbit-mvi:orbit-core", version.ref = "orbit" }
 

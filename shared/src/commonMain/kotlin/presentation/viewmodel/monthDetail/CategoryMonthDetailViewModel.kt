@@ -32,30 +32,29 @@ class CategoryMonthDetailViewModel(
                     categoryEnum = state.category,
                     monthKey = state.monthKey
                 )
-            )
+            ).collect{ result ->
+                when (result) {
+                    is GenericState.Success -> setMonthDetailScreenModel(result.data)
+                    else -> Unit
+                }
+            }
         } else {
             getIncomeMonthDetailUseCase(
                 GetIncomeMonthDetailUseCase.Params(
                     monthKey = state.monthKey
                 )
-            )
+            ).collect{ result ->
+                when (result) {
+                    is GenericState.Success -> setMonthDetailScreenModel(result.data)
+                    else -> Unit
+                }
+            }
         }
-        when (result) {
-            is GenericState.Success -> setMonthDetailScreenModel(result.data)
-            else -> Unit
-        }
+
     }
 
     override fun navigateToEditExpense(expenseScreenModel: ExpenseScreenModel): Job = intent {
         postSideEffect(CategoryMonthDetailScreenSideEffect.NavigateToMonthDetail(expenseScreenModel))
-    }
-
-    override fun updateBackScreen(): Job = intent {
-        reduce {
-            state.copy(
-                updateBackScreen = true
-            )
-        }
     }
 
     override fun setInitialConfiguration(

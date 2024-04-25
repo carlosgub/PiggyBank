@@ -8,7 +8,7 @@ fun editObserver(
     navigator: Navigator
 ) {
     when (sideEffect) {
-        is GenericState.Success -> navigator.goBackWith(true)
+        is GenericState.Success -> navigator.popBackStack()
         else -> Unit
     }
 }

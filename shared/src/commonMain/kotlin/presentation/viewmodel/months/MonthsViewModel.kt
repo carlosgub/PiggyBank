@@ -28,13 +28,17 @@ class MonthsViewModel(
     override fun getMonths(): Job = intent {
         showLoading()
         delay(200)
-        when (val result = getMonthsUseCase()) {
-            is GenericState.Success -> {
-                setMonths(result.data)
+        getMonthsUseCase()
+            .collect { result ->
+                when (result) {
+                    is GenericState.Success -> {
+                        setMonths(result.data)
+                    }
+
+                    else -> Unit
+                }
             }
 
-            else -> Unit
-        }
     }
 
     override fun navigateToMonthDetail(monthKey: String): Job = intent {

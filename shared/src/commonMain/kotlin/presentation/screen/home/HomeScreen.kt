@@ -44,7 +44,7 @@ fun HomeScreen(
                     viewModel.navigateToMonths()
                 },
                 onBack = {
-                    navigator.goBack()
+                    navigator.popBackStack()
                 }
             )
         }
@@ -60,9 +60,7 @@ fun HomeScreen(
             homeObserver(
                 sideEffect = sideEffect,
                 navigator = navigator,
-                intents = viewModel,
                 state = state,
-                coroutine = this
             )
         }
     }

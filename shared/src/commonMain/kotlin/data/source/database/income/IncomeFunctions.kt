@@ -1,18 +1,23 @@
 package data.source.database.income
 
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import com.carlosgub.myfinance.app.Database
 import income.Income
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.Flow
 
-suspend fun Database.getIncomeList(month: String): List<Income> {
-    return incomeQueries.getIncomeList(month).executeAsList()
-}
+fun Database.getIncomeList(month: String): Flow<List<Income>> =
+    incomeQueries.getIncomeList(month).asFlow().mapToList(Dispatchers.IO)
 
 fun Database.getIncome(id: Long): Income {
     return incomeQueries.getIncome(id).executeAsOne()
 }
 
-fun Database.getIncomeListPerCategory(month: String, category: String): List<Income> {
-    return incomeQueries.getIncomePerCategoryList(month, category).executeAsList()
+fun Database.getIncomeListPerCategory(month: String, category: String): Flow<List<Income>> {
+    return incomeQueries.getIncomePerCategoryList(month, category).asFlow()
+        .mapToList(Dispatchers.IO)
 }
 
 suspend fun Database.createIncome(income: Income) {
