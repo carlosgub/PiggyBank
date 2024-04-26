@@ -1,4 +1,4 @@
-package presentation.screen.create
+package presentation.screen.createincome
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -9,28 +9,23 @@ import core.navigation.LocalNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import model.FinanceEnum
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import org.koin.compose.koinInject
-import presentation.screen.create.content.CreateContent
-import presentation.screen.create.content.createObserver
-import presentation.viewmodel.create.CreateViewModel
-import utils.getFinanceEnumFromName
-import utils.isExpense
+import presentation.screen.createincome.content.CreateIncomeContent
+import presentation.screen.createincome.content.createIncomeObserver
+import presentation.viewmodel.createincome.CreateIncomeViewModel
 import utils.views.Toolbar
 
 @Composable
-fun CreateScreen(
-    viewModel: CreateViewModel = koinInject(),
-    financeName: String
+fun CreateIncomeScreen(
+    viewModel: CreateIncomeViewModel = koinInject()
 ) {
     val navigator = LocalNavController.current
     val scope = CoroutineScope(Dispatchers.Main)
     val createScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
-    val financeEnum = getFinanceEnumFromName(financeName)
     scope.launch {
         viewModel.container.sideEffectFlow.collect { sideEffect ->
-            createObserver(
+            createIncomeObserver(
                 sideEffect = sideEffect,
                 navigator = navigator
             )
@@ -38,18 +33,16 @@ fun CreateScreen(
     }
     Scaffold(
         topBar = {
-            CreateToolbar(
-                financeEnum = financeEnum,
+            CreateIncomeToolbar(
                 onBack = {
                     navigator.popBackStack()
                 }
             )
         }
     ) { paddingValues ->
-        CreateContent(
+        CreateIncomeContent(
             state = createScreenState,
             intents = viewModel,
-            financeEnum = financeEnum,
             modifier = Modifier
                 .padding(paddingValues)
         )
@@ -57,14 +50,12 @@ fun CreateScreen(
 }
 
 @Composable
-private fun CreateToolbar(
-    financeEnum: FinanceEnum,
+private fun CreateIncomeToolbar(
     onBack: () -> Unit
 ) {
-    val title = if (financeEnum.isExpense()) "Expense" else "Income"
     Toolbar(
         hasNavigationIcon = true,
-        title = "Create $title",
+        title = "Create Income",
         navigation = onBack
     )
 }

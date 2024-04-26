@@ -1,4 +1,4 @@
-package presentation.screen.create.content
+package presentation.screen.createexpense.content
 
 import core.sealed.GenericState
 import moe.tlaster.precompose.navigation.Navigator

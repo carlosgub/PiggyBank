@@ -17,7 +17,8 @@ import domain.usecase.GetOneFinanceUseCase
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
-import presentation.viewmodel.create.CreateViewModel
+import presentation.viewmodel.createexpense.CreateExpenseViewModel
+import presentation.viewmodel.createincome.CreateIncomeViewModel
 import presentation.viewmodel.edit.EditViewModel
 import presentation.viewmodel.home.HomeViewModel
 import presentation.viewmodel.monthDetail.CategoryMonthDetailViewModel
@@ -32,8 +33,13 @@ val homeModule = module {
     }
 
     factory {
-        CreateViewModel(
-            createExpenseUseCase = get(),
+        CreateExpenseViewModel(
+            createExpenseUseCase = get()
+        )
+    }
+
+    factory {
+        CreateIncomeViewModel(
             createIncomeUseCase = get()
         )
     }

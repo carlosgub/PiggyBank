@@ -1,9 +1,9 @@
-package presentation.viewmodel.create
+package presentation.viewmodel.createexpense
 
 import model.CategoryEnum
 import utils.toMoneyFormat
 
-data class CreateScreenState(
+data class CreateExpenseScreenState(
     val category: CategoryEnum = CategoryEnum.FOOD,
     val amountField: String = 0.0.toMoneyFormat(),
     val amount: Double = 0.0,

@@ -1,4 +1,4 @@
-package presentation.screen.create.content
+package presentation.screen.createincome.content
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -9,24 +9,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import model.FinanceEnum
-import presentation.viewmodel.create.CreateScreenIntents
-import presentation.viewmodel.create.CreateScreenState
+import presentation.viewmodel.createincome.CreateIncomeScreenIntents
+import presentation.viewmodel.createincome.CreateIncomeScreenState
 import theme.spacing_4
 import theme.spacing_6
 import utils.NoRippleInteractionSource
-import utils.isExpense
 import utils.views.PrimaryButton
-import utils.views.chips.CategoriesChips
 import utils.views.textfield.AmountOutlineTextField
 import utils.views.textfield.DayPicker
 import utils.views.textfield.NoteOutlineTextField
 
 @Composable
-fun CreateContent(
-    state: CreateScreenState,
-    intents: CreateScreenIntents,
-    financeEnum: FinanceEnum,
+fun CreateIncomeContent(
+    state: CreateIncomeScreenState,
+    intents: CreateIncomeScreenIntents,
     modifier: Modifier
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
@@ -52,14 +48,6 @@ fun CreateContent(
             },
             showError = state.showError
         )
-        if (financeEnum.isExpense()) {
-            CategoriesChips(
-                selectedSelected = state.category,
-                onChipPressed = { categoryEnumSelected ->
-                    intents.setCategory(categoryEnumSelected)
-                }
-            )
-        }
         DayPicker(
             dateValue = state.date,
             showError = state.showDateError,
@@ -81,26 +69,23 @@ fun CreateContent(
         Box(
             modifier = Modifier.weight(1.0f)
         )
-        CreateButton(
-            financeEnum = financeEnum,
+        CreateIncomeButton(
             intents = intents
         )
     }
 }
 
 @Composable
-private fun CreateButton(
-    financeEnum: FinanceEnum,
-    intents: CreateScreenIntents
+private fun CreateIncomeButton(
+    intents: CreateIncomeScreenIntents
 ) {
-    val title = if (financeEnum.isExpense()) "Expense" else "Income"
     PrimaryButton(
         modifier = Modifier.padding(
             bottom = spacing_6
         ),
-        buttonText = "Create $title",
+        buttonText = "Create Income",
         onClick = {
-            intents.create(financeEnum)
+            intents.create()
         }
     )
 }

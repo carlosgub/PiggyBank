@@ -10,7 +10,8 @@ import moe.tlaster.precompose.navigation.rememberNavigator
 import presentation.navigation.NavArgs
 import presentation.navigation.Screen
 import presentation.screen.categorymonthdetail.CategoryMonthDetailScreen
-import presentation.screen.create.CreateScreen
+import presentation.screen.createexpense.CreateExpenseScreen
+import presentation.screen.createincome.CreateIncomeScreen
 import presentation.screen.edit.EditScreen
 import presentation.screen.home.HomeScreen
 import presentation.screen.month.MonthsScreen
@@ -37,12 +38,11 @@ fun App() {
                             monthKey = monthKey
                         )
                     }
-                    scene(route = Screen.CreateScreen.route) { backStackEntry ->
-                        val financeName: String =
-                            backStackEntry.path<String>(NavArgs.FINANCE_NAME.key)!!
-                        CreateScreen(
-                            financeName = financeName
-                        )
+                    scene(route = Screen.CreateExpenseScreen.route) {
+                        CreateExpenseScreen()
+                    }
+                    scene(route = Screen.CreateIncomeScreen.route) {
+                        CreateIncomeScreen()
                     }
                     scene(route = Screen.EditScreen.route) { backStackEntry ->
                         val id = backStackEntry.path<Long>(NavArgs.ID.key)!!

@@ -1,6 +1,5 @@
 package presentation.screen.home.content
 
-import model.FinanceEnum
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
 import presentation.viewmodel.home.HomeScreenSideEffect
@@ -34,9 +33,7 @@ private fun navigateToAddIncomeScreen(
     navigator: Navigator
 ) {
     navigator.navigate(
-        Screen.CreateScreen.createRoute(
-            financeName = FinanceEnum.INCOME.name
-        )
+        Screen.CreateIncomeScreen.route
     )
 }
 
@@ -44,9 +41,7 @@ private fun navigateToAddExpenseScreen(
     navigator: Navigator
 ) {
     navigator.navigate(
-        Screen.CreateScreen.createRoute(
-            financeName = FinanceEnum.EXPENSE.name
-        )
+        Screen.CreateExpenseScreen.route
     )
 }
 

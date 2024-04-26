@@ -6,10 +6,9 @@ sealed class Screen(val route: String) {
             "Home/$monthKey"
     }
 
-    object CreateScreen : Screen("CreateScreen/{${NavArgs.FINANCE_NAME.key}}") {
-        fun createRoute(financeName: String) =
-            "CreateScreen/$financeName"
-    }
+    object CreateIncomeScreen : Screen("CreateIncomeScreen")
+
+    object CreateExpenseScreen : Screen("CreateExpenseScreen")
 
     object EditScreen :
         Screen("EditScreen/{${NavArgs.ID.key}}/{${NavArgs.FINANCE_NAME.key}}") {
