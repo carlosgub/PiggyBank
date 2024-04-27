@@ -12,7 +12,8 @@ import presentation.navigation.Screen
 import presentation.screen.categorymonthdetail.CategoryMonthDetailScreen
 import presentation.screen.createexpense.CreateExpenseScreen
 import presentation.screen.createincome.CreateIncomeScreen
-import presentation.screen.edit.EditScreen
+import presentation.screen.editexpense.EditExpenseScreen
+import presentation.screen.editincome.EditIncomeScreen
 import presentation.screen.home.HomeScreen
 import presentation.screen.month.MonthsScreen
 import theme.ColorPrimary
@@ -44,12 +45,16 @@ fun App() {
                     scene(route = Screen.CreateIncomeScreen.route) {
                         CreateIncomeScreen()
                     }
-                    scene(route = Screen.EditScreen.route) { backStackEntry ->
+                    scene(route = Screen.EditExpenseScreen.route) { backStackEntry ->
                         val id = backStackEntry.path<Long>(NavArgs.ID.key)!!
-                        val financeName = backStackEntry.path<String>(NavArgs.FINANCE_NAME.key)!!
-                        EditScreen(
-                            id = id,
-                            financeName = financeName
+                        EditExpenseScreen(
+                            id = id
+                        )
+                    }
+                    scene(route = Screen.EditIncomeScreen.route) { backStackEntry ->
+                        val id = backStackEntry.path<Long>(NavArgs.ID.key)!!
+                        EditIncomeScreen(
+                            id = id
                         )
                     }
                     scene(route = Screen.MonthsScreen.route) {

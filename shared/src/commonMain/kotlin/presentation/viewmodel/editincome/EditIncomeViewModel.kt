@@ -1,9 +1,9 @@
-package presentation.viewmodel.edit
+package presentation.viewmodel.editincome
 
 import core.sealed.GenericState
 import domain.usecase.DeleteUseCase
-import domain.usecase.EditExpenseUseCase
-import domain.usecase.GetExpenseUseCase
+import domain.usecase.EditIncomeUseCase
+import domain.usecase.GetIncomeUseCase
 import kotlinx.coroutines.Job
 import model.CategoryEnum
 import model.FinanceEnum
@@ -21,12 +21,11 @@ import utils.toMillis
 import utils.toMoneyFormat
 import utils.toNumberOfTwoDigits
 
-class EditExpenseViewModel(
-    val editExpenseUseCase: EditExpenseUseCase,
+class EditIncomeViewModel(
+    val editIncomeUseCase: EditIncomeUseCase,
     val deleteUseCase: DeleteUseCase,
-    val getExpenseUseCase: GetExpenseUseCase
-) : ViewModel(), ContainerHost<EditExpenseScreenState, GenericState<Unit>>,
-    EditExpenseScreenIntents {
+    val getIncomeUseCase: GetIncomeUseCase
+) : ViewModel(), ContainerHost<EditIncomeScreenState, GenericState<Unit>>, EditIncomeScreenIntents {
 
     override fun setCategory(categoryEnum: CategoryEnum): Job = intent {
         reduce { state.copy(category = categoryEnum) }
@@ -72,19 +71,18 @@ class EditExpenseViewModel(
             state.note.trim().isBlank() -> showNoteError(true)
             else -> {
                 showLoading()
-                editExpense(id = state.id)
+                editIncome(id = state.id)
             }
         }
     }
 
-    private fun editExpense(id: Long): Job = intent {
-        val result = editExpenseUseCase(
-            EditExpenseUseCase.Params(
+    private fun editIncome(id: Long): Job = intent {
+        val result = editIncomeUseCase(
+            EditIncomeUseCase.Params(
                 amount = (state.amount * 100).toLong(),
                 note = state.note,
                 dateInMillis = state.dateInMillis,
-                id = id,
-                category = state.category.name
+                id = id
             )
         )
         postSideEffect(
@@ -119,11 +117,11 @@ class EditExpenseViewModel(
         reduce { state.copy(showLoading = true) }
     }
 
-    override fun getExpense(
-        id: Long
+    override fun getIncome(
+        id: Long,
     ): Job = intent {
-        val result = getExpenseUseCase(
-            GetExpenseUseCase.Params(
+        val result = getIncomeUseCase(
+            GetIncomeUseCase.Params(
                 id = id
             )
         )
@@ -136,13 +134,13 @@ class EditExpenseViewModel(
                 state.copy(
                     initialDataLoaded = true,
                     id = result.data.id,
-                    financeEnum = FinanceEnum.EXPENSE,
+                    financeEnum = FinanceEnum.INCOME,
                     monthKey = result.data.monthKey
                 )
             }
         }
     }
 
-    override val container: Container<EditExpenseScreenState, GenericState<Unit>> =
-        viewModelScope.container(EditExpenseScreenState())
+    override val container: Container<EditIncomeScreenState, GenericState<Unit>> =
+        viewModelScope.container(EditIncomeScreenState())
 }

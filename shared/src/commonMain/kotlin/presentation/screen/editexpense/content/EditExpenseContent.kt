@@ -1,4 +1,4 @@
-package presentation.screen.edit.content
+package presentation.screen.editexpense.content
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -10,13 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import model.FinanceEnum
-import presentation.viewmodel.edit.EditScreenIntents
-import presentation.viewmodel.edit.EditScreenState
+import presentation.viewmodel.edit.EditExpenseScreenIntents
+import presentation.viewmodel.edit.EditExpenseScreenState
 import theme.spacing_4
 import theme.spacing_6
 import utils.NoRippleInteractionSource
-import utils.isExpense
 import utils.views.PrimaryButton
 import utils.views.chips.CategoriesChips
 import utils.views.textfield.AmountOutlineTextField
@@ -24,10 +22,10 @@ import utils.views.textfield.DayPicker
 import utils.views.textfield.NoteOutlineTextField
 
 @Composable
-fun EditContent(
+fun EditExpenseContent(
     paddingValues: PaddingValues,
-    state: EditScreenState,
-    intents: EditScreenIntents
+    state: EditExpenseScreenState,
+    intents: EditExpenseScreenIntents
 ) {
     if (state.initialDataLoaded) {
         val keyboard = LocalSoftwareKeyboardController.current
@@ -55,14 +53,12 @@ fun EditContent(
                 },
                 showError = state.showError
             )
-            if (state.financeEnum.isExpense()) {
-                CategoriesChips(
-                    selectedSelected = state.category,
-                    onChipPressed = { categoryEnumSelected ->
-                        intents.setCategory(categoryEnumSelected)
-                    }
-                )
-            }
+            CategoriesChips(
+                selectedSelected = state.category,
+                onChipPressed = { categoryEnumSelected ->
+                    intents.setCategory(categoryEnumSelected)
+                }
+            )
             DayPicker(
                 dateValue = state.date,
                 showError = state.showDateError,
@@ -85,8 +81,7 @@ fun EditContent(
             Box(
                 modifier = Modifier.weight(1.0f)
             )
-            EditButton(
-                financeEnum = state.financeEnum,
+            EditExpenseButton(
                 intents = intents
             )
         }
@@ -94,16 +89,14 @@ fun EditContent(
 }
 
 @Composable
-private fun EditButton(
-    financeEnum: FinanceEnum,
-    intents: EditScreenIntents
+private fun EditExpenseButton(
+    intents: EditExpenseScreenIntents
 ) {
-    val title = if (financeEnum.isExpense()) "Expense" else "Income"
     PrimaryButton(
         modifier = Modifier.padding(
             bottom = spacing_6
         ),
-        buttonText = "Edit $title",
+        buttonText = "Edit Expense",
         onClick = {
             intents.edit()
         }

@@ -1,9 +1,9 @@
-package presentation.screen.edit.content
+package presentation.screen.editexpense.content
 
 import core.sealed.GenericState
 import moe.tlaster.precompose.navigation.Navigator
 
-fun editObserver(
+fun editExpenseObserver(
     sideEffect: GenericState<Unit>,
     navigator: Navigator
 ) {

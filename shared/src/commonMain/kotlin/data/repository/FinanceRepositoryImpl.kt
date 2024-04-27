@@ -124,47 +124,47 @@ class FinanceRepositoryImpl(
         }
 
 
-    override suspend fun getOneFinance(
-        id: Long,
-        financeEnum: FinanceEnum
+    override suspend fun getExpense(
+        id: Long
     ): GenericState<FinanceModel> =
         withContext(Dispatchers.Default) {
-            if (financeEnum == FinanceEnum.EXPENSE) {
-                val expense = databaseFinance.getExpense(id)
-                if (expense is ResponseResult.Success) {
-                    val localDate = FinanceLocalDate(expense.data.dateInMillis.toLocalDate())
-                    GenericState.Success(
-                        FinanceModel(
-                            id = expense.data.id,
-                            amount = expense.data.amount,
-                            note = expense.data.note,
-                            category = expense.data.category,
-                            localDateTime = localDate.localDateTime,
-                            date = localDate.date,
-                            monthKey = expense.data.month
-                        )
+            val expense = databaseFinance.getExpense(id)
+            if (expense is ResponseResult.Success) {
+                val localDate = FinanceLocalDate(expense.data.dateInMillis.toLocalDate())
+                GenericState.Success(
+                    FinanceModel(
+                        id = expense.data.id,
+                        amount = expense.data.amount,
+                        note = expense.data.note,
+                        category = expense.data.category,
+                        localDateTime = localDate.localDateTime,
+                        date = localDate.date,
+                        monthKey = expense.data.month
                     )
-                } else {
-                    GenericState.Error("")
-                }
+                )
             } else {
-                val income = databaseFinance.getIncome(id)
-                if (income is ResponseResult.Success) {
-                    val localDate = FinanceLocalDate(income.data.dateInMillis.toLocalDate())
-                    GenericState.Success(
-                        FinanceModel(
-                            id = income.data.id,
-                            amount = income.data.amount,
-                            note = income.data.note,
-                            category = income.data.category,
-                            localDateTime = localDate.localDateTime,
-                            date = localDate.date,
-                            monthKey = income.data.month
-                        )
+                GenericState.Error("")
+            }
+        }
+
+    override suspend fun getIncome(id: Long): GenericState<FinanceModel> =
+        withContext(Dispatchers.Default) {
+            val income = databaseFinance.getIncome(id)
+            if (income is ResponseResult.Success) {
+                val localDate = FinanceLocalDate(income.data.dateInMillis.toLocalDate())
+                GenericState.Success(
+                    FinanceModel(
+                        id = income.data.id,
+                        amount = income.data.amount,
+                        note = income.data.note,
+                        category = income.data.category,
+                        localDateTime = localDate.localDateTime,
+                        date = localDate.date,
+                        monthKey = income.data.month
                     )
-                } else {
-                    GenericState.Error("")
-                }
+                )
+            } else {
+                GenericState.Error("")
             }
         }
 
@@ -380,6 +380,7 @@ class FinanceRepositoryImpl(
                         )
                     )
                 }
+
                 is ResponseResult.Error -> emit(GenericState.Error(result.error.message.toString()))
             }
         }

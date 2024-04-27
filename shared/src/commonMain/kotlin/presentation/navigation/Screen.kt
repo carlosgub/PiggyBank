@@ -10,10 +10,16 @@ sealed class Screen(val route: String) {
 
     object CreateExpenseScreen : Screen("CreateExpenseScreen")
 
-    object EditScreen :
-        Screen("EditScreen/{${NavArgs.ID.key}}/{${NavArgs.FINANCE_NAME.key}}") {
-        fun createRoute(id: Long, financeName: String) =
-            "EditScreen/$id/$financeName"
+    object EditExpenseScreen :
+        Screen("EditExpenseScreen/{${NavArgs.ID.key}}") {
+        fun createRoute(id: Long) =
+            "EditExpenseScreen/$id"
+    }
+
+    data object EditIncomeScreen :
+        Screen("EditIncomeScreen/{${NavArgs.ID.key}}") {
+        fun createRoute(id: Long) =
+            "EditIncomeScreen/$id"
     }
 
     object MonthsScreen : Screen("MonthsScreen")
@@ -28,6 +34,5 @@ sealed class Screen(val route: String) {
 enum class NavArgs(val key: String) {
     ID("id"),
     MONTH_KEY("monthKey"),
-    FINANCE_NAME("financeName"),
     CATEGORY_NAME("categoryName")
 }

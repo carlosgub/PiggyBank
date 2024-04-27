@@ -10,16 +10,18 @@ import domain.usecase.DeleteUseCase
 import domain.usecase.EditExpenseUseCase
 import domain.usecase.EditIncomeUseCase
 import domain.usecase.GetExpenseMonthDetailUseCase
+import domain.usecase.GetExpenseUseCase
 import domain.usecase.GetFinanceUseCase
 import domain.usecase.GetIncomeMonthDetailUseCase
+import domain.usecase.GetIncomeUseCase
 import domain.usecase.GetMonthsUseCase
-import domain.usecase.GetOneFinanceUseCase
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 import presentation.viewmodel.createexpense.CreateExpenseViewModel
 import presentation.viewmodel.createincome.CreateIncomeViewModel
-import presentation.viewmodel.edit.EditViewModel
+import presentation.viewmodel.edit.EditExpenseViewModel
+import presentation.viewmodel.editincome.EditIncomeViewModel
 import presentation.viewmodel.home.HomeViewModel
 import presentation.viewmodel.monthDetail.CategoryMonthDetailViewModel
 import presentation.viewmodel.months.MonthsViewModel
@@ -45,11 +47,18 @@ val homeModule = module {
     }
 
     factory {
-        EditViewModel(
+        EditExpenseViewModel(
             editExpenseUseCase = get(),
+            deleteUseCase = get(),
+            getExpenseUseCase = get()
+        )
+    }
+
+    factory {
+        EditIncomeViewModel(
             editIncomeUseCase = get(),
             deleteUseCase = get(),
-            getOneFinanceUseCase = get()
+            getIncomeUseCase = get()
         )
     }
 
@@ -73,8 +82,15 @@ val homeModule = module {
             financeRepository = get()
         )
     }
+
     factory {
-        GetOneFinanceUseCase(
+        GetIncomeUseCase(
+            financeRepository = get()
+        )
+    }
+
+    factory {
+        GetExpenseUseCase(
             financeRepository = get()
         )
     }

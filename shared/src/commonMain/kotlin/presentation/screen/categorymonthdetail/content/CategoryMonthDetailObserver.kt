@@ -1,11 +1,9 @@
 package presentation.screen.categorymonthdetail.content
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import model.ExpenseScreenModel
+import model.FinanceEnum
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
-import presentation.viewmodel.monthDetail.CategoryMonthDetailScreenIntents
 import presentation.viewmodel.monthDetail.CategoryMonthDetailScreenSideEffect
 import utils.getCategoryEnumFromName
 
@@ -25,10 +23,18 @@ private fun navigateToEditScreen(
     navigator: Navigator,
     expenseScreenModel: ExpenseScreenModel
 ) {
-    navigator.navigate(
-        Screen.EditScreen.createRoute(
-            id = expenseScreenModel.id,
-            financeName = getCategoryEnumFromName(name = expenseScreenModel.category).type.name
+    val financeEnum = getCategoryEnumFromName(name = expenseScreenModel.category).type
+    if (financeEnum == FinanceEnum.EXPENSE) {
+        navigator.navigate(
+            Screen.EditExpenseScreen.createRoute(
+                id = expenseScreenModel.id
+            )
         )
-    )
+    } else {
+        navigator.navigate(
+            Screen.EditIncomeScreen.createRoute(
+                id = expenseScreenModel.id
+            )
+        )
+    }
 }

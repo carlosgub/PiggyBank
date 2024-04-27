@@ -1,10 +1,10 @@
-package presentation.viewmodel.edit
+package presentation.viewmodel.editincome
 
 import model.CategoryEnum
 import model.FinanceEnum
 import utils.toMoneyFormat
 
-data class EditScreenState(
+data class EditIncomeScreenState(
     val category: CategoryEnum = CategoryEnum.FOOD,
     val amountField: String = 0.0.toMoneyFormat(),
     val amount: Double = 0.0,

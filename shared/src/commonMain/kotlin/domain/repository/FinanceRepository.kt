@@ -11,9 +11,12 @@ import model.MonthDetailScreenModel
 
 interface FinanceRepository {
     suspend fun getFinance(monthKey: String): Flow<GenericState<FinanceScreenModel>>
-    suspend fun getOneFinance(
-        id: Long,
-        financeEnum: FinanceEnum
+    suspend fun getExpense(
+        id: Long
+    ): GenericState<FinanceModel>
+
+    suspend fun getIncome(
+        id: Long
     ): GenericState<FinanceModel>
 
     suspend fun createExpense(
