@@ -39,6 +39,7 @@ import theme.White
 import theme.spacing_1_2
 import theme.spacing_2
 import theme.spacing_3
+import utils.toMonthKey
 import utils.toMonthString
 import utils.views.DataZero
 import utils.views.ExpenseDivider
@@ -153,7 +154,7 @@ fun MonthItem(
             .fillMaxSize()
             .clickable {
                 onClickItem(
-                    "${localDateTime.month.toMonthString()}${localDateTime.year}"
+                    localDateTime.toMonthKey()
                 )
             }
             .padding(

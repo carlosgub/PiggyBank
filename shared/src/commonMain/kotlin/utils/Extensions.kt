@@ -17,6 +17,7 @@ import kotlin.math.roundToInt
 fun Double.toMoneyFormat(): String = "$${this.toPrecision(2)}"
 fun Float.toMoneyFormat(): String = "$${this.toPrecision(2)}"
 
+fun LocalDateTime.toMonthKey():String = "${this.month.toMonthString()}${this.year}"
 fun Float.toPrecision(precision: Int) =
     this.toDouble().toPrecision(precision)
 

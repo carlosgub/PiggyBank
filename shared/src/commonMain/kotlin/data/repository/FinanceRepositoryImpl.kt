@@ -4,13 +4,6 @@ import core.mapper.ResultMapper
 import core.network.ResponseResult
 import core.sealed.GenericState
 import data.source.database.DatabaseFinance
-import domain.repository.FinanceRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
-import kotlinx.datetime.LocalDateTime
 import domain.model.CategoryEnum
 import domain.model.ExpenseScreenModel
 import domain.model.FinanceEnum
@@ -20,11 +13,20 @@ import domain.model.FinanceScreenExpenses
 import domain.model.FinanceScreenModel
 import domain.model.MonthDetailScreenModel
 import domain.model.MonthExpense
+import domain.repository.FinanceRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
+import kotlinx.datetime.LocalDateTime
 import utils.createLocalDateTime
 import utils.getCategoryEnumFromName
+import utils.getCurrentMonthKey
 import utils.isLeapYear
 import utils.monthLength
 import utils.toLocalDate
+import utils.toMonthKey
 import kotlin.math.roundToInt
 
 class FinanceRepositoryImpl(
@@ -374,8 +376,10 @@ class FinanceRepositoryImpl(
                                     year = month.year.toInt(),
                                     monthNumber = month.month.trimStart('0').toInt()
                                 )
-                            }.groupBy {
-                                it.year
+                            }.filter { localDateTime ->
+                                localDateTime.toMonthKey() != getCurrentMonthKey()
+                            }.groupBy { localDateTime ->
+                                localDateTime.year
                             }
                         )
                     )

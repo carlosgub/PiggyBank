@@ -1,11 +1,10 @@
 package utils
 
+import domain.model.CategoryEnum
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
-import domain.model.CategoryEnum
-import domain.model.FinanceEnum
 
 fun getCurrentMonthKey(): String {
     val today: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
@@ -15,19 +14,10 @@ fun getCurrentMonthKey(): String {
 }
 
 fun getCategoryEnumFromName(name: String): CategoryEnum {
-    for (enum in CategoryEnum.values()) {
+    for (enum in CategoryEnum.entries) {
         if (enum.name == name) {
             return enum
         }
     }
     return CategoryEnum.entries.first()
-}
-
-fun getFinanceEnumFromName(name: String): FinanceEnum {
-    for (enum in FinanceEnum.values()) {
-        if (enum.name == name) {
-            return enum
-        }
-    }
-    return FinanceEnum.entries.first()
 }
