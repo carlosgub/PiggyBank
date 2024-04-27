@@ -1,6 +1,6 @@
 ### My finances
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/license-Apache-blue.svg)](https://opensource.org/licenses/Apache)
 
 #### Overview
 
@@ -36,6 +36,9 @@ Contributions are welcome! If you have any suggestions, feature requests, or bug
 
 #### Acknowledgments
 
-We would like to thank the following individuals and organizations for their contributions to this project:
-
 - Carlos Ugaz (@carlosgub) - Mainteiner
+
+#### Design
+
+This design is inspired by a design I found on Dribbble. I couldn't find the original post anymore, so I will post a screenshot instead.
+<img width="300" alt="Screenshot 2023-08-16 at 3 23 47 AM" src="https://github.com/carlosgub/myFinances/assets/30916886/6e2b0a02-99ca-432f-8151-c086ac09100d">
