@@ -1,56 +1,41 @@
-# [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform) mobile application
+### My finances
 
-<img width="963" alt="Screenshot 2023-08-16 at 3 23 47 AM" src="https://github.com/carlosgub/myFinances/assets/30916886/6e2b0a02-99ca-432f-8151-c086ac09100d">
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-<img width="832" alt="Screenshot 2023-08-16 at 1 25 32 PM 2" src="https://github.com/carlosgub/myFinances/assets/30916886/6c74a823-ba89-40d8-9165-b11fc53231ce">
+#### Overview
 
-## Checklist
-- [ ] Arreglar las animaciones
-    - [ ] Arreglar items del detalle de categorias
-    - [x] Arreglar el de lo meses
-    - [x] Arreglar home
-- [ ] ponerlo en español y ingles
-- [x] Agregar crashanalytics
-- [ ] Esperar que el fix del calendario en apple este en compose-multiplatform
-- [x] Agregar data zero
-    - [x] lista months
-    - [x] lista en el detalle del mes
-    - [x] lista expense
-    - [x] lista income
-- [x] ordenar los item del detalle de categoria por id de manera descendentemente
-- [x] Anotar en que haz gastado en que cada dia en el grafico de barras del home screen
-- [x] Pasar todo a offline sin firebase
-- [x] poner el chart en el home para mostrar el acumulado
-- [x] Actualizar pantalla cuando creamos algo (expense, income, wish)
+The Finance Tracker App is a versatile tool for managing your finances. Whether you want to track expenses, log incomes, or visualize your financial movements through charts, this app has got you covered. It offers a user-friendly interface and robust functionalities to help you stay on top of your finances.
 
-- [x] Intentar pull to refresh
-- [x] arreglar animacion que se repite siempre que cambiamos de tab (home)
-- [x] arreglar animacion (delay) cuando se muestra el home tambien a la nueva barra
-- [x] Rehacer logica, solo usar expenses e incomes, borrar coleccion de cost 
-- [x] Agregar el month budget como el ejemplo
-- [x] revisar como estan ordenados los gastos en el detalle (parece que no esta ordenador primero por fecha y luego por timestamp de firebase)
-- [x] Arreglar bug de obtener los datos del mes detalle correcto
-- [x] Mejorar el home con animacion
-- [x] Animar cuando carga los meses
-- [x] poner la fecha del detalle del expense como el ejemplo
-- [x] Refactorizar las dos pantallas de crear (expense, income) a una pantalla
-- [x] Poner cargando cuando creamos algo
-- [x] Agregar en la lista del menu para ver los meses
-- [x] Anadir dia que se creo el income
-- [x] detach toolbar from content (home)
-- [x] Poner categoria amor
+#### Features
 
-- [x] crear pantalla para mostrar el detalle del expense, income, wish
-    - [x] eliminar
-        - [x] expense
-        - [x] income
-    - [x] editar 
-        - [x]  income, 
-        - [x] expense,
-- [x] Poner nota como item obligatorio
-- [x] crear icono para la app
-- [x] crear pantalla de income
-- [x] Poner incomes en home
-- [x] Poner colores a los expenses
-- [x] Add dropdown menu
-- [x] Anadir dia que se creo el costo
+- **Expense Tracking:** Easily create, edit, and delete expenses to keep a record of your spending habits.
+- **Income Logging:** Log your incomes effortlessly to have a clear picture of your financial inflows.
+- **Interactive Charts:** Visualize your financial data through various charts, allowing you to analyze your spending and saving patterns.
+- **Customization:** Customize categories, tags, and other parameters to tailor the app to your financial habits.
+- **Data Security:** Your financial data is securely offline stored to ensure your privacy and confidentiality.
+- **Platform Compatibility:** Built with Kotlin Multiplatform technology, the app works seamlessly on both Android and iOS devices.
+- **Offline Functionality:** All data is stored locally on your device, allowing you to access and manage your finances even without an internet connection.
+
+#### Screenshots
+
+<img width="312" alt="Screenshot one" src="https://github.com/carlosgub/myFinances/assets/30916886/d45b99d3-18f7-4463-9289-6a1c6da26c73">
+<img width="309" alt="Screenshot two" src="https://github.com/carlosgub/myFinances/assets/30916886/2c38ec9d-f00d-42b7-9199-fcf0bc19de54">
+
+
+#### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/carlosgub/myFinances
+```
+
+#### Contributing
+
+Contributions are welcome! If you have any suggestions, feature requests, or bug reports, please open an issue or submit a pull request.
+
+#### Acknowledgments
+
+We would like to thank the following individuals and organizations for their contributions to this project:
+
+- Carlos Ugaz (@carlosgub) - Mainteiner
