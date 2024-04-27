@@ -1,4 +1,4 @@
-package model
+package domain.model
 
 import kotlinx.datetime.LocalDate
 import utils.createLocalDateTime

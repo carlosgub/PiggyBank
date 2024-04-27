@@ -8,7 +8,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.number
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
-import model.FinanceEnum
+import domain.model.FinanceEnum
 import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.pow

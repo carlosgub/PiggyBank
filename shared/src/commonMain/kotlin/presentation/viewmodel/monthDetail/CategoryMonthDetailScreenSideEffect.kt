@@ -1,6 +1,6 @@
 package presentation.viewmodel.monthDetail
 
-import model.ExpenseScreenModel
+import domain.model.ExpenseScreenModel
 
 sealed class CategoryMonthDetailScreenSideEffect {
     data class NavigateToMonthDetail(

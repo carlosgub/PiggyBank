@@ -1,7 +1,7 @@
 package presentation.viewmodel.monthDetail
 
-import model.CategoryEnum
-import model.MonthDetailScreenModel
+import domain.model.CategoryEnum
+import domain.model.MonthDetailScreenModel
 
 data class CategoryMonthDetailScreenState(
     val monthDetail: MonthDetailScreenModel = MonthDetailScreenModel(),

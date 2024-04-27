@@ -40,9 +40,9 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
-import model.FinanceEnum
-import model.FinanceScreenExpenses
-import model.MonthExpense
+import domain.model.FinanceEnum
+import domain.model.FinanceScreenExpenses
+import domain.model.MonthExpense
 import presentation.viewmodel.home.HomeScreenIntents
 import presentation.viewmodel.home.HomeScreenState
 import theme.ColorPrimary

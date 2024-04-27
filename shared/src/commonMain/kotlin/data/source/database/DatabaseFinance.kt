@@ -25,9 +25,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.isActive
 import kotlinx.datetime.LocalDate
-import model.CategoryEnum
-import model.FinanceEnum
-import model.MonthModel
+import domain.model.CategoryEnum
+import domain.model.FinanceEnum
+import domain.model.MonthModel
 import utils.toLocalDate
 import utils.toMonthString
 

@@ -1,4 +1,4 @@
-package model
+package domain.model
 
 enum class FinanceEnum(
     val financeName: String

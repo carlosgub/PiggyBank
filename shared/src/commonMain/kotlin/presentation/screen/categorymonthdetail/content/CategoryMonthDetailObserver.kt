@@ -1,7 +1,7 @@
 package presentation.screen.categorymonthdetail.content
 
-import model.ExpenseScreenModel
-import model.FinanceEnum
+import domain.model.ExpenseScreenModel
+import domain.model.FinanceEnum
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
 import presentation.viewmodel.monthDetail.CategoryMonthDetailScreenSideEffect

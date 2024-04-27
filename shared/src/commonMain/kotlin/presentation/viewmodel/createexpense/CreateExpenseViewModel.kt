@@ -3,7 +3,7 @@ package presentation.viewmodel.createexpense
 import core.sealed.GenericState
 import domain.usecase.CreateExpenseUseCase
 import kotlinx.coroutines.Job
-import model.CategoryEnum
+import domain.model.CategoryEnum
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
 import org.orbitmvi.orbit.Container

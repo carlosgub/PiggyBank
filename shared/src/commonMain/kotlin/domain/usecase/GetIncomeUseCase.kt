@@ -2,7 +2,7 @@ package domain.usecase
 
 import core.sealed.GenericState
 import domain.repository.FinanceRepository
-import model.FinanceModel
+import domain.model.FinanceModel
 
 class GetIncomeUseCase(
     private val financeRepository: FinanceRepository

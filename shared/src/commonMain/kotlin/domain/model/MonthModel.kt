@@ -1,4 +1,4 @@
-package model
+package domain.model
 
 data class MonthModel(
     val id: String,

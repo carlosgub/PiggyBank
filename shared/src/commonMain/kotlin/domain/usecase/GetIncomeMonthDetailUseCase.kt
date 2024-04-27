@@ -3,7 +3,7 @@ package domain.usecase
 import core.sealed.GenericState
 import domain.repository.FinanceRepository
 import kotlinx.coroutines.flow.Flow
-import model.MonthDetailScreenModel
+import domain.model.MonthDetailScreenModel
 
 class GetIncomeMonthDetailUseCase(
     private val financeRepository: FinanceRepository

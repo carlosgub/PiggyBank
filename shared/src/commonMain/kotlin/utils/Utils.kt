@@ -4,8 +4,8 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
-import model.CategoryEnum
-import model.FinanceEnum
+import domain.model.CategoryEnum
+import domain.model.FinanceEnum
 
 fun getCurrentMonthKey(): String {
     val today: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())

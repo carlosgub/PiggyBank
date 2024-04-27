@@ -2,7 +2,7 @@ package domain.usecase
 
 import core.sealed.GenericState
 import domain.repository.FinanceRepository
-import model.FinanceEnum
+import domain.model.FinanceEnum
 
 class DeleteUseCase(
     private val financeRepository: FinanceRepository

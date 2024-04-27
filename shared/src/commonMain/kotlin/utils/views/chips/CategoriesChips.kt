@@ -21,8 +21,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import model.CategoryEnum
-import model.FinanceEnum
+import domain.model.CategoryEnum
+import domain.model.FinanceEnum
 import theme.ColorPrimary
 import theme.Gray100
 import theme.Gray400

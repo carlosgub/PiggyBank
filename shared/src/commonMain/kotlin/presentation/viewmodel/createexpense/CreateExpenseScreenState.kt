@@ -1,6 +1,6 @@
 package presentation.viewmodel.createexpense
 
-import model.CategoryEnum
+import domain.model.CategoryEnum
 import utils.toMoneyFormat
 
 data class CreateExpenseScreenState(

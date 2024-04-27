@@ -3,11 +3,11 @@ package domain.repository
 import core.sealed.GenericState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDateTime
-import model.CategoryEnum
-import model.FinanceEnum
-import model.FinanceModel
-import model.FinanceScreenModel
-import model.MonthDetailScreenModel
+import domain.model.CategoryEnum
+import domain.model.FinanceEnum
+import domain.model.FinanceModel
+import domain.model.FinanceScreenModel
+import domain.model.MonthDetailScreenModel
 
 interface FinanceRepository {
     suspend fun getFinance(monthKey: String): Flow<GenericState<FinanceScreenModel>>

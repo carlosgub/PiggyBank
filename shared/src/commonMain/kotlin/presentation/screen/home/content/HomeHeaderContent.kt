@@ -50,7 +50,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
-import model.FinanceScreenModel
+import domain.model.FinanceScreenModel
 import theme.Gray900
 import theme.spacing_1_2
 import theme.spacing_2

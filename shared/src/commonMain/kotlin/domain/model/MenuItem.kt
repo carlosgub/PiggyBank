@@ -1,4 +1,4 @@
-package model
+package domain.model
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

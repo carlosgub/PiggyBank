@@ -1,7 +1,7 @@
 package presentation.viewmodel.home
 
 import kotlinx.coroutines.Job
-import model.FinanceScreenExpenses
+import domain.model.FinanceScreenExpenses
 
 interface HomeScreenIntents {
     fun getFinanceStatus(): Job

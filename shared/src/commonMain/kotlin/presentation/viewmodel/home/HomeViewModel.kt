@@ -4,8 +4,8 @@ import core.sealed.GenericState
 import domain.usecase.GetFinanceUseCase
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import model.FinanceScreenExpenses
-import model.FinanceScreenModel
+import domain.model.FinanceScreenExpenses
+import domain.model.FinanceScreenModel
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
 import org.orbitmvi.orbit.Container

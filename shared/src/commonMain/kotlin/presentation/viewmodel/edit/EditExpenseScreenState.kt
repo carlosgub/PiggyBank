@@ -1,7 +1,7 @@
 package presentation.viewmodel.edit
 
-import model.CategoryEnum
-import model.FinanceEnum
+import domain.model.CategoryEnum
+import domain.model.FinanceEnum
 import utils.toMoneyFormat
 
 data class EditExpenseScreenState(

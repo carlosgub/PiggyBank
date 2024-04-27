@@ -1,6 +1,6 @@
 package presentation.viewmodel.createincome
 
-import model.CategoryEnum
+import domain.model.CategoryEnum
 import utils.toMoneyFormat
 
 data class CreateIncomeScreenState(

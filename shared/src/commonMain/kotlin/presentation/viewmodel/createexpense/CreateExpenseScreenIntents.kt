@@ -1,8 +1,8 @@
 package presentation.viewmodel.createexpense
 
 import kotlinx.coroutines.Job
-import model.CategoryEnum
-import model.FinanceEnum
+import domain.model.CategoryEnum
+import domain.model.FinanceEnum
 
 interface CreateExpenseScreenIntents {
     fun setCategory(categoryEnum: CategoryEnum): Job

@@ -1,6 +1,6 @@
 package presentation.viewmodel.home
 
-import model.FinanceScreenExpenses
+import domain.model.FinanceScreenExpenses
 
 sealed class HomeScreenSideEffect {
     data object NavigateToMonths : HomeScreenSideEffect()

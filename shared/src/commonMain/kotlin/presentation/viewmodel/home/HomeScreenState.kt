@@ -1,6 +1,6 @@
 package presentation.viewmodel.home
 
-import model.FinanceScreenModel
+import domain.model.FinanceScreenModel
 
 data class HomeScreenState(
     val financeScreenModel: FinanceScreenModel = FinanceScreenModel(),

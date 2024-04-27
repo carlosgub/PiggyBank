@@ -28,7 +28,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import model.MenuItem
+import domain.model.MenuItem
 import theme.ColorPrimary
 import theme.spacing_2
 import theme.view_10

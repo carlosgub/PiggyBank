@@ -4,9 +4,9 @@ import core.sealed.GenericState
 import domain.usecase.GetExpenseMonthDetailUseCase
 import domain.usecase.GetIncomeMonthDetailUseCase
 import kotlinx.coroutines.Job
-import model.ExpenseScreenModel
-import model.FinanceEnum
-import model.MonthDetailScreenModel
+import domain.model.ExpenseScreenModel
+import domain.model.FinanceEnum
+import domain.model.MonthDetailScreenModel
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
 import org.orbitmvi.orbit.Container

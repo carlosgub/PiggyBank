@@ -1,7 +1,7 @@
 package presentation.viewmodel.editincome
 
 import kotlinx.coroutines.Job
-import model.CategoryEnum
+import domain.model.CategoryEnum
 
 interface EditIncomeScreenIntents {
     fun setCategory(categoryEnum: CategoryEnum): Job

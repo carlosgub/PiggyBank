@@ -1,7 +1,7 @@
 package presentation.viewmodel.monthDetail
 
 import kotlinx.coroutines.Job
-import model.ExpenseScreenModel
+import domain.model.ExpenseScreenModel
 
 interface CategoryMonthDetailScreenIntents {
     fun setInitialConfiguration(
