@@ -36,8 +36,8 @@ dependencyResolutionManagement {
             url = uri("https://maven.pkg.github.com/carlosgub/kotlinm-charts")
 
             credentials {
-                username = "carlosgub"
-                password = "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"
+                username = "YOUR_GITHUB_USERNAME"
+                password = "YOUR_GITHUB_TOKEN"
             }
         }
     }
