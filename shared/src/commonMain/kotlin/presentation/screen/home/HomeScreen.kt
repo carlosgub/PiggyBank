@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalResourceApi::class)
+
 package presentation.screen.home
 
 import androidx.compose.material.icons.Icons
@@ -15,6 +17,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
+import myapplication.shared.generated.resources.Res
+import myapplication.shared.generated.resources.home_add_expense
+import myapplication.shared.generated.resources.home_add_income
+import myapplication.shared.generated.resources.home_app_name
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import presentation.screen.home.content.HomeContent
 import presentation.screen.home.content.homeObserver
 import presentation.viewmodel.home.HomeViewModel
@@ -76,7 +84,7 @@ private fun HomeToolbar(
     Toolbar(
         hasNavigationIcon = !showLeftIcon,
         navigation = onBack,
-        title = "My Finances",
+        title = stringResource(Res.string.home_app_name),
         dropDownIcon = Icons.Filled.Add,
         dropDownMenu = true,
         leftIcon = leftIcon,
@@ -84,12 +92,12 @@ private fun HomeToolbar(
         dropDownItems =
             mutableListOf(
                 MenuItem(
-                    name = "Add Expense",
+                    name = stringResource(Res.string.home_add_expense),
                     icon = Icons.Filled.MoneyOff,
                     onItemClicked = onAddExpensePressed,
                 ),
                 MenuItem(
-                    name = "Add Income",
+                    name = stringResource(Res.string.home_add_income),
                     icon = Icons.Filled.AttachMoney,
                     onItemClicked = onAddIncomePressed,
                 ),

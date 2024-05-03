@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalResourceApi::class)
+
 package presentation.screen.createexpense
 
 import androidx.compose.foundation.layout.padding
@@ -10,6 +12,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
+import myapplication.shared.generated.resources.Res
+import myapplication.shared.generated.resources.create_expense_title
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import presentation.screen.createexpense.content.CreateExpenseContent
 import presentation.screen.createexpense.content.createObserver
@@ -42,8 +48,8 @@ fun CreateExpenseScreen(viewModel: CreateExpenseViewModel = koinInject()) {
             state = createScreenState,
             intents = viewModel,
             modifier =
-                Modifier
-                    .padding(paddingValues),
+            Modifier
+                .padding(paddingValues),
         )
     }
 }
@@ -52,7 +58,7 @@ fun CreateExpenseScreen(viewModel: CreateExpenseViewModel = koinInject()) {
 private fun CreateExpenseToolbar(onBack: () -> Unit) {
     Toolbar(
         hasNavigationIcon = true,
-        title = "Create Expense",
+        title = stringResource(Res.string.create_expense_title),
         navigation = onBack,
     )
 }

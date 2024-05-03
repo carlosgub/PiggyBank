@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalResourceApi::class)
+
 package presentation.screen.createincome
 
 import androidx.compose.foundation.layout.padding
@@ -10,6 +12,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
+import myapplication.shared.generated.resources.Res
+import myapplication.shared.generated.resources.create_income_title
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import presentation.screen.createincome.content.CreateIncomeContent
 import presentation.screen.createincome.content.createIncomeObserver
@@ -52,7 +58,7 @@ fun CreateIncomeScreen(viewModel: CreateIncomeViewModel = koinInject()) {
 private fun CreateIncomeToolbar(onBack: () -> Unit) {
     Toolbar(
         hasNavigationIcon = true,
-        title = "Create Income",
+        title = stringResource(Res.string.create_income_title),
         navigation = onBack,
     )
 }

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalResourceApi::class)
+
 package presentation.screen.home.content
 
 import androidx.compose.animation.AnimatedVisibility
@@ -43,6 +45,14 @@ import domain.model.FinanceEnum
 import domain.model.FinanceScreenExpenses
 import domain.model.MonthExpense
 import kotlinx.coroutines.delay
+import myapplication.shared.generated.resources.Res
+import myapplication.shared.generated.resources.home_body_finance_category_item_budget_percentage
+import myapplication.shared.generated.resources.home_body_data_zero_message
+import myapplication.shared.generated.resources.home_body_data_zero_title
+import myapplication.shared.generated.resources.home_body_finance_category_item_count_transactions
+import myapplication.shared.generated.resources.home_body_month_budget
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.home.HomeScreenIntents
 import presentation.viewmodel.home.HomeScreenState
 import theme.ColorPrimary
@@ -77,9 +87,9 @@ fun HomeBodyContent(
         Card(
             shape = RoundedCornerShape(topStart = spacing_8, topEnd = spacing_8),
             colors =
-                CardDefaults.cardColors(
-                    containerColor = MonthBudgetCardColor,
-                ),
+            CardDefaults.cardColors(
+                containerColor = MonthBudgetCardColor,
+            ),
         ) {
             Column {
                 CardMonthBudgetContent(
@@ -102,15 +112,15 @@ fun HomeBodyContent(
 private fun CardMonthBudgetContent(monthExpense: MonthExpense) {
     Column(
         modifier =
-            Modifier.fillMaxWidth()
-                .padding(
-                    horizontal = spacing_6,
-                    vertical = spacing_8,
-                ),
+        Modifier.fillMaxWidth()
+            .padding(
+                horizontal = spacing_6,
+                vertical = spacing_8,
+            ),
     ) {
         Row {
             Text(
-                text = "Month Budget",
+                text = stringResource(Res.string.home_body_month_budget),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium,
             )
@@ -146,9 +156,9 @@ private fun CardMonthBudgetBar(monthExpense: MonthExpense) {
         progress = { progressAnimation },
         color = ColorPrimary,
         modifier =
-            Modifier.fillMaxWidth()
-                .padding(top = spacing_2)
-                .height(6.dp),
+        Modifier.fillMaxWidth()
+            .padding(top = spacing_2)
+            .height(6.dp),
         strokeCap = StrokeCap.Round,
     )
     LaunchedEffect(percentage) {
@@ -168,15 +178,15 @@ private fun CardMonthFinanceContent(
         modifier = modifier,
         shape = RoundedCornerShape(topStart = spacing_8, topEnd = spacing_8),
         colors =
-            CardDefaults.cardColors(
-                containerColor = Color.White,
-            ),
+        CardDefaults.cardColors(
+            containerColor = Color.White,
+        ),
     ) {
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(start = spacing_6, top = spacing_6, end = spacing_6),
+            Modifier
+                .fillMaxSize()
+                .padding(start = spacing_6, top = spacing_6, end = spacing_6),
         ) {
             var tabIndex by rememberSaveable { mutableStateOf(FinanceEnum.EXPENSE) }
             CardMonthFinanceTabRow(
@@ -210,7 +220,7 @@ private fun CardMonthFinanceTabRow(
             Tab(
                 text = {
                     Text(
-                        text = financeEnum.financeName,
+                        text = stringResource(financeEnum.financeName),
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color.Black,
                     )
@@ -270,8 +280,11 @@ fun CardMonthFinanceCategoryContent(
         }
     } else {
         DataZero(
-            title = "Ooops! It's Empty",
-            message = "Looks like you don't have anything in your ${financeType.financeName.lowercase()}",
+            title = stringResource(Res.string.home_body_data_zero_title),
+            message = stringResource(
+                resource = Res.string.home_body_data_zero_message,
+                stringResource(financeType.financeName).lowercase()
+            ),
             hasButton = true,
             valueToPass = financeType,
             onButtonClick = { financeEnum ->
@@ -295,19 +308,19 @@ private fun FinanceCategoryItem(
         if (count != 0) {
             ExpenseDivider(
                 modifier =
-                    Modifier.padding(
-                        start = spacing_16,
-                    ),
+                Modifier.padding(
+                    start = spacing_16,
+                ),
             )
         }
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier =
-                Modifier
-                    .clickable {
-                        intents.navigateToMonthDetail(expense)
-                    }
-                    .padding(vertical = spacing_3),
+            Modifier
+                .clickable {
+                    intents.navigateToMonthDetail(expense)
+                }
+                .padding(vertical = spacing_3),
         ) {
             ExpenseIconProgress(
                 expense = expense,
@@ -316,12 +329,15 @@ private fun FinanceCategoryItem(
                 modifier = Modifier.weight(1f).padding(start = spacing_4),
             ) {
                 Text(
-                    text = expense.category.categoryName,
+                    text = stringResource(expense.category.categoryName),
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Medium,
                 )
                 Text(
-                    text = "${expense.percentage}% of budget",
+                    text = stringResource(
+                        Res.string.home_body_finance_category_item_budget_percentage,
+                        expense.percentage
+                    ),
                     style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier.padding(top = spacing_1),
                     color = Gray600,
@@ -338,7 +354,10 @@ private fun FinanceCategoryItem(
                     fontWeight = FontWeight.Medium,
                 )
                 Text(
-                    text = "${expense.count} transactions",
+                    text = stringResource(
+                        Res.string.home_body_finance_category_item_count_transactions,
+                        expense.count
+                    ),
                     style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier.padding(top = spacing_1),
                     color = Gray600,

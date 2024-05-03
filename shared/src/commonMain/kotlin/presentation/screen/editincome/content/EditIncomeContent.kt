@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalResourceApi::class)
+
 package presentation.screen.editincome.content
 
 import androidx.compose.foundation.clickable
@@ -10,6 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import myapplication.shared.generated.resources.Res
+import myapplication.shared.generated.resources.edit_income_button
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.editincome.EditIncomeScreenIntents
 import presentation.viewmodel.editincome.EditIncomeScreenState
 import theme.spacing_4
@@ -31,17 +37,17 @@ fun EditIncomeContent(
         val focusManager = LocalFocusManager.current
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .clickable(
-                        interactionSource = NoRippleInteractionSource(),
-                        indication = null,
-                    ) {
-                        keyboard?.hide()
-                        focusManager.clearFocus()
-                    }
-                    .padding(horizontal = spacing_4),
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .clickable(
+                    interactionSource = NoRippleInteractionSource(),
+                    indication = null,
+                ) {
+                    keyboard?.hide()
+                    focusManager.clearFocus()
+                }
+                .padding(horizontal = spacing_4),
         ) {
             AmountOutlineTextField(
                 amountField = state.amountField,
@@ -86,10 +92,10 @@ fun EditIncomeContent(
 private fun EditButton(intents: EditIncomeScreenIntents) {
     PrimaryButton(
         modifier =
-            Modifier.padding(
-                bottom = spacing_6,
-            ),
-        buttonText = "Edit Income",
+        Modifier.padding(
+            bottom = spacing_6,
+        ),
+        buttonText = stringResource(Res.string.edit_income_button),
         onClick = {
             intents.edit()
         },

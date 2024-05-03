@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalFoundationApi::class)
+@file:OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
 
 package presentation.screen.categorymonthdetail.content
 
@@ -29,6 +29,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import domain.model.ExpenseScreenModel
+import myapplication.shared.generated.resources.Res
+import myapplication.shared.generated.resources.category_month_detail_data_zero_message
+import myapplication.shared.generated.resources.category_month_detail_data_zero_title
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.monthDetail.CategoryMonthDetailScreenState
 import theme.Gray600
 import theme.Gray900
@@ -128,8 +133,8 @@ fun CategoryMonthDetailBody(
                 }
             } else {
                 DataZero<Any>(
-                    title = "Ooops! It's Empty",
-                    message = "Looks like you don't have anything in this category",
+                    title = stringResource(Res.string.category_month_detail_data_zero_title),
+                    message = stringResource(Res.string.category_month_detail_data_zero_message),
                     modifier =
                         Modifier
                             .background(color = White),

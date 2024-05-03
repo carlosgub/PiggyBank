@@ -1,4 +1,7 @@
-@file:OptIn(ExperimentalMaterialApi::class, ExperimentalLayoutApi::class)
+@file:OptIn(
+    ExperimentalMaterialApi::class, ExperimentalLayoutApi::class,
+    ExperimentalResourceApi::class
+)
 
 package utils.views.chips
 
@@ -23,6 +26,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import domain.model.CategoryEnum
 import domain.model.FinanceEnum
+import myapplication.shared.generated.resources.Res
+import myapplication.shared.generated.resources.categories_header
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import theme.ColorPrimary
 import theme.Gray100
 import theme.Gray400
@@ -40,7 +47,7 @@ fun CategoriesChips(
     ) {
         val categoriesList = CategoryEnum.entries.filter { it.type == FinanceEnum.EXPENSE }
         Text(
-            "Categories",
+            text = stringResource(Res.string.categories_header),
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(top = spacing_4),
         )
@@ -94,19 +101,19 @@ private fun CategoryChip(
             onChipPressed(categoryEnum)
         },
         colors =
-            ChipDefaults.chipColors(
-                backgroundColor = chipBackgroundColor,
-            ),
+        ChipDefaults.chipColors(
+            backgroundColor = chipBackgroundColor,
+        ),
         shape = RoundedCornerShape(12.dp),
         border = chipBorderStroke,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier =
-                Modifier.padding(
-                    horizontal = 6.dp,
-                    vertical = 4.dp,
-                ),
+            Modifier.padding(
+                horizontal = 6.dp,
+                vertical = 4.dp,
+            ),
         ) {
             Icon(
                 imageVector = categoryEnum.icon,
@@ -114,7 +121,7 @@ private fun CategoryChip(
                 tint = contentColor,
             )
             Text(
-                categoryEnum.categoryName,
+                text = stringResource(categoryEnum.categoryName),
                 color = contentColor,
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier.padding(start = 4.dp),

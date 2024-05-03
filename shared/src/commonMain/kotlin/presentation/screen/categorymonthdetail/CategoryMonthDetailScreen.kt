@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalResourceApi::class)
+
 package presentation.screen.categorymonthdetail
 
 import androidx.compose.material3.Scaffold
@@ -10,6 +12,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import presentation.screen.categorymonthdetail.content.CategoryMonthDetailContent
 import presentation.screen.categorymonthdetail.content.categoryMonthDetailObserver
 import presentation.viewmodel.monthDetail.CategoryMonthDetailViewModel
@@ -28,7 +32,7 @@ fun CategoryMonthDetailScreen(
     Scaffold(
         topBar = {
             ExpenseMonthDetailToolbar(
-                category = state.category.categoryName,
+                category = stringResource(state.category.categoryName),
                 onBack = {
                     navigator.popBackStack()
                 },
