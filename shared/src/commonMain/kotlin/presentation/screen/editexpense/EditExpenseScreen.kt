@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalResourceApi::class)
+
 package presentation.screen.editexpense
 
 import androidx.compose.material.icons.Icons
@@ -14,6 +16,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
+import myapplication.shared.generated.resources.Res
+import myapplication.shared.generated.resources.edit_expense_title
+import myapplication.shared.generated.resources.edit_income_pop_up_message
+import myapplication.shared.generated.resources.edit_income_pop_up_title
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import presentation.screen.editexpense.content.EditExpenseContent
 import presentation.screen.editexpense.content.editExpenseObserver
@@ -68,7 +76,7 @@ private fun EditExpenseToolbar(
     var popUpVisible by remember { mutableStateOf(false) }
     Toolbar(
         hasNavigationIcon = true,
-        title = "Edit Expense",
+        title = stringResource(Res.string.edit_expense_title),
         navigation = onBack,
         leftIcon = Icons.Default.Delete,
         onLeftIconPressed = {
@@ -96,7 +104,7 @@ private fun DeletePopUp(
     AlertDialogFinance(
         onDismissRequest = onDismissRequest,
         onConfirmation = onDelete,
-        dialogTitle = "Delete",
-        dialogText = "Do you want to delete this expense?",
+        dialogTitle = stringResource(Res.string.edit_income_pop_up_title),
+        dialogText = stringResource(Res.string.edit_income_pop_up_message),
     )
 }

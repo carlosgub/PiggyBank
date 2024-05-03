@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalResourceApi::class)
+
 package presentation.screen.createincome.content
 
 import androidx.compose.foundation.clickable
@@ -9,6 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import myapplication.shared.generated.resources.Res
+import myapplication.shared.generated.resources.create_income_button
+import myapplication.shared.generated.resources.create_income_title
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.createincome.CreateIncomeScreenIntents
 import presentation.viewmodel.createincome.CreateIncomeScreenState
 import theme.spacing_4
@@ -28,16 +35,15 @@ fun CreateIncomeContent(
     val keyboard = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     Column(
-        modifier =
-            Modifier.fillMaxSize().then(modifier)
-                .clickable(
-                    interactionSource = NoRippleInteractionSource(),
-                    indication = null,
-                ) {
-                    keyboard?.hide()
-                    focusManager.clearFocus()
-                }
-                .padding(horizontal = spacing_4),
+        modifier = Modifier.fillMaxSize().then(modifier)
+            .clickable(
+                interactionSource = NoRippleInteractionSource(),
+                indication = null,
+            ) {
+                keyboard?.hide()
+                focusManager.clearFocus()
+            }
+            .padding(horizontal = spacing_4),
     ) {
         AmountOutlineTextField(
             amountField = state.amountField,
@@ -58,14 +64,13 @@ fun CreateIncomeContent(
             },
         )
         NoteOutlineTextField(
-            firstValue = "",
             keyboard = keyboard,
             focusManager = focusManager,
             onValueChange = { value ->
                 intents.setNote(value)
                 intents.showNoteError(false)
             },
-            state.showNoteError,
+            showError = state.showNoteError,
         )
         Box(
             modifier = Modifier.weight(1.0f),
@@ -79,11 +84,10 @@ fun CreateIncomeContent(
 @Composable
 private fun CreateIncomeButton(intents: CreateIncomeScreenIntents) {
     PrimaryButton(
-        modifier =
-            Modifier.padding(
-                bottom = spacing_6,
-            ),
-        buttonText = "Create Income",
+        modifier = Modifier.padding(
+            bottom = spacing_6,
+        ),
+        buttonText = stringResource(Res.string.create_income_button),
         onClick = {
             intents.create()
         },

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalResourceApi::class)
+
 package presentation.screen.createexpense.content
 
 import androidx.compose.foundation.clickable
@@ -9,6 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import myapplication.shared.generated.resources.Res
+import myapplication.shared.generated.resources.create_expense_button
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.createexpense.CreateExpenseScreenIntents
 import presentation.viewmodel.createexpense.CreateExpenseScreenState
 import theme.spacing_4
@@ -65,14 +71,13 @@ fun CreateExpenseContent(
             },
         )
         NoteOutlineTextField(
-            firstValue = "",
             keyboard = keyboard,
             focusManager = focusManager,
             onValueChange = { value ->
                 intents.setNote(value)
                 intents.showNoteError(false)
             },
-            state.showNoteError,
+            showError = state.showNoteError,
         )
         Box(
             modifier = Modifier.weight(1.0f),
@@ -90,7 +95,7 @@ private fun CreateExpenseButton(intents: CreateExpenseScreenIntents) {
             Modifier.padding(
                 bottom = spacing_6,
             ),
-        buttonText = "Create Expense",
+        buttonText = stringResource(Res.string.create_expense_button),
         onClick = {
             intents.create()
         },

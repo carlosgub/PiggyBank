@@ -35,7 +35,7 @@ import theme.spacing_4
 
 @Composable
 fun NoteOutlineTextField(
-    firstValue: String,
+    firstValue: String = "",
     keyboard: SoftwareKeyboardController?,
     focusManager: FocusManager,
     onValueChange: (String) -> Unit,

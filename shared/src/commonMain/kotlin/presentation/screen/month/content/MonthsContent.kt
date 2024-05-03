@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalFoundationApi::class)
+@file:OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
 
 package presentation.screen.month.content
 
@@ -33,6 +33,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.LocalDateTime
+import myapplication.shared.generated.resources.Res
+import myapplication.shared.generated.resources.months_data_zero_message
+import myapplication.shared.generated.resources.months_data_zero_title
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.months.MonthsScreenState
 import theme.ColorPrimary
 import theme.White
@@ -99,8 +104,8 @@ private fun MonthsScreenSuccessContent(
             )
         } else {
             DataZero<Any>(
-                title = "Ooops! It's Empty",
-                message = "Looks like you don't any month",
+                title = stringResource(Res.string.months_data_zero_title),
+                message = stringResource(Res.string.months_data_zero_message),
             )
         }
     }
