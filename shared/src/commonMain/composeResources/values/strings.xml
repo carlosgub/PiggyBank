@@ -1,0 +1,39 @@
+<resources>
+    <!--region category-->
+    <string name="category_food">Food</string>
+    <string name="category_clothes">Clothes</string>
+    <string name="category_home">Home</string>
+    <string name="category_personal">Personal</string>
+    <string name="category_study">Studies</string>
+    <string name="category_savings">Savings</string>
+    <string name="category_pets">Pets</string>
+    <string name="category_taxi">Taxi</string>
+    <string name="category_love">Love</string>
+    <string name="category_work">Work</string>
+    <!--endregion-->
+
+    <!--region finance enum-->
+    <string name="finance_expense">Expenses</string>
+    <string name="finance_income">Income</string>
+    <!--endregion-->
+
+    <!--region Note Outline TextField-->
+    <string name="note_outline_textfield_error">Write a note</string>
+    <!--endregion-->
+
+    <!--region Categories Chips-->
+    <string name="categories_header">Categories</string>
+    <!--endregion-->
+
+    <!--region Home-->
+    <string name="home_app_name">My Finances</string>
+    <string name="home_add_expense">Add Expense</string>
+    <string name="home_add_income">Add Income</string>
+    <string name="home_body_month_budget">Month Budget</string>
+    <string name="home_body_month_budget">Month Budget</string>
+    <string name="home_body_data_zero_title">Ooops! It's Empty</string>
+    <string name="home_body_data_zero_message">Looks like you don't have anything in your %1$s</string>
+    <string name="home_body_finance_category_item_budget_percentage">%1$d% of budget</string>
+    <string name="home_body_finance_category_item_count_transactions">%1$d transactions</string>
+    <!--endregion-->
+</resources>
