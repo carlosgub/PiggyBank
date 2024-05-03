@@ -53,7 +53,7 @@ fun MonthsContent(
 ) {
     Column(
         modifier = Modifier
-            .background(White)
+            .background(color = White)
             .padding(
                 top = paddingValues.calculateTopPadding()
             )
@@ -138,7 +138,7 @@ fun YearStickyHeader(year: Int) {
         color = Color.White,
         textAlign = TextAlign.Center,
         modifier = Modifier.fillMaxSize()
-            .background(ColorPrimary)
+            .background(color = ColorPrimary)
             .padding(spacing_1_2)
     )
 }
@@ -169,7 +169,7 @@ fun MonthItem(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(ColorPrimary)
+                    .background(color = ColorPrimary)
             )
             Text(
                 localDateTime.month.name.take(1),

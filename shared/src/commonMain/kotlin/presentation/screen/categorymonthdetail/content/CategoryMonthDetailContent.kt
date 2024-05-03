@@ -51,7 +51,7 @@ fun CategoryMonthDetailContent(
 ) {
     Column(
         modifier = Modifier
-            .background(White)
+            .background(color = White)
             .padding(
                 top = paddingValues.calculateTopPadding()
             )
@@ -97,7 +97,7 @@ fun CategoryMonthDetailBody(
             if (state.monthDetail.expenseScreenModel.isNotEmpty()) {
                 LazyColumn(
                     modifier = Modifier
-                        .background(White)
+                        .background(color = White)
                         .fillMaxSize()
                         .padding(
                             top = spacing_6,
@@ -125,7 +125,7 @@ fun CategoryMonthDetailBody(
                     title = "Ooops! It's Empty",
                     message = "Looks like you don't have anything in this category",
                     modifier = Modifier
-                        .background(White)
+                        .background(color = White)
                 )
             }
         }

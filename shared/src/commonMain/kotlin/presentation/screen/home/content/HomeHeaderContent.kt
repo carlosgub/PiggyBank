@@ -211,7 +211,7 @@ private fun OverlayData(
         Box(
             Modifier
                 .clip(RoundedCornerShape(spacing_4))
-                .background(Gray900)
+                .background(color = Gray900)
                 .padding(
                     horizontal = spacing_2,
                     vertical = spacing_1_2

@@ -38,7 +38,7 @@ fun HomeContent(
         modifier = Modifier
             .padding(top = paddingValues.calculateTopPadding())
             .fillMaxSize()
-            .background(ColorPrimary)
+            .background(color = ColorPrimary)
     ) {
         BoxWithConstraints {
             Box(
@@ -52,7 +52,7 @@ fun HomeContent(
                         modifier = Modifier
                             .height(this@BoxWithConstraints.maxHeight)
                             .fillMaxSize()
-                            .background(ColorPrimary)
+                            .background(color = ColorPrimary)
                     ) {
                         HomeHeaderContent(
                             modifier = Modifier

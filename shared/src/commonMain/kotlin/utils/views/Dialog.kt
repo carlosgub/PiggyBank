@@ -29,7 +29,7 @@ fun Dialog(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }
                 )
-                .background(barrierColor)
+                .background(color = barrierColor)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
