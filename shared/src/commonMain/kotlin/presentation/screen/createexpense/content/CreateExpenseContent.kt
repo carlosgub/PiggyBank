@@ -30,7 +30,7 @@ import utils.views.textfield.NoteOutlineTextField
 fun CreateExpenseContent(
     state: CreateExpenseScreenState,
     intents: CreateExpenseScreenIntents,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current

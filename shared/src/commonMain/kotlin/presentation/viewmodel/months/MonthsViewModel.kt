@@ -19,7 +19,6 @@ class MonthsViewModel(
 ) : ViewModel(),
     ContainerHost<MonthsScreenState, MonthsScreenSideEffect>,
     MonthsScreenIntents {
-
     override val container: Container<MonthsScreenState, MonthsScreenSideEffect> =
         viewModelScope.container(MonthsScreenState()) {
             getMonths()

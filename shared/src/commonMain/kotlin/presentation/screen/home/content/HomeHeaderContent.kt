@@ -60,7 +60,7 @@ import utils.views.chart.FinanceBarChart
 
 @Composable
 fun HomeHeaderContent(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     financeScreenModel: FinanceScreenModel,
 ) {
     var visible by rememberSaveable { mutableStateOf(false) }
@@ -159,7 +159,7 @@ private fun HomeHeaderLeftIcon(
 private fun HomeHeaderFirstPage(
     month: Month,
     monthAmount: Long,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
@@ -183,7 +183,7 @@ private fun HomeHeaderFirstPage(
 @Composable
 private fun HomeHeaderSecondPage(
     daySpent: Map<LocalDateTime, Long>,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     var overlayData by remember { mutableStateOf("") }
     Box(
@@ -211,7 +211,7 @@ private fun HomeHeaderSecondPage(
 @Composable
 private fun OverlayData(
     overlayData: String,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     if (overlayData.isNotEmpty()) {
         Box(

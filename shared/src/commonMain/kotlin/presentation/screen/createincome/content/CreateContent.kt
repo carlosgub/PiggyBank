@@ -13,7 +13,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import myapplication.shared.generated.resources.Res
 import myapplication.shared.generated.resources.create_income_button
-import myapplication.shared.generated.resources.create_income_title
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.createincome.CreateIncomeScreenIntents
@@ -30,20 +29,21 @@ import utils.views.textfield.NoteOutlineTextField
 fun CreateIncomeContent(
     state: CreateIncomeScreenState,
     intents: CreateIncomeScreenIntents,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     Column(
-        modifier = Modifier.fillMaxSize().then(modifier)
-            .clickable(
-                interactionSource = NoRippleInteractionSource(),
-                indication = null,
-            ) {
-                keyboard?.hide()
-                focusManager.clearFocus()
-            }
-            .padding(horizontal = spacing_4),
+        modifier =
+            Modifier.fillMaxSize().then(modifier)
+                .clickable(
+                    interactionSource = NoRippleInteractionSource(),
+                    indication = null,
+                ) {
+                    keyboard?.hide()
+                    focusManager.clearFocus()
+                }
+                .padding(horizontal = spacing_4),
     ) {
         AmountOutlineTextField(
             amountField = state.amountField,
@@ -84,9 +84,10 @@ fun CreateIncomeContent(
 @Composable
 private fun CreateIncomeButton(intents: CreateIncomeScreenIntents) {
     PrimaryButton(
-        modifier = Modifier.padding(
-            bottom = spacing_6,
-        ),
+        modifier =
+            Modifier.padding(
+                bottom = spacing_6,
+            ),
         buttonText = stringResource(Res.string.create_income_button),
         onClick = {
             intents.create()

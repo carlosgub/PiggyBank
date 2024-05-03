@@ -48,8 +48,8 @@ fun CreateExpenseScreen(viewModel: CreateExpenseViewModel = koinInject()) {
             state = createScreenState,
             intents = viewModel,
             modifier =
-            Modifier
-                .padding(paddingValues),
+                Modifier
+                    .padding(paddingValues),
         )
     }
 }

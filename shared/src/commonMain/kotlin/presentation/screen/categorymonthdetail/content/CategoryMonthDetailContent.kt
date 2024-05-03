@@ -149,7 +149,7 @@ fun CategoryMonthDetailBody(
 private fun CategoryMonthExpenseItem(
     expense: ExpenseScreenModel,
     expenseClicked: (ExpenseScreenModel) -> Unit,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier =

@@ -28,7 +28,6 @@ import myapplication.shared.generated.resources.category_taxi
 import myapplication.shared.generated.resources.category_work
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.getString
 import theme.Brown
 import theme.ColorOrange
 import theme.ColorPrimary

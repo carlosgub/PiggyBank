@@ -6,13 +6,14 @@ chartsVersion = "1.0.4"
 coreKtxVersion = "1.13.1"
 koinCoreVersion = "3.5.3"
 koinComposeVersion = "1.1.2"
+ktlintVersion = "0.3.20"
 precomposeVersion = "1.6.0"
 datetimeVersion = "0.5.0"
 kotlinStdlibVersion = "1.9.23"
 orbit = "7.1.0"
 androidVersion = "8.2.0"
 composeVersion = "1.6.2"
-klintVersion = "12.1.0"
+klintVersion = "4.3.0"
 
 [libraries]
 charts = { module = "com.carlosgub.kotlinm.charts:charts", version.ref = "chartsVersion" }
@@ -25,6 +26,7 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinCore
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCoreVersion" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeVersion" }
 
+ktlint = { module = "io.nlopez.compose.rules:ktlint", version.ref = "ktlintVersion" }
 precompose-core = { module = "moe.tlaster:precompose", version.ref = "precomposeVersion" }
 precompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "precomposeVersion" }
 precompose-koin = { module = "moe.tlaster:precompose-koin", version.ref = "precomposeVersion" }
@@ -55,4 +57,4 @@ android-application = { id = "com.android.application", version.ref = "androidVe
 android-library = { id = "com.android.library", version.ref = "androidVersion"}
 compose = { id = "org.jetbrains.compose", version.ref = "composeVersion"}
 sqldelight = { id = "app.cash.sqldelight", version.ref = "delightVersion"}
-klint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "klintVersion"}
+klint = { id = "org.jmailen.kotlinter", version.ref = "klintVersion"}

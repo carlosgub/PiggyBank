@@ -1,6 +1,7 @@
 @file:OptIn(
-    ExperimentalMaterialApi::class, ExperimentalLayoutApi::class,
-    ExperimentalResourceApi::class
+    ExperimentalMaterialApi::class,
+    ExperimentalLayoutApi::class,
+    ExperimentalResourceApi::class,
 )
 
 package utils.views.chips
@@ -101,19 +102,19 @@ private fun CategoryChip(
             onChipPressed(categoryEnum)
         },
         colors =
-        ChipDefaults.chipColors(
-            backgroundColor = chipBackgroundColor,
-        ),
+            ChipDefaults.chipColors(
+                backgroundColor = chipBackgroundColor,
+            ),
         shape = RoundedCornerShape(12.dp),
         border = chipBorderStroke,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier =
-            Modifier.padding(
-                horizontal = 6.dp,
-                vertical = 4.dp,
-            ),
+                Modifier.padding(
+                    horizontal = 6.dp,
+                    vertical = 4.dp,
+                ),
         ) {
             Icon(
                 imageVector = categoryEnum.icon,

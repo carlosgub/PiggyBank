@@ -61,22 +61,22 @@ fun NoteOutlineTextField(
             Text("Note")
         },
         keyboardOptions =
-        KeyboardOptions(
-            imeAction = ImeAction.Done,
-            keyboardType = KeyboardType.Text,
-        ),
+            KeyboardOptions(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Text,
+            ),
         keyboardActions =
-        KeyboardActions(
-            onDone = {
-                keyboard?.hide()
-                focusManager.clearFocus()
-            },
-        ),
+            KeyboardActions(
+                onDone = {
+                    keyboard?.hide()
+                    focusManager.clearFocus()
+                },
+            ),
         shape = MaterialTheme.shapes.small,
         modifier =
-        Modifier
-            .padding(top = spacing_2)
-            .fillMaxWidth(),
+            Modifier
+                .padding(top = spacing_2)
+                .fillMaxWidth(),
     )
 
     AnimatedVisibility(showError) {
