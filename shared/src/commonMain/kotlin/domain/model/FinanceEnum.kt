@@ -1,12 +1,12 @@
 package domain.model
 
 enum class FinanceEnum(
-    val financeName: String
+    val financeName: String,
 ) {
     EXPENSE(
-        financeName = "Expenses"
+        financeName = "Expenses",
     ),
     INCOME(
-        financeName = "Income"
-    )
+        financeName = "Income",
+    ),
 }

@@ -9,17 +9,17 @@ data class FinanceScreenModel(
     val monthExpense: MonthExpense = MonthExpense(),
     val expenses: List<FinanceScreenExpenses> = listOf(),
     val income: List<FinanceScreenExpenses> = listOf(),
-    val daySpent: Map<LocalDateTime, Long> = mapOf()
+    val daySpent: Map<LocalDateTime, Long> = mapOf(),
 )
 
 data class FinanceScreenExpenses(
     val category: CategoryEnum,
     val amount: Long,
     val count: Int,
-    val percentage: Int
+    val percentage: Int,
 )
 
 data class MonthExpense(
     val incomeTotal: Double = 0.0,
-    val percentage: Long = 0L
+    val percentage: Long = 0L,
 )

@@ -31,20 +31,21 @@ fun AmountOutlineTextField(
     keyboard: SoftwareKeyboardController?,
     focusManager: FocusManager,
     onValueChange: (String) -> Unit,
-    showError: Boolean
+    showError: Boolean,
 ) {
     var amountTextFieldValue by remember {
         mutableStateOf(
             TextFieldValue(
                 text = amountField,
-                selection = TextRange(amountField.length)
-            )
+                selection = TextRange(amountField.length),
+            ),
         )
     }
-    amountTextFieldValue = TextFieldValue(
-        text = amountField,
-        selection = TextRange(amountField.length)
-    )
+    amountTextFieldValue =
+        TextFieldValue(
+            text = amountField,
+            selection = TextRange(amountField.length),
+        )
     OutlinedTextField(
         value = amountTextFieldValue,
         onValueChange = { value ->
@@ -53,26 +54,29 @@ fun AmountOutlineTextField(
         label = {
             Text("Enter amount")
         },
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Number
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                keyboard?.hide()
-                focusManager.clearFocus()
-            }
-        ),
+        keyboardOptions =
+            KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+            ),
+        keyboardActions =
+            KeyboardActions(
+                onDone = {
+                    keyboard?.hide()
+                    focusManager.clearFocus()
+                },
+            ),
         shape = MaterialTheme.shapes.small,
-        modifier = Modifier
-            .padding(top = spacing_2)
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .padding(top = spacing_2)
+                .fillMaxWidth(),
     )
     AnimatedVisibility(showError) {
         Text(
             text = "Enter an amount greather than zero",
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.padding(start = spacing_4)
+            modifier = Modifier.padding(start = spacing_4),
         )
     }
 }

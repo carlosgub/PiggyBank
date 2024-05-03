@@ -4,7 +4,7 @@ import app.cash.sqldelight.db.SqlDriver
 import com.carlosgub.myfinance.app.Database
 
 class SharedDatabase(
-    private val driverProvider: DatabaseDriverFactory
+    private val driverProvider: DatabaseDriverFactory,
 ) {
     private var database: Database? = null
 

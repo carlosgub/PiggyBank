@@ -1,7 +1,7 @@
 package utils
 
-/*region Collection*/
+// region Collection
 const val COLLECTION_MONTH = "MONTH"
 const val COLLECTION_EXPENSE = "EXPENSE"
 const val COLLECTION_INCOME = "INCOME"
-/*endregion*/
+// endregion

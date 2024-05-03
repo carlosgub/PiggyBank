@@ -13,12 +13,12 @@ fun Database.getMonthList(): Flow<List<String>> {
 
 suspend fun Database.createMonth(month: String) {
     monthQueries.insert(
-        month = month
+        month = month,
     )
 }
 
 suspend fun Database.deleteMonth(month: String) {
     monthQueries.delete(
-        month = month
+        month = month,
     )
 }

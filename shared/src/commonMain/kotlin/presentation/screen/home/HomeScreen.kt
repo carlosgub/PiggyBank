@@ -9,10 +9,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import core.navigation.LocalNavController
+import domain.model.MenuItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import domain.model.MenuItem
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import presentation.screen.home.content.HomeContent
@@ -22,9 +22,7 @@ import utils.getCurrentMonthKey
 import utils.views.Toolbar
 
 @Composable
-fun HomeScreen(
-    monthKey: String
-) {
+fun HomeScreen(monthKey: String) {
     val navigator = LocalNavController.current
     val viewModel = koinViewModel(vmClass = HomeViewModel::class)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
@@ -45,14 +43,14 @@ fun HomeScreen(
                 },
                 onBack = {
                     navigator.popBackStack()
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         HomeContent(
             paddingValues = paddingValues,
             state = state,
-            intents = viewModel
+            intents = viewModel,
         )
     }
     scope.launch {
@@ -72,7 +70,7 @@ private fun HomeToolbar(
     onAddExpensePressed: () -> Unit,
     onAddIncomePressed: () -> Unit,
     onCalendarPressed: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
 ) {
     val leftIcon = if (showLeftIcon) Icons.Filled.CalendarMonth else null
     Toolbar(
@@ -83,17 +81,18 @@ private fun HomeToolbar(
         dropDownMenu = true,
         leftIcon = leftIcon,
         onLeftIconPressed = onCalendarPressed,
-        dropDownItems = mutableListOf(
-            MenuItem(
-                name = "Add Expense",
-                icon = Icons.Filled.MoneyOff,
-                onItemClicked = onAddExpensePressed
+        dropDownItems =
+            mutableListOf(
+                MenuItem(
+                    name = "Add Expense",
+                    icon = Icons.Filled.MoneyOff,
+                    onItemClicked = onAddExpensePressed,
+                ),
+                MenuItem(
+                    name = "Add Income",
+                    icon = Icons.Filled.AttachMoney,
+                    onItemClicked = onAddIncomePressed,
+                ),
             ),
-            MenuItem(
-                name = "Add Income",
-                icon = Icons.Filled.AttachMoney,
-                onItemClicked = onAddIncomePressed
-            )
-        )
     )
 }

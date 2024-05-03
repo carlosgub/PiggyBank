@@ -24,21 +24,21 @@ import utils.views.Toolbar
 @Composable
 fun EditExpenseScreen(
     viewModel: EditExpenseViewModel = koinInject(),
-    id: Long
+    id: Long,
 ) {
     val navigator = LocalNavController.current
     val scope = CoroutineScope(Dispatchers.Main)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
         viewModel.getExpense(
-            id = id
+            id = id,
         )
     }
     scope.launch {
         viewModel.container.sideEffectFlow.collect { sideEffect ->
             editExpenseObserver(
                 sideEffect = sideEffect,
-                navigator = navigator
+                navigator = navigator,
             )
         }
     }
@@ -48,14 +48,14 @@ fun EditExpenseScreen(
                 onBack = { navigator.popBackStack() },
                 onDelete = {
                     viewModel.delete()
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         EditExpenseContent(
             paddingValues = paddingValues,
             state = state,
-            intents = viewModel
+            intents = viewModel,
         )
     }
 }
@@ -63,7 +63,7 @@ fun EditExpenseScreen(
 @Composable
 private fun EditExpenseToolbar(
     onBack: () -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
 ) {
     var popUpVisible by remember { mutableStateOf(false) }
     Toolbar(
@@ -73,7 +73,7 @@ private fun EditExpenseToolbar(
         leftIcon = Icons.Default.Delete,
         onLeftIconPressed = {
             popUpVisible = true
-        }
+        },
     )
     if (popUpVisible) {
         DeletePopUp(
@@ -83,7 +83,7 @@ private fun EditExpenseToolbar(
             },
             onDismissRequest = {
                 popUpVisible = false
-            }
+            },
         )
     }
 }
@@ -91,12 +91,12 @@ private fun EditExpenseToolbar(
 @Composable
 private fun DeletePopUp(
     onDelete: () -> Unit,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
 ) {
     AlertDialogFinance(
         onDismissRequest = onDismissRequest,
         onConfirmation = onDelete,
         dialogTitle = "Delete",
-        dialogText = "Do you want to delete this expense?"
+        dialogText = "Do you want to delete this expense?",
     )
 }

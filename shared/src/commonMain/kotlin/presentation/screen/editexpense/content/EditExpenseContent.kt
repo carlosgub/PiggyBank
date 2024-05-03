@@ -25,23 +25,24 @@ import utils.views.textfield.NoteOutlineTextField
 fun EditExpenseContent(
     paddingValues: PaddingValues,
     state: EditExpenseScreenState,
-    intents: EditExpenseScreenIntents
+    intents: EditExpenseScreenIntents,
 ) {
     if (state.initialDataLoaded) {
         val keyboard = LocalSoftwareKeyboardController.current
         val focusManager = LocalFocusManager.current
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .clickable(
-                    interactionSource = NoRippleInteractionSource(),
-                    indication = null
-                ) {
-                    keyboard?.hide()
-                    focusManager.clearFocus()
-                }
-                .padding(horizontal = spacing_4)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .clickable(
+                        interactionSource = NoRippleInteractionSource(),
+                        indication = null,
+                    ) {
+                        keyboard?.hide()
+                        focusManager.clearFocus()
+                    }
+                    .padding(horizontal = spacing_4),
         ) {
             AmountOutlineTextField(
                 amountField = state.amountField,
@@ -51,13 +52,13 @@ fun EditExpenseContent(
                     intents.setAmount(value)
                     intents.showError(false)
                 },
-                showError = state.showError
+                showError = state.showError,
             )
             CategoriesChips(
                 selectedSelected = state.category,
                 onChipPressed = { categoryEnumSelected ->
                     intents.setCategory(categoryEnumSelected)
-                }
+                },
             )
             DayPicker(
                 dateValue = state.date,
@@ -66,7 +67,7 @@ fun EditExpenseContent(
                 dayValueInMillis = { dateInMillis ->
                     intents.showDateError(false)
                     intents.setDate(dateInMillis)
-                }
+                },
             )
             NoteOutlineTextField(
                 firstValue = state.note,
@@ -76,29 +77,28 @@ fun EditExpenseContent(
                     intents.setNote(value)
                     intents.showNoteError(false)
                 },
-                showError = state.showNoteError
+                showError = state.showNoteError,
             )
             Box(
-                modifier = Modifier.weight(1.0f)
+                modifier = Modifier.weight(1.0f),
             )
             EditExpenseButton(
-                intents = intents
+                intents = intents,
             )
         }
     }
 }
 
 @Composable
-private fun EditExpenseButton(
-    intents: EditExpenseScreenIntents
-) {
+private fun EditExpenseButton(intents: EditExpenseScreenIntents) {
     PrimaryButton(
-        modifier = Modifier.padding(
-            bottom = spacing_6
-        ),
+        modifier =
+            Modifier.padding(
+                bottom = spacing_6,
+            ),
         buttonText = "Edit Expense",
         onClick = {
             intents.edit()
-        }
+        },
     )
 }

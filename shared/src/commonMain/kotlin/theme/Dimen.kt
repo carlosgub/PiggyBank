@@ -3,7 +3,7 @@ package theme
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-/*region spacing*/
+// region spacing
 val spacing_0_2: Dp = 2.dp
 val spacing_1: Dp = 4.dp
 val spacing_1_2: Dp = 6.dp
@@ -19,9 +19,9 @@ val spacing_10: Dp = 40.dp
 val spacing_16: Dp = 64.dp
 val spacing_25: Dp = 100.dp
 val spacing_37_2: Dp = 150.dp
-/*endregion*/
+// endregion
 
-/*region view size*/
+// region view size
 val view_0: Dp = 0.dp
 val view_1: Dp = 4.dp
 val view_2: Dp = 8.dp
@@ -35,8 +35,8 @@ val view_25: Dp = 100.dp
 val view_50: Dp = 200.dp
 val view_60: Dp = 240.dp
 val view_75: Dp = 300.dp
-/*endregion*/
+// endregion
 
-/*region divider*/
+// region divider
 val divider_thickness: Dp = 1.dp
-/*endregion*/
+// endregion

@@ -18,5 +18,5 @@ data class EditIncomeScreenState(
     val showLoading: Boolean = false,
     val id: Long = 0L,
     val financeEnum: FinanceEnum = FinanceEnum.EXPENSE,
-    val monthKey: String = ""
+    val monthKey: String = "",
 )

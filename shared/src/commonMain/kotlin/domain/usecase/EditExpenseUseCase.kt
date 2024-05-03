@@ -4,7 +4,7 @@ import core.sealed.GenericState
 import domain.repository.FinanceRepository
 
 class EditExpenseUseCase(
-    private val financeRepository: FinanceRepository
+    private val financeRepository: FinanceRepository,
 ) {
     suspend operator fun invoke(params: Params): GenericState<Unit> =
         financeRepository.editExpense(
@@ -12,7 +12,7 @@ class EditExpenseUseCase(
             category = params.category,
             note = params.note,
             dateInMillis = params.dateInMillis,
-            id = params.id
+            id = params.id,
         )
 
     data class Params(
@@ -20,6 +20,6 @@ class EditExpenseUseCase(
         val category: String,
         val note: String,
         val dateInMillis: Long,
-        val id: Long
+        val id: Long,
     )
 }

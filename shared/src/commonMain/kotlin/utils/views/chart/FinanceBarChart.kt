@@ -26,46 +26,51 @@ fun FinanceBarChart(
     withYChart: Boolean,
     contentColor: Color = Color.Black,
     onOverlayData: (String) -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val lineData = remember {
-        BarChartData(
-            categories = listOf(
-                BarChartCategory(
-                    name = "",
-                    entries = daySpent.map { day ->
-                        BarChartEntry(
-                            x = "${day.key.dayOfMonth.toDayString()}/${day.key.month.toMonthString()}",
-                            y = (day.value / 100.0).toFloat(),
-                            color = barColor
-                        )
-                    }
-                )
+    val lineData =
+        remember {
+            BarChartData(
+                categories =
+                    listOf(
+                        BarChartCategory(
+                            name = "",
+                            entries =
+                                daySpent.map { day ->
+                                    BarChartEntry(
+                                        x = "${day.key.dayOfMonth.toDayString()}/${day.key.month.toMonthString()}",
+                                        y = (day.value / 100.0).toFloat(),
+                                        color = barColor,
+                                    )
+                                },
+                        ),
+                    ),
             )
-        )
-    }
+        }
     BarChart(
         data = lineData,
         modifier = modifier,
         yAxisLabel = {
             if (withYChart) {
-                val text = if (it is Int) {
-                    "0"
-                } else {
-                    (it as Float).toMoneyFormat()
-                }
+                val text =
+                    if (it is Int) {
+                        "0"
+                    } else {
+                        (it as Float).toMoneyFormat()
+                    }
                 Text(
                     fontSize = 12.sp,
                     text = text,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .offset(x = 20.dp),
-                    color = contentColor
+                    modifier =
+                        Modifier
+                            .offset(x = 20.dp),
+                    color = contentColor,
                 )
             }
         },
         overlayDataEntryLabel = { date, value ->
             onOverlayData("$date\n${(value as Float).toMoneyFormat()}")
-        }
+        },
     )
 }

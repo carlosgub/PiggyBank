@@ -26,136 +26,137 @@ import presentation.viewmodel.home.HomeViewModel
 import presentation.viewmodel.monthDetail.CategoryMonthDetailViewModel
 import presentation.viewmodel.months.MonthsViewModel
 
-val homeModule = module {
-    /*region ViewModels*/
-    factory {
-        HomeViewModel(
-            getFinanceUseCase = get()
-        )
-    }
+val homeModule =
+    module {
+        // region ViewModels
+        factory {
+            HomeViewModel(
+                getFinanceUseCase = get(),
+            )
+        }
 
-    factory {
-        CreateExpenseViewModel(
-            createExpenseUseCase = get()
-        )
-    }
+        factory {
+            CreateExpenseViewModel(
+                createExpenseUseCase = get(),
+            )
+        }
 
-    factory {
-        CreateIncomeViewModel(
-            createIncomeUseCase = get()
-        )
-    }
+        factory {
+            CreateIncomeViewModel(
+                createIncomeUseCase = get(),
+            )
+        }
 
-    factory {
-        EditExpenseViewModel(
-            editExpenseUseCase = get(),
-            deleteUseCase = get(),
-            getExpenseUseCase = get()
-        )
-    }
+        factory {
+            EditExpenseViewModel(
+                editExpenseUseCase = get(),
+                deleteUseCase = get(),
+                getExpenseUseCase = get(),
+            )
+        }
 
-    factory {
-        EditIncomeViewModel(
-            editIncomeUseCase = get(),
-            deleteUseCase = get(),
-            getIncomeUseCase = get()
-        )
-    }
+        factory {
+            EditIncomeViewModel(
+                editIncomeUseCase = get(),
+                deleteUseCase = get(),
+                getIncomeUseCase = get(),
+            )
+        }
 
-    factory {
-        CategoryMonthDetailViewModel(
-            getCategoryMonthDetailUseCase = get(),
-            getIncomeMonthDetailUseCase = get()
-        )
-    }
+        factory {
+            CategoryMonthDetailViewModel(
+                getCategoryMonthDetailUseCase = get(),
+                getIncomeMonthDetailUseCase = get(),
+            )
+        }
 
-    factory {
-        MonthsViewModel(
-            getMonthsUseCase = get()
-        )
-    }
-    /*endregion*/
+        factory {
+            MonthsViewModel(
+                getMonthsUseCase = get(),
+            )
+        }
+        // endregion
 
-    /*region Use Cases*/
-    factory {
-        GetFinanceUseCase(
-            financeRepository = get()
-        )
-    }
+        // region Use Cases
+        factory {
+            GetFinanceUseCase(
+                financeRepository = get(),
+            )
+        }
 
-    factory {
-        GetIncomeUseCase(
-            financeRepository = get()
-        )
-    }
+        factory {
+            GetIncomeUseCase(
+                financeRepository = get(),
+            )
+        }
 
-    factory {
-        GetExpenseUseCase(
-            financeRepository = get()
-        )
-    }
+        factory {
+            GetExpenseUseCase(
+                financeRepository = get(),
+            )
+        }
 
-    factory {
-        CreateExpenseUseCase(
-            financeRepository = get()
-        )
-    }
+        factory {
+            CreateExpenseUseCase(
+                financeRepository = get(),
+            )
+        }
 
-    factory {
-        CreateIncomeUseCase(
-            financeRepository = get()
-        )
-    }
+        factory {
+            CreateIncomeUseCase(
+                financeRepository = get(),
+            )
+        }
 
-    factory {
-        EditIncomeUseCase(
-            financeRepository = get()
-        )
-    }
+        factory {
+            EditIncomeUseCase(
+                financeRepository = get(),
+            )
+        }
 
-    factory {
-        EditExpenseUseCase(
-            financeRepository = get()
-        )
-    }
+        factory {
+            EditExpenseUseCase(
+                financeRepository = get(),
+            )
+        }
 
-    factory {
-        DeleteUseCase(
-            financeRepository = get()
-        )
-    }
+        factory {
+            DeleteUseCase(
+                financeRepository = get(),
+            )
+        }
 
-    factory {
-        GetExpenseMonthDetailUseCase(
-            financeRepository = get()
-        )
-    }
+        factory {
+            GetExpenseMonthDetailUseCase(
+                financeRepository = get(),
+            )
+        }
 
-    factory {
-        GetIncomeMonthDetailUseCase(
-            financeRepository = get()
-        )
-    }
+        factory {
+            GetIncomeMonthDetailUseCase(
+                financeRepository = get(),
+            )
+        }
 
-    factory {
-        GetMonthsUseCase(
-            financeRepository = get()
-        )
-    }
-    /*endregion*/
+        factory {
+            GetMonthsUseCase(
+                financeRepository = get(),
+            )
+        }
+        // endregion
 
-    factory<FinanceRepository> {
-        FinanceRepositoryImpl(
-            databaseFinance = get()
-        )
-    }
+        factory<FinanceRepository> {
+            FinanceRepositoryImpl(
+                databaseFinance = get(),
+            )
+        }
 
-    single {
-        DatabaseFinance(
-            sharedDatabase = get()
-        )
+        single {
+            DatabaseFinance(
+                sharedDatabase = get(),
+            )
+        }
     }
-}
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
     startKoin {
@@ -163,12 +164,13 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
         modules(
             homeModule,
             sqlDelightModule,
-            platformModule()
+            platformModule(),
         )
     }
 
-val sqlDelightModule = module {
-    single { SharedDatabase(get()) }
-}
+val sqlDelightModule =
+    module {
+        single { SharedDatabase(get()) }
+    }
 
 fun initKoin() = initKoin {}

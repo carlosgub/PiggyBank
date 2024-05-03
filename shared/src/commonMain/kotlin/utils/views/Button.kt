@@ -34,24 +34,26 @@ fun PrimaryButton(
     enabled: Boolean = true,
     backgroundColor: Color = ColorPrimary,
     fontColor: Color = Color.White,
-    shape: Shape = MaterialTheme.shapes.medium
+    shape: Shape = MaterialTheme.shapes.medium,
 ) {
     Button(
         onClick = onClick,
         enabled = enabled,
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier =
+            modifier
+                .fillMaxWidth(),
         shape = shape,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = backgroundColor,
-            contentColor = fontColor
-        )
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = backgroundColor,
+                contentColor = fontColor,
+            ),
     ) {
         PrimaryButtonContent(
             iconVector = iconVector,
             iconPainter = iconPainter,
             buttonText = buttonText,
-            fontColor = fontColor
+            fontColor = fontColor,
         )
     }
 }
@@ -61,32 +63,35 @@ fun PrimaryButtonContent(
     iconVector: ImageVector?,
     iconPainter: Painter?,
     buttonText: String,
-    fontColor: Color = Color.White
+    fontColor: Color = Color.White,
 ) {
     Row(
         horizontalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .padding(vertical = spacing_2)
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .padding(vertical = spacing_2)
+                .fillMaxWidth(),
     ) {
         if (iconVector != null) {
             Icon(
                 imageVector = iconVector,
-                modifier = Modifier
-                    .padding(start = spacing_1)
-                    .size(view_6),
+                modifier =
+                    Modifier
+                        .padding(start = spacing_1)
+                        .size(view_6),
                 contentDescription = "button_icon",
-                tint = fontColor
+                tint = fontColor,
             )
         }
         if (iconPainter != null) {
             Icon(
                 painter = iconPainter,
-                modifier = Modifier
-                    .padding(start = spacing_1)
-                    .size(view_6),
+                modifier =
+                    Modifier
+                        .padding(start = spacing_1)
+                        .size(view_6),
                 contentDescription = "button_icon",
-                tint = fontColor
+                tint = fontColor,
             )
         }
         Text(
@@ -97,12 +102,13 @@ fun PrimaryButtonContent(
             fontWeight = FontWeight.Medium,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = spacing_2,
-                    end = spacing_2
-                )
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = spacing_2,
+                        end = spacing_2,
+                    ),
         )
     }
 }

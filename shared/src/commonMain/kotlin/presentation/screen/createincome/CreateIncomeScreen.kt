@@ -17,9 +17,7 @@ import presentation.viewmodel.createincome.CreateIncomeViewModel
 import utils.views.Toolbar
 
 @Composable
-fun CreateIncomeScreen(
-    viewModel: CreateIncomeViewModel = koinInject()
-) {
+fun CreateIncomeScreen(viewModel: CreateIncomeViewModel = koinInject()) {
     val navigator = LocalNavController.current
     val scope = CoroutineScope(Dispatchers.Main)
     val createScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
@@ -27,7 +25,7 @@ fun CreateIncomeScreen(
         viewModel.container.sideEffectFlow.collect { sideEffect ->
             createIncomeObserver(
                 sideEffect = sideEffect,
-                navigator = navigator
+                navigator = navigator,
             )
         }
     }
@@ -36,26 +34,25 @@ fun CreateIncomeScreen(
             CreateIncomeToolbar(
                 onBack = {
                     navigator.popBackStack()
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         CreateIncomeContent(
             state = createScreenState,
             intents = viewModel,
-            modifier = Modifier
-                .padding(paddingValues)
+            modifier =
+                Modifier
+                    .padding(paddingValues),
         )
     }
 }
 
 @Composable
-private fun CreateIncomeToolbar(
-    onBack: () -> Unit
-) {
+private fun CreateIncomeToolbar(onBack: () -> Unit) {
     Toolbar(
         hasNavigationIcon = true,
         title = "Create Income",
-        navigation = onBack
+        navigation = onBack,
     )
 }

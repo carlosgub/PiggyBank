@@ -47,28 +47,29 @@ import utils.views.chart.FinanceLineChart
 fun CategoryMonthDetailContent(
     paddingValues: PaddingValues,
     state: CategoryMonthDetailScreenState,
-    expenseClicked: (ExpenseScreenModel) -> Unit
+    expenseClicked: (ExpenseScreenModel) -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .background(color = White)
-            .padding(
-                top = paddingValues.calculateTopPadding()
-            )
+        modifier =
+            Modifier
+                .background(color = White)
+                .padding(
+                    top = paddingValues.calculateTopPadding(),
+                ),
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().weight(0.35f)
+            modifier = Modifier.fillMaxWidth().weight(0.35f),
         ) {
             CategoryMonthDetailHeader(
-                state = state
+                state = state,
             )
         }
         Column(
-            modifier = Modifier.fillMaxWidth().weight(0.65f)
+            modifier = Modifier.fillMaxWidth().weight(0.65f),
         ) {
             CategoryMonthDetailBody(
                 state = state,
-                expenseClicked = expenseClicked
+                expenseClicked = expenseClicked,
             )
         }
     }
@@ -77,33 +78,37 @@ fun CategoryMonthDetailContent(
 @Composable
 fun CategoryMonthDetailBody(
     state: CategoryMonthDetailScreenState,
-    expenseClicked: (ExpenseScreenModel) -> Unit
+    expenseClicked: (ExpenseScreenModel) -> Unit,
 ) {
     if (state.showLoading || state.isInitialDataLoaded.not()) {
         Loading()
     } else {
         Card(
-            modifier = Modifier
-                .padding(top = spacing_2)
-                .fillMaxSize(),
+            modifier =
+                Modifier
+                    .padding(top = spacing_2)
+                    .fillMaxSize(),
             shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 8.dp
-            ),
-            colors = CardDefaults.cardColors(
-                containerColor = White
-            )
+            elevation =
+                CardDefaults.cardElevation(
+                    defaultElevation = 8.dp,
+                ),
+            colors =
+                CardDefaults.cardColors(
+                    containerColor = White,
+                ),
         ) {
             if (state.monthDetail.expenseScreenModel.isNotEmpty()) {
                 LazyColumn(
-                    modifier = Modifier
-                        .background(color = White)
-                        .fillMaxSize()
-                        .padding(
-                            top = spacing_6,
-                            start = spacing_6,
-                            end = spacing_6
-                        )
+                    modifier =
+                        Modifier
+                            .background(color = White)
+                            .fillMaxSize()
+                            .padding(
+                                top = spacing_6,
+                                start = spacing_6,
+                                end = spacing_6,
+                            ),
                 ) {
                     itemsIndexed(state.monthDetail.expenseScreenModel) { count, expense ->
                         Column {
@@ -113,9 +118,10 @@ fun CategoryMonthDetailBody(
                             CategoryMonthExpenseItem(
                                 expense = expense,
                                 expenseClicked = expenseClicked,
-                                modifier = Modifier.animateItemPlacement(
-                                    animationSpec = tween(600)
-                                )
+                                modifier =
+                                    Modifier.animateItemPlacement(
+                                        animationSpec = tween(600),
+                                    ),
                             )
                         }
                     }
@@ -124,8 +130,9 @@ fun CategoryMonthDetailBody(
                 DataZero<Any>(
                     title = "Ooops! It's Empty",
                     message = "Looks like you don't have anything in this category",
-                    modifier = Modifier
-                        .background(color = White)
+                    modifier =
+                        Modifier
+                            .background(color = White),
                 )
             }
         }
@@ -137,58 +144,57 @@ fun CategoryMonthDetailBody(
 private fun CategoryMonthExpenseItem(
     expense: ExpenseScreenModel,
     expenseClicked: (ExpenseScreenModel) -> Unit,
-    modifier: Modifier
+    modifier: Modifier,
 ) {
     Row(
-        modifier = modifier
-            .combinedClickable(
-                onClick = {
-                },
-                onLongClick = {
-                    expenseClicked(expense)
-                }
-            )
-            .padding(vertical = spacing_4)
+        modifier =
+            modifier
+                .combinedClickable(
+                    onClick = {
+                    },
+                    onLongClick = {
+                        expenseClicked(expense)
+                    },
+                )
+                .padding(vertical = spacing_4),
     ) {
         Column(
-            modifier = Modifier.weight(1f).padding(end = spacing_4)
+            modifier = Modifier.weight(1f).padding(end = spacing_4),
         ) {
             Text(
                 text = expense.note,
                 style = MaterialTheme.typography.bodySmall,
                 fontWeight = FontWeight.Medium,
-                color = Gray900
+                color = Gray900,
             )
             Text(
                 text = expense.date,
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier.padding(top = spacing_1),
                 color = Gray600,
-                fontWeight = FontWeight.Normal
+                fontWeight = FontWeight.Normal,
             )
         }
         Column(
             horizontalAlignment = Alignment.End,
-            verticalArrangement = Arrangement.Top
+            verticalArrangement = Arrangement.Top,
         ) {
             Text(
                 text = (expense.amount / 100.0).toMoneyFormat(),
                 style = MaterialTheme.typography.bodySmall,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.End,
-                color = Gray900
+                color = Gray900,
             )
         }
     }
 }
 
 @Composable
-private fun CategoryMonthDetailHeader(
-    state: CategoryMonthDetailScreenState
-) {
+private fun CategoryMonthDetailHeader(state: CategoryMonthDetailScreenState) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         if (state.showLoading || state.isInitialDataLoaded.not()) {
             Loading()
@@ -198,7 +204,7 @@ private fun CategoryMonthDetailHeader(
                     Spacer(modifier = Modifier.weight(0.2f))
                     FinanceLineChart(
                         state.monthDetail.daySpent,
-                        withYChart = false
+                        withYChart = false,
                     )
                 }
                 Column {
@@ -207,7 +213,7 @@ private fun CategoryMonthDetailHeader(
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = Gray900,
-                        modifier = Modifier.padding(spacing_6)
+                        modifier = Modifier.padding(spacing_6),
                     )
                 }
             }

@@ -16,22 +16,23 @@ import androidx.compose.ui.window.Popup
 fun Dialog(
     barrierColor: Color = Color.Black.copy(alpha = 0.5f),
     onDismissRequest: () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     Popup(
         alignment = Alignment.Center,
-        onDismissRequest = onDismissRequest
+        onDismissRequest = onDismissRequest,
     ) {
         Box(
-            modifier = Modifier
-                .clickable(
-                    onClick = { onDismissRequest() },
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() }
-                )
-                .background(color = barrierColor)
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .clickable(
+                        onClick = { onDismissRequest() },
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() },
+                    )
+                    .background(color = barrierColor)
+                    .fillMaxSize(),
+            contentAlignment = Alignment.Center,
         ) {
             content()
         }

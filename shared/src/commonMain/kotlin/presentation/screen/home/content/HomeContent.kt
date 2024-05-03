@@ -27,52 +27,58 @@ import theme.ColorPrimary
 fun HomeContent(
     paddingValues: PaddingValues,
     state: HomeScreenState,
-    intents: HomeScreenIntents
+    intents: HomeScreenIntents,
 ) {
     val scrollState = rememberScrollState()
-    val pullRefreshState = rememberPullRefreshState(
-        refreshing = state.showLoading && state.isInitialDataLoaded,
-        onRefresh = { intents.getFinanceStatus() }
-    )
+    val pullRefreshState =
+        rememberPullRefreshState(
+            refreshing = state.showLoading && state.isInitialDataLoaded,
+            onRefresh = { intents.getFinanceStatus() },
+        )
     Column(
-        modifier = Modifier
-            .padding(top = paddingValues.calculateTopPadding())
-            .fillMaxSize()
-            .background(color = ColorPrimary)
+        modifier =
+            Modifier
+                .padding(top = paddingValues.calculateTopPadding())
+                .fillMaxSize()
+                .background(color = ColorPrimary),
     ) {
         BoxWithConstraints {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .pullRefresh(pullRefreshState)
-                    .verticalScroll(scrollState)
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .pullRefresh(pullRefreshState)
+                        .verticalScroll(scrollState),
             ) {
                 if (state.isInitialDataLoaded) {
                     Column(
-                        modifier = Modifier
-                            .height(this@BoxWithConstraints.maxHeight)
-                            .fillMaxSize()
-                            .background(color = ColorPrimary)
+                        modifier =
+                            Modifier
+                                .height(this@BoxWithConstraints.maxHeight)
+                                .fillMaxSize()
+                                .background(color = ColorPrimary),
                     ) {
                         HomeHeaderContent(
-                            modifier = Modifier
-                                .weight(0.3f)
-                                .fillMaxSize(),
-                            financeScreenModel = state.financeScreenModel
+                            modifier =
+                                Modifier
+                                    .weight(0.3f)
+                                    .fillMaxSize(),
+                            financeScreenModel = state.financeScreenModel,
                         )
                         HomeBodyContent(
-                            modifier = Modifier
-                                .weight(0.7f)
-                                .fillMaxSize(),
+                            modifier =
+                                Modifier
+                                    .weight(0.7f)
+                                    .fillMaxSize(),
                             state = state,
-                            intents = intents
+                            intents = intents,
                         )
                     }
                 }
                 PullRefreshIndicator(
                     refreshing = state.showLoading && state.isInitialDataLoaded,
                     state = pullRefreshState,
-                    modifier = Modifier.align(Alignment.TopCenter)
+                    modifier = Modifier.align(Alignment.TopCenter),
                 )
             }
         }

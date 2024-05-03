@@ -24,66 +24,66 @@ enum class CategoryEnum(
     val categoryName: String,
     val icon: ImageVector,
     val color: Color = ColorPrimary,
-    val type: FinanceEnum
+    val type: FinanceEnum,
 ) {
     FOOD(
         categoryName = "Food",
         icon = Icons.Filled.Restaurant,
         color = Color.Red,
-        type = FinanceEnum.EXPENSE
+        type = FinanceEnum.EXPENSE,
     ),
     CLOTHES(
         categoryName = "Clothes",
         icon = Icons.Filled.Checkroom,
         color = Pink,
-        type = FinanceEnum.EXPENSE
+        type = FinanceEnum.EXPENSE,
     ),
     HOME(
         categoryName = "Home",
         icon = Icons.Filled.Home,
         color = ColorOrange,
-        type = FinanceEnum.EXPENSE
+        type = FinanceEnum.EXPENSE,
     ),
     PERSONAL(
         categoryName = "Personal",
         icon = Icons.Filled.Man,
         color = Brown,
-        type = FinanceEnum.EXPENSE
+        type = FinanceEnum.EXPENSE,
     ),
     STUDY(
         categoryName = "Studies",
         icon = Icons.Filled.Book,
         color = ColorPrimary,
-        type = FinanceEnum.EXPENSE
+        type = FinanceEnum.EXPENSE,
     ),
     SAVINGS(
         categoryName = "Savings",
         icon = Icons.Filled.Savings,
         color = Purple,
-        type = FinanceEnum.EXPENSE
+        type = FinanceEnum.EXPENSE,
     ),
     PETS(
         categoryName = "Pets",
         icon = Icons.Filled.Pets,
         color = Teal,
-        type = FinanceEnum.EXPENSE
+        type = FinanceEnum.EXPENSE,
     ),
     TAXI(
         categoryName = "Taxi",
         icon = Icons.Filled.LocalTaxi,
         color = Color.Yellow,
-        type = FinanceEnum.EXPENSE
+        type = FinanceEnum.EXPENSE,
     ),
     LOVE(
         categoryName = "Love",
         icon = Icons.Filled.Favorite,
         color = Color.Red,
-        type = FinanceEnum.EXPENSE
+        type = FinanceEnum.EXPENSE,
     ),
     WORK(
         categoryName = "Work",
         icon = Icons.Filled.Work,
         color = Color.Green,
-        type = FinanceEnum.INCOME
-    )
+        type = FinanceEnum.INCOME,
+    ),
 }

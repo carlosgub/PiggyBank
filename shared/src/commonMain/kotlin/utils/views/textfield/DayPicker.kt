@@ -36,17 +36,19 @@ fun DayPicker(
     dateValue: String,
     showError: Boolean,
     dateInMillis: Long? = null,
-    dayValueInMillis: (Long) -> Unit
+    dayValueInMillis: (Long) -> Unit,
 ) {
-    val initialDateMillis = if (dateInMillis != null && dateInMillis > 0L) {
-        dateInMillis
-    } else {
-        null
-    }
+    val initialDateMillis =
+        if (dateInMillis != null && dateInMillis > 0L) {
+            dateInMillis
+        } else {
+            null
+        }
     var isVisible by remember { mutableStateOf(false) }
-    val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = initialDateMillis
-    )
+    val datePickerState =
+        rememberDatePickerState(
+            initialSelectedDateMillis = initialDateMillis,
+        )
     val keyboard = LocalSoftwareKeyboardController.current
     OutlinedTextField(
         value = dateValue,
@@ -54,33 +56,34 @@ fun DayPicker(
         label = {
             Text(
                 text = "Enter day",
-                color = Color.Black
+                color = Color.Black,
             )
         },
         keyboardActions = KeyboardActions(),
         shape = MaterialTheme.shapes.small,
         readOnly = true,
-        modifier = Modifier
-            .padding(top = spacing_2)
-            .fillMaxWidth()
-            .clickable {
-                keyboard?.hide()
-                isVisible = true
-            },
+        modifier =
+            Modifier
+                .padding(top = spacing_2)
+                .fillMaxWidth()
+                .clickable {
+                    keyboard?.hide()
+                    isVisible = true
+                },
         enabled = false,
         leadingIcon = {
             Icon(
                 Icons.Default.CalendarMonth,
-                contentDescription = null
+                contentDescription = null,
             )
-        }
+        },
     )
     AnimatedVisibility(showError) {
         Text(
             text = "Enter a date",
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.padding(start = spacing_4)
+            modifier = Modifier.padding(start = spacing_4),
         )
     }
     AnimatedVisibility(isVisible) {
@@ -95,16 +98,16 @@ fun DayPicker(
                 Button(
                     onClick = {
                         isVisible = false
-                    }
+                    },
                 ) {
                     Text("Ok")
                 }
             },
             content = {
                 DatePicker(
-                    state = datePickerState
+                    state = datePickerState,
                 )
-            }
+            },
         )
     }
     datePickerState.selectedDateMillis?.let {

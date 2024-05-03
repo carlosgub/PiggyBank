@@ -36,7 +36,7 @@ fun NoteOutlineTextField(
     keyboard: SoftwareKeyboardController?,
     focusManager: FocusManager,
     onValueChange: (String) -> Unit,
-    showError: Boolean
+    showError: Boolean,
 ) {
     var text by remember { mutableStateOf("") }
     LaunchedEffect(Unit) {
@@ -57,20 +57,23 @@ fun NoteOutlineTextField(
         label = {
             Text("Note")
         },
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Done,
-            keyboardType = KeyboardType.Text
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                keyboard?.hide()
-                focusManager.clearFocus()
-            }
-        ),
+        keyboardOptions =
+            KeyboardOptions(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Text,
+            ),
+        keyboardActions =
+            KeyboardActions(
+                onDone = {
+                    keyboard?.hide()
+                    focusManager.clearFocus()
+                },
+            ),
         shape = MaterialTheme.shapes.small,
-        modifier = Modifier
-            .padding(top = spacing_2)
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .padding(top = spacing_2)
+                .fillMaxWidth(),
     )
 
     AnimatedVisibility(showError) {
@@ -78,7 +81,7 @@ fun NoteOutlineTextField(
             text = "Write a note",
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.padding(start = spacing_4)
+            modifier = Modifier.padding(start = spacing_4),
         )
     }
 }

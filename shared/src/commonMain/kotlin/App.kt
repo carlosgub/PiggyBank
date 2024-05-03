@@ -29,14 +29,15 @@ fun App() {
             AppTheme {
                 NavHost(
                     navigator = navigator,
-                    initialRoute = Screen.Home.createRoute(
-                        getCurrentMonthKey()
-                    )
+                    initialRoute =
+                        Screen.Home.createRoute(
+                            getCurrentMonthKey(),
+                        ),
                 ) {
                     scene(route = Screen.Home.route) { backStackEntry ->
                         val monthKey: String = backStackEntry.path<String>(NavArgs.MONTH_KEY.key)!!
                         HomeScreen(
-                            monthKey = monthKey
+                            monthKey = monthKey,
                         )
                     }
                     scene(route = Screen.CreateExpenseScreen.route) {
@@ -48,13 +49,13 @@ fun App() {
                     scene(route = Screen.EditExpenseScreen.route) { backStackEntry ->
                         val id = backStackEntry.path<Long>(NavArgs.ID.key)!!
                         EditExpenseScreen(
-                            id = id
+                            id = id,
                         )
                     }
                     scene(route = Screen.EditIncomeScreen.route) { backStackEntry ->
                         val id = backStackEntry.path<Long>(NavArgs.ID.key)!!
                         EditIncomeScreen(
-                            id = id
+                            id = id,
                         )
                     }
                     scene(route = Screen.MonthsScreen.route) {
@@ -67,7 +68,7 @@ fun App() {
                             backStackEntry.path<String>(NavArgs.CATEGORY_NAME.key)!!
                         CategoryMonthDetailScreen(
                             monthKey = monthKey,
-                            categoryName = categoryName
+                            categoryName = categoryName,
                         )
                     }
                 }
@@ -77,16 +78,15 @@ fun App() {
 }
 
 @Composable
-fun AppTheme(
-    content: @Composable () -> Unit
-) {
+fun AppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colorScheme = MaterialTheme.colorScheme.copy(
-            primary = ColorPrimary,
-            surface = Color.White
-        ),
+        colorScheme =
+            MaterialTheme.colorScheme.copy(
+                primary = ColorPrimary,
+                surface = Color.White,
+            ),
         shapes = Shapes,
-        typography = Typography
+        typography = Typography,
     ) {
         content()
     }

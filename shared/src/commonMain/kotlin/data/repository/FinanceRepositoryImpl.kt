@@ -30,9 +30,8 @@ import utils.toMonthKey
 import kotlin.math.roundToInt
 
 class FinanceRepositoryImpl(
-    private val databaseFinance: DatabaseFinance
+    private val databaseFinance: DatabaseFinance,
 ) : FinanceRepository {
-
     override suspend fun getFinance(monthKey: String): Flow<GenericState<FinanceScreenModel>> =
         flow {
             databaseFinance.getAllMonthExpenses(monthKey)
@@ -52,7 +51,7 @@ class FinanceRepositoryImpl(
                                         category = getCategoryEnumFromName(it.key),
                                         amount = amount,
                                         count = it.value.size,
-                                        percentage = (amount / expenseTotal.toFloat() * 100).roundToInt()
+                                        percentage = (amount / expenseTotal.toFloat() * 100).roundToInt(),
                                     )
                                 }.sortedByDescending { it.percentage }
                         val incomeList =
@@ -63,41 +62,46 @@ class FinanceRepositoryImpl(
                                         category = getCategoryEnumFromName(it.key),
                                         amount = amount,
                                         count = it.value.size,
-                                        percentage = (amount / incomeTotal.toFloat() * 100).roundToInt()
+                                        percentage = (amount / incomeTotal.toFloat() * 100).roundToInt(),
                                     )
                                 }.sortedByDescending { it.amount }
                         val monthExpense =
                             MonthExpense(
                                 incomeTotal = incomeTotal / 100.0,
-                                percentage = if (incomeTotal != 0L) expenseTotal * 100 / incomeTotal else 100
+                                percentage = if (incomeTotal != 0L) expenseTotal * 100 / incomeTotal else 100,
                             )
-                        val date = createLocalDateTime(
-                            year = monthKey.substring(2, 6).toInt(),
-                            monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
-                        )
-                        val expenseScreenModelList = expenses.data.map { expense ->
-                            val localDate = FinanceLocalDate(expense.dateInMillis.toLocalDate())
-                            ExpenseScreenModel(
-                                id = expense.id,
-                                amount = expense.amount,
-                                note = expense.note.replaceFirstChar { it.uppercase() },
-                                category = expense.category,
-                                localDateTime = localDate.localDateTime,
-                                date = localDate.date,
-                                monthKey = monthKey
+                        val date =
+                            createLocalDateTime(
+                                year = monthKey.substring(2, 6).toInt(),
+                                monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
                             )
-                        }.sortedByDescending { it.localDateTime }
+                        val expenseScreenModelList =
+                            expenses.data.map { expense ->
+                                val localDate = FinanceLocalDate(expense.dateInMillis.toLocalDate())
+                                ExpenseScreenModel(
+                                    id = expense.id,
+                                    amount = expense.amount,
+                                    note = expense.note.replaceFirstChar { it.uppercase() },
+                                    category = expense.category,
+                                    localDateTime = localDate.localDateTime,
+                                    date = localDate.date,
+                                    monthKey = monthKey,
+                                )
+                            }.sortedByDescending { it.localDateTime }
                         val daySpent =
                             (1..date.monthNumber.monthLength(isLeapYear(date.year))).associate { day ->
-                                val dateInternal = createLocalDateTime(
-                                    year = monthKey.substring(2, 6).toInt(),
-                                    monthNumber = monthKey.substring(0, 2).trimStart('0')
-                                        .toInt(),
-                                    dayOfMonth = day
-                                )
-                                dateInternal to expenseScreenModelList.filter { expense ->
-                                    expense.localDateTime == dateInternal
-                                }.sumOf { it.amount }
+                                val dateInternal =
+                                    createLocalDateTime(
+                                        year = monthKey.substring(2, 6).toInt(),
+                                        monthNumber =
+                                            monthKey.substring(0, 2).trimStart('0')
+                                                .toInt(),
+                                        dayOfMonth = day,
+                                    )
+                                dateInternal to
+                                    expenseScreenModelList.filter { expense ->
+                                        expense.localDateTime == dateInternal
+                                    }.sumOf { it.amount }
                             }
                         emit(
                             GenericState.Success(
@@ -105,15 +109,17 @@ class FinanceRepositoryImpl(
                                     expenseAmount = expenseTotal,
                                     expenses = expenseList,
                                     income = incomeList,
-                                    month = createLocalDateTime(
-                                        year = monthKey.substring(2, 6).toInt(),
-                                        monthNumber = monthKey.substring(0, 2).trimStart('0')
-                                            .toInt()
-                                    ).month,
+                                    month =
+                                        createLocalDateTime(
+                                            year = monthKey.substring(2, 6).toInt(),
+                                            monthNumber =
+                                                monthKey.substring(0, 2).trimStart('0')
+                                                    .toInt(),
+                                        ).month,
                                     monthExpense = monthExpense,
-                                    daySpent = daySpent
-                                )
-                            )
+                                    daySpent = daySpent,
+                                ),
+                            ),
                         )
                     } else {
                         if (expenses is ResponseResult.Error) {
@@ -125,10 +131,7 @@ class FinanceRepositoryImpl(
                 }
         }
 
-
-    override suspend fun getExpense(
-        id: Long
-    ): GenericState<FinanceModel> =
+    override suspend fun getExpense(id: Long): GenericState<FinanceModel> =
         withContext(Dispatchers.Default) {
             val expense = databaseFinance.getExpense(id)
             if (expense is ResponseResult.Success) {
@@ -141,8 +144,8 @@ class FinanceRepositoryImpl(
                         category = expense.data.category,
                         localDateTime = localDate.localDateTime,
                         date = localDate.date,
-                        monthKey = expense.data.month
-                    )
+                        monthKey = expense.data.month,
+                    ),
                 )
             } else {
                 GenericState.Error("")
@@ -162,8 +165,8 @@ class FinanceRepositoryImpl(
                         category = income.data.category,
                         localDateTime = localDate.localDateTime,
                         date = localDate.date,
-                        monthKey = income.data.month
-                    )
+                        monthKey = income.data.month,
+                    ),
                 )
             } else {
                 GenericState.Error("")
@@ -174,7 +177,7 @@ class FinanceRepositoryImpl(
         amount: Int,
         category: String,
         note: String,
-        dateInMillis: Long
+        dateInMillis: Long,
     ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             ResultMapper.toGenericState(
@@ -182,23 +185,23 @@ class FinanceRepositoryImpl(
                     amount = amount,
                     category = category,
                     note = note,
-                    dateInMillis = dateInMillis
-                )
+                    dateInMillis = dateInMillis,
+                ),
             )
         }
 
     override suspend fun createIncome(
         amount: Int,
         note: String,
-        dateInMillis: Long
+        dateInMillis: Long,
     ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             ResultMapper.toGenericState(
                 databaseFinance.createIncome(
                     amount = amount,
                     note = note,
-                    dateInMillis = dateInMillis
-                )
+                    dateInMillis = dateInMillis,
+                ),
             )
         }
 
@@ -207,17 +210,18 @@ class FinanceRepositoryImpl(
         category: String,
         note: String,
         dateInMillis: Long,
-        id: Long
+        id: Long,
     ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             when (
-                val result = databaseFinance.editExpense(
-                    amount = amount,
-                    category = category,
-                    note = note,
-                    dateInMillis = dateInMillis,
-                    id = id
-                )
+                val result =
+                    databaseFinance.editExpense(
+                        amount = amount,
+                        category = category,
+                        note = note,
+                        dateInMillis = dateInMillis,
+                        id = id,
+                    )
             ) {
                 is ResponseResult.Success -> GenericState.Success(Unit)
                 is ResponseResult.Error -> GenericState.Error(result.error.message.toString())
@@ -228,16 +232,17 @@ class FinanceRepositoryImpl(
         amount: Long,
         note: String,
         dateInMillis: Long,
-        id: Long
+        id: Long,
     ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             when (
-                val result = databaseFinance.editIncome(
-                    amount = amount,
-                    note = note,
-                    dateInMillis = dateInMillis,
-                    id = id
-                )
+                val result =
+                    databaseFinance.editIncome(
+                        amount = amount,
+                        note = note,
+                        dateInMillis = dateInMillis,
+                        id = id,
+                    )
             ) {
                 is ResponseResult.Success -> GenericState.Success(Unit)
                 is ResponseResult.Error -> GenericState.Error(result.error.message.toString())
@@ -247,15 +252,16 @@ class FinanceRepositoryImpl(
     override suspend fun delete(
         financeEnum: FinanceEnum,
         id: Long,
-        monthKey: String
+        monthKey: String,
     ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             when (
-                val result = databaseFinance.delete(
-                    financeEnum = financeEnum,
-                    id = id,
-                    monthKey = monthKey
-                )
+                val result =
+                    databaseFinance.delete(
+                        financeEnum = financeEnum,
+                        id = id,
+                        monthKey = monthKey,
+                    )
             ) {
                 is ResponseResult.Success -> GenericState.Success(Unit)
                 is ResponseResult.Error -> GenericState.Error(result.error.message.toString())
@@ -264,54 +270,58 @@ class FinanceRepositoryImpl(
 
     override suspend fun getExpenseMonthDetail(
         categoryEnum: CategoryEnum,
-        monthKey: String
-    ): Flow<GenericState<MonthDetailScreenModel>> = flow {
-        databaseFinance.getExpenseMonthDetail(categoryEnum, monthKey).collect { result ->
-            when (result) {
-                is ResponseResult.Error -> GenericState.Error(result.error.message.orEmpty())
-                is ResponseResult.Success -> {
-                    val monthAmount = result.data.sumOf { it.amount }
-                    val expenseScreenModelList = result.data.map { expense ->
-                        val localDate = FinanceLocalDate(expense.dateInMillis.toLocalDate())
-                        ExpenseScreenModel(
-                            id = expense.id,
-                            amount = expense.amount,
-                            note = expense.note.replaceFirstChar { it.uppercase() },
-                            category = expense.category,
-                            localDateTime = localDate.localDateTime,
-                            date = localDate.date,
-                            monthKey = monthKey
-                        )
-                    }.sortedByDescending { it.localDateTime }
-                    val date = createLocalDateTime(
-                        year = monthKey.substring(2, 6).toInt(),
-                        monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
-                    )
-                    val daySpent =
-                        (1..date.monthNumber.monthLength(isLeapYear(date.year))).associate { day ->
-                            val dateInternal = createLocalDateTime(
+        monthKey: String,
+    ): Flow<GenericState<MonthDetailScreenModel>> =
+        flow {
+            databaseFinance.getExpenseMonthDetail(categoryEnum, monthKey).collect { result ->
+                when (result) {
+                    is ResponseResult.Error -> GenericState.Error(result.error.message.orEmpty())
+                    is ResponseResult.Success -> {
+                        val monthAmount = result.data.sumOf { it.amount }
+                        val expenseScreenModelList =
+                            result.data.map { expense ->
+                                val localDate = FinanceLocalDate(expense.dateInMillis.toLocalDate())
+                                ExpenseScreenModel(
+                                    id = expense.id,
+                                    amount = expense.amount,
+                                    note = expense.note.replaceFirstChar { it.uppercase() },
+                                    category = expense.category,
+                                    localDateTime = localDate.localDateTime,
+                                    date = localDate.date,
+                                    monthKey = monthKey,
+                                )
+                            }.sortedByDescending { it.localDateTime }
+                        val date =
+                            createLocalDateTime(
                                 year = monthKey.substring(2, 6).toInt(),
                                 monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
-                                dayOfMonth = day
                             )
-                            dateInternal to expenseScreenModelList.filter { expense ->
-                                expense.localDateTime == dateInternal
-                            }.sumOf { it.amount }
-                        }
-                    emit(
-                        GenericState.Success(
-                            MonthDetailScreenModel(
-                                monthAmount = monthAmount,
-                                expenseScreenModel = expenseScreenModelList,
-                                daySpent = daySpent
-                            )
+                        val daySpent =
+                            (1..date.monthNumber.monthLength(isLeapYear(date.year))).associate { day ->
+                                val dateInternal =
+                                    createLocalDateTime(
+                                        year = monthKey.substring(2, 6).toInt(),
+                                        monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
+                                        dayOfMonth = day,
+                                    )
+                                dateInternal to
+                                    expenseScreenModelList.filter { expense ->
+                                        expense.localDateTime == dateInternal
+                                    }.sumOf { it.amount }
+                            }
+                        emit(
+                            GenericState.Success(
+                                MonthDetailScreenModel(
+                                    monthAmount = monthAmount,
+                                    expenseScreenModel = expenseScreenModelList,
+                                    daySpent = daySpent,
+                                ),
+                            ),
                         )
-                    )
+                    }
                 }
             }
         }
-    }
-
 
     override suspend fun getIncomeMonthDetail(monthKey: String): Flow<GenericState<MonthDetailScreenModel>> =
         flow {
@@ -321,72 +331,77 @@ class FinanceRepositoryImpl(
                         is ResponseResult.Error -> GenericState.Error(result.error.message.orEmpty())
                         is ResponseResult.Success -> {
                             val monthAmount = result.data.sumOf { it.amount }
-                            val expenseScreenModelList = result.data.map { expense ->
-                                val localDate =
-                                    FinanceLocalDate(expense.dateInMillis.toLocalDate())
-                                ExpenseScreenModel(
-                                    id = expense.id,
-                                    amount = expense.amount,
-                                    note = expense.note.replaceFirstChar { it.uppercase() },
-                                    category = expense.category,
-                                    localDateTime = localDate.localDateTime,
-                                    date = localDate.date,
-                                    monthKey = monthKey
+                            val expenseScreenModelList =
+                                result.data.map { expense ->
+                                    val localDate =
+                                        FinanceLocalDate(expense.dateInMillis.toLocalDate())
+                                    ExpenseScreenModel(
+                                        id = expense.id,
+                                        amount = expense.amount,
+                                        note = expense.note.replaceFirstChar { it.uppercase() },
+                                        category = expense.category,
+                                        localDateTime = localDate.localDateTime,
+                                        date = localDate.date,
+                                        monthKey = monthKey,
+                                    )
+                                }.sortedByDescending { it.localDateTime }
+                            val date =
+                                createLocalDateTime(
+                                    year = monthKey.substring(2, 6).toInt(),
+                                    monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
                                 )
-                            }.sortedByDescending { it.localDateTime }
-                            val date = createLocalDateTime(
-                                year = monthKey.substring(2, 6).toInt(),
-                                monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
-                            )
                             val daySpent =
                                 (1..date.monthNumber.monthLength(isLeapYear(date.year))).associate { day ->
-                                    val dateInternal = createLocalDateTime(
-                                        year = monthKey.substring(2, 6).toInt(),
-                                        monthNumber = monthKey.substring(0, 2).trimStart('0')
-                                            .toInt(),
-                                        dayOfMonth = day
-                                    )
-                                    dateInternal to expenseScreenModelList.filter { expense ->
-                                        expense.localDateTime == dateInternal
-                                    }.sumOf { it.amount }
+                                    val dateInternal =
+                                        createLocalDateTime(
+                                            year = monthKey.substring(2, 6).toInt(),
+                                            monthNumber =
+                                                monthKey.substring(0, 2).trimStart('0')
+                                                    .toInt(),
+                                            dayOfMonth = day,
+                                        )
+                                    dateInternal to
+                                        expenseScreenModelList.filter { expense ->
+                                            expense.localDateTime == dateInternal
+                                        }.sumOf { it.amount }
                                 }
                             emit(
                                 GenericState.Success(
                                     MonthDetailScreenModel(
                                         monthAmount = monthAmount,
                                         expenseScreenModel = expenseScreenModelList,
-                                        daySpent = daySpent
-                                    )
-                                )
+                                        daySpent = daySpent,
+                                    ),
+                                ),
                             )
                         }
                     }
                 }
         }
 
-
-    override suspend fun getMonths(): Flow<GenericState<Map<Int, List<LocalDateTime>>>> = flow {
-        databaseFinance.getMonths().collect { result ->
-            when (result) {
-                is ResponseResult.Success -> {
-                    emit(
-                        GenericState.Success(
-                            result.data.map { month ->
-                                createLocalDateTime(
-                                    year = month.year.toInt(),
-                                    monthNumber = month.month.trimStart('0').toInt()
-                                )
-                            }.filter { localDateTime ->
-                                localDateTime.toMonthKey() != getCurrentMonthKey()
-                            }.groupBy { localDateTime ->
-                                localDateTime.year
-                            }
+    override suspend fun getMonths(): Flow<GenericState<Map<Int, List<LocalDateTime>>>> =
+        flow {
+            databaseFinance.getMonths().collect { result ->
+                when (result) {
+                    is ResponseResult.Success -> {
+                        emit(
+                            GenericState.Success(
+                                result.data.map { month ->
+                                    createLocalDateTime(
+                                        year = month.year.toInt(),
+                                        monthNumber = month.month.trimStart('0').toInt(),
+                                    )
+                                }.filter { localDateTime ->
+                                    localDateTime.toMonthKey() != getCurrentMonthKey()
+                                }.groupBy { localDateTime ->
+                                    localDateTime.year
+                                },
+                            ),
                         )
-                    )
-                }
+                    }
 
-                is ResponseResult.Error -> emit(GenericState.Error(result.error.message.toString()))
+                    is ResponseResult.Error -> emit(GenericState.Error(result.error.message.toString()))
+                }
             }
         }
-    }
 }

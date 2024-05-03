@@ -8,52 +8,51 @@ import presentation.viewmodel.home.HomeScreenState
 fun homeObserver(
     sideEffect: HomeScreenSideEffect,
     navigator: Navigator,
-    state: HomeScreenState
+    state: HomeScreenState,
 ) {
     when (sideEffect) {
-        HomeScreenSideEffect.NavigateToAddExpense -> navigateToAddExpenseScreen(
-            navigator = navigator
-        )
+        HomeScreenSideEffect.NavigateToAddExpense ->
+            navigateToAddExpenseScreen(
+                navigator = navigator,
+            )
 
-        HomeScreenSideEffect.NavigateToAddIncome -> navigateToAddIncomeScreen(
-            navigator = navigator
-        )
+        HomeScreenSideEffect.NavigateToAddIncome ->
+            navigateToAddIncomeScreen(
+                navigator = navigator,
+            )
 
-        is HomeScreenSideEffect.NavigateToMonthDetail -> navigateMonthDetailScreen(
-            navigator = navigator,
-            categoryName = sideEffect.financeScreenExpenses.category.name,
-            monthKey = state.monthKey
-        )
+        is HomeScreenSideEffect.NavigateToMonthDetail ->
+            navigateMonthDetailScreen(
+                navigator = navigator,
+                categoryName = sideEffect.financeScreenExpenses.category.name,
+                monthKey = state.monthKey,
+            )
 
         HomeScreenSideEffect.NavigateToMonths -> navigator.navigate(Screen.MonthsScreen.route)
     }
 }
 
-private fun navigateToAddIncomeScreen(
-    navigator: Navigator
-) {
+private fun navigateToAddIncomeScreen(navigator: Navigator) {
     navigator.navigate(
-        Screen.CreateIncomeScreen.route
+        Screen.CreateIncomeScreen.route,
     )
 }
 
-private fun navigateToAddExpenseScreen(
-    navigator: Navigator
-) {
+private fun navigateToAddExpenseScreen(navigator: Navigator) {
     navigator.navigate(
-        Screen.CreateExpenseScreen.route
+        Screen.CreateExpenseScreen.route,
     )
 }
 
 private fun navigateMonthDetailScreen(
     navigator: Navigator,
     categoryName: String,
-    monthKey: String
+    monthKey: String,
 ) {
     navigator.navigate(
         Screen.CategoryMonthDetailScreen.createRoute(
             monthKey = monthKey,
-            categoryName = categoryName
-        )
+            categoryName = categoryName,
+        ),
     )
 }

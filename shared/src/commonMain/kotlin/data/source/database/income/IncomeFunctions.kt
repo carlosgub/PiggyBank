@@ -8,14 +8,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 
-fun Database.getIncomeList(month: String): Flow<List<Income>> =
-    incomeQueries.getIncomeList(month).asFlow().mapToList(Dispatchers.IO)
+fun Database.getIncomeList(month: String): Flow<List<Income>> = incomeQueries.getIncomeList(month).asFlow().mapToList(Dispatchers.IO)
 
 fun Database.getIncome(id: Long): Income {
     return incomeQueries.getIncome(id).executeAsOne()
 }
 
-fun Database.getIncomeListPerCategory(month: String, category: String): Flow<List<Income>> {
+fun Database.getIncomeListPerCategory(
+    month: String,
+    category: String,
+): Flow<List<Income>> {
     return incomeQueries.getIncomePerCategoryList(month, category).asFlow()
         .mapToList(Dispatchers.IO)
 }
@@ -27,7 +29,7 @@ suspend fun Database.createIncome(income: Income) {
         note = income.note,
         category = income.category,
         month = income.month,
-        dateInMillis = income.dateInMillis
+        dateInMillis = income.dateInMillis,
     )
 }
 
@@ -38,12 +40,12 @@ suspend fun Database.updateIncome(income: Income) {
         note = income.note,
         category = income.category,
         month = income.month,
-        dateInMillis = income.dateInMillis
+        dateInMillis = income.dateInMillis,
     )
 }
 
 suspend fun Database.deleteIncome(id: Long) {
     incomeQueries.delete(
-        id = id
+        id = id,
     )
 }

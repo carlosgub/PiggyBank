@@ -26,39 +26,37 @@ fun MonthsScreen() {
             MonthsToolbar(
                 onBack = {
                     navigator.popBackStack()
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         MonthsContent(
             monthsScreenState = monthsScreenState,
             paddingValues = paddingValues,
             onMonthClicked = { monthKey ->
                 viewModel.navigateToMonthDetail(
-                    monthKey = monthKey
+                    monthKey = monthKey,
                 )
-            }
+            },
         )
     }
     scope.launch {
         viewModel.container.sideEffectFlow.collect { sideEffect ->
             monthsObserver(
                 sideEffect = sideEffect,
-                navigator = navigator
+                navigator = navigator,
             )
         }
     }
 }
 
 @Composable
-private fun MonthsToolbar(
-    onBack: () -> Unit
-) {
+private fun MonthsToolbar(onBack: () -> Unit) {
     Toolbar(
         backgroundColor = Color.White,
         hasNavigationIcon = true,
         navigation = onBack,
         contentColor = Color.Black,
-        title = "Months"
+        title = "Months",
     )
 }

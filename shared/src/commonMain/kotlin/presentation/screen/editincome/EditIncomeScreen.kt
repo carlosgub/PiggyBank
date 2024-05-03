@@ -31,14 +31,14 @@ fun EditIncomeScreen(
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
         viewModel.getIncome(
-            id = id
+            id = id,
         )
     }
     scope.launch {
         viewModel.container.sideEffectFlow.collect { sideEffect ->
             editIncomeObserver(
                 sideEffect = sideEffect,
-                navigator = navigator
+                navigator = navigator,
             )
         }
     }
@@ -48,14 +48,14 @@ fun EditIncomeScreen(
                 onBack = { navigator.popBackStack() },
                 onDelete = {
                     viewModel.delete()
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         EditIncomeContent(
             paddingValues = paddingValues,
             state = state,
-            intents = viewModel
+            intents = viewModel,
         )
     }
 }
@@ -63,7 +63,7 @@ fun EditIncomeScreen(
 @Composable
 private fun EditIncomeToolbar(
     onBack: () -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
 ) {
     var popUpVisible by remember { mutableStateOf(false) }
     Toolbar(
@@ -73,7 +73,7 @@ private fun EditIncomeToolbar(
         leftIcon = Icons.Default.Delete,
         onLeftIconPressed = {
             popUpVisible = true
-        }
+        },
     )
     if (popUpVisible) {
         DeleteIncomePopUp(
@@ -83,7 +83,7 @@ private fun EditIncomeToolbar(
             },
             onDismissRequest = {
                 popUpVisible = false
-            }
+            },
         )
     }
 }
@@ -91,12 +91,12 @@ private fun EditIncomeToolbar(
 @Composable
 private fun DeleteIncomePopUp(
     onDelete: () -> Unit,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
 ) {
     AlertDialogFinance(
         onDismissRequest = onDismissRequest,
         onConfirmation = onDelete,
         dialogTitle = "Delete",
-        dialogText = "Do you want to delete this income?"
+        dialogText = "Do you want to delete this income?",
     )
 }

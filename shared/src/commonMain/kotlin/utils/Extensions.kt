@@ -1,5 +1,6 @@
 package utils
 
+import domain.model.FinanceEnum
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -8,18 +9,18 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.number
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
-import domain.model.FinanceEnum
 import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
 fun Double.toMoneyFormat(): String = "$${this.toPrecision(2)}"
+
 fun Float.toMoneyFormat(): String = "$${this.toPrecision(2)}"
 
-fun LocalDateTime.toMonthKey():String = "${this.month.toMonthString()}${this.year}"
-fun Float.toPrecision(precision: Int) =
-    this.toDouble().toPrecision(precision)
+fun LocalDateTime.toMonthKey(): String = "${this.month.toMonthString()}${this.year}"
+
+fun Float.toPrecision(precision: Int) = this.toDouble().toPrecision(precision)
 
 fun Double.toPrecision(precision: Int) =
     if (precision < 1) {
@@ -71,7 +72,6 @@ fun Long.toLocalDate(): LocalDate =
     Instant.fromEpochMilliseconds(this)
         .toLocalDateTime(TimeZone.UTC).date
 
-fun LocalDateTime.toMillis(): Long =
-    this.toInstant(TimeZone.UTC).toEpochMilliseconds()
+fun LocalDateTime.toMillis(): Long = this.toInstant(TimeZone.UTC).toEpochMilliseconds()
 
 fun FinanceEnum.isExpense() = this == FinanceEnum.EXPENSE

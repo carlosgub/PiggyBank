@@ -15,7 +15,7 @@ import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 
 class MonthsViewModel(
-    private val getMonthsUseCase: GetMonthsUseCase
+    private val getMonthsUseCase: GetMonthsUseCase,
 ) : ViewModel(),
     ContainerHost<MonthsScreenState, MonthsScreenSideEffect>,
     MonthsScreenIntents {
@@ -25,36 +25,39 @@ class MonthsViewModel(
             getMonths()
         }
 
-    override fun getMonths(): Job = intent {
-        showLoading()
-        delay(200)
-        getMonthsUseCase()
-            .collect { result ->
-                when (result) {
-                    is GenericState.Success -> {
-                        setMonths(result.data)
+    override fun getMonths(): Job =
+        intent {
+            showLoading()
+            delay(200)
+            getMonthsUseCase()
+                .collect { result ->
+                    when (result) {
+                        is GenericState.Success -> {
+                            setMonths(result.data)
+                        }
+
+                        else -> Unit
                     }
-
-                    else -> Unit
                 }
-            }
-
-    }
-
-    override fun navigateToMonthDetail(monthKey: String): Job = intent {
-        postSideEffect(MonthsScreenSideEffect.NavigateToMonthDetail(monthKey))
-    }
-
-    private fun setMonths(months: Map<Int, List<LocalDateTime>>): Job = intent {
-        reduce {
-            state.copy(
-                showLoading = false,
-                months = months
-            )
         }
-    }
 
-    private fun showLoading(): Job = intent {
-        reduce { state.copy(showLoading = true) }
-    }
+    override fun navigateToMonthDetail(monthKey: String): Job =
+        intent {
+            postSideEffect(MonthsScreenSideEffect.NavigateToMonthDetail(monthKey))
+        }
+
+    private fun setMonths(months: Map<Int, List<LocalDateTime>>): Job =
+        intent {
+            reduce {
+                state.copy(
+                    showLoading = false,
+                    months = months,
+                )
+            }
+        }
+
+    private fun showLoading(): Job =
+        intent {
+            reduce { state.copy(showLoading = true) }
+        }
 }
