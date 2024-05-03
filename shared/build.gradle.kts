@@ -1,10 +1,10 @@
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
-    id("com.android.library")
-    id("org.jetbrains.compose")
-    id("app.cash.sqldelight") version "2.0.1"
-    id("org.jlleitschuh.gradle.ktlint")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.sqldelight)
+    alias(libs.plugins.klint)
 }
 
 kotlin {
