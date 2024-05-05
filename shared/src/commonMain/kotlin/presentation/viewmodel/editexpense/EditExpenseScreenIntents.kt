@@ -1,4 +1,4 @@
-package presentation.viewmodel.edit
+package presentation.viewmodel.editexpense
 
 import domain.model.CategoryEnum
 import kotlinx.coroutines.Job

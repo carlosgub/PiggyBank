@@ -16,8 +16,8 @@ import myapplication.shared.generated.resources.Res
 import myapplication.shared.generated.resources.edit_income_button
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
-import presentation.viewmodel.edit.EditExpenseScreenIntents
-import presentation.viewmodel.edit.EditExpenseScreenState
+import presentation.viewmodel.editexpense.EditExpenseScreenIntents
+import presentation.viewmodel.editexpense.EditExpenseScreenState
 import theme.spacing_4
 import theme.spacing_6
 import utils.NoRippleInteractionSource

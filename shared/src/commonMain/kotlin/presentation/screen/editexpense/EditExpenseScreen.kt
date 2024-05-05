@@ -25,7 +25,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import presentation.screen.editexpense.content.EditExpenseContent
 import presentation.screen.editexpense.content.editExpenseObserver
-import presentation.viewmodel.edit.EditExpenseViewModel
+import presentation.viewmodel.editexpense.EditExpenseViewModel
 import utils.views.AlertDialogFinance
 import utils.views.Toolbar
 

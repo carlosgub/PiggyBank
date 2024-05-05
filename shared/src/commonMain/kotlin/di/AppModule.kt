@@ -20,7 +20,7 @@ import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 import presentation.viewmodel.createexpense.CreateExpenseViewModel
 import presentation.viewmodel.createincome.CreateIncomeViewModel
-import presentation.viewmodel.edit.EditExpenseViewModel
+import presentation.viewmodel.editexpense.EditExpenseViewModel
 import presentation.viewmodel.editincome.EditIncomeViewModel
 import presentation.viewmodel.home.HomeViewModel
 import presentation.viewmodel.monthDetail.CategoryMonthDetailViewModel

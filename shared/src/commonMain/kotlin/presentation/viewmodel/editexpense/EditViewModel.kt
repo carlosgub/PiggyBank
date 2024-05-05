@@ -1,4 +1,4 @@
-package presentation.viewmodel.edit
+package presentation.viewmodel.editexpense
 
 import core.sealed.GenericState
 import domain.model.CategoryEnum
