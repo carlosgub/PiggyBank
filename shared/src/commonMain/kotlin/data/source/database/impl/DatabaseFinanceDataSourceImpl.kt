@@ -1,6 +1,7 @@
-package data.source.database
+package data.source.database.impl
 
 import core.network.ResponseResult
+import data.source.database.DatabaseFinanceDataSource
 import data.source.database.expense.createExpense
 import data.source.database.expense.deleteExpense
 import data.source.database.expense.getExpense
@@ -31,10 +32,10 @@ import kotlinx.datetime.LocalDate
 import utils.toLocalDate
 import utils.toMonthString
 
-class DatabaseFinance(
+class DatabaseFinanceDataSourceImpl(
     private val sharedDatabase: SharedDatabase,
-) {
-    suspend fun getAllMonthExpenses(monthKey: String): Flow<ResponseResult<List<Expense>>> =
+) : DatabaseFinanceDataSource {
+    override suspend fun getAllMonthExpenses(monthKey: String): Flow<ResponseResult<List<Expense>>> =
         flow {
             try {
                 sharedDatabase().getExpenseList(monthKey).collect {
@@ -45,7 +46,7 @@ class DatabaseFinance(
             }
         }
 
-    suspend fun getAllMonthIncome(monthKey: String): Flow<ResponseResult<List<Income>>> =
+    override suspend fun getAllMonthIncome(monthKey: String): Flow<ResponseResult<List<Income>>> =
         flow {
             if (currentCoroutineContext().isActive) {
                 try {
@@ -58,21 +59,21 @@ class DatabaseFinance(
             }
         }
 
-    suspend fun getExpense(id: Long): ResponseResult<Expense> =
+    override suspend fun getExpense(id: Long): ResponseResult<Expense> =
         try {
             ResponseResult.Success(sharedDatabase().getExpense(id))
         } catch (e: Exception) {
             ResponseResult.Error(e)
         }
 
-    suspend fun getIncome(id: Long): ResponseResult<Income> =
+    override suspend fun getIncome(id: Long): ResponseResult<Income> =
         try {
             ResponseResult.Success(sharedDatabase().getIncome(id))
         } catch (e: Exception) {
             ResponseResult.Error(e)
         }
 
-    suspend fun createExpense(
+    override suspend fun createExpense(
         amount: Int,
         category: String,
         note: String,
@@ -99,7 +100,7 @@ class DatabaseFinance(
             ResponseResult.Error(e)
         }
 
-    suspend fun createIncome(
+    override suspend fun createIncome(
         amount: Int,
         note: String,
         dateInMillis: Long,
@@ -125,7 +126,7 @@ class DatabaseFinance(
             ResponseResult.Error(e)
         }
 
-    suspend fun getExpenseMonthDetail(
+    override suspend fun getExpenseMonthDetail(
         categoryEnum: CategoryEnum,
         monthKey: String,
     ): Flow<ResponseResult<List<Expense>>> =
@@ -142,7 +143,7 @@ class DatabaseFinance(
             }
         }
 
-    suspend fun getIncomeMonthDetail(monthKey: String): Flow<ResponseResult<List<Income>>> =
+    override suspend fun getIncomeMonthDetail(monthKey: String): Flow<ResponseResult<List<Income>>> =
         flow {
             try {
                 sharedDatabase().getIncomeListPerCategory(
@@ -156,7 +157,7 @@ class DatabaseFinance(
             }
         }
 
-    suspend fun editExpense(
+    override suspend fun editExpense(
         amount: Long,
         category: String,
         note: String,
@@ -181,7 +182,7 @@ class DatabaseFinance(
             ResponseResult.Error(e)
         }
 
-    suspend fun editIncome(
+    override suspend fun editIncome(
         amount: Long,
         note: String,
         dateInMillis: Long,
@@ -205,7 +206,7 @@ class DatabaseFinance(
             ResponseResult.Error(e)
         }
 
-    suspend fun delete(
+    override suspend fun delete(
         financeEnum: FinanceEnum,
         id: Long,
         monthKey: String,
@@ -230,7 +231,7 @@ class DatabaseFinance(
             ResponseResult.Error(e)
         }
 
-    suspend fun getMonths(): Flow<ResponseResult<List<MonthModel>>> =
+    override suspend fun getMonths(): Flow<ResponseResult<List<MonthModel>>> =
         flow {
             try {
                 sharedDatabase().getMonthList()

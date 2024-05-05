@@ -1,7 +1,8 @@
 package di
 
 import data.repository.FinanceRepositoryImpl
-import data.source.database.DatabaseFinance
+import data.source.database.DatabaseFinanceDataSource
+import data.source.database.impl.DatabaseFinanceDataSourceImpl
 import data.sqldelight.SharedDatabase
 import domain.repository.FinanceRepository
 import domain.usecase.CreateExpenseUseCase
@@ -151,8 +152,8 @@ val homeModule =
             )
         }
 
-        single {
-            DatabaseFinance(
+        single<DatabaseFinanceDataSource> {
+            DatabaseFinanceDataSourceImpl(
                 sharedDatabase = get(),
             )
         }

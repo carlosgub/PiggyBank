@@ -6,6 +6,7 @@ chartsVersion = "1.0.4"
 coreKtxVersion = "1.13.1"
 koinCoreVersion = "3.5.3"
 koinComposeVersion = "1.1.2"
+kotlinxCoroutinesTestVersion = "1.8.0"
 ktlintVersion = "0.3.20"
 precomposeVersion = "1.6.0"
 datetimeVersion = "0.5.0"
@@ -39,6 +40,8 @@ delight-ios = { module = "app.cash.sqldelight:native-driver", version.ref = "del
 delight-extension = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "delightVersion" }
 
 orbit_core = { module = "org.orbit-mvi:orbit-core", version.ref = "orbit" }
+
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTestVersion" }
 
 [bundles]
 android = [

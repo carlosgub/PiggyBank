@@ -56,6 +56,12 @@ kotlin {
                 implementation(libs.delight.extension)
             }
         }
+        commonTest{
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(libs.kotlinx.coroutines.test)
+            }
+        }
         val androidMain by getting {
             dependencies {
                 api(libs.bundles.android)
@@ -88,7 +94,6 @@ android {
 
     defaultConfig {
         minSdk = (findProperty("android.minSdk") as String).toInt()
-        targetSdk = (findProperty("android.targetSdk") as String).toInt()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
