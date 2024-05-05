@@ -23,7 +23,7 @@ import presentation.viewmodel.createincome.CreateIncomeViewModel
 import presentation.viewmodel.editexpense.EditExpenseViewModel
 import presentation.viewmodel.editincome.EditIncomeViewModel
 import presentation.viewmodel.home.HomeViewModel
-import presentation.viewmodel.monthDetail.CategoryMonthDetailViewModel
+import presentation.viewmodel.categorymonthdetail.CategoryMonthDetailViewModel
 import presentation.viewmodel.months.MonthsViewModel
 
 val homeModule =

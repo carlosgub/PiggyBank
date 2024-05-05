@@ -1,4 +1,4 @@
-package presentation.viewmodel.monthDetail
+package presentation.viewmodel.categorymonthdetail
 
 import domain.model.ExpenseScreenModel
 import kotlinx.coroutines.Job

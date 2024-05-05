@@ -1,4 +1,4 @@
-package presentation.viewmodel.monthDetail
+package presentation.viewmodel.categorymonthdetail
 
 import domain.model.CategoryEnum
 import domain.model.MonthDetailScreenModel

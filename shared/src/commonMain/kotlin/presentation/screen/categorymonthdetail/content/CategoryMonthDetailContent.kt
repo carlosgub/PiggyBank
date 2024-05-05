@@ -34,7 +34,7 @@ import myapplication.shared.generated.resources.category_month_detail_data_zero_
 import myapplication.shared.generated.resources.category_month_detail_data_zero_title
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
-import presentation.viewmodel.monthDetail.CategoryMonthDetailScreenState
+import presentation.viewmodel.categorymonthdetail.CategoryMonthDetailScreenState
 import theme.Gray600
 import theme.Gray900
 import theme.White

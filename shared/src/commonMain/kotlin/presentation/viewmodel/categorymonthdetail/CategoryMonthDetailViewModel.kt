@@ -1,4 +1,4 @@
-package presentation.viewmodel.monthDetail
+package presentation.viewmodel.categorymonthdetail
 
 import core.sealed.GenericState
 import domain.model.ExpenseScreenModel

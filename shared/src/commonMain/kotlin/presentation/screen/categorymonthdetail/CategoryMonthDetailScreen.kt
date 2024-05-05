@@ -16,7 +16,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import presentation.screen.categorymonthdetail.content.CategoryMonthDetailContent
 import presentation.screen.categorymonthdetail.content.categoryMonthDetailObserver
-import presentation.viewmodel.monthDetail.CategoryMonthDetailViewModel
+import presentation.viewmodel.categorymonthdetail.CategoryMonthDetailViewModel
 import utils.views.Toolbar
 
 @Composable
