@@ -1,5 +1,6 @@
 package presentation.viewmodel.home
 
+import androidx.annotation.VisibleForTesting
 import core.sealed.GenericState
 import domain.model.FinanceScreenExpenses
 import domain.model.FinanceScreenModel
@@ -41,7 +42,8 @@ class HomeViewModel(
             getFinanceStatus()
         }
 
-    private fun setFinance(financeScreenModel: FinanceScreenModel): Job =
+    @VisibleForTesting
+    fun setFinance(financeScreenModel: FinanceScreenModel): Job =
         intent {
             reduce {
                 state.copy(
@@ -52,7 +54,8 @@ class HomeViewModel(
             }
         }
 
-    private fun showLoading(): Job =
+    @VisibleForTesting
+    fun showLoading(): Job =
         intent {
             reduce {
                 state.copy(
@@ -78,9 +81,9 @@ class HomeViewModel(
             postSideEffect(HomeScreenSideEffect.NavigateToAddIncome)
         }
 
-    override fun navigateToMonthDetail(financeScreenExpenses: FinanceScreenExpenses): Job =
+    override fun navigateToMonthDetail(categoryName: String): Job =
         intent {
-            postSideEffect(HomeScreenSideEffect.NavigateToMonthDetail(financeScreenExpenses))
+            postSideEffect(HomeScreenSideEffect.NavigateToMonthDetail(categoryName))
         }
 
     override fun navigateToMonths(): Job =

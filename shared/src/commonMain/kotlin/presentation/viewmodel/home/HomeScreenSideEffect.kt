@@ -6,7 +6,7 @@ sealed class HomeScreenSideEffect {
     data object NavigateToMonths : HomeScreenSideEffect()
 
     data class NavigateToMonthDetail(
-        val financeScreenExpenses: FinanceScreenExpenses,
+        val categoryName:String,
     ) : HomeScreenSideEffect()
 
     data object NavigateToAddExpense : HomeScreenSideEffect()

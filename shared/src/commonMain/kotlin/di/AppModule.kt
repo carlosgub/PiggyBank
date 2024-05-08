@@ -66,7 +66,7 @@ val homeModule =
 
         factory {
             CategoryMonthDetailViewModel(
-                getCategoryMonthDetailUseCase = get(),
+                getExpenseMonthDetailUseCase = get(),
                 getIncomeMonthDetailUseCase = get(),
             )
         }

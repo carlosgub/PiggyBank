@@ -1,6 +1,8 @@
 package presentation.viewmodel.categorymonthdetail
 
+import androidx.annotation.VisibleForTesting
 import core.sealed.GenericState
+import domain.model.CategoryEnum
 import domain.model.ExpenseScreenModel
 import domain.model.FinanceEnum
 import domain.model.MonthDetailScreenModel
@@ -18,7 +20,7 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 import utils.getCategoryEnumFromName
 
 class CategoryMonthDetailViewModel(
-    private val getCategoryMonthDetailUseCase: GetExpenseMonthDetailUseCase,
+    private val getExpenseMonthDetailUseCase: GetExpenseMonthDetailUseCase,
     private val getIncomeMonthDetailUseCase: GetIncomeMonthDetailUseCase,
 ) : ViewModel(),
     ContainerHost<CategoryMonthDetailScreenState, CategoryMonthDetailScreenSideEffect>,
@@ -26,36 +28,57 @@ class CategoryMonthDetailViewModel(
     override fun getMonthDetail(): Job =
         intent {
             showLoading()
-            val result =
-                if (state.category.type == FinanceEnum.EXPENSE) {
-                    getCategoryMonthDetailUseCase(
-                        GetExpenseMonthDetailUseCase.Params(
-                            categoryEnum = state.category,
-                            monthKey = state.monthKey,
-                        ),
-                    ).collect { result ->
-                        when (result) {
-                            is GenericState.Success -> setMonthDetailScreenModel(result.data)
-                            else -> Unit
-                        }
-                    }
-                } else {
-                    getIncomeMonthDetailUseCase(
-                        GetIncomeMonthDetailUseCase.Params(
-                            monthKey = state.monthKey,
-                        ),
-                    ).collect { result ->
-                        when (result) {
-                            is GenericState.Success -> setMonthDetailScreenModel(result.data)
-                            else -> Unit
-                        }
-                    }
-                }
+            if (state.category.type == FinanceEnum.EXPENSE) {
+                observeExpense(
+                    categoryEnum = state.category,
+                    monthKey = state.monthKey
+                )
+            } else {
+                observeIncome(monthKey = state.monthKey)
+            }
         }
+
+    @VisibleForTesting
+    suspend fun observeExpense(
+        categoryEnum: CategoryEnum,
+        monthKey: String
+    ) {
+        getExpenseMonthDetailUseCase(
+            GetExpenseMonthDetailUseCase.Params(
+                categoryEnum = categoryEnum,
+                monthKey = monthKey,
+            ),
+        ).collect { result ->
+            when (result) {
+                is GenericState.Success -> setMonthDetailScreenModel(result.data)
+                else -> Unit
+            }
+        }
+    }
+
+    @VisibleForTesting
+    suspend fun observeIncome(
+        monthKey: String
+    ) {
+        getIncomeMonthDetailUseCase(
+            GetIncomeMonthDetailUseCase.Params(
+                monthKey = monthKey,
+            ),
+        ).collect { result ->
+            when (result) {
+                is GenericState.Success -> setMonthDetailScreenModel(result.data)
+                else -> Unit
+            }
+        }
+    }
 
     override fun navigateToEditExpense(expenseScreenModel: ExpenseScreenModel): Job =
         intent {
-            postSideEffect(CategoryMonthDetailScreenSideEffect.NavigateToMonthDetail(expenseScreenModel))
+            postSideEffect(
+                CategoryMonthDetailScreenSideEffect.NavigateToMonthDetail(
+                    expenseScreenModel
+                )
+            )
         }
 
     override fun setInitialConfiguration(
@@ -72,7 +95,8 @@ class CategoryMonthDetailViewModel(
             getMonthDetail()
         }
 
-    private fun setMonthDetailScreenModel(monthDetail: MonthDetailScreenModel): Job =
+    @VisibleForTesting
+    fun setMonthDetailScreenModel(monthDetail: MonthDetailScreenModel): Job =
         intent {
             reduce {
                 state.copy(
@@ -83,7 +107,8 @@ class CategoryMonthDetailViewModel(
             }
         }
 
-    private fun showLoading(): Job =
+    @VisibleForTesting
+    fun showLoading(): Job =
         intent {
             reduce {
                 state.copy(
