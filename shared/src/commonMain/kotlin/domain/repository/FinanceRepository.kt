@@ -44,8 +44,12 @@ interface FinanceRepository {
         id: Long,
     ): GenericState<Unit>
 
-    suspend fun delete(
-        financeEnum: FinanceEnum,
+    suspend fun deleteIncome(
+        id: Long,
+        monthKey: String,
+    ): GenericState<Unit>
+
+    suspend fun deleteExpense(
         id: Long,
         monthKey: String,
     ): GenericState<Unit>

@@ -242,16 +242,31 @@ class FinanceRepositoryImpl(
             }
         }
 
-    override suspend fun delete(
-        financeEnum: FinanceEnum,
+    override suspend fun deleteIncome(
         id: Long,
         monthKey: String,
     ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             when (
                 val result =
-                    databaseFinance.delete(
-                        financeEnum = financeEnum,
+                    databaseFinance.deleteIncome(
+                        id = id,
+                        monthKey = monthKey,
+                    )
+            ) {
+                is ResponseResult.Success -> GenericState.Success(Unit)
+                is ResponseResult.Error -> GenericState.Error(result.error.message.toString())
+            }
+        }
+
+    override suspend fun deleteExpense(
+        id: Long,
+        monthKey: String,
+    ): GenericState<Unit> =
+        withContext(Dispatchers.Default) {
+            when (
+                val result =
+                    databaseFinance.deleteExpense(
                         id = id,
                         monthKey = monthKey,
                     )

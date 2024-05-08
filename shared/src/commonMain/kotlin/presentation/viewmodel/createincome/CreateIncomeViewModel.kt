@@ -1,5 +1,6 @@
 package presentation.viewmodel.createincome
 
+import androidx.annotation.VisibleForTesting
 import core.sealed.GenericState
 import domain.usecase.CreateIncomeUseCase
 import kotlinx.coroutines.Job
@@ -11,9 +12,8 @@ import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
-import utils.toLocalDate
 import utils.toMoneyFormat
-import utils.toNumberOfTwoDigits
+import utils.toStringDateFormat
 
 class CreateIncomeViewModel(
     val createIncomeUseCase: CreateIncomeUseCase,
@@ -33,12 +33,14 @@ class CreateIncomeViewModel(
             }
         }
 
-    private fun showLoading(): Job =
+    @VisibleForTesting
+    fun showLoading(): Job =
         intent {
             reduce { state.copy(showLoading = true) }
         }
 
-    private fun createIncome(): Job =
+    @VisibleForTesting
+    fun createIncome(): Job =
         intent {
             val result =
                 createIncomeUseCase(
@@ -60,13 +62,12 @@ class CreateIncomeViewModel(
 
     override fun setDate(date: Long): Job =
         intent {
-            reduce { state.copy(dateInMillis = date) }
-            val localDate = date.toLocalDate()
-            val dateFormat =
-                "${localDate.dayOfMonth.toNumberOfTwoDigits()}/" +
-                    "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
-                    "${localDate.year}"
-            reduce { state.copy(date = dateFormat) }
+            reduce {
+                state.copy(
+                    dateInMillis = date,
+                    date = date.toStringDateFormat()
+                )
+            }
         }
 
     override fun setAmount(textFieldValue: String): Job =

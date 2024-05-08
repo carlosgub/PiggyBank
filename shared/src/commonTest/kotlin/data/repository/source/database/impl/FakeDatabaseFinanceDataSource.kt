@@ -93,8 +93,13 @@ class FakeDatabaseFinanceDataSource : DatabaseFinanceDataSource {
     ): ResponseResult<Unit> =
         ResponseResult.Success(Unit)
 
-    override suspend fun delete(
-        financeEnum: FinanceEnum,
+    override suspend fun deleteExpense(
+        id: Long,
+        monthKey: String
+    ): ResponseResult<Unit> =
+        ResponseResult.Success(Unit)
+
+    override suspend fun deleteIncome(
         id: Long,
         monthKey: String
     ): ResponseResult<Unit> =

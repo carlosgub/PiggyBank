@@ -206,21 +206,32 @@ class DatabaseFinanceDataSourceImpl(
             ResponseResult.Error(e)
         }
 
-    override suspend fun delete(
-        financeEnum: FinanceEnum,
+    override suspend fun deleteExpense(
         id: Long,
         monthKey: String,
     ): ResponseResult<Unit> =
         try {
-            if (financeEnum == FinanceEnum.EXPENSE) {
-                sharedDatabase().deleteExpense(
-                    id = id,
-                )
-            } else {
-                sharedDatabase().deleteIncome(
-                    id = id,
-                )
+            sharedDatabase().deleteExpense(
+                id = id,
+            )
+            val expenses = sharedDatabase().getExpenseList(monthKey).first()
+            val income = sharedDatabase().getIncomeList(monthKey).first()
+            if (expenses.isEmpty() && income.isEmpty()) {
+                sharedDatabase().deleteMonth(monthKey)
             }
+            ResponseResult.Success(Unit)
+        } catch (e: Exception) {
+            ResponseResult.Error(e)
+        }
+
+    override suspend fun deleteIncome(
+        id: Long,
+        monthKey: String,
+    ): ResponseResult<Unit> =
+        try {
+            sharedDatabase().deleteIncome(
+                id = id,
+            )
             val expenses = sharedDatabase().getExpenseList(monthKey).first()
             val income = sharedDatabase().getIncomeList(monthKey).first()
             if (expenses.isEmpty() && income.isEmpty()) {

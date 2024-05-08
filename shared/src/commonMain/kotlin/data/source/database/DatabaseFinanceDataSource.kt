@@ -2,7 +2,6 @@ package data.source.database
 
 import core.network.ResponseResult
 import domain.model.CategoryEnum
-import domain.model.FinanceEnum
 import domain.model.MonthModel
 import expense.Expense
 import income.Income
@@ -52,8 +51,12 @@ interface DatabaseFinanceDataSource {
         id: Long,
     ): ResponseResult<Unit>
 
-    suspend fun delete(
-        financeEnum: FinanceEnum,
+    suspend fun deleteIncome(
+        id: Long,
+        monthKey: String,
+    ): ResponseResult<Unit>
+
+    suspend fun deleteExpense(
         id: Long,
         monthKey: String,
     ): ResponseResult<Unit>

@@ -1,9 +1,9 @@
 package presentation.viewmodel.editexpense
 
+import androidx.annotation.VisibleForTesting
 import core.sealed.GenericState
 import domain.model.CategoryEnum
-import domain.model.FinanceEnum
-import domain.usecase.DeleteUseCase
+import domain.usecase.DeleteExpenseUseCase
 import domain.usecase.EditExpenseUseCase
 import domain.usecase.GetExpenseUseCase
 import kotlinx.coroutines.Job
@@ -16,14 +16,13 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import utils.getCategoryEnumFromName
-import utils.toLocalDate
 import utils.toMillis
 import utils.toMoneyFormat
-import utils.toNumberOfTwoDigits
+import utils.toStringDateFormat
 
 class EditExpenseViewModel(
     val editExpenseUseCase: EditExpenseUseCase,
-    val deleteUseCase: DeleteUseCase,
+    val deleteExpenseUseCase: DeleteExpenseUseCase,
     val getExpenseUseCase: GetExpenseUseCase,
 ) : ViewModel(),
     ContainerHost<EditExpenseScreenState, GenericState<Unit>>,
@@ -35,13 +34,12 @@ class EditExpenseViewModel(
 
     override fun setDate(date: Long): Job =
         intent {
-            reduce { state.copy(dateInMillis = date) }
-            val localDate = date.toLocalDate()
-            val dateFormat =
-                "${localDate.dayOfMonth.toNumberOfTwoDigits()}/" +
-                    "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
-                    "${localDate.year}"
-            reduce { state.copy(date = dateFormat) }
+            reduce {
+                state.copy(
+                    dateInMillis = date,
+                    date = date.toStringDateFormat()
+                )
+            }
         }
 
     override fun setAmount(textFieldValue: String): Job =
@@ -84,7 +82,8 @@ class EditExpenseViewModel(
             }
         }
 
-    private fun editExpense(id: Long): Job =
+    @VisibleForTesting
+    fun editExpense(id: Long): Job =
         intent {
             val result =
                 editExpenseUseCase(
@@ -119,9 +118,8 @@ class EditExpenseViewModel(
     override fun delete(): Job =
         intent {
             val result =
-                deleteUseCase(
-                    DeleteUseCase.Params(
-                        financeEnum = state.financeEnum,
+                deleteExpenseUseCase(
+                    DeleteExpenseUseCase.Params(
                         id = state.id,
                         monthKey = state.monthKey,
                     ),
@@ -129,19 +127,19 @@ class EditExpenseViewModel(
             postSideEffect(result)
         }
 
-    private fun showLoading(): Job =
+    @VisibleForTesting
+    fun showLoading(): Job =
         intent {
             reduce { state.copy(showLoading = true) }
         }
 
     override fun getExpense(id: Long): Job =
         intent {
-            val result =
-                getExpenseUseCase(
-                    GetExpenseUseCase.Params(
-                        id = id,
-                    ),
-                )
+            val result = getExpenseUseCase(
+                GetExpenseUseCase.Params(
+                    id = id,
+                ),
+            )
             if (result is GenericState.Success) {
                 setAmount(result.data.amount.toString())
                 setCategory(getCategoryEnumFromName(result.data.category))
@@ -151,7 +149,6 @@ class EditExpenseViewModel(
                     state.copy(
                         initialDataLoaded = true,
                         id = result.data.id,
-                        financeEnum = FinanceEnum.EXPENSE,
                         monthKey = result.data.monthKey,
                     )
                 }

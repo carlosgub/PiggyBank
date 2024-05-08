@@ -8,7 +8,6 @@ import data.repository.source.database.monthExpenseDetailScreenModel
 import data.repository.source.database.monthIncomeDetailScreenModel
 import data.repository.source.database.monthListFiltered
 import domain.model.CategoryEnum
-import domain.model.FinanceEnum
 import domain.model.FinanceModel
 import domain.model.FinanceScreenModel
 import domain.model.MonthDetailScreenModel
@@ -57,8 +56,12 @@ class FakeFinanceRepositoryImpl : FinanceRepository {
         id: Long
     ): GenericState<Unit> = GenericState.Success(Unit)
 
-    override suspend fun delete(
-        financeEnum: FinanceEnum,
+    override suspend fun deleteIncome(
+        id: Long,
+        monthKey: String
+    ): GenericState<Unit> = GenericState.Success(Unit)
+
+    override suspend fun deleteExpense(
         id: Long,
         monthKey: String
     ): GenericState<Unit> = GenericState.Success(Unit)
