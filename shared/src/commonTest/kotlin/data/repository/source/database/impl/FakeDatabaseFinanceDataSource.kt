@@ -14,6 +14,7 @@ import expense.Expense
 import income.Income
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import utils.getCategoryEnumFromName
 
 class FakeDatabaseFinanceDataSource : DatabaseFinanceDataSource {
     override suspend fun getAllMonthExpenses(monthKey: String): Flow<ResponseResult<List<Expense>>> =
@@ -61,15 +62,17 @@ class FakeDatabaseFinanceDataSource : DatabaseFinanceDataSource {
     ): Flow<ResponseResult<List<Expense>>> = flow {
         emit(
             ResponseResult.Success(
-                expensesList
+                expensesList.filter {
+                    getCategoryEnumFromName(it.category) == categoryEnum
+                }
             )
         )
     }
 
     override suspend fun getIncomeMonthDetail(monthKey: String): Flow<ResponseResult<List<Income>>> =
         flow {
-            ResponseResult.Success(
-                incomeList
+            emit(
+                ResponseResult.Success(incomeList)
             )
         }
 

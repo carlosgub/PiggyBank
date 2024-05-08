@@ -6,6 +6,7 @@ import domain.model.FinanceLocalDate
 import domain.model.FinanceModel
 import domain.model.FinanceScreenExpenses
 import domain.model.FinanceScreenModel
+import domain.model.MonthDetailScreenModel
 import domain.model.MonthExpense
 import domain.model.MonthModel
 import expense.Expense
@@ -15,6 +16,7 @@ import utils.getCurrentMonthKey
 import utils.isLeapYear
 import utils.monthLength
 import utils.toLocalDate
+import utils.toMonthKey
 
 val expenseOne = Expense(
     id = 1L,
@@ -147,7 +149,7 @@ val financeScreenIncomeLists = listOf(
 val expenseScreenModelOne = ExpenseScreenModel(
     id = expenseOne.id,
     amount = expenseOne.amount,
-    note = expenseOne.note,
+    note = expenseOne.note.replaceFirstChar { it.uppercase() },
     category = expenseOne.category,
     localDateTime = expenseLocalDateOne.localDateTime,
     date = expenseLocalDateOne.date,
@@ -158,7 +160,7 @@ val localDateTwo = FinanceLocalDate(expenseTwo.dateInMillis.toLocalDate())
 val expenseScreenModelTwo = ExpenseScreenModel(
     id = expenseTwo.id,
     amount = expenseTwo.amount,
-    note = expenseTwo.note,
+    note = expenseTwo.note.replaceFirstChar { it.uppercase() },
     category = expenseTwo.category,
     localDateTime = localDateTwo.localDateTime,
     date = localDateTwo.date,
@@ -169,16 +171,53 @@ val localDateThree = FinanceLocalDate(expenseThree.dateInMillis.toLocalDate())
 val expenseScreenModelThree = ExpenseScreenModel(
     id = expenseThree.id,
     amount = expenseThree.amount,
-    note = expenseThree.note,
+    note = expenseThree.note.replaceFirstChar { it.uppercase() },
     category = expenseThree.category,
     localDateTime = localDateThree.localDateTime,
     date = localDateThree.date,
+)
+
+val incomeScreenModelOne = ExpenseScreenModel(
+    id = incomeOne.id,
+    amount = incomeOne.amount,
+    note = incomeOne.note.replaceFirstChar { it.uppercase() },
+    category = incomeOne.category,
+    localDateTime = incomeLocalDateOne.localDateTime,
+    date = incomeLocalDateOne.date,
+)
+
+val incomeLocalDateTwo = FinanceLocalDate(incomeTwo.dateInMillis.toLocalDate())
+
+val incomeScreenModelTwo = ExpenseScreenModel(
+    id = incomeTwo.id,
+    amount = incomeTwo.amount,
+    note = incomeTwo.note.replaceFirstChar { it.uppercase() },
+    category = incomeTwo.category,
+    localDateTime = incomeLocalDateTwo.localDateTime,
+    date = incomeLocalDateTwo.date,
+)
+
+val incomeLocalDateThree = FinanceLocalDate(incomeThree.dateInMillis.toLocalDate())
+
+val incomeScreenModelThree = ExpenseScreenModel(
+    id = incomeThree.id,
+    amount = incomeThree.amount,
+    note = incomeThree.note.replaceFirstChar { it.uppercase() },
+    category = incomeThree.category,
+    localDateTime = incomeLocalDateThree.localDateTime,
+    date = incomeLocalDateThree.date,
 )
 
 val expenseScreenModelList = listOf(
     expenseScreenModelThree,
     expenseScreenModelTwo,
     expenseScreenModelOne
+)
+
+val incomeScreenModelList = listOf(
+    incomeScreenModelOne,
+    incomeScreenModelTwo,
+    incomeScreenModelThree,
 )
 
 val monthOne = MonthModel(
@@ -211,7 +250,7 @@ val date =
         monthNumber = getCurrentMonthKey().substring(0, 2).trimStart('0').toInt(),
     )
 
-val daySpent =
+val daySpentFinanceScreenModel =
     (1..date.monthNumber.monthLength(isLeapYear(date.year))).associate { day ->
         val dateInternal =
             createLocalDateTime(
@@ -234,5 +273,58 @@ val financeScreenModel = FinanceScreenModel(
     ),
     expenses = financeScreenExpensesLists,
     income = financeScreenIncomeLists,
-    daySpent = daySpent
+    daySpent = daySpentFinanceScreenModel
 )
+
+val daySpentMonthExpenseDetailScreenModel =
+    (1..date.monthNumber.monthLength(isLeapYear(date.year))).associate { day ->
+        val dateInternal =
+            createLocalDateTime(
+                year = date.year,
+                monthNumber = date.monthNumber,
+                dayOfMonth = day,
+            )
+        dateInternal to
+                listOf(
+                    expenseScreenModelOne
+                ).filter { expense ->
+                    expense.localDateTime == dateInternal
+                }.sumOf { it.amount }
+    }
+
+val monthExpenseDetailScreenModel = MonthDetailScreenModel(
+    monthAmount = expenseOne.amount,
+    expenseScreenModel = listOf(expenseScreenModelOne),
+    daySpent = daySpentMonthExpenseDetailScreenModel
+)
+
+val daySpentMonthIncomeDetailScreenModel =
+    (1..date.monthNumber.monthLength(isLeapYear(date.year))).associate { day ->
+        val dateInternal =
+            createLocalDateTime(
+                year = date.year,
+                monthNumber = date.monthNumber,
+                dayOfMonth = day,
+            )
+        dateInternal to
+                incomeScreenModelList.filter { expense ->
+                    expense.localDateTime == dateInternal
+                }.sumOf { it.amount }
+    }
+
+val monthIncomeDetailScreenModel = MonthDetailScreenModel(
+    monthAmount = incomeList.sumOf { it.amount },
+    expenseScreenModel = incomeScreenModelList,
+    daySpent = daySpentMonthIncomeDetailScreenModel
+)
+
+val monthListFiltered = monthList.map { month ->
+    createLocalDateTime(
+        year = month.year.toInt(),
+        monthNumber = month.month.trimStart('0').toInt(),
+    )
+}.filter { localDateTime ->
+    localDateTime.toMonthKey() != getCurrentMonthKey()
+}.groupBy { localDateTime ->
+    localDateTime.year
+}
