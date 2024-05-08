@@ -4,8 +4,6 @@ import core.sealed.GenericState
 import data.repository.FakeFinanceRepositoryImpl
 import data.repository.source.database.incomeFinanceModelOne
 import data.repository.source.database.incomeOne
-import data.repository.source.database.monthListFiltered
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

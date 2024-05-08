@@ -3,7 +3,6 @@ package domain.usecase
 import core.sealed.GenericState
 import data.repository.FakeFinanceRepositoryImpl
 import data.repository.source.database.financeScreenModel
-import data.repository.source.database.monthIncomeDetailScreenModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import utils.getCurrentMonthKey

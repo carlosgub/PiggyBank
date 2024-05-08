@@ -14,7 +14,7 @@ class GetIncomeMonthDetailUseCaseTest {
     private val getIncomeMonthDetailUseCase = GetIncomeMonthDetailUseCase(fakeFinanceRepositoryImpl)
 
     @Test
-    fun `Get Income Motnh Detail success`() = runTest {
+    fun `Get Income Month Detail success`() = runTest {
         val expected = monthIncomeDetailScreenModel
         val result =
             getIncomeMonthDetailUseCase(GetIncomeMonthDetailUseCase.Params(monthKey = getCurrentMonthKey())).first()
