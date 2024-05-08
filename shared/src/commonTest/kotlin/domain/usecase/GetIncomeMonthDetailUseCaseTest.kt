@@ -1,9 +1,9 @@
 package domain.usecase
 
+import app.cash.turbine.test
 import core.sealed.GenericState
 import data.repository.FakeFinanceRepositoryImpl
 import data.repository.source.database.monthIncomeDetailScreenModel
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import utils.getCurrentMonthKey
 import kotlin.test.Test
@@ -16,14 +16,10 @@ class GetIncomeMonthDetailUseCaseTest {
     @Test
     fun `Get Income Month Detail success`() = runTest {
         val expected = monthIncomeDetailScreenModel
-        val result =
-            getIncomeMonthDetailUseCase(GetIncomeMonthDetailUseCase.Params(monthKey = getCurrentMonthKey())).first()
-        when (result) {
-            is GenericState.Success -> {
-                assertEquals(expected, result.data)
+        getIncomeMonthDetailUseCase(GetIncomeMonthDetailUseCase.Params(monthKey = getCurrentMonthKey()))
+            .test {
+                assertEquals(expected, (awaitItem() as GenericState.Success).data)
+                awaitComplete()
             }
-
-            else -> Unit
-        }
     }
 }

@@ -1,5 +1,6 @@
 package data.repository
 
+import app.cash.turbine.test
 import core.sealed.GenericState
 import data.repository.source.database.expenseFinanceModelOne
 import data.repository.source.database.expenseOne
@@ -9,7 +10,6 @@ import data.repository.source.database.incomeFinanceModelOne
 import data.repository.source.database.monthExpenseDetailScreenModel
 import data.repository.source.database.monthIncomeDetailScreenModel
 import data.repository.source.database.monthListFiltered
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import utils.getCategoryEnumFromName
 import utils.getCurrentMonthKey
@@ -23,14 +23,10 @@ class FinanceRepositoryImplTest {
     @Test
     fun `Get Finance success`() = runTest {
         val expected = financeScreenModel
-        when (val result = financeRepositoryImpl.getFinance(getCurrentMonthKey()).first()) {
-            is GenericState.Success -> {
-                assertEquals(expected, result.data)
-            }
-
-            else -> Unit
+        financeRepositoryImpl.getFinance(getCurrentMonthKey()).test {
+            assertEquals(expected, (awaitItem() as GenericState.Success).data)
+            awaitComplete()
         }
-
     }
 
     @Test
@@ -60,41 +56,32 @@ class FinanceRepositoryImplTest {
     @Test
     fun `Get Expense Month Detail success`() = runTest {
         val expected = monthExpenseDetailScreenModel
-        when (val result = financeRepositoryImpl.getExpenseMonthDetail(
+        financeRepositoryImpl.getExpenseMonthDetail(
             categoryEnum = getCategoryEnumFromName(expenseOne.category),
             monthKey = getCurrentMonthKey()
-        ).first()) {
-            is GenericState.Success -> {
-                assertEquals(expected, result.data)
-            }
-
-            else -> Unit
+        ).test {
+            assertEquals(expected, (awaitItem() as GenericState.Success).data)
+            awaitComplete()
         }
     }
 
     @Test
     fun `Get Income Month Detail success`() = runTest {
         val expected = monthIncomeDetailScreenModel
-        when (val result = financeRepositoryImpl.getIncomeMonthDetail(
+        financeRepositoryImpl.getIncomeMonthDetail(
             monthKey = getCurrentMonthKey()
-        ).first()) {
-            is GenericState.Success -> {
-                assertEquals(expected, result.data)
-            }
-
-            else -> Unit
+        ).test {
+            assertEquals(expected, (awaitItem() as GenericState.Success).data)
+            awaitComplete()
         }
     }
 
     @Test
     fun `Get Months success`() = runTest {
         val expected = monthListFiltered
-        when (val result = financeRepositoryImpl.getMonths().first()) {
-            is GenericState.Success -> {
-                assertEquals(expected, result.data)
-            }
-
-            else -> Unit
+        financeRepositoryImpl.getMonths().test {
+            assertEquals(expected, (awaitItem() as GenericState.Success).data)
+            awaitComplete()
         }
     }
 }

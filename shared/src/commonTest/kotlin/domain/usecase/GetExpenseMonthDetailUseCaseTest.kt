@@ -1,10 +1,10 @@
 package domain.usecase
 
+import app.cash.turbine.test
 import core.sealed.GenericState
 import data.repository.FakeFinanceRepositoryImpl
 import data.repository.source.database.expenseOne
 import data.repository.source.database.monthExpenseDetailScreenModel
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import utils.getCategoryEnumFromName
 import utils.getCurrentMonthKey
@@ -19,19 +19,14 @@ class GetExpenseMonthDetailUseCaseTest {
     @Test
     fun `Get Category Month Detail success`() = runTest {
         val expected = monthExpenseDetailScreenModel
-        val result =
-            getExpenseMonthDetailUseCase(
-                GetExpenseMonthDetailUseCase.Params(
-                    categoryEnum = getCategoryEnumFromName(expenseOne.category),
-                    monthKey = getCurrentMonthKey()
-                )
-            ).first()
-        when (result) {
-            is GenericState.Success -> {
-                assertEquals(expected, result.data)
-            }
-
-            else -> Unit
+        getExpenseMonthDetailUseCase(
+            GetExpenseMonthDetailUseCase.Params(
+                categoryEnum = getCategoryEnumFromName(expenseOne.category),
+                monthKey = getCurrentMonthKey()
+            )
+        ).test {
+            assertEquals(expected, (awaitItem() as GenericState.Success).data)
+            awaitComplete()
         }
     }
 }
