@@ -48,40 +48,40 @@ fun Toolbar(
     dropDownMenu: Boolean = false,
     dropDownItems: ImmutableList<MenuItem> = persistentListOf(),
     leftIcon: ImageVector? = null,
-    dropDownIcon: ImageVector? = null
+    dropDownIcon: ImageVector? = null,
 ) {
     CenterAlignedTopAppBar(
         title = {
             Text(
                 text = title,
                 style =
-                TextStyle(
-                    color = contentColor,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp
-                )
+                    TextStyle(
+                        color = contentColor,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 16.sp,
+                    ),
             )
         },
         colors =
-        TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = backgroundColor,
-            navigationIconContentColor = contentColor,
-            titleContentColor = contentColor,
-            actionIconContentColor = contentColor,
-            scrolledContainerColor = backgroundColor
-        ),
+            TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = backgroundColor,
+                navigationIconContentColor = contentColor,
+                titleContentColor = contentColor,
+                actionIconContentColor = contentColor,
+                scrolledContainerColor = backgroundColor,
+            ),
         navigationIcon = {
             if (hasNavigationIcon) {
                 Icon(
                     imageVector = navigationIcon,
                     contentDescription = null,
                     modifier =
-                    Modifier
-                        .padding(spacing_2)
-                        .size(40.dp)
-                        .clickable { navigation() }
-                        .padding(spacing_2),
-                    tint = contentColor
+                        Modifier
+                            .padding(spacing_2)
+                            .size(40.dp)
+                            .clickable { navigation() }
+                            .padding(spacing_2),
+                    tint = contentColor,
                 )
             }
         },
@@ -91,12 +91,12 @@ fun Toolbar(
                     imageVector = leftIcon,
                     contentDescription = null,
                     modifier =
-                    Modifier
-                        .padding(spacing_2)
-                        .size(view_10)
-                        .clickable { onLeftIconPressed() }
-                        .padding(spacing_2),
-                    tint = contentColor
+                        Modifier
+                            .padding(spacing_2)
+                            .size(view_10)
+                            .clickable { onLeftIconPressed() }
+                            .padding(spacing_2),
+                    tint = contentColor,
                 )
             }
             if (dropDownMenu) {
@@ -106,19 +106,19 @@ fun Toolbar(
                         imageVector = dropDownIcon ?: Icons.Filled.MoreVert,
                         contentDescription = null,
                         modifier =
-                        Modifier
-                            .padding(spacing_2)
-                            .size(view_10)
-                            .clickable { expanded = true }
-                            .padding(spacing_2),
-                        tint = contentColor
+                            Modifier
+                                .padding(spacing_2)
+                                .size(view_10)
+                                .clickable { expanded = true }
+                                .padding(spacing_2),
+                        tint = contentColor,
                     )
                     DropdownMenu(
                         expanded = expanded,
                         onDismissRequest = {
                             expanded = false
                         },
-                        modifier = Modifier.background(Color.White)
+                        modifier = Modifier.background(Color.White),
                     ) {
                         dropDownItems.forEach {
                             DropdownMenuItem(
@@ -127,13 +127,13 @@ fun Toolbar(
                                 onItemClicked = {
                                     expanded = false
                                     it.onItemClicked()
-                                }
+                                },
                             )
                         }
                     }
                 }
             }
         },
-        modifier = modifier
+        modifier = modifier,
     )
 }

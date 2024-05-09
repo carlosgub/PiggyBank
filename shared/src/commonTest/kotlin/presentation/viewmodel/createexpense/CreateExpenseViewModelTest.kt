@@ -23,7 +23,7 @@ class CreateExpenseViewModelTest {
                 containerHost.create()
                 expectState {
                     copy(
-                        showError = true
+                        showError = true,
                     )
                 }
             }
@@ -36,17 +36,17 @@ class CreateExpenseViewModelTest {
                 CreateExpenseScreenState(
                     note = "note",
                     dateInMillis = 1000L,
-                    amount = 100.0
+                    amount = 100.0,
                 )
             createExpenseViewModel.test(
                 this,
-                state
+                state,
             ) {
                 expectInitialState()
                 containerHost.create()
                 expectState {
                     copy(
-                        showLoading = true
+                        showLoading = true,
                     )
                 }
                 expectSideEffect(GenericState.Success(Unit))
@@ -58,13 +58,13 @@ class CreateExpenseViewModelTest {
         runTest {
             createExpenseViewModel.test(
                 this,
-                CreateExpenseScreenState()
+                CreateExpenseScreenState(),
             ) {
                 expectInitialState()
                 containerHost.showLoading()
                 expectState {
                     copy(
-                        showLoading = true
+                        showLoading = true,
                     )
                 }
             }
@@ -75,7 +75,7 @@ class CreateExpenseViewModelTest {
         runTest {
             createExpenseViewModel.test(
                 this,
-                CreateExpenseScreenState()
+                CreateExpenseScreenState(),
             ) {
                 expectInitialState()
                 containerHost.createExpense()
@@ -89,13 +89,13 @@ class CreateExpenseViewModelTest {
             val setNote = "note"
             createExpenseViewModel.test(
                 this,
-                CreateExpenseScreenState()
+                CreateExpenseScreenState(),
             ) {
                 expectInitialState()
                 containerHost.setNote(setNote)
                 expectState {
                     copy(
-                        note = setNote
+                        note = setNote,
                     )
                 }
             }
@@ -107,14 +107,14 @@ class CreateExpenseViewModelTest {
             val date = 1000L
             createExpenseViewModel.test(
                 this,
-                CreateExpenseScreenState()
+                CreateExpenseScreenState(),
             ) {
                 expectInitialState()
                 containerHost.setDate(date)
                 expectState {
                     copy(
                         dateInMillis = date,
-                        date = date.toStringDateFormat()
+                        date = date.toStringDateFormat(),
                     )
                 }
             }
@@ -126,13 +126,13 @@ class CreateExpenseViewModelTest {
             val category = CategoryEnum.CLOTHES
             createExpenseViewModel.test(
                 this,
-                CreateExpenseScreenState()
+                CreateExpenseScreenState(),
             ) {
                 expectInitialState()
                 containerHost.setCategory(category)
                 expectState {
                     copy(
-                        category = category
+                        category = category,
                     )
                 }
             }
@@ -145,14 +145,14 @@ class CreateExpenseViewModelTest {
             val amountInteger = amount.toInt() / 100.0
             createExpenseViewModel.test(
                 this,
-                CreateExpenseScreenState()
+                CreateExpenseScreenState(),
             ) {
                 expectInitialState()
                 containerHost.setAmount(amount)
                 expectState {
                     copy(
                         amount = amountInteger,
-                        amountField = amountInteger.toMoneyFormat()
+                        amountField = amountInteger.toMoneyFormat(),
                     )
                 }
             }
@@ -163,13 +163,13 @@ class CreateExpenseViewModelTest {
         runTest {
             createExpenseViewModel.test(
                 this,
-                CreateExpenseScreenState()
+                CreateExpenseScreenState(),
             ) {
                 expectInitialState()
                 containerHost.showDateError(true)
                 expectState {
                     copy(
-                        showDateError = true
+                        showDateError = true,
                     )
                 }
             }
@@ -181,14 +181,14 @@ class CreateExpenseViewModelTest {
             createExpenseViewModel.test(
                 this,
                 CreateExpenseScreenState(
-                    showDateError = true
-                )
+                    showDateError = true,
+                ),
             ) {
                 expectInitialState()
                 containerHost.showDateError(false)
                 expectState {
                     copy(
-                        showDateError = false
+                        showDateError = false,
                     )
                 }
             }
@@ -199,13 +199,13 @@ class CreateExpenseViewModelTest {
         runTest {
             createExpenseViewModel.test(
                 this,
-                CreateExpenseScreenState()
+                CreateExpenseScreenState(),
             ) {
                 expectInitialState()
                 containerHost.showNoteError(true)
                 expectState {
                     copy(
-                        showNoteError = true
+                        showNoteError = true,
                     )
                 }
             }
@@ -217,14 +217,14 @@ class CreateExpenseViewModelTest {
             createExpenseViewModel.test(
                 this,
                 CreateExpenseScreenState(
-                    showNoteError = true
-                )
+                    showNoteError = true,
+                ),
             ) {
                 expectInitialState()
                 containerHost.showNoteError(false)
                 expectState {
                     copy(
-                        showNoteError = false
+                        showNoteError = false,
                     )
                 }
             }
@@ -235,13 +235,13 @@ class CreateExpenseViewModelTest {
         runTest {
             createExpenseViewModel.test(
                 this,
-                CreateExpenseScreenState()
+                CreateExpenseScreenState(),
             ) {
                 expectInitialState()
                 containerHost.showError(true)
                 expectState {
                     copy(
-                        showError = true
+                        showError = true,
                     )
                 }
             }
@@ -253,14 +253,14 @@ class CreateExpenseViewModelTest {
             createExpenseViewModel.test(
                 this,
                 CreateExpenseScreenState(
-                    showError = true
-                )
+                    showError = true,
+                ),
             ) {
                 expectInitialState()
                 containerHost.showError(false)
                 expectState {
                     copy(
-                        showError = false
+                        showError = false,
                     )
                 }
             }

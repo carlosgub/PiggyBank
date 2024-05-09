@@ -20,8 +20,8 @@ class FakeDatabaseFinanceDataSource : DatabaseFinanceDataSource {
         flow {
             emit(
                 ResponseResult.Success(
-                    expensesList
-                )
+                    expensesList,
+                ),
             )
         }
 
@@ -29,8 +29,8 @@ class FakeDatabaseFinanceDataSource : DatabaseFinanceDataSource {
         flow {
             emit(
                 ResponseResult.Success(
-                    incomeList
-                )
+                    incomeList,
+                ),
             )
         }
 
@@ -42,33 +42,33 @@ class FakeDatabaseFinanceDataSource : DatabaseFinanceDataSource {
         amount: Int,
         category: String,
         note: String,
-        dateInMillis: Long
+        dateInMillis: Long,
     ): ResponseResult<Unit> = ResponseResult.Success(Unit)
 
     override suspend fun createIncome(
         amount: Int,
         note: String,
-        dateInMillis: Long
+        dateInMillis: Long,
     ): ResponseResult<Unit> = ResponseResult.Success(Unit)
 
     override suspend fun getExpenseMonthDetail(
         categoryEnum: CategoryEnum,
-        monthKey: String
+        monthKey: String,
     ): Flow<ResponseResult<List<Expense>>> =
         flow {
             emit(
                 ResponseResult.Success(
                     expensesList.filter {
                         getCategoryEnumFromName(it.category) == categoryEnum
-                    }
-                )
+                    },
+                ),
             )
         }
 
     override suspend fun getIncomeMonthDetail(monthKey: String): Flow<ResponseResult<List<Income>>> =
         flow {
             emit(
-                ResponseResult.Success(incomeList)
+                ResponseResult.Success(incomeList),
             )
         }
 
@@ -77,32 +77,32 @@ class FakeDatabaseFinanceDataSource : DatabaseFinanceDataSource {
         category: String,
         note: String,
         dateInMillis: Long,
-        id: Long
+        id: Long,
     ): ResponseResult<Unit> = ResponseResult.Success(Unit)
 
     override suspend fun editIncome(
         amount: Long,
         note: String,
         dateInMillis: Long,
-        id: Long
+        id: Long,
     ): ResponseResult<Unit> = ResponseResult.Success(Unit)
 
     override suspend fun deleteExpense(
         id: Long,
-        monthKey: String
+        monthKey: String,
     ): ResponseResult<Unit> = ResponseResult.Success(Unit)
 
     override suspend fun deleteIncome(
         id: Long,
-        monthKey: String
+        monthKey: String,
     ): ResponseResult<Unit> = ResponseResult.Success(Unit)
 
     override suspend fun getMonths(): Flow<ResponseResult<List<MonthModel>>> =
         flow {
             emit(
                 ResponseResult.Success(
-                    monthList
-                )
+                    monthList,
+                ),
             )
         }
 }

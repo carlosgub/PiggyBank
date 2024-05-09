@@ -23,8 +23,8 @@ class GetExpenseMonthDetailUseCaseTest {
             getExpenseMonthDetailUseCase(
                 GetExpenseMonthDetailUseCase.Params(
                     categoryEnum = getCategoryEnumFromName(expenseOne.category),
-                    monthKey = getCurrentMonthKey()
-                )
+                    monthKey = getCurrentMonthKey(),
+                ),
             ).test {
                 assertEquals(expected, (awaitItem() as GenericState.Success).data)
                 awaitComplete()

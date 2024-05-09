@@ -21,14 +21,14 @@ import utils.toStringDateFormat
 class EditIncomeViewModel(
     val editIncomeUseCase: EditIncomeUseCase,
     val deleteUseCase: DeleteIncomeUseCase,
-    val getIncomeUseCase: GetIncomeUseCase
+    val getIncomeUseCase: GetIncomeUseCase,
 ) : ViewModel(), ContainerHost<EditIncomeScreenState, GenericState<Unit>>, EditIncomeScreenIntents {
     override fun setDate(date: Long): Job =
         intent {
             reduce {
                 state.copy(
                     dateInMillis = date,
-                    date = date.toStringDateFormat()
+                    date = date.toStringDateFormat(),
                 )
             }
         }
@@ -49,7 +49,7 @@ class EditIncomeViewModel(
                 reduce {
                     state.copy(
                         amountField = amount.toMoneyFormat(),
-                        amount = amount
+                        amount = amount,
                     )
                 }
             }
@@ -82,11 +82,11 @@ class EditIncomeViewModel(
                         amount = (state.amount * 100).toLong(),
                         note = state.note,
                         dateInMillis = state.dateInMillis,
-                        id = id
-                    )
+                        id = id,
+                    ),
                 )
             postSideEffect(
-                result
+                result,
             )
         }
 
@@ -111,8 +111,8 @@ class EditIncomeViewModel(
                 deleteUseCase(
                     DeleteIncomeUseCase.Params(
                         id = state.id,
-                        monthKey = state.monthKey
-                    )
+                        monthKey = state.monthKey,
+                    ),
                 )
             postSideEffect(result)
         }
@@ -128,8 +128,8 @@ class EditIncomeViewModel(
             val result =
                 getIncomeUseCase(
                     GetIncomeUseCase.Params(
-                        id = id
-                    )
+                        id = id,
+                    ),
                 )
             if (result is GenericState.Success) {
                 setAmount(result.data.amount.toString())
@@ -139,7 +139,7 @@ class EditIncomeViewModel(
                     state.copy(
                         initialDataLoaded = true,
                         id = result.data.id,
-                        monthKey = result.data.monthKey
+                        monthKey = result.data.monthKey,
                     )
                 }
             }

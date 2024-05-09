@@ -20,18 +20,18 @@ interface DatabaseFinanceDataSource {
         amount: Int,
         category: String,
         note: String,
-        dateInMillis: Long
+        dateInMillis: Long,
     ): ResponseResult<Unit>
 
     suspend fun createIncome(
         amount: Int,
         note: String,
-        dateInMillis: Long
+        dateInMillis: Long,
     ): ResponseResult<Unit>
 
     suspend fun getExpenseMonthDetail(
         categoryEnum: CategoryEnum,
-        monthKey: String
+        monthKey: String,
     ): Flow<ResponseResult<List<Expense>>>
 
     suspend fun getIncomeMonthDetail(monthKey: String): Flow<ResponseResult<List<Income>>>
@@ -41,24 +41,24 @@ interface DatabaseFinanceDataSource {
         category: String,
         note: String,
         dateInMillis: Long,
-        id: Long
+        id: Long,
     ): ResponseResult<Unit>
 
     suspend fun editIncome(
         amount: Long,
         note: String,
         dateInMillis: Long,
-        id: Long
+        id: Long,
     ): ResponseResult<Unit>
 
     suspend fun deleteIncome(
         id: Long,
-        monthKey: String
+        monthKey: String,
     ): ResponseResult<Unit>
 
     suspend fun deleteExpense(
         id: Long,
-        monthKey: String
+        monthKey: String,
     ): ResponseResult<Unit>
 
     suspend fun getMonths(): Flow<ResponseResult<List<MonthModel>>>

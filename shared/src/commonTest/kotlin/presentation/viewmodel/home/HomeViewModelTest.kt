@@ -22,14 +22,14 @@ class HomeViewModelTest {
                 containerHost.getFinanceStatus()
                 expectState {
                     copy(
-                        showLoading = true
+                        showLoading = true,
                     )
                 }
                 expectState {
                     copy(
                         showLoading = false,
                         financeScreenModel = data.repository.source.database.financeScreenModel,
-                        isInitialDataLoaded = true
+                        isInitialDataLoaded = true,
                     )
                 }
             }
@@ -45,7 +45,7 @@ class HomeViewModelTest {
                     copy(
                         showLoading = false,
                         financeScreenModel = data.repository.source.database.financeScreenModel,
-                        isInitialDataLoaded = true
+                        isInitialDataLoaded = true,
                     )
                 }
             }
@@ -59,7 +59,7 @@ class HomeViewModelTest {
                 containerHost.showLoading()
                 expectState {
                     copy(
-                        showLoading = true
+                        showLoading = true,
                     )
                 }
             }
@@ -73,7 +73,7 @@ class HomeViewModelTest {
                 containerHost.setMonthKey(getCurrentMonthKey())
                 expectState {
                     copy(
-                        monthKey = getCurrentMonthKey()
+                        monthKey = getCurrentMonthKey(),
                     )
                 }
             }

@@ -24,7 +24,7 @@ import utils.views.Toolbar
 fun CategoryMonthDetailScreen(
     monthKey: String,
     categoryName: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val navigator = LocalNavController.current
     val viewModel = koinViewModel(vmClass = CategoryMonthDetailViewModel::class)
@@ -37,24 +37,24 @@ fun CategoryMonthDetailScreen(
                 category = stringResource(state.category.categoryName),
                 onBack = {
                     navigator.popBackStack()
-                }
+                },
             )
         },
-        modifier = modifier
+        modifier = modifier,
     ) { paddingValues ->
         CategoryMonthDetailContent(
             paddingValues = paddingValues,
             state = state,
             expenseClicked = { expenseScreenModel ->
                 viewModel.navigateToEditExpense(expenseScreenModel)
-            }
+            },
         )
     }
     scope.launch {
         viewModel.container.sideEffectFlow.collect { sideEffect ->
             categoryMonthDetailObserver(
                 sideEffect = sideEffect,
-                navigator = navigator
+                navigator = navigator,
             )
         }
     }
@@ -63,13 +63,13 @@ fun CategoryMonthDetailScreen(
 @Composable
 private fun ExpenseMonthDetailToolbar(
     category: String,
-    onBack: () -> Unit
+    onBack: () -> Unit,
 ) {
     Toolbar(
         backgroundColor = Color.White,
         title = category,
         hasNavigationIcon = true,
         navigation = onBack,
-        contentColor = Color.Black
+        contentColor = Color.Black,
     )
 }

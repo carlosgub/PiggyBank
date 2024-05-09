@@ -13,7 +13,7 @@ fun AlertDialogFinance(
     dialogText: String,
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
-    icon: ImageVector? = null
+    icon: ImageVector? = null,
 ) {
     AlertDialog(
         icon = {
@@ -34,7 +34,7 @@ fun AlertDialogFinance(
             TextButton(
                 onClick = {
                     onConfirmation()
-                }
+                },
             ) {
                 Text("Confirm")
             }
@@ -43,10 +43,10 @@ fun AlertDialogFinance(
             TextButton(
                 onClick = {
                     onDismissRequest()
-                }
+                },
             ) {
                 Text("Dismiss")
             }
-        }
+        },
     )
 }

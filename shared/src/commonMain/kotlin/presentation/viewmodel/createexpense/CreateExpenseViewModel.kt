@@ -17,7 +17,7 @@ import utils.toMoneyFormat
 import utils.toStringDateFormat
 
 class CreateExpenseViewModel(
-    val createExpenseUseCase: CreateExpenseUseCase
+    val createExpenseUseCase: CreateExpenseUseCase,
 ) : ViewModel(),
     ContainerHost<CreateExpenseScreenState, GenericState<Unit>>,
     CreateExpenseScreenIntents {
@@ -49,11 +49,11 @@ class CreateExpenseViewModel(
                         amount = (state.amount * 100).toInt(),
                         note = state.note,
                         dateInMillis = state.dateInMillis,
-                        category = state.category.name
-                    )
+                        category = state.category.name,
+                    ),
                 )
             postSideEffect(
-                result
+                result,
             )
         }
 
@@ -67,7 +67,7 @@ class CreateExpenseViewModel(
             reduce {
                 state.copy(
                     dateInMillis = date,
-                    date = date.toStringDateFormat()
+                    date = date.toStringDateFormat(),
                 )
             }
         }
@@ -93,7 +93,7 @@ class CreateExpenseViewModel(
                 reduce {
                     state.copy(
                         amountField = amount.toMoneyFormat(),
-                        amount = amount
+                        amount = amount,
                     )
                 }
             }

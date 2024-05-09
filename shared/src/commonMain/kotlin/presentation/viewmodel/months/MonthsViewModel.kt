@@ -17,7 +17,7 @@ import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 
 class MonthsViewModel(
-    private val getMonthsUseCase: GetMonthsUseCase
+    private val getMonthsUseCase: GetMonthsUseCase,
 ) : ViewModel(),
     ContainerHost<MonthsScreenState, MonthsScreenSideEffect>,
     MonthsScreenIntents {
@@ -53,7 +53,7 @@ class MonthsViewModel(
             reduce {
                 state.copy(
                     showLoading = false,
-                    months = months
+                    months = months,
                 )
             }
         }

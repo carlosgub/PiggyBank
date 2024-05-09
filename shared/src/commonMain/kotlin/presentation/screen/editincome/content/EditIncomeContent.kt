@@ -31,7 +31,7 @@ fun EditIncomeContent(
     paddingValues: PaddingValues,
     state: EditIncomeScreenState,
     intents: EditIncomeScreenIntents,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     if (state.initialDataLoaded) {
         val keyboard = LocalSoftwareKeyboardController.current
@@ -42,12 +42,12 @@ fun EditIncomeContent(
                 .padding(paddingValues)
                 .clickable(
                     interactionSource = NoRippleInteractionSource(),
-                    indication = null
+                    indication = null,
                 ) {
                     keyboard?.hide()
                     focusManager.clearFocus()
                 }
-                .padding(horizontal = spacing_4)
+                .padding(horizontal = spacing_4),
         ) {
             AmountOutlineTextField(
                 amountField = state.amountField,
@@ -57,7 +57,7 @@ fun EditIncomeContent(
                     intents.setAmount(value)
                     intents.showError(false)
                 },
-                showError = state.showError
+                showError = state.showError,
             )
             DayPicker(
                 dateValue = state.date,
@@ -66,7 +66,7 @@ fun EditIncomeContent(
                 dayValueInMillis = { dateInMillis ->
                     intents.showDateError(false)
                     intents.setDate(dateInMillis)
-                }
+                },
             )
             NoteOutlineTextField(
                 firstValue = state.note,
@@ -76,13 +76,13 @@ fun EditIncomeContent(
                     intents.setNote(value)
                     intents.showNoteError(false)
                 },
-                showError = state.showNoteError
+                showError = state.showNoteError,
             )
             Box(
-                modifier = Modifier.weight(1.0f)
+                modifier = Modifier.weight(1.0f),
             )
             EditButton(
-                intents = intents
+                intents = intents,
             )
         }
     }
@@ -92,11 +92,11 @@ fun EditIncomeContent(
 private fun EditButton(intents: EditIncomeScreenIntents) {
     PrimaryButton(
         modifier = Modifier.padding(
-            bottom = spacing_6
+            bottom = spacing_6,
         ),
         buttonText = stringResource(Res.string.edit_income_button),
         onClick = {
             intents.edit()
-        }
+        },
     )
 }

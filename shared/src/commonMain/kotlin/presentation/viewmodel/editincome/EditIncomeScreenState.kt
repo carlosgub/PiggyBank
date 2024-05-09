@@ -16,5 +16,5 @@ data class EditIncomeScreenState(
     val initialDataLoaded: Boolean = false,
     val showLoading: Boolean = false,
     val id: Long = 0L,
-    val monthKey: String = ""
+    val monthKey: String = "",
 )

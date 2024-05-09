@@ -11,6 +11,8 @@ import domain.model.MonthExpense
 import domain.model.MonthModel
 import expense.Expense
 import income.Income
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableMap
 import utils.createLocalDateTime
 import utils.getCurrentMonthKey
 import utils.isLeapYear
@@ -25,7 +27,7 @@ val expenseOne =
         note = "expenseOne",
         category = CategoryEnum.CLOTHES.name,
         month = getCurrentMonthKey(),
-        dateInMillis = 0L
+        dateInMillis = 0L,
     )
 
 val expenseTwo =
@@ -35,7 +37,7 @@ val expenseTwo =
         note = "expenseTwo",
         category = CategoryEnum.TAXI.name,
         month = getCurrentMonthKey(),
-        dateInMillis = 0L
+        dateInMillis = 0L,
     )
 
 val expenseThree =
@@ -45,12 +47,12 @@ val expenseThree =
         note = "expenseThree",
         category = CategoryEnum.LOVE.name,
         month = getCurrentMonthKey(),
-        dateInMillis = 0L
+        dateInMillis = 0L,
     )
 
 val expenseLocalDateOne =
     FinanceLocalDate(
-        expenseOne.dateInMillis.toLocalDate()
+        expenseOne.dateInMillis.toLocalDate(),
     )
 
 val expenseFinanceModelOne =
@@ -61,14 +63,14 @@ val expenseFinanceModelOne =
         category = expenseOne.category,
         monthKey = expenseOne.month,
         date = expenseLocalDateOne.date,
-        localDateTime = expenseLocalDateOne.localDateTime
+        localDateTime = expenseLocalDateOne.localDateTime,
     )
 
 val expensesList =
     listOf(
         expenseOne,
         expenseTwo,
-        expenseThree
+        expenseThree,
     )
 
 val incomeOne =
@@ -78,7 +80,7 @@ val incomeOne =
         note = "incomeOne",
         category = CategoryEnum.WORK.name,
         month = getCurrentMonthKey(),
-        dateInMillis = 0L
+        dateInMillis = 0L,
     )
 
 val incomeTwo =
@@ -88,7 +90,7 @@ val incomeTwo =
         note = "incomeTwo",
         category = CategoryEnum.WORK.name,
         month = getCurrentMonthKey(),
-        dateInMillis = 0L
+        dateInMillis = 0L,
     )
 
 val incomeLocalDateOne =
@@ -102,7 +104,7 @@ val incomeFinanceModelOne =
         category = incomeOne.category,
         monthKey = incomeOne.month,
         date = incomeLocalDateOne.date,
-        localDateTime = incomeLocalDateOne.localDateTime
+        localDateTime = incomeLocalDateOne.localDateTime,
     )
 
 val incomeThree =
@@ -112,14 +114,14 @@ val incomeThree =
         note = "incomeThree",
         category = CategoryEnum.WORK.name,
         month = getCurrentMonthKey(),
-        dateInMillis = 0L
+        dateInMillis = 0L,
     )
 
 val incomeList =
     listOf(
         incomeOne,
         incomeTwo,
-        incomeThree
+        incomeThree,
     )
 
 val financeScreenExpensesOne =
@@ -127,7 +129,7 @@ val financeScreenExpensesOne =
         count = 1,
         amount = 100L,
         percentage = 17,
-        category = CategoryEnum.CLOTHES
+        category = CategoryEnum.CLOTHES,
     )
 
 val financeScreenExpensesTwo =
@@ -135,7 +137,7 @@ val financeScreenExpensesTwo =
         count = 1,
         amount = 200L,
         percentage = 33,
-        category = CategoryEnum.TAXI
+        category = CategoryEnum.TAXI,
     )
 
 val financeScreenExpensesThree =
@@ -143,14 +145,14 @@ val financeScreenExpensesThree =
         count = 1,
         amount = 300L,
         percentage = 50,
-        category = CategoryEnum.LOVE
+        category = CategoryEnum.LOVE,
     )
 
 val financeScreenExpensesLists =
-    listOf(
+    persistentListOf(
         financeScreenExpensesThree,
         financeScreenExpensesTwo,
-        financeScreenExpensesOne
+        financeScreenExpensesOne,
     )
 
 val financeScreenIncomeOne =
@@ -158,12 +160,12 @@ val financeScreenIncomeOne =
         count = 3,
         amount = 600L,
         percentage = 100,
-        category = CategoryEnum.WORK
+        category = CategoryEnum.WORK,
     )
 
 val financeScreenIncomeLists =
-    listOf(
-        financeScreenIncomeOne
+    persistentListOf(
+        financeScreenIncomeOne,
     )
 
 val expenseScreenModelOne =
@@ -173,7 +175,7 @@ val expenseScreenModelOne =
         note = expenseOne.note.replaceFirstChar { it.uppercase() },
         category = expenseOne.category,
         localDateTime = expenseLocalDateOne.localDateTime,
-        date = expenseLocalDateOne.date
+        date = expenseLocalDateOne.date,
     )
 
 val localDateTwo =
@@ -186,7 +188,7 @@ val expenseScreenModelTwo =
         note = expenseTwo.note.replaceFirstChar { it.uppercase() },
         category = expenseTwo.category,
         localDateTime = localDateTwo.localDateTime,
-        date = localDateTwo.date
+        date = localDateTwo.date,
     )
 
 val localDateThree =
@@ -199,7 +201,7 @@ val expenseScreenModelThree =
         note = expenseThree.note.replaceFirstChar { it.uppercase() },
         category = expenseThree.category,
         localDateTime = localDateThree.localDateTime,
-        date = localDateThree.date
+        date = localDateThree.date,
     )
 
 val incomeScreenModelOne =
@@ -209,7 +211,7 @@ val incomeScreenModelOne =
         note = incomeOne.note.replaceFirstChar { it.uppercase() },
         category = incomeOne.category,
         localDateTime = incomeLocalDateOne.localDateTime,
-        date = incomeLocalDateOne.date
+        date = incomeLocalDateOne.date,
     )
 
 val incomeLocalDateTwo =
@@ -222,7 +224,7 @@ val incomeScreenModelTwo =
         note = incomeTwo.note.replaceFirstChar { it.uppercase() },
         category = incomeTwo.category,
         localDateTime = incomeLocalDateTwo.localDateTime,
-        date = incomeLocalDateTwo.date
+        date = incomeLocalDateTwo.date,
     )
 
 val incomeLocalDateThree =
@@ -235,55 +237,55 @@ val incomeScreenModelThree =
         note = incomeThree.note.replaceFirstChar { it.uppercase() },
         category = incomeThree.category,
         localDateTime = incomeLocalDateThree.localDateTime,
-        date = incomeLocalDateThree.date
+        date = incomeLocalDateThree.date,
     )
 
 val expenseScreenModelList =
     listOf(
         expenseScreenModelThree,
         expenseScreenModelTwo,
-        expenseScreenModelOne
+        expenseScreenModelOne,
     )
 
 val incomeScreenModelList =
     listOf(
         incomeScreenModelOne,
         incomeScreenModelTwo,
-        incomeScreenModelThree
+        incomeScreenModelThree,
     )
 
 val monthOne =
     MonthModel(
         id = "062024",
         month = "06",
-        year = "2024"
+        year = "2024",
     )
 
 val monthTwo =
     MonthModel(
         id = "012024",
         month = "01",
-        year = "2024"
+        year = "2024",
     )
 
 val monthThree =
     MonthModel(
         id = "022024",
         month = "02",
-        year = "2024"
+        year = "2024",
     )
 
 val monthList =
     listOf(
         monthOne,
         monthTwo,
-        monthThree
+        monthThree,
     )
 
 val date =
     createLocalDateTime(
         year = getCurrentMonthKey().substring(2, 6).toInt(),
-        monthNumber = getCurrentMonthKey().substring(0, 2).trimStart('0').toInt()
+        monthNumber = getCurrentMonthKey().substring(0, 2).trimStart('0').toInt(),
     )
 
 val daySpentFinanceScreenModel =
@@ -292,26 +294,24 @@ val daySpentFinanceScreenModel =
             createLocalDateTime(
                 year = date.year,
                 monthNumber = date.monthNumber,
-                dayOfMonth = day
+                dayOfMonth = day,
             )
-        dateInternal to
-            expenseScreenModelList.filter { expense ->
-                expense.localDateTime == dateInternal
-            }.sumOf { it.amount }
-    }
+        dateInternal to expenseScreenModelList.filter { expense ->
+            expense.localDateTime == dateInternal
+        }.sumOf { it.amount }
+    }.toImmutableMap()
 
 val financeScreenModel =
     FinanceScreenModel(
         month = date.month,
         expenseAmount = expensesList.sumOf { it.amount },
-        monthExpense =
-        MonthExpense(
+        monthExpense = MonthExpense(
             incomeTotal = incomeList.sumOf { it.amount } / 100.0,
-            percentage = 100
+            percentage = 100,
         ),
         expenses = financeScreenExpensesLists,
         income = financeScreenIncomeLists,
-        daySpent = daySpentFinanceScreenModel
+        daySpent = daySpentFinanceScreenModel,
     )
 
 val daySpentMonthExpenseDetailScreenModel =
@@ -320,21 +320,20 @@ val daySpentMonthExpenseDetailScreenModel =
             createLocalDateTime(
                 year = date.year,
                 monthNumber = date.monthNumber,
-                dayOfMonth = day
+                dayOfMonth = day,
             )
-        dateInternal to
-            listOf(
-                expenseScreenModelOne
-            ).filter { expense ->
-                expense.localDateTime == dateInternal
-            }.sumOf { it.amount }
-    }
+        dateInternal to listOf(
+            expenseScreenModelOne,
+        ).filter { expense ->
+            expense.localDateTime == dateInternal
+        }.sumOf { it.amount }
+    }.toImmutableMap()
 
 val monthExpenseDetailScreenModel =
     MonthDetailScreenModel(
         monthAmount = expenseOne.amount,
         expenseScreenModel = listOf(expenseScreenModelOne),
-        daySpent = daySpentMonthExpenseDetailScreenModel
+        daySpent = daySpentMonthExpenseDetailScreenModel,
     )
 
 val daySpentMonthIncomeDetailScreenModel =
@@ -343,29 +342,28 @@ val daySpentMonthIncomeDetailScreenModel =
             createLocalDateTime(
                 year = date.year,
                 monthNumber = date.monthNumber,
-                dayOfMonth = day
+                dayOfMonth = day,
             )
-        dateInternal to
-            incomeScreenModelList.filter { expense ->
-                expense.localDateTime == dateInternal
-            }.sumOf { it.amount }
-    }
+        dateInternal to incomeScreenModelList.filter { expense ->
+            expense.localDateTime == dateInternal
+        }.sumOf { it.amount }
+    }.toImmutableMap()
 
 val monthIncomeDetailScreenModel =
     MonthDetailScreenModel(
         monthAmount = incomeList.sumOf { it.amount },
         expenseScreenModel = incomeScreenModelList,
-        daySpent = daySpentMonthIncomeDetailScreenModel
+        daySpent = daySpentMonthIncomeDetailScreenModel,
     )
 
 val monthListFiltered =
     monthList.map { month ->
         createLocalDateTime(
             year = month.year.toInt(),
-            monthNumber = month.month.trimStart('0').toInt()
+            monthNumber = month.month.trimStart('0').toInt(),
         )
     }.filter { localDateTime ->
         localDateTime.toMonthKey() != getCurrentMonthKey()
     }.groupBy { localDateTime ->
         localDateTime.year
-    }
+    }.toImmutableMap()

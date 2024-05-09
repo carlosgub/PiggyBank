@@ -7,7 +7,7 @@ import kotlinx.datetime.LocalDateTime
 data class MonthDetailScreenModel(
     val monthAmount: Long = 0L,
     val daySpent: ImmutableMap<LocalDateTime, Long> = persistentMapOf(),
-    val expenseScreenModel: List<ExpenseScreenModel> = listOf()
+    val expenseScreenModel: List<ExpenseScreenModel> = listOf(),
 )
 
 data class ExpenseScreenModel(
@@ -16,5 +16,5 @@ data class ExpenseScreenModel(
     val note: String,
     val category: String,
     val localDateTime: LocalDateTime,
-    val date: String
+    val date: String,
 )

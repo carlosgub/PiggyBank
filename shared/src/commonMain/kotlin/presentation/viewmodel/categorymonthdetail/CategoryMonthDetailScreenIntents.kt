@@ -6,7 +6,7 @@ import kotlinx.coroutines.Job
 interface CategoryMonthDetailScreenIntents {
     fun setInitialConfiguration(
         monthKey: String,
-        category: String
+        category: String,
     ): Job
 
     fun getMonthDetail(): Job

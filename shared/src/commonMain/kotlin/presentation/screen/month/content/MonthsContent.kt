@@ -55,22 +55,22 @@ fun MonthsContent(
     monthsScreenState: MonthsScreenState,
     paddingValues: PaddingValues,
     modifier: Modifier = Modifier,
-    onMonthClicked: (String) -> Unit
+    onMonthClicked: (String) -> Unit,
 ) {
     Column(
         modifier = modifier
             .background(color = White)
             .padding(
-                top = paddingValues.calculateTopPadding()
+                top = paddingValues.calculateTopPadding(),
             )
-            .fillMaxSize()
+            .fillMaxSize(),
     ) {
         if (monthsScreenState.showLoading) {
             Loading()
         } else {
             MonthsScreenSuccessContent(
                 data = monthsScreenState.months,
-                onMonthClicked = onMonthClicked
+                onMonthClicked = onMonthClicked,
             )
         }
     }
@@ -79,7 +79,7 @@ fun MonthsContent(
 @Composable
 private fun MonthsScreenSuccessContent(
     data: ImmutableMap<Int, List<LocalDateTime>>,
-    onMonthClicked: (String) -> Unit
+    onMonthClicked: (String) -> Unit,
 ) {
     var visible by rememberSaveable { mutableStateOf(false) }
     AnimatedVisibility(
@@ -87,24 +87,24 @@ private fun MonthsScreenSuccessContent(
         enter = slideInHorizontally(
             initialOffsetX = {
                 it
-            }
+            },
         ),
         exit = slideOutHorizontally(
             targetOffsetX = {
                 0
-            }
+            },
         ),
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         if (data.isNotEmpty()) {
             MonthList(
                 months = data,
-                onClickItem = onMonthClicked
+                onClickItem = onMonthClicked,
             )
         } else {
             DataZero<Any>(
                 title = stringResource(Res.string.months_data_zero_title),
-                message = stringResource(Res.string.months_data_zero_message)
+                message = stringResource(Res.string.months_data_zero_message),
             )
         }
     }
@@ -117,11 +117,11 @@ private fun MonthsScreenSuccessContent(
 fun MonthList(
     months: ImmutableMap<Int, List<LocalDateTime>>,
     modifier: Modifier = Modifier,
-    onClickItem: (String) -> Unit
+    onClickItem: (String) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
-            .fillMaxSize()
+            .fillMaxSize(),
     ) {
         months.forEach { entry ->
             stickyHeader {
@@ -130,7 +130,7 @@ fun MonthList(
             items(entry.value) { localDateTime ->
                 MonthItem(
                     localDateTime = localDateTime,
-                    onClickItem = onClickItem
+                    onClickItem = onClickItem,
                 )
                 ExpenseDivider()
             }
@@ -141,7 +141,7 @@ fun MonthList(
 @Composable
 fun YearStickyHeader(
     year: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Text(
         text = year.toString(),
@@ -149,7 +149,7 @@ fun YearStickyHeader(
         textAlign = TextAlign.Center,
         modifier = modifier.fillMaxSize()
             .background(color = ColorPrimary)
-            .padding(spacing_1_2)
+            .padding(spacing_1_2),
     )
 }
 
@@ -157,7 +157,7 @@ fun YearStickyHeader(
 fun MonthItem(
     localDateTime: LocalDateTime,
     onClickItem: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -165,28 +165,28 @@ fun MonthItem(
             .fillMaxSize()
             .clickable {
                 onClickItem(
-                    localDateTime.toMonthKey()
+                    localDateTime.toMonthKey(),
                 )
             }
             .padding(
                 horizontal = spacing_3,
-                vertical = spacing_2
-            )
+                vertical = spacing_2,
+            ),
     ) {
         Box(
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Box(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(color = ColorPrimary)
+                    .background(color = ColorPrimary),
             )
             Text(
                 text = localDateTime.month.name.take(1),
                 color = White,
                 textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
         }
 
@@ -194,7 +194,7 @@ fun MonthItem(
             localDateTime.month.name,
             color = ColorPrimary,
             modifier = Modifier.fillMaxSize()
-                .padding(spacing_2)
+                .padding(spacing_2),
         )
     }
 }

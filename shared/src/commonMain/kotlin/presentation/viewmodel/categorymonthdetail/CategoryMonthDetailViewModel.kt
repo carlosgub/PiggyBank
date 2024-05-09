@@ -21,7 +21,7 @@ import utils.getCategoryEnumFromName
 
 class CategoryMonthDetailViewModel(
     private val getExpenseMonthDetailUseCase: GetExpenseMonthDetailUseCase,
-    private val getIncomeMonthDetailUseCase: GetIncomeMonthDetailUseCase
+    private val getIncomeMonthDetailUseCase: GetIncomeMonthDetailUseCase,
 ) : ViewModel(),
     ContainerHost<CategoryMonthDetailScreenState, CategoryMonthDetailScreenSideEffect>,
     CategoryMonthDetailScreenIntents {
@@ -31,11 +31,11 @@ class CategoryMonthDetailViewModel(
             if (state.category.type == FinanceEnum.EXPENSE) {
                 observeExpense(
                     categoryEnum = state.category,
-                    monthKey = state.monthKey
+                    monthKey = state.monthKey,
                 )
             } else {
                 observeIncome(
-                    monthKey = state.monthKey
+                    monthKey = state.monthKey,
                 )
             }
         }
@@ -43,13 +43,13 @@ class CategoryMonthDetailViewModel(
     @VisibleForTesting
     suspend fun observeExpense(
         categoryEnum: CategoryEnum,
-        monthKey: String
+        monthKey: String,
     ) {
         getExpenseMonthDetailUseCase(
             GetExpenseMonthDetailUseCase.Params(
                 categoryEnum = categoryEnum,
-                monthKey = monthKey
-            )
+                monthKey = monthKey,
+            ),
         ).collect { result ->
             when (result) {
                 is GenericState.Success -> setMonthDetailScreenModel(result.data)
@@ -62,8 +62,8 @@ class CategoryMonthDetailViewModel(
     suspend fun observeIncome(monthKey: String) {
         getIncomeMonthDetailUseCase(
             GetIncomeMonthDetailUseCase.Params(
-                monthKey = monthKey
-            )
+                monthKey = monthKey,
+            ),
         ).collect { result ->
             when (result) {
                 is GenericState.Success -> setMonthDetailScreenModel(result.data)
@@ -76,20 +76,20 @@ class CategoryMonthDetailViewModel(
         intent {
             postSideEffect(
                 CategoryMonthDetailScreenSideEffect.NavigateToMonthDetail(
-                    expenseScreenModel
-                )
+                    expenseScreenModel,
+                ),
             )
         }
 
     override fun setInitialConfiguration(
         monthKey: String,
-        category: String
+        category: String,
     ): Job =
         intent {
             reduce {
                 state.copy(
                     monthKey = monthKey,
-                    category = getCategoryEnumFromName(category)
+                    category = getCategoryEnumFromName(category),
                 )
             }
             getMonthDetail()
@@ -102,7 +102,7 @@ class CategoryMonthDetailViewModel(
                 state.copy(
                     monthDetail = monthDetail,
                     showLoading = false,
-                    isInitialDataLoaded = true
+                    isInitialDataLoaded = true,
                 )
             }
         }
@@ -114,7 +114,7 @@ class CategoryMonthDetailViewModel(
                 state.copy(
                     showLoading = true,
                     monthDetail = MonthDetailScreenModel(),
-                    isInitialDataLoaded = false
+                    isInitialDataLoaded = false,
                 )
             }
         }

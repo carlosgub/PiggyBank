@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDateTime
 
 class GetMonthsUseCase(
-    private val financeRepository: FinanceRepository
+    private val financeRepository: FinanceRepository,
 ) {
     suspend operator fun invoke(): Flow<GenericState<ImmutableMap<Int, List<LocalDateTime>>>> = financeRepository.getMonths()
 }

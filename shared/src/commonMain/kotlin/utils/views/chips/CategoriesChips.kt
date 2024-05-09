@@ -1,7 +1,7 @@
 @file:OptIn(
     ExperimentalMaterialApi::class,
     ExperimentalLayoutApi::class,
-    ExperimentalResourceApi::class
+    ExperimentalResourceApi::class,
 )
 
 package utils.views.chips
@@ -42,26 +42,26 @@ import theme.spacing_4
 fun CategoriesChips(
     selectedSelected: CategoryEnum,
     onChipPressed: (CategoryEnum) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
     ) {
         val categoriesList = CategoryEnum.entries.filter { it.type == FinanceEnum.EXPENSE }
         Text(
             text = stringResource(Res.string.categories_header),
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(top = spacing_4)
+            modifier = Modifier.padding(top = spacing_4),
         )
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(spacing_2)
+            horizontalArrangement = Arrangement.spacedBy(spacing_2),
         ) {
             categoriesList.forEach { categoryEnum ->
                 CategoryChip(
                     categoryEnum,
                     selectedSelected,
-                    onChipPressed = onChipPressed
+                    onChipPressed = onChipPressed,
                 )
             }
         }
@@ -72,7 +72,7 @@ fun CategoriesChips(
 private fun CategoryChip(
     categoryEnum: CategoryEnum,
     selected: CategoryEnum,
-    onChipPressed: (CategoryEnum) -> Unit
+    onChipPressed: (CategoryEnum) -> Unit,
 ) {
     val chipBackgroundColor =
         if (selected == categoryEnum) {
@@ -90,43 +90,41 @@ private fun CategoryChip(
         if (selected == categoryEnum) {
             BorderStroke(
                 width = 1.dp,
-                color = ColorPrimary
+                color = ColorPrimary,
             )
         } else {
             BorderStroke(
                 width = 1.dp,
-                color = Gray400
+                color = Gray400,
             )
         }
     Chip(
         onClick = {
             onChipPressed(categoryEnum)
         },
-        colors =
-        ChipDefaults.chipColors(
-            backgroundColor = chipBackgroundColor
+        colors = ChipDefaults.chipColors(
+            backgroundColor = chipBackgroundColor,
         ),
         shape = RoundedCornerShape(12.dp),
-        border = chipBorderStroke
+        border = chipBorderStroke,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier =
-            Modifier.padding(
+            modifier = Modifier.padding(
                 horizontal = 6.dp,
-                vertical = 4.dp
-            )
+                vertical = 4.dp,
+            ),
         ) {
             Icon(
                 imageVector = categoryEnum.icon,
                 contentDescription = null,
-                tint = contentColor
+                tint = contentColor,
             )
             Text(
                 text = stringResource(categoryEnum.categoryName),
                 color = contentColor,
                 style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier.padding(start = 4.dp)
+                modifier = Modifier.padding(start = 4.dp),
             )
         }
     }

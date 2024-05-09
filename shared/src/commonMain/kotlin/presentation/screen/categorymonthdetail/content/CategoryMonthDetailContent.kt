@@ -53,28 +53,28 @@ fun CategoryMonthDetailContent(
     paddingValues: PaddingValues,
     state: CategoryMonthDetailScreenState,
     expenseClicked: (ExpenseScreenModel) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
             .background(color = White)
             .padding(
-                top = paddingValues.calculateTopPadding()
-            )
+                top = paddingValues.calculateTopPadding(),
+            ),
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().weight(0.35f)
+            modifier = Modifier.fillMaxWidth().weight(0.35f),
         ) {
             CategoryMonthDetailHeader(
-                state = state
+                state = state,
             )
         }
         Column(
-            modifier = Modifier.fillMaxWidth().weight(0.65f)
+            modifier = Modifier.fillMaxWidth().weight(0.65f),
         ) {
             CategoryMonthDetailBody(
                 state = state,
-                expenseClicked = expenseClicked
+                expenseClicked = expenseClicked,
             )
         }
     }
@@ -84,7 +84,7 @@ fun CategoryMonthDetailContent(
 fun CategoryMonthDetailBody(
     state: CategoryMonthDetailScreenState,
     expenseClicked: (ExpenseScreenModel) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     if (state.showLoading || state.isInitialDataLoaded.not()) {
         Loading()
@@ -95,11 +95,11 @@ fun CategoryMonthDetailBody(
                 .fillMaxSize(),
             shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
             elevation = CardDefaults.cardElevation(
-                defaultElevation = 8.dp
+                defaultElevation = 8.dp,
             ),
             colors = CardDefaults.cardColors(
-                containerColor = White
-            )
+                containerColor = White,
+            ),
         ) {
             if (state.monthDetail.expenseScreenModel.isNotEmpty()) {
                 LazyColumn(
@@ -109,8 +109,8 @@ fun CategoryMonthDetailBody(
                         .padding(
                             top = spacing_6,
                             start = spacing_6,
-                            end = spacing_6
-                        )
+                            end = spacing_6,
+                        ),
                 ) {
                     itemsIndexed(state.monthDetail.expenseScreenModel) { count, expense ->
                         Column {
@@ -121,8 +121,8 @@ fun CategoryMonthDetailBody(
                                 expense = expense,
                                 expenseClicked = expenseClicked,
                                 modifier = Modifier.animateItemPlacement(
-                                    animationSpec = tween(600)
-                                )
+                                    animationSpec = tween(600),
+                                ),
                             )
                         }
                     }
@@ -132,7 +132,7 @@ fun CategoryMonthDetailBody(
                     title = stringResource(Res.string.category_month_detail_data_zero_title),
                     message = stringResource(Res.string.category_month_detail_data_zero_message),
                     modifier = Modifier
-                        .background(color = White)
+                        .background(color = White),
                 )
             }
         }
@@ -144,7 +144,7 @@ fun CategoryMonthDetailBody(
 private fun CategoryMonthExpenseItem(
     expense: ExpenseScreenModel,
     expenseClicked: (ExpenseScreenModel) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
@@ -152,37 +152,37 @@ private fun CategoryMonthExpenseItem(
                 onClick = {},
                 onLongClick = {
                     expenseClicked(expense)
-                }
+                },
             )
-            .padding(vertical = spacing_4)
+            .padding(vertical = spacing_4),
     ) {
         Column(
-            modifier = Modifier.weight(1f).padding(end = spacing_4)
+            modifier = Modifier.weight(1f).padding(end = spacing_4),
         ) {
             Text(
                 text = expense.note,
                 style = MaterialTheme.typography.bodySmall,
                 fontWeight = FontWeight.Medium,
-                color = Gray900
+                color = Gray900,
             )
             Text(
                 text = expense.date,
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier.padding(top = spacing_1),
                 color = Gray600,
-                fontWeight = FontWeight.Normal
+                fontWeight = FontWeight.Normal,
             )
         }
         Column(
             horizontalAlignment = Alignment.End,
-            verticalArrangement = Arrangement.Top
+            verticalArrangement = Arrangement.Top,
         ) {
             Text(
                 text = (expense.amount / 100.0).toMoneyFormat(),
                 style = MaterialTheme.typography.bodySmall,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.End,
-                color = Gray900
+                color = Gray900,
             )
         }
     }
@@ -192,7 +192,7 @@ private fun CategoryMonthExpenseItem(
 private fun CategoryMonthDetailHeader(state: CategoryMonthDetailScreenState) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         if (state.showLoading || state.isInitialDataLoaded.not()) {
             Loading()
@@ -202,7 +202,7 @@ private fun CategoryMonthDetailHeader(state: CategoryMonthDetailScreenState) {
                     Spacer(modifier = Modifier.weight(0.2f))
                     FinanceLineChart(
                         state.monthDetail.daySpent,
-                        withYChart = false
+                        withYChart = false,
                     )
                 }
                 Column {
@@ -211,7 +211,7 @@ private fun CategoryMonthDetailHeader(state: CategoryMonthDetailScreenState) {
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = Gray900,
-                        modifier = Modifier.padding(spacing_6)
+                        modifier = Modifier.padding(spacing_6),
                     )
                 }
             }

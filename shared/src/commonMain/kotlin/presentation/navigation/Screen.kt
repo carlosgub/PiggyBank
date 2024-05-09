@@ -25,7 +25,7 @@ sealed class Screen(val route: String) {
         Screen("CategoryMonthDetailScreen/{${NavArgs.MONTH_KEY.key}}/{${NavArgs.CATEGORY_NAME.key}}") {
         fun createRoute(
             monthKey: String,
-            categoryName: String
+            categoryName: String,
         ) = "CategoryMonthDetailScreen/$monthKey/$categoryName"
     }
 }
@@ -33,5 +33,5 @@ sealed class Screen(val route: String) {
 enum class NavArgs(val key: String) {
     ID("id"),
     MONTH_KEY("monthKey"),
-    CATEGORY_NAME("categoryName")
+    CATEGORY_NAME("categoryName"),
 }

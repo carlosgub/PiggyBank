@@ -27,13 +27,12 @@ fun FinanceBarChart(
     modifier: Modifier = Modifier,
     onOverlayData: (String) -> Unit = {},
     barColor: Color = ColorPrimary,
-    contentColor: Color = Color.Black
+    contentColor: Color = Color.Black,
 ) {
     val lineData =
         remember {
             BarChartData(
-                categories =
-                listOf(
+                categories = listOf(
                     BarChartCategory(
                         name = "",
                         entries =
@@ -41,11 +40,11 @@ fun FinanceBarChart(
                             BarChartEntry(
                                 x = "${day.key.dayOfMonth.toDayString()}/${day.key.month.toMonthString()}",
                                 y = (day.value / 100.0).toFloat(),
-                                color = barColor
+                                color = barColor,
                             )
-                        }
-                    )
-                )
+                        },
+                    ),
+                ),
             )
         }
     BarChart(
@@ -66,12 +65,12 @@ fun FinanceBarChart(
                     modifier =
                     Modifier
                         .offset(x = 20.dp),
-                    color = contentColor
+                    color = contentColor,
                 )
             }
         },
         overlayDataEntryLabel = { date, value ->
             onOverlayData("$date\n${(value as Float).toMoneyFormat()}")
-        }
+        },
     )
 }

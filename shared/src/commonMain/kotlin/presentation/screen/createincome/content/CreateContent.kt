@@ -29,7 +29,7 @@ import utils.views.textfield.NoteOutlineTextField
 fun CreateIncomeContent(
     state: CreateIncomeScreenState,
     intents: CreateIncomeScreenIntents,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -42,7 +42,7 @@ fun CreateIncomeContent(
                 keyboard?.hide()
                 focusManager.clearFocus()
             }
-            .padding(horizontal = spacing_4)
+            .padding(horizontal = spacing_4),
     ) {
         AmountOutlineTextField(
             amountField = state.amountField,
@@ -52,7 +52,7 @@ fun CreateIncomeContent(
                 intents.setAmount(value)
                 intents.showError(false)
             },
-            showError = state.showError
+            showError = state.showError,
         )
         DayPicker(
             dateValue = state.date,
@@ -60,7 +60,7 @@ fun CreateIncomeContent(
             dayValueInMillis = { dateInMillis ->
                 intents.showDateError(false)
                 intents.setDate(dateInMillis)
-            }
+            },
         )
         NoteOutlineTextField(
             keyboard = keyboard,
@@ -69,13 +69,13 @@ fun CreateIncomeContent(
                 intents.setNote(value)
                 intents.showNoteError(false)
             },
-            showError = state.showNoteError
+            showError = state.showNoteError,
         )
         Box(
-            modifier = Modifier.weight(1.0f)
+            modifier = Modifier.weight(1.0f),
         )
         CreateIncomeButton(
-            intents = intents
+            intents = intents,
         )
     }
 }
@@ -84,11 +84,11 @@ fun CreateIncomeContent(
 private fun CreateIncomeButton(intents: CreateIncomeScreenIntents) {
     PrimaryButton(
         modifier = Modifier.padding(
-            bottom = spacing_6
+            bottom = spacing_6,
         ),
         buttonText = stringResource(Res.string.create_income_button),
         onClick = {
             intents.create()
-        }
+        },
     )
 }

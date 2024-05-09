@@ -13,17 +13,17 @@ data class FinanceScreenModel(
     val monthExpense: MonthExpense = MonthExpense(),
     val expenses: ImmutableList<FinanceScreenExpenses> = persistentListOf(),
     val income: ImmutableList<FinanceScreenExpenses> = persistentListOf(),
-    val daySpent: ImmutableMap<LocalDateTime, Long> = persistentMapOf()
+    val daySpent: ImmutableMap<LocalDateTime, Long> = persistentMapOf(),
 )
 
 data class FinanceScreenExpenses(
     val category: CategoryEnum,
     val amount: Long,
     val count: Int,
-    val percentage: Int
+    val percentage: Int,
 )
 
 data class MonthExpense(
     val incomeTotal: Double = 0.0,
-    val percentage: Long = 0L
+    val percentage: Long = 0L,
 )

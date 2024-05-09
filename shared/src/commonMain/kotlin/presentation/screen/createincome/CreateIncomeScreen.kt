@@ -34,7 +34,7 @@ fun CreateIncomeScreen(
         viewModel.container.sideEffectFlow.collect { sideEffect ->
             createIncomeObserver(
                 sideEffect = sideEffect,
-                navigator = navigator
+                navigator = navigator,
             )
         }
     }
@@ -43,7 +43,7 @@ fun CreateIncomeScreen(
             CreateIncomeToolbar(
                 onBack = {
                     navigator.popBackStack()
-                }
+                },
             )
         },
         modifier = modifier,
@@ -62,6 +62,6 @@ private fun CreateIncomeToolbar(onBack: () -> Unit) {
     Toolbar(
         hasNavigationIcon = true,
         title = stringResource(Res.string.create_income_title),
-        navigation = onBack
+        navigation = onBack,
     )
 }

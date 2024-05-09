@@ -29,20 +29,20 @@ fun AmountOutlineTextField(
     focusManager: FocusManager,
     onValueChange: (String) -> Unit,
     showError: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var amountTextFieldValue by remember {
         mutableStateOf(
             TextFieldValue(
                 text = amountField,
-                selection = TextRange(amountField.length)
-            )
+                selection = TextRange(amountField.length),
+            ),
         )
     }
     amountTextFieldValue =
         TextFieldValue(
             text = amountField,
-            selection = TextRange(amountField.length)
+            selection = TextRange(amountField.length),
         )
     OutlinedTextField(
         value = amountTextFieldValue,
@@ -53,25 +53,25 @@ fun AmountOutlineTextField(
             Text("Enter amount")
         },
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Number
+            keyboardType = KeyboardType.Number,
         ),
         keyboardActions = KeyboardActions(
             onDone = {
                 keyboard?.hide()
                 focusManager.clearFocus()
-            }
+            },
         ),
         shape = MaterialTheme.shapes.small,
         modifier = modifier
             .padding(top = spacing_2)
-            .fillMaxWidth()
+            .fillMaxWidth(),
     )
     AnimatedVisibility(showError) {
         Text(
             text = "Enter an amount greather than zero",
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.padding(start = spacing_4)
+            modifier = Modifier.padding(start = spacing_4),
         )
     }
 }

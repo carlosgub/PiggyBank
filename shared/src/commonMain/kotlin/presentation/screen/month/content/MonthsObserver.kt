@@ -6,22 +6,22 @@ import presentation.viewmodel.months.MonthsScreenSideEffect
 
 fun monthsObserver(
     sideEffect: MonthsScreenSideEffect,
-    navigator: Navigator
+    navigator: Navigator,
 ) {
     when (sideEffect) {
         is MonthsScreenSideEffect.NavigateToMonthDetail ->
             navigateToMonthDetail(
                 navigator = navigator,
-                monthKey = sideEffect.monthKey
+                monthKey = sideEffect.monthKey,
             )
     }
 }
 
 private fun navigateToMonthDetail(
     navigator: Navigator,
-    monthKey: String
+    monthKey: String,
 ) {
     navigator.navigate(
-        Screen.Home.createRoute(monthKey)
+        Screen.Home.createRoute(monthKey),
     )
 }

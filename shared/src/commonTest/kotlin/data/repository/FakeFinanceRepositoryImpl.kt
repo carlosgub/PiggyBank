@@ -12,6 +12,7 @@ import domain.model.FinanceModel
 import domain.model.FinanceScreenModel
 import domain.model.MonthDetailScreenModel
 import domain.repository.FinanceRepository
+import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.LocalDateTime
@@ -30,13 +31,13 @@ class FakeFinanceRepositoryImpl : FinanceRepository {
         amount: Int,
         category: String,
         note: String,
-        dateInMillis: Long
+        dateInMillis: Long,
     ): GenericState<Unit> = GenericState.Success(Unit)
 
     override suspend fun createIncome(
         amount: Int,
         note: String,
-        dateInMillis: Long
+        dateInMillis: Long,
     ): GenericState<Unit> = GenericState.Success(Unit)
 
     override suspend fun editExpense(
@@ -44,47 +45,47 @@ class FakeFinanceRepositoryImpl : FinanceRepository {
         category: String,
         note: String,
         dateInMillis: Long,
-        id: Long
+        id: Long,
     ): GenericState<Unit> = GenericState.Success(Unit)
 
     override suspend fun editIncome(
         amount: Long,
         note: String,
         dateInMillis: Long,
-        id: Long
+        id: Long,
     ): GenericState<Unit> = GenericState.Success(Unit)
 
     override suspend fun deleteIncome(
         id: Long,
-        monthKey: String
+        monthKey: String,
     ): GenericState<Unit> = GenericState.Success(Unit)
 
     override suspend fun deleteExpense(
         id: Long,
-        monthKey: String
+        monthKey: String,
     ): GenericState<Unit> = GenericState.Success(Unit)
 
     override suspend fun getExpenseMonthDetail(
         categoryEnum: CategoryEnum,
-        monthKey: String
+        monthKey: String,
     ): Flow<GenericState<MonthDetailScreenModel>> =
         flow {
             emit(
-                GenericState.Success(monthExpenseDetailScreenModel)
+                GenericState.Success(monthExpenseDetailScreenModel),
             )
         }
 
     override suspend fun getIncomeMonthDetail(monthKey: String): Flow<GenericState<MonthDetailScreenModel>> =
         flow {
             emit(
-                GenericState.Success(monthIncomeDetailScreenModel)
+                GenericState.Success(monthIncomeDetailScreenModel),
             )
         }
 
-    override suspend fun getMonths(): Flow<GenericState<Map<Int, List<LocalDateTime>>>> =
+    override suspend fun getMonths(): Flow<GenericState<ImmutableMap<Int, List<LocalDateTime>>>> =
         flow {
             emit(
-                GenericState.Success(monthListFiltered)
+                GenericState.Success(monthListFiltered),
             )
         }
 }

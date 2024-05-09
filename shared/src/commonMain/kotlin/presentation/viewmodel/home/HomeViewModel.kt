@@ -16,7 +16,7 @@ import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 
 class HomeViewModel(
-    private val getFinanceUseCase: GetFinanceUseCase
+    private val getFinanceUseCase: GetFinanceUseCase,
 ) : ViewModel(),
     ContainerHost<HomeScreenState, HomeScreenSideEffect>,
     HomeScreenIntents {
@@ -26,8 +26,8 @@ class HomeViewModel(
             delay(200)
             getFinanceUseCase(
                 GetFinanceUseCase.Params(
-                    monthKey = state.monthKey
-                )
+                    monthKey = state.monthKey,
+                ),
             ).collect { result ->
                 when (result) {
                     is GenericState.Success -> setFinance(result.data)
@@ -48,7 +48,7 @@ class HomeViewModel(
                 state.copy(
                     showLoading = false,
                     financeScreenModel = financeScreenModel,
-                    isInitialDataLoaded = true
+                    isInitialDataLoaded = true,
                 )
             }
         }
@@ -60,7 +60,7 @@ class HomeViewModel(
                 state.copy(
                     showLoading = true,
                     isInitialDataLoaded = false,
-                    financeScreenModel = FinanceScreenModel()
+                    financeScreenModel = FinanceScreenModel(),
                 )
             }
         }

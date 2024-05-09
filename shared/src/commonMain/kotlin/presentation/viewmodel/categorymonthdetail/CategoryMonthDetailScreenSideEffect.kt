@@ -4,6 +4,6 @@ import domain.model.ExpenseScreenModel
 
 sealed class CategoryMonthDetailScreenSideEffect {
     data class NavigateToMonthDetail(
-        val expenseScreenModel: ExpenseScreenModel
+        val expenseScreenModel: ExpenseScreenModel,
     ) : CategoryMonthDetailScreenSideEffect()
 }

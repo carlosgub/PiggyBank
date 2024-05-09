@@ -34,21 +34,21 @@ import utils.views.Toolbar
 fun EditExpenseScreen(
     id: Long,
     modifier: Modifier = Modifier,
-    viewModel: EditExpenseViewModel = koinInject()
+    viewModel: EditExpenseViewModel = koinInject(),
 ) {
     val navigator = LocalNavController.current
     val scope = CoroutineScope(Dispatchers.Main)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
         viewModel.getExpense(
-            id = id
+            id = id,
         )
     }
     scope.launch {
         viewModel.container.sideEffectFlow.collect { sideEffect ->
             editExpenseObserver(
                 sideEffect = sideEffect,
-                navigator = navigator
+                navigator = navigator,
             )
         }
     }
@@ -58,15 +58,15 @@ fun EditExpenseScreen(
                 onBack = { navigator.popBackStack() },
                 onDelete = {
                     viewModel.delete()
-                }
+                },
             )
         },
-        modifier = modifier
+        modifier = modifier,
     ) { paddingValues ->
         EditExpenseContent(
             paddingValues = paddingValues,
             state = state,
-            intents = viewModel
+            intents = viewModel,
         )
     }
 }
@@ -74,7 +74,7 @@ fun EditExpenseScreen(
 @Composable
 private fun EditExpenseToolbar(
     onBack: () -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
 ) {
     var popUpVisible by remember { mutableStateOf(false) }
     Toolbar(
@@ -84,7 +84,7 @@ private fun EditExpenseToolbar(
         leftIcon = Icons.Default.Delete,
         onLeftIconPressed = {
             popUpVisible = true
-        }
+        },
     )
     if (popUpVisible) {
         DeletePopUp(
@@ -94,7 +94,7 @@ private fun EditExpenseToolbar(
             },
             onDismissRequest = {
                 popUpVisible = false
-            }
+            },
         )
     }
 }
@@ -102,12 +102,12 @@ private fun EditExpenseToolbar(
 @Composable
 private fun DeletePopUp(
     onDelete: () -> Unit,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
 ) {
     AlertDialogFinance(
         onDismissRequest = onDismissRequest,
         onConfirmation = onDelete,
         dialogTitle = stringResource(Res.string.edit_expense_pop_up_title),
-        dialogText = stringResource(Res.string.edit_expense_pop_up_message)
+        dialogText = stringResource(Res.string.edit_expense_pop_up_message),
     )
 }
