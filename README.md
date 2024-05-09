@@ -22,7 +22,7 @@ The Finance Tracker App is a versatile tool for managing your finances. Whether 
 - **Offline Functionality:** All data is stored locally on your device, allowing you to access and manage your finances even without an internet connection.
 - **Unit Testing:** Comprehensive unit tests to ensure the reliability and stability of the app's codebase.
 
-### Technologies Used
+#### Technologies Used
 
 - **Kotlin Multiplatform:** Used for cross-platform development, enabling the app to run on both Android and iOS. [GitHub Repository](https://github.com/JetBrains/kotlin)
 - **Koin:** Dependency injection framework for managing dependencies in a Kotlin application. [GitHub Repository](https://github.com/InsertKoinIO/koin)
@@ -34,7 +34,7 @@ The Finance Tracker App is a versatile tool for managing your finances. Whether 
 - **Kotlinm-Charts:** Charting library for Kotlin Multiplatform projects, providing various chart types for visualizing data. [GitHub Repository](https://github.com/carlosgub/kotlinm-charts)
 - **String Resources:** Utilize string resources for localization and easier management of text content, leveraging Kotlin Multiplatform's experimental features.
 
-##### Testing
+#### Testing
 - **Kotlinx Coroutines Test:** Provides utilities for efficiently testing coroutines. [GitHub Repository](https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-test)
 - **Turbine:** A small testing library for kotlinx.coroutines Flow. [GitHub Repository](https://github.com/cashapp/turbine)
 - **Orbit Testing:** This library provides a simple unit testing framework for the Orbit MVI Library. [GitHub Repository](https://orbit-mvi.org/Test/new)
