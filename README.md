@@ -47,12 +47,12 @@ The Finance Tracker App is a versatile tool for managing your finances. Whether 
 git clone https://github.com/carlosgub/myFinances
 ```
 
-2. This project use Kotlinm-Charts so you need to change this variables (username and passowrd) in the [settings.gradle.kts](https://github.com/carlosgub/myFinances/blob/main/settings.gradle.kts) file that is on the root of the project to run the project: 
+2. This project use Kotlinm-Charts so you add this variables G_USERNAME (that is your github username) and G_TOKEN (this is your token) to your environment variables. This is used in the [settings.gradle.kts](https://github.com/carlosgub/myFinances/blob/main/settings.gradle.kts):
 
 ```bash
 credentials {
-  username = "YOUR_GITHUB_USERNAME"
-  password = "YOUR_GITHUB_TOKEN"
+  username = System.getenv("G_USERNAME")
+  password = System.getenv("G_TOKEN")
 }
 ```
 If you don't know how configure this, you can read this [article](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry)
