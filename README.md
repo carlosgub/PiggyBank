@@ -20,6 +20,7 @@ The Finance Tracker App is a versatile tool for managing your finances. Whether 
 - **Data Security:** Your financial data is securely offline stored to ensure your privacy and confidentiality.
 - **Platform Compatibility:** Built with Kotlin Multiplatform technology, the app works seamlessly on both Android and iOS devices.
 - **Offline Functionality:** All data is stored locally on your device, allowing you to access and manage your finances even without an internet connection.
+-  **Unit Testing:** Comprehensive unit tests to ensure the reliability and stability of the app's codebase.
 
 #### Technologies Used
 
@@ -31,6 +32,11 @@ The Finance Tracker App is a versatile tool for managing your finances. Whether 
 - **Orbit Core for MVI:** Used for implementing the Model-View-Intent (MVI) architecture, facilitating a reactive and predictable approach to UI development. [GitHub Repository](https://github.com/babylonhealth/orbit-mvi)
 - **Precompose:** Used for navigation and ViewModel. [GitHub Repository](https://github.com/Tlaster/PreCompose)
 - **Kotlinm-Charts:** Charting library for Kotlin Multiplatform projects, providing various chart types for visualizing data. [GitHub Repository](https://github.com/carlosgub/kotlinm-charts)
+
+##### Testing
+- **Kotlinx Coroutines Test:** Provides utilities for efficiently testing coroutines. [GitHub Repository](https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-test)
+- **Turbine:** A small testing library for kotlinx.coroutines Flow. [GitHub Repository](https://github.com/cashapp/turbine)
+- **Orbit Testing:** This library provides a simple unit testing framework for the Orbit MVI Library. [GitHub Repository](https://orbit-mvi.org/Test/new)
 
 #### Installation
 
