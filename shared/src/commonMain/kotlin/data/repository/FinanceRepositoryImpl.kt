@@ -6,7 +6,6 @@ import core.sealed.GenericState
 import data.source.database.DatabaseFinanceDataSource
 import domain.model.CategoryEnum
 import domain.model.ExpenseScreenModel
-import domain.model.FinanceEnum
 import domain.model.FinanceLocalDate
 import domain.model.FinanceModel
 import domain.model.FinanceScreenExpenses

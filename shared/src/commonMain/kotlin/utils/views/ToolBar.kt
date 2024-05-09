@@ -35,17 +35,18 @@ import theme.view_10
 
 @Composable
 fun Toolbar(
-    backgroundColor: Color = ColorPrimary,
     title: String,
+    modifier: Modifier = Modifier,
+    backgroundColor: Color = ColorPrimary,
     hasNavigationIcon: Boolean = false,
     navigationIcon: ImageVector = Icons.AutoMirrored.Filled.ArrowBack,
     navigation: () -> Unit = {},
-    leftIcon: ImageVector? = null,
     onLeftIconPressed: () -> Unit = {},
     contentColor: Color = Color.White,
     dropDownMenu: Boolean = false,
-    dropDownIcon: ImageVector? = null,
     dropDownItems: List<MenuItem> = listOf(),
+    leftIcon: ImageVector? = null,
+    dropDownIcon: ImageVector? = null,
 ) {
     CenterAlignedTopAppBar(
         title = {
@@ -131,5 +132,6 @@ fun Toolbar(
                 }
             }
         },
+        modifier = modifier,
     )
 }

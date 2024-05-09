@@ -23,7 +23,10 @@ import presentation.viewmodel.createincome.CreateIncomeViewModel
 import utils.views.Toolbar
 
 @Composable
-fun CreateIncomeScreen(viewModel: CreateIncomeViewModel = koinInject()) {
+fun CreateIncomeScreen(
+    modifier: Modifier = Modifier,
+    viewModel: CreateIncomeViewModel = koinInject(),
+) {
     val navigator = LocalNavController.current
     val scope = CoroutineScope(Dispatchers.Main)
     val createScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
@@ -43,6 +46,7 @@ fun CreateIncomeScreen(viewModel: CreateIncomeViewModel = koinInject()) {
                 },
             )
         },
+        modifier = modifier,
     ) { paddingValues ->
         CreateIncomeContent(
             state = createScreenState,

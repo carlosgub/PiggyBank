@@ -22,11 +22,11 @@ import utils.toMonthString
 @Composable
 fun FinanceBarChart(
     daySpent: Map<LocalDateTime, Long>,
-    barColor: Color = ColorPrimary,
     withYChart: Boolean,
-    contentColor: Color = Color.Black,
-    onOverlayData: (String) -> Unit = {},
     modifier: Modifier = Modifier,
+    onOverlayData: (String) -> Unit = {},
+    barColor: Color = ColorPrimary,
+    contentColor: Color = Color.Black,
 ) {
     val lineData =
         remember {

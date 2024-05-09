@@ -1,6 +1,5 @@
 package presentation.viewmodel.home
 
-import domain.model.FinanceScreenExpenses
 import kotlinx.coroutines.Job
 
 interface HomeScreenIntents {

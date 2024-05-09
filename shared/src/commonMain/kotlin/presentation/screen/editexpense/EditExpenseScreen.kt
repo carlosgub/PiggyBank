@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import core.navigation.LocalNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,8 +32,9 @@ import utils.views.Toolbar
 
 @Composable
 fun EditExpenseScreen(
-    viewModel: EditExpenseViewModel = koinInject(),
     id: Long,
+    modifier: Modifier = Modifier,
+    viewModel: EditExpenseViewModel = koinInject(),
 ) {
     val navigator = LocalNavController.current
     val scope = CoroutineScope(Dispatchers.Main)
@@ -59,6 +61,7 @@ fun EditExpenseScreen(
                 },
             )
         },
+        modifier = modifier,
     ) { paddingValues ->
         EditExpenseContent(
             paddingValues = paddingValues,

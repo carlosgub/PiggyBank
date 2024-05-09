@@ -32,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -73,9 +74,9 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun HomeBodyContent(
-    modifier: Modifier = Modifier,
     state: HomeScreenState,
     intents: HomeScreenIntents,
+    modifier: Modifier = Modifier,
 ) {
     var visible by rememberSaveable { mutableStateOf(false) }
     AnimatedVisibility(
@@ -85,9 +86,11 @@ fun HomeBodyContent(
         modifier = modifier,
     ) {
         Card(
-            shape = RoundedCornerShape(topStart = spacing_8, topEnd = spacing_8),
-            colors =
-            CardDefaults.cardColors(
+            shape = RoundedCornerShape(
+                topStart = spacing_8,
+                topEnd = spacing_8,
+            ),
+            colors = CardDefaults.cardColors(
                 containerColor = MonthBudgetCardColor,
             ),
         ) {
@@ -97,7 +100,6 @@ fun HomeBodyContent(
                 )
                 CardMonthFinanceContent(
                     state = state,
-                    modifier = modifier,
                     intents = intents,
                 )
             }
@@ -146,7 +148,7 @@ private fun CardMonthBudgetContent(monthExpense: MonthExpense) {
 @Composable
 private fun CardMonthBudgetBar(monthExpense: MonthExpense) {
     val percentage = (monthExpense.percentage / 100.00).toFloat()
-    var progress by rememberSaveable { mutableStateOf(0f) }
+    var progress by rememberSaveable { mutableFloatStateOf(0f) }
     val progressAnimation by animateFloatAsState(
         targetValue = progress,
         animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
@@ -168,15 +170,14 @@ private fun CardMonthBudgetBar(monthExpense: MonthExpense) {
 @Composable
 private fun CardMonthFinanceContent(
     state: HomeScreenState,
-    modifier: Modifier = Modifier,
     intents: HomeScreenIntents,
+    modifier: Modifier = Modifier,
 ) {
     val tabs = FinanceEnum.entries.toList()
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(topStart = spacing_8, topEnd = spacing_8),
-        colors =
-        CardDefaults.cardColors(
+        colors = CardDefaults.cardColors(
             containerColor = Color.White,
         ),
     ) {
@@ -258,10 +259,11 @@ fun CardMonthFinanceCategoryContent(
     financeType: FinanceEnum,
     expenses: List<FinanceScreenExpenses>,
     intents: HomeScreenIntents,
+    modifier: Modifier = Modifier,
 ) {
     if (expenses.isNotEmpty()) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = modifier.fillMaxSize(),
         ) {
             LazyColumn(
                 modifier = Modifier.padding(top = spacing_3),
@@ -278,8 +280,7 @@ fun CardMonthFinanceCategoryContent(
     } else {
         DataZero(
             title = stringResource(Res.string.home_body_data_zero_title),
-            message =
-            stringResource(
+            message = stringResource(
                 resource = Res.string.home_body_data_zero_message,
                 stringResource(financeType.financeName).lowercase(),
             ),
@@ -330,8 +331,7 @@ private fun FinanceCategoryItem(
                     fontWeight = FontWeight.Medium,
                 )
                 Text(
-                    text =
-                    stringResource(
+                    text = stringResource(
                         Res.string.home_body_finance_category_item_budget_percentage,
                         expense.percentage,
                     ),
@@ -351,8 +351,7 @@ private fun FinanceCategoryItem(
                     fontWeight = FontWeight.Medium,
                 )
                 Text(
-                    text =
-                    stringResource(
+                    text = stringResource(
                         Res.string.home_body_finance_category_item_count_transactions,
                         expense.count,
                     ),
@@ -367,10 +366,16 @@ private fun FinanceCategoryItem(
 }
 
 @Composable
-fun ExpenseIconProgress(expense: FinanceScreenExpenses) {
+fun ExpenseIconProgress(
+    expense: FinanceScreenExpenses,
+    modifier: Modifier = Modifier,
+) {
     val percentage = (expense.percentage / 100.00).toFloat()
-    Box(contentAlignment = Alignment.Center) {
-        var progress by rememberSaveable { mutableStateOf(0f) }
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier,
+    ) {
+        var progress by rememberSaveable { mutableFloatStateOf(0f) }
         val progressAnimation by animateFloatAsState(
             targetValue = progress,
             animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,

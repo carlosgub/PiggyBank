@@ -19,7 +19,6 @@ import data.source.database.month.deleteMonth
 import data.source.database.month.getMonthList
 import data.sqldelight.SharedDatabase
 import domain.model.CategoryEnum
-import domain.model.FinanceEnum
 import domain.model.MonthModel
 import expense.Expense
 import income.Income

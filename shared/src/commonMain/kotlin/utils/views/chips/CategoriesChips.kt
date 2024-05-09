@@ -42,9 +42,10 @@ import theme.spacing_4
 fun CategoriesChips(
     selectedSelected: CategoryEnum,
     onChipPressed: (CategoryEnum) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
     ) {
         val categoriesList = CategoryEnum.entries.filter { it.type == FinanceEnum.EXPENSE }
         Text(

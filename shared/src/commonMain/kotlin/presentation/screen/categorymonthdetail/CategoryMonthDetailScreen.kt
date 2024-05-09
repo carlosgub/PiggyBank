@@ -5,6 +5,7 @@ package presentation.screen.categorymonthdetail
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import core.navigation.LocalNavController
 import kotlinx.coroutines.CoroutineScope
@@ -23,6 +24,7 @@ import utils.views.Toolbar
 fun CategoryMonthDetailScreen(
     monthKey: String,
     categoryName: String,
+    modifier: Modifier = Modifier,
 ) {
     val navigator = LocalNavController.current
     val viewModel = koinViewModel(vmClass = CategoryMonthDetailViewModel::class)
@@ -38,6 +40,7 @@ fun CategoryMonthDetailScreen(
                 },
             )
         },
+        modifier = modifier,
     ) { paddingValues ->
         CategoryMonthDetailContent(
             paddingValues = paddingValues,

@@ -22,10 +22,10 @@ import theme.spacing_4
 fun <E> DataZero(
     title: String,
     message: String,
+    modifier: Modifier = Modifier,
     hasButton: Boolean = false,
     valueToPass: E? = null,
     onButtonClick: (E) -> Unit = {},
-    modifier: Modifier = Modifier,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

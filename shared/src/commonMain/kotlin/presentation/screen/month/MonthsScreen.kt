@@ -3,6 +3,7 @@ package presentation.screen.month
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import core.navigation.LocalNavController
 import kotlinx.coroutines.CoroutineScope
@@ -16,7 +17,7 @@ import presentation.viewmodel.months.MonthsViewModel
 import utils.views.Toolbar
 
 @Composable
-fun MonthsScreen() {
+fun MonthsScreen(modifier: Modifier = Modifier) {
     val navigator = LocalNavController.current
     val viewModel = koinViewModel(vmClass = MonthsViewModel::class)
     val monthsScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
@@ -29,6 +30,7 @@ fun MonthsScreen() {
                 },
             )
         },
+        modifier = modifier,
     ) { paddingValues ->
         MonthsContent(
             monthsScreenState = monthsScreenState,

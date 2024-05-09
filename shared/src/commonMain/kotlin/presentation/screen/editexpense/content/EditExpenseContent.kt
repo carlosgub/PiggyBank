@@ -32,23 +32,23 @@ fun EditExpenseContent(
     paddingValues: PaddingValues,
     state: EditExpenseScreenState,
     intents: EditExpenseScreenIntents,
+    modifier: Modifier = Modifier,
 ) {
     if (state.initialDataLoaded) {
         val keyboard = LocalSoftwareKeyboardController.current
         val focusManager = LocalFocusManager.current
         Column(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .clickable(
-                        interactionSource = NoRippleInteractionSource(),
-                        indication = null,
-                    ) {
-                        keyboard?.hide()
-                        focusManager.clearFocus()
-                    }
-                    .padding(horizontal = spacing_4),
+            modifier = modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .clickable(
+                    interactionSource = NoRippleInteractionSource(),
+                    indication = null,
+                ) {
+                    keyboard?.hide()
+                    focusManager.clearFocus()
+                }
+                .padding(horizontal = spacing_4),
         ) {
             AmountOutlineTextField(
                 amountField = state.amountField,
@@ -98,10 +98,9 @@ fun EditExpenseContent(
 @Composable
 private fun EditExpenseButton(intents: EditExpenseScreenIntents) {
     PrimaryButton(
-        modifier =
-            Modifier.padding(
-                bottom = spacing_6,
-            ),
+        modifier = Modifier.padding(
+            bottom = spacing_6,
+        ),
         buttonText = stringResource(Res.string.edit_expense_button),
         onClick = {
             intents.edit()

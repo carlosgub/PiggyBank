@@ -53,14 +53,14 @@ fun CategoryMonthDetailContent(
     paddingValues: PaddingValues,
     state: CategoryMonthDetailScreenState,
     expenseClicked: (ExpenseScreenModel) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier =
-            Modifier
-                .background(color = White)
-                .padding(
-                    top = paddingValues.calculateTopPadding(),
-                ),
+        modifier = modifier
+            .background(color = White)
+            .padding(
+                top = paddingValues.calculateTopPadding(),
+            ),
     ) {
         Column(
             modifier = Modifier.fillMaxWidth().weight(0.35f),
@@ -84,36 +84,33 @@ fun CategoryMonthDetailContent(
 fun CategoryMonthDetailBody(
     state: CategoryMonthDetailScreenState,
     expenseClicked: (ExpenseScreenModel) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     if (state.showLoading || state.isInitialDataLoaded.not()) {
         Loading()
     } else {
         Card(
-            modifier =
-                Modifier
-                    .padding(top = spacing_2)
-                    .fillMaxSize(),
+            modifier = modifier
+                .padding(top = spacing_2)
+                .fillMaxSize(),
             shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
-            elevation =
-                CardDefaults.cardElevation(
-                    defaultElevation = 8.dp,
-                ),
-            colors =
-                CardDefaults.cardColors(
-                    containerColor = White,
-                ),
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 8.dp,
+            ),
+            colors = CardDefaults.cardColors(
+                containerColor = White,
+            ),
         ) {
             if (state.monthDetail.expenseScreenModel.isNotEmpty()) {
                 LazyColumn(
-                    modifier =
-                        Modifier
-                            .background(color = White)
-                            .fillMaxSize()
-                            .padding(
-                                top = spacing_6,
-                                start = spacing_6,
-                                end = spacing_6,
-                            ),
+                    modifier = Modifier
+                        .background(color = White)
+                        .fillMaxSize()
+                        .padding(
+                            top = spacing_6,
+                            start = spacing_6,
+                            end = spacing_6,
+                        ),
                 ) {
                     itemsIndexed(state.monthDetail.expenseScreenModel) { count, expense ->
                         Column {
@@ -123,10 +120,9 @@ fun CategoryMonthDetailBody(
                             CategoryMonthExpenseItem(
                                 expense = expense,
                                 expenseClicked = expenseClicked,
-                                modifier =
-                                    Modifier.animateItemPlacement(
-                                        animationSpec = tween(600),
-                                    ),
+                                modifier = Modifier.animateItemPlacement(
+                                    animationSpec = tween(600),
+                                ),
                             )
                         }
                     }
@@ -135,9 +131,8 @@ fun CategoryMonthDetailBody(
                 DataZero<Any>(
                     title = stringResource(Res.string.category_month_detail_data_zero_title),
                     message = stringResource(Res.string.category_month_detail_data_zero_message),
-                    modifier =
-                        Modifier
-                            .background(color = White),
+                    modifier = Modifier
+                        .background(color = White),
                 )
             }
         }
@@ -152,16 +147,14 @@ private fun CategoryMonthExpenseItem(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier =
-            modifier
-                .combinedClickable(
-                    onClick = {
-                    },
-                    onLongClick = {
-                        expenseClicked(expense)
-                    },
-                )
-                .padding(vertical = spacing_4),
+        modifier = modifier
+            .combinedClickable(
+                onClick = {},
+                onLongClick = {
+                    expenseClicked(expense)
+                },
+            )
+            .padding(vertical = spacing_4),
     ) {
         Column(
             modifier = Modifier.weight(1f).padding(end = spacing_4),

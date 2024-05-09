@@ -35,11 +35,12 @@ import theme.spacing_4
 
 @Composable
 fun NoteOutlineTextField(
-    firstValue: String = "",
     keyboard: SoftwareKeyboardController?,
     focusManager: FocusManager,
     onValueChange: (String) -> Unit,
     showError: Boolean,
+    modifier: Modifier = Modifier,
+    firstValue: String = "",
 ) {
     var text by remember { mutableStateOf("") }
     LaunchedEffect(Unit) {
@@ -60,23 +61,20 @@ fun NoteOutlineTextField(
         label = {
             Text("Note")
         },
-        keyboardOptions =
-            KeyboardOptions(
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Text,
-            ),
-        keyboardActions =
-            KeyboardActions(
-                onDone = {
-                    keyboard?.hide()
-                    focusManager.clearFocus()
-                },
-            ),
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
+            keyboardType = KeyboardType.Text,
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                keyboard?.hide()
+                focusManager.clearFocus()
+            },
+        ),
         shape = MaterialTheme.shapes.small,
-        modifier =
-            Modifier
-                .padding(top = spacing_2)
-                .fillMaxWidth(),
+        modifier = modifier
+            .padding(top = spacing_2)
+            .fillMaxWidth(),
     )
 
     AnimatedVisibility(showError) {

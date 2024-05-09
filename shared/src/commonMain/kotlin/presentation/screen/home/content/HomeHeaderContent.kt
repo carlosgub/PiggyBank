@@ -60,8 +60,8 @@ import utils.views.chart.FinanceBarChart
 
 @Composable
 fun HomeHeaderContent(
-    modifier: Modifier = Modifier,
     financeScreenModel: FinanceScreenModel,
+    modifier: Modifier = Modifier,
 ) {
     var visible by rememberSaveable { mutableStateOf(false) }
     val pagerState = rememberPagerState(pageCount = { 2 })

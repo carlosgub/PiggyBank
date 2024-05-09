@@ -34,8 +34,9 @@ import theme.spacing_4
 fun DayPicker(
     dateValue: String,
     showError: Boolean,
-    dateInMillis: Long? = null,
     dayValueInMillis: (Long) -> Unit,
+    modifier: Modifier = Modifier,
+    dateInMillis: Long? = null,
 ) {
     val initialDateMillis =
         if (dateInMillis != null && dateInMillis > 0L) {
@@ -61,14 +62,13 @@ fun DayPicker(
         keyboardActions = KeyboardActions(),
         shape = MaterialTheme.shapes.small,
         readOnly = true,
-        modifier =
-            Modifier
-                .padding(top = spacing_2)
-                .fillMaxWidth()
-                .clickable {
-                    keyboard?.hide()
-                    isVisible = true
-                },
+        modifier = modifier
+            .padding(top = spacing_2)
+            .fillMaxWidth()
+            .clickable {
+                keyboard?.hide()
+                isVisible = true
+            },
         enabled = false,
         leadingIcon = {
             Icon(

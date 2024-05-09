@@ -53,16 +53,16 @@ import utils.views.Loading
 fun MonthsContent(
     monthsScreenState: MonthsScreenState,
     paddingValues: PaddingValues,
+    modifier: Modifier = Modifier,
     onMonthClicked: (String) -> Unit,
 ) {
     Column(
-        modifier =
-            Modifier
-                .background(color = White)
-                .padding(
-                    top = paddingValues.calculateTopPadding(),
-                )
-                .fillMaxSize(),
+        modifier = modifier
+            .background(color = White)
+            .padding(
+                top = paddingValues.calculateTopPadding(),
+            )
+            .fillMaxSize(),
     ) {
         if (monthsScreenState.showLoading) {
             Loading()
@@ -83,18 +83,16 @@ private fun MonthsScreenSuccessContent(
     var visible by rememberSaveable { mutableStateOf(false) }
     AnimatedVisibility(
         visible = visible,
-        enter =
-            slideInHorizontally(
-                initialOffsetX = {
-                    it
-                },
-            ),
-        exit =
-            slideOutHorizontally(
-                targetOffsetX = {
-                    0
-                },
-            ),
+        enter = slideInHorizontally(
+            initialOffsetX = {
+                it
+            },
+        ),
+        exit = slideOutHorizontally(
+            targetOffsetX = {
+                0
+            },
+        ),
         modifier = Modifier.fillMaxSize(),
     ) {
         if (data.isNotEmpty()) {
@@ -117,12 +115,12 @@ private fun MonthsScreenSuccessContent(
 @Composable
 fun MonthList(
     months: Map<Int, List<LocalDateTime>>,
+    modifier: Modifier = Modifier,
     onClickItem: (String) -> Unit,
 ) {
     LazyColumn(
-        modifier =
-            Modifier
-                .fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize(),
     ) {
         months.forEach { entry ->
             stickyHeader {
@@ -140,15 +138,17 @@ fun MonthList(
 }
 
 @Composable
-fun YearStickyHeader(year: Int) {
+fun YearStickyHeader(
+    year: Int,
+    modifier: Modifier = Modifier,
+) {
     Text(
         text = year.toString(),
         color = Color.White,
         textAlign = TextAlign.Center,
-        modifier =
-            Modifier.fillMaxSize()
-                .background(color = ColorPrimary)
-                .padding(spacing_1_2),
+        modifier = modifier.fillMaxSize()
+            .background(color = ColorPrimary)
+            .padding(spacing_1_2),
     )
 }
 
@@ -156,34 +156,33 @@ fun YearStickyHeader(year: Int) {
 fun MonthItem(
     localDateTime: LocalDateTime,
     onClickItem: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .clickable {
-                    onClickItem(
-                        localDateTime.toMonthKey(),
-                    )
-                }
-                .padding(
-                    horizontal = spacing_3,
-                    vertical = spacing_2,
-                ),
+        modifier = modifier
+            .fillMaxSize()
+            .clickable {
+                onClickItem(
+                    localDateTime.toMonthKey(),
+                )
+            }
+            .padding(
+                horizontal = spacing_3,
+                vertical = spacing_2,
+            ),
     ) {
         Box(
             contentAlignment = Alignment.Center,
         ) {
             Box(
-                modifier =
-                    Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
-                        .background(color = ColorPrimary),
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(color = ColorPrimary),
             )
             Text(
-                localDateTime.month.name.take(1),
+                text = localDateTime.month.name.take(1),
                 color = White,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
@@ -193,9 +192,8 @@ fun MonthItem(
         Text(
             localDateTime.month.name,
             color = ColorPrimary,
-            modifier =
-                Modifier.fillMaxSize()
-                    .padding(spacing_2),
+            modifier = Modifier.fillMaxSize()
+                .padding(spacing_2),
         )
     }
 }

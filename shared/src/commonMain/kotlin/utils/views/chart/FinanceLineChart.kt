@@ -30,37 +30,34 @@ import utils.toMonthString
 @Composable
 fun FinanceLineChart(
     daySpent: Map<LocalDateTime, Long>,
-    lineColor: Color = ColorPrimary,
     withYChart: Boolean,
+    modifier: Modifier = Modifier,
+    lineColor: Color = ColorPrimary,
     contentColor: Color = Color.Black,
 ) {
     val lineData =
         remember {
             LineChartData(
-                series =
-                    listOf(
-                        LineChartSeries(
-                            dataName = "Expense",
-                            lineColor = lineColor,
-                            listOfPoints =
-                                daySpent.map { day ->
-                                    LineChartPoint(
-                                        x =
-                                            day.key.toInstant(TimeZone.currentSystemDefault())
-                                                .toEpochMilliseconds(),
-                                        y = (day.value / 100.0).toFloat(),
-                                    )
-                                },
-                        ),
+                series = listOf(
+                    LineChartSeries(
+                        dataName = "Expense",
+                        lineColor = lineColor,
+                        listOfPoints = daySpent.map { day ->
+                            LineChartPoint(
+                                x = day.key.toInstant(TimeZone.currentSystemDefault())
+                                    .toEpochMilliseconds(),
+                                y = (day.value / 100.0).toFloat(),
+                            )
+                        },
                     ),
+                ),
             )
         }
     if (withYChart) {
         LineChart(
             lineChartData = lineData,
-            modifier =
-                Modifier
-                    .fillMaxWidth(),
+            modifier = modifier
+                .fillMaxWidth(),
             xAxisLabel = {
                 XAxisLabel(it, contentColor)
             },
@@ -69,9 +66,8 @@ fun FinanceLineChart(
                     fontSize = 12.sp,
                     text = (it as Float).toMoneyFormat(),
                     textAlign = TextAlign.Center,
-                    modifier =
-                        Modifier
-                            .offset(x = 20.dp),
+                    modifier = Modifier
+                        .offset(x = 20.dp),
                     color = contentColor,
                 )
             },
@@ -89,9 +85,8 @@ fun FinanceLineChart(
     } else {
         LineChart(
             lineChartData = lineData,
-            modifier =
-                Modifier
-                    .fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             xAxisLabel = {
                 XAxisLabel(it, contentColor)
             },
@@ -124,8 +119,7 @@ private fun OverlayHeaderLabel(
         )
     val moneySpent = ((daySpent[localDateTime] ?: 0) / 100.0).toFloat().toMoneyFormat()
     Text(
-        text =
-            "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}\n" +
+        text = "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}\n" +
                 moneySpent,
         style = MaterialTheme.typography.bodyMedium,
         color = contentColor,
@@ -142,9 +136,8 @@ private fun XAxisLabel(
         fontSize = 12.sp,
         text = "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}",
         textAlign = TextAlign.Center,
-        modifier =
-            Modifier
-                .offset(x = 20.dp),
+        modifier = Modifier
+            .offset(x = 20.dp),
         color = contentColor,
     )
 }
