@@ -7,3 +7,6 @@ allowed_composition_locals=LocalNavController
 
 [**/generated/**/*]
 ktlint = disabled
+
+[Main.ios.kt]
+ktlint = disabled
