@@ -1,10 +1,13 @@
 name: Check code style
 on:
   push:
-    branches:
-      - main
-      - feature/ci_support
+    branches: [ "main" ]
   pull_request:
+    branches: [ "main" ]
+
+env:
+  g_token: ${{ secrets.G_TOKEN }}
+  g_password: ${{ secrets.G_PASSWORD }}
 
 jobs:
   check-code-style:
