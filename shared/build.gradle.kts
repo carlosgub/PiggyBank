@@ -16,7 +16,7 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64(),
+        iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
@@ -57,7 +57,7 @@ kotlin {
                 implementation(libs.kotlinx.collections.immutable)
             }
         }
-        commonTest{
+        commonTest {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(libs.kotlinx.coroutines.test)
