@@ -6,8 +6,8 @@ on:
     branches: [ "main" ]
 
 env:
-  g_username: ${{ secrets.G_USERNAME }}
-  g_token: ${{ secrets.G_TOKEN }}
+  G_USERNAME: ${{ secrets.G_USERNAME }}
+  G_TOKEN: ${{ secrets.G_TOKEN }}
 
 jobs:
   check-code-style:
@@ -29,6 +29,11 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '17'
-      - name: Run Unit Test
+      - name: "Test Username"
+        run: echo "$G_TOKEN"
+      - name: Run Unit Test Android
         shell: bash
         run: ./gradlew :shared:testDebugUnitTest
+      - name: Run Unit Test iOS
+        shell: bash
+        run: ./gradlew :shared:iosSimulatorArm64Test
