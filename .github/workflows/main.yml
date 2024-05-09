@@ -6,7 +6,7 @@ on:
     branches: [ "main" ]
 
 env:
-  g_token: ${{ secrets.G_TOKEN }}
+  g_username: ${{ secrets.G_TOKEN }}
   g_password: ${{ secrets.G_PASSWORD }}
 
 jobs:
