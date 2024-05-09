@@ -1,9 +1,8 @@
 package presentation.viewmodel.editincome
 
+import androidx.annotation.VisibleForTesting
 import core.sealed.GenericState
-import domain.model.CategoryEnum
-import domain.model.FinanceEnum
-import domain.usecase.DeleteUseCase
+import domain.usecase.DeleteIncomeUseCase
 import domain.usecase.EditIncomeUseCase
 import domain.usecase.GetIncomeUseCase
 import kotlinx.coroutines.Job
@@ -15,31 +14,24 @@ import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
-import utils.getCategoryEnumFromName
-import utils.toLocalDate
 import utils.toMillis
 import utils.toMoneyFormat
-import utils.toNumberOfTwoDigits
+import utils.toStringDateFormat
 
 class EditIncomeViewModel(
     val editIncomeUseCase: EditIncomeUseCase,
-    val deleteUseCase: DeleteUseCase,
+    val deleteUseCase: DeleteIncomeUseCase,
     val getIncomeUseCase: GetIncomeUseCase,
 ) : ViewModel(), ContainerHost<EditIncomeScreenState, GenericState<Unit>>, EditIncomeScreenIntents {
-    override fun setCategory(categoryEnum: CategoryEnum): Job =
-        intent {
-            reduce { state.copy(category = categoryEnum) }
-        }
 
     override fun setDate(date: Long): Job =
         intent {
-            reduce { state.copy(dateInMillis = date) }
-            val localDate = date.toLocalDate()
-            val dateFormat =
-                "${localDate.dayOfMonth.toNumberOfTwoDigits()}/" +
-                    "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
-                    "${localDate.year}"
-            reduce { state.copy(date = dateFormat) }
+            reduce {
+                state.copy(
+                    dateInMillis = date,
+                    date = date.toStringDateFormat()
+                )
+            }
         }
 
     override fun setAmount(textFieldValue: String): Job =
@@ -82,7 +74,8 @@ class EditIncomeViewModel(
             }
         }
 
-    private fun editIncome(id: Long): Job =
+    @VisibleForTesting
+    fun editIncome(id: Long): Job =
         intent {
             val result =
                 editIncomeUseCase(
@@ -117,8 +110,7 @@ class EditIncomeViewModel(
         intent {
             val result =
                 deleteUseCase(
-                    DeleteUseCase.Params(
-                        financeEnum = state.financeEnum,
+                    DeleteIncomeUseCase.Params(
                         id = state.id,
                         monthKey = state.monthKey,
                     ),
@@ -126,7 +118,8 @@ class EditIncomeViewModel(
             postSideEffect(result)
         }
 
-    private fun showLoading(): Job =
+    @VisibleForTesting
+    fun showLoading(): Job =
         intent {
             reduce { state.copy(showLoading = true) }
         }
@@ -141,14 +134,12 @@ class EditIncomeViewModel(
                 )
             if (result is GenericState.Success) {
                 setAmount(result.data.amount.toString())
-                setCategory(getCategoryEnumFromName(result.data.category))
                 setDate(result.data.localDateTime.toMillis())
                 setNote(result.data.note)
                 reduce {
                     state.copy(
                         initialDataLoaded = true,
                         id = result.data.id,
-                        financeEnum = FinanceEnum.INCOME,
                         monthKey = result.data.monthKey,
                     )
                 }

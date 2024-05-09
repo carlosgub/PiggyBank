@@ -6,6 +6,7 @@ chartsVersion = "1.0.4"
 coreKtxVersion = "1.13.1"
 koinCoreVersion = "3.5.3"
 koinComposeVersion = "1.1.2"
+kotlinxCoroutinesTestVersion = "1.8.0"
 ktlintVersion = "0.3.20"
 precomposeVersion = "1.6.0"
 datetimeVersion = "0.5.0"
@@ -14,6 +15,7 @@ orbit = "7.1.0"
 androidVersion = "8.2.0"
 composeVersion = "1.6.2"
 klintVersion = "4.3.0"
+turbineVersion = "1.1.0"
 
 [libraries]
 charts = { module = "com.carlosgub.kotlinm.charts:charts", version.ref = "chartsVersion" }
@@ -27,6 +29,7 @@ koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCoreVersio
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeVersion" }
 
 ktlint = { module = "io.nlopez.compose.rules:ktlint", version.ref = "ktlintVersion" }
+
 precompose-core = { module = "moe.tlaster:precompose", version.ref = "precomposeVersion" }
 precompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "precomposeVersion" }
 precompose-koin = { module = "moe.tlaster:precompose-koin", version.ref = "precomposeVersion" }
@@ -39,6 +42,11 @@ delight-ios = { module = "app.cash.sqldelight:native-driver", version.ref = "del
 delight-extension = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "delightVersion" }
 
 orbit_core = { module = "org.orbit-mvi:orbit-core", version.ref = "orbit" }
+orbit_testing = { module = "org.orbit-mvi:orbit-test", version.ref = "orbit"}
+
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTestVersion" }
+
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbineVersion" }
 
 [bundles]
 android = [

@@ -1,11 +1,10 @@
 package presentation.viewmodel.editincome
 
 import domain.model.CategoryEnum
-import domain.model.FinanceEnum
 import utils.toMoneyFormat
 
 data class EditIncomeScreenState(
-    val category: CategoryEnum = CategoryEnum.FOOD,
+    val category: CategoryEnum = CategoryEnum.WORK,
     val amountField: String = 0.0.toMoneyFormat(),
     val amount: Double = 0.0,
     val showDateError: Boolean = false,
@@ -17,6 +16,5 @@ data class EditIncomeScreenState(
     val initialDataLoaded: Boolean = false,
     val showLoading: Boolean = false,
     val id: Long = 0L,
-    val financeEnum: FinanceEnum = FinanceEnum.EXPENSE,
     val monthKey: String = "",
 )

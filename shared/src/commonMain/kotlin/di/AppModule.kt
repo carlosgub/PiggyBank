@@ -1,12 +1,13 @@
 package di
 
 import data.repository.FinanceRepositoryImpl
-import data.source.database.DatabaseFinance
+import data.source.database.DatabaseFinanceDataSource
+import data.source.database.impl.DatabaseFinanceDataSourceImpl
 import data.sqldelight.SharedDatabase
 import domain.repository.FinanceRepository
 import domain.usecase.CreateExpenseUseCase
 import domain.usecase.CreateIncomeUseCase
-import domain.usecase.DeleteUseCase
+import domain.usecase.DeleteIncomeUseCase
 import domain.usecase.EditExpenseUseCase
 import domain.usecase.EditIncomeUseCase
 import domain.usecase.GetExpenseMonthDetailUseCase
@@ -18,12 +19,12 @@ import domain.usecase.GetMonthsUseCase
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
+import presentation.viewmodel.categorymonthdetail.CategoryMonthDetailViewModel
 import presentation.viewmodel.createexpense.CreateExpenseViewModel
 import presentation.viewmodel.createincome.CreateIncomeViewModel
 import presentation.viewmodel.editexpense.EditExpenseViewModel
 import presentation.viewmodel.editincome.EditIncomeViewModel
 import presentation.viewmodel.home.HomeViewModel
-import presentation.viewmodel.categorymonthdetail.CategoryMonthDetailViewModel
 import presentation.viewmodel.months.MonthsViewModel
 
 val homeModule =
@@ -50,7 +51,7 @@ val homeModule =
         factory {
             EditExpenseViewModel(
                 editExpenseUseCase = get(),
-                deleteUseCase = get(),
+                deleteExpenseUseCase = get(),
                 getExpenseUseCase = get(),
             )
         }
@@ -65,7 +66,7 @@ val homeModule =
 
         factory {
             CategoryMonthDetailViewModel(
-                getCategoryMonthDetailUseCase = get(),
+                getExpenseMonthDetailUseCase = get(),
                 getIncomeMonthDetailUseCase = get(),
             )
         }
@@ -121,7 +122,7 @@ val homeModule =
         }
 
         factory {
-            DeleteUseCase(
+            DeleteIncomeUseCase(
                 financeRepository = get(),
             )
         }
@@ -151,8 +152,8 @@ val homeModule =
             )
         }
 
-        single {
-            DatabaseFinance(
+        single<DatabaseFinanceDataSource> {
+            DatabaseFinanceDataSourceImpl(
                 sharedDatabase = get(),
             )
         }

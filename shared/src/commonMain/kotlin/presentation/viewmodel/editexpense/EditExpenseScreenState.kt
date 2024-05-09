@@ -1,7 +1,6 @@
 package presentation.viewmodel.editexpense
 
 import domain.model.CategoryEnum
-import domain.model.FinanceEnum
 import utils.toMoneyFormat
 
 data class EditExpenseScreenState(
@@ -17,6 +16,5 @@ data class EditExpenseScreenState(
     val initialDataLoaded: Boolean = false,
     val showLoading: Boolean = false,
     val id: Long = 0L,
-    val financeEnum: FinanceEnum = FinanceEnum.EXPENSE,
     val monthKey: String = "",
 )

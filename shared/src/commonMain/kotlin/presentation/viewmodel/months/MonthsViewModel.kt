@@ -1,5 +1,6 @@
 package presentation.viewmodel.months
 
+import androidx.annotation.VisibleForTesting
 import core.sealed.GenericState
 import domain.usecase.GetMonthsUseCase
 import kotlinx.coroutines.Job
@@ -45,7 +46,8 @@ class MonthsViewModel(
             postSideEffect(MonthsScreenSideEffect.NavigateToMonthDetail(monthKey))
         }
 
-    private fun setMonths(months: Map<Int, List<LocalDateTime>>): Job =
+    @VisibleForTesting
+    fun setMonths(months: Map<Int, List<LocalDateTime>>): Job =
         intent {
             reduce {
                 state.copy(
@@ -55,7 +57,8 @@ class MonthsViewModel(
             }
         }
 
-    private fun showLoading(): Job =
+    @VisibleForTesting
+    fun showLoading(): Job =
         intent {
             reduce { state.copy(showLoading = true) }
         }

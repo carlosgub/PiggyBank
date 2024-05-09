@@ -74,4 +74,9 @@ fun Long.toLocalDate(): LocalDate =
 
 fun LocalDateTime.toMillis(): Long = this.toInstant(TimeZone.UTC).toEpochMilliseconds()
 
-fun FinanceEnum.isExpense() = this == FinanceEnum.EXPENSE
+fun Long.toStringDateFormat(): String {
+    val localDate = this.toLocalDate()
+    return "${localDate.dayOfMonth.toNumberOfTwoDigits()}/" +
+            "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
+            "${localDate.year}"
+}

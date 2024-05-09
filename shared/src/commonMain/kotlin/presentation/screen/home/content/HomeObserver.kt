@@ -24,7 +24,7 @@ fun homeObserver(
         is HomeScreenSideEffect.NavigateToMonthDetail ->
             navigateMonthDetailScreen(
                 navigator = navigator,
-                categoryName = sideEffect.financeScreenExpenses.category.name,
+                categoryName = sideEffect.categoryName,
                 monthKey = state.monthKey,
             )
 

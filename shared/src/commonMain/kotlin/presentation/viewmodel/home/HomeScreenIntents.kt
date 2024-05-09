@@ -10,7 +10,7 @@ interface HomeScreenIntents {
 
     fun navigateToMonths(): Job
 
-    fun navigateToMonthDetail(financeScreenExpenses: FinanceScreenExpenses): Job
+    fun navigateToMonthDetail(categoryName: String): Job
 
     fun navigateToAddExpense(): Job
 

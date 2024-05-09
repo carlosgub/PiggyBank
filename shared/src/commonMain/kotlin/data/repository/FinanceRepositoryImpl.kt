@@ -3,7 +3,7 @@ package data.repository
 import core.mapper.ResultMapper
 import core.network.ResponseResult
 import core.sealed.GenericState
-import data.source.database.DatabaseFinance
+import data.source.database.DatabaseFinanceDataSource
 import domain.model.CategoryEnum
 import domain.model.ExpenseScreenModel
 import domain.model.FinanceEnum
@@ -30,7 +30,7 @@ import utils.toMonthKey
 import kotlin.math.roundToInt
 
 class FinanceRepositoryImpl(
-    private val databaseFinance: DatabaseFinance,
+    private val databaseFinance: DatabaseFinanceDataSource,
 ) : FinanceRepository {
     override suspend fun getFinance(monthKey: String): Flow<GenericState<FinanceScreenModel>> =
         flow {
@@ -85,7 +85,6 @@ class FinanceRepositoryImpl(
                                     category = expense.category,
                                     localDateTime = localDate.localDateTime,
                                     date = localDate.date,
-                                    monthKey = monthKey,
                                 )
                             }.sortedByDescending { it.localDateTime }
                         val daySpent =
@@ -109,13 +108,7 @@ class FinanceRepositoryImpl(
                                     expenseAmount = expenseTotal,
                                     expenses = expenseList,
                                     income = incomeList,
-                                    month =
-                                        createLocalDateTime(
-                                            year = monthKey.substring(2, 6).toInt(),
-                                            monthNumber =
-                                                monthKey.substring(0, 2).trimStart('0')
-                                                    .toInt(),
-                                        ).month,
+                                    month = date.month,
                                     monthExpense = monthExpense,
                                     daySpent = daySpent,
                                 ),
@@ -249,16 +242,31 @@ class FinanceRepositoryImpl(
             }
         }
 
-    override suspend fun delete(
-        financeEnum: FinanceEnum,
+    override suspend fun deleteIncome(
         id: Long,
         monthKey: String,
     ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             when (
                 val result =
-                    databaseFinance.delete(
-                        financeEnum = financeEnum,
+                    databaseFinance.deleteIncome(
+                        id = id,
+                        monthKey = monthKey,
+                    )
+            ) {
+                is ResponseResult.Success -> GenericState.Success(Unit)
+                is ResponseResult.Error -> GenericState.Error(result.error.message.toString())
+            }
+        }
+
+    override suspend fun deleteExpense(
+        id: Long,
+        monthKey: String,
+    ): GenericState<Unit> =
+        withContext(Dispatchers.Default) {
+            when (
+                val result =
+                    databaseFinance.deleteExpense(
                         id = id,
                         monthKey = monthKey,
                     )
@@ -288,7 +296,6 @@ class FinanceRepositoryImpl(
                                     category = expense.category,
                                     localDateTime = localDate.localDateTime,
                                     date = localDate.date,
-                                    monthKey = monthKey,
                                 )
                             }.sortedByDescending { it.localDateTime }
                         val date =
@@ -342,7 +349,6 @@ class FinanceRepositoryImpl(
                                         category = expense.category,
                                         localDateTime = localDate.localDateTime,
                                         date = localDate.date,
-                                        monthKey = monthKey,
                                     )
                                 }.sortedByDescending { it.localDateTime }
                             val date =

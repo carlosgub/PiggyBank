@@ -1,5 +1,6 @@
 package presentation.viewmodel.createexpense
 
+import androidx.annotation.VisibleForTesting
 import core.sealed.GenericState
 import domain.model.CategoryEnum
 import domain.usecase.CreateExpenseUseCase
@@ -12,13 +13,13 @@ import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
-import utils.toLocalDate
 import utils.toMoneyFormat
-import utils.toNumberOfTwoDigits
+import utils.toStringDateFormat
 
 class CreateExpenseViewModel(
     val createExpenseUseCase: CreateExpenseUseCase,
-) : ViewModel(), ContainerHost<CreateExpenseScreenState, GenericState<Unit>>, CreateExpenseScreenIntents {
+) : ViewModel(), ContainerHost<CreateExpenseScreenState, GenericState<Unit>>,
+    CreateExpenseScreenIntents {
     override fun create(): Job =
         intent {
             when {
@@ -32,12 +33,14 @@ class CreateExpenseViewModel(
             }
         }
 
-    private fun showLoading(): Job =
+    @VisibleForTesting
+    fun showLoading(): Job =
         intent {
             reduce { state.copy(showLoading = true) }
         }
 
-    private fun createExpense(): Job =
+    @VisibleForTesting
+    fun createExpense(): Job =
         intent {
             val result =
                 createExpenseUseCase(
@@ -60,13 +63,12 @@ class CreateExpenseViewModel(
 
     override fun setDate(date: Long): Job =
         intent {
-            reduce { state.copy(dateInMillis = date) }
-            val localDate = date.toLocalDate()
-            val dateFormat =
-                "${localDate.dayOfMonth.toNumberOfTwoDigits()}/" +
-                    "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
-                    "${localDate.year}"
-            reduce { state.copy(date = dateFormat) }
+            reduce {
+                state.copy(
+                    dateInMillis = date,
+                    date = date.toStringDateFormat()
+                )
+            }
         }
 
     override fun setCategory(categoryEnum: CategoryEnum): Job =
