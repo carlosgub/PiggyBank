@@ -13,6 +13,7 @@ import com.carlosgub.kotlinm.charts.bar.BarChart
 import com.carlosgub.kotlinm.charts.bar.BarChartCategory
 import com.carlosgub.kotlinm.charts.bar.BarChartData
 import com.carlosgub.kotlinm.charts.bar.BarChartEntry
+import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.datetime.LocalDateTime
 import theme.ColorPrimary
 import utils.toDayString
@@ -21,30 +22,28 @@ import utils.toMonthString
 
 @Composable
 fun FinanceBarChart(
-    daySpent: Map<LocalDateTime, Long>,
-    barColor: Color = ColorPrimary,
+    daySpent: ImmutableMap<LocalDateTime, Long>,
     withYChart: Boolean,
-    contentColor: Color = Color.Black,
-    onOverlayData: (String) -> Unit = {},
     modifier: Modifier = Modifier,
+    onOverlayData: (String) -> Unit = {},
+    barColor: Color = ColorPrimary,
+    contentColor: Color = Color.Black,
 ) {
     val lineData =
         remember {
             BarChartData(
-                categories =
-                    listOf(
-                        BarChartCategory(
-                            name = "",
-                            entries =
-                                daySpent.map { day ->
-                                    BarChartEntry(
-                                        x = "${day.key.dayOfMonth.toDayString()}/${day.key.month.toMonthString()}",
-                                        y = (day.value / 100.0).toFloat(),
-                                        color = barColor,
-                                    )
-                                },
-                        ),
+                categories = listOf(
+                    BarChartCategory(
+                        name = "",
+                        entries = daySpent.map { day ->
+                            BarChartEntry(
+                                x = "${day.key.dayOfMonth.toDayString()}/${day.key.month.toMonthString()}",
+                                y = (day.value / 100.0).toFloat(),
+                                color = barColor,
+                            )
+                        },
                     ),
+                ),
             )
         }
     BarChart(
@@ -62,9 +61,8 @@ fun FinanceBarChart(
                     fontSize = 12.sp,
                     text = text,
                     textAlign = TextAlign.Center,
-                    modifier =
-                        Modifier
-                            .offset(x = 20.dp),
+                    modifier = Modifier
+                        .offset(x = 20.dp),
                     color = contentColor,
                 )
             }

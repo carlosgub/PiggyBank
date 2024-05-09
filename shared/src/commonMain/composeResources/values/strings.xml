@@ -70,4 +70,8 @@
     <string name="category_month_detail_data_zero_title">Ooops! It's Empty</string>
     <string name="category_month_detail_data_zero_message">Looks like you don't have anything in this category</string>
     <!--endregion-->
+
+    <!--region Finance Line Chart-->
+    <string name="finance_line_chart_overlay">%1$d/%2$d\n%3$s</string>
+    <!--endregion-->
 </resources>

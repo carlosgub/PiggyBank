@@ -1,10 +1,12 @@
 name: Check code style
 on:
   push:
-    branches:
-      - main
-      - feature/ci_support
+    branches: [ "main" ]
   pull_request:
+    branches: [ "main" ]
+env:
+  G_USERNAME: ${{vars.G_USERNAME}}
+  G_TOKEN: ${{vars.G_TOKEN}}
 
 jobs:
   check-code-style:
@@ -17,4 +19,20 @@ jobs:
           java-version: '17'
       - name: Check code style
         shell: bash
-        run: ./gradlew ktlintCheck
+        run: ./gradlew lintKotlin
+  run-testing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+      - name: "Test Username"
+        run: echo "$G_USERNAME"
+      - name: Run Unit Test Android
+        shell: bash
+        run: ./gradlew :shared:testDebugUnitTest
+      - name: Run Unit Test iOS
+        shell: bash
+        run: ./gradlew :shared:iosSimulatorArm64Test

@@ -42,9 +42,10 @@ import theme.spacing_4
 fun CategoriesChips(
     selectedSelected: CategoryEnum,
     onChipPressed: (CategoryEnum) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
     ) {
         val categoriesList = CategoryEnum.entries.filter { it.type == FinanceEnum.EXPENSE }
         Text(
@@ -101,20 +102,18 @@ private fun CategoryChip(
         onClick = {
             onChipPressed(categoryEnum)
         },
-        colors =
-            ChipDefaults.chipColors(
-                backgroundColor = chipBackgroundColor,
-            ),
+        colors = ChipDefaults.chipColors(
+            backgroundColor = chipBackgroundColor,
+        ),
         shape = RoundedCornerShape(12.dp),
         border = chipBorderStroke,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier =
-                Modifier.padding(
-                    horizontal = 6.dp,
-                    vertical = 4.dp,
-                ),
+            modifier = Modifier.padding(
+                horizontal = 6.dp,
+                vertical = 4.dp,
+            ),
         ) {
             Icon(
                 imageVector = categoryEnum.icon,

@@ -12,6 +12,7 @@ import domain.model.FinanceModel
 import domain.model.FinanceScreenModel
 import domain.model.MonthDetailScreenModel
 import domain.repository.FinanceRepository
+import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.LocalDateTime
@@ -81,7 +82,7 @@ class FakeFinanceRepositoryImpl : FinanceRepository {
             )
         }
 
-    override suspend fun getMonths(): Flow<GenericState<Map<Int, List<LocalDateTime>>>> =
+    override suspend fun getMonths(): Flow<GenericState<ImmutableMap<Int, List<LocalDateTime>>>> =
         flow {
             emit(
                 GenericState.Success(monthListFiltered),

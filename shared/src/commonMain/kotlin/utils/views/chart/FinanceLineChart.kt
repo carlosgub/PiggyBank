@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalResourceApi::class)
+
 package utils.views.chart
 
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,10 +18,15 @@ import com.carlosgub.kotlinm.charts.line.LineChart
 import com.carlosgub.kotlinm.charts.line.LineChartData
 import com.carlosgub.kotlinm.charts.line.LineChartPoint
 import com.carlosgub.kotlinm.charts.line.LineChartSeries
+import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
+import myapplication.shared.generated.resources.Res
+import myapplication.shared.generated.resources.finance_line_chart_overlay
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import theme.ColorPrimary
 import utils.createLocalDateTime
 import utils.toDayString
@@ -29,38 +36,35 @@ import utils.toMonthString
 
 @Composable
 fun FinanceLineChart(
-    daySpent: Map<LocalDateTime, Long>,
-    lineColor: Color = ColorPrimary,
+    daySpent: ImmutableMap<LocalDateTime, Long>,
     withYChart: Boolean,
+    modifier: Modifier = Modifier,
+    lineColor: Color = ColorPrimary,
     contentColor: Color = Color.Black,
 ) {
     val lineData =
         remember {
             LineChartData(
-                series =
-                    listOf(
-                        LineChartSeries(
-                            dataName = "Expense",
-                            lineColor = lineColor,
-                            listOfPoints =
-                                daySpent.map { day ->
-                                    LineChartPoint(
-                                        x =
-                                            day.key.toInstant(TimeZone.currentSystemDefault())
-                                                .toEpochMilliseconds(),
-                                        y = (day.value / 100.0).toFloat(),
-                                    )
-                                },
-                        ),
+                series = listOf(
+                    LineChartSeries(
+                        dataName = "Expense",
+                        lineColor = lineColor,
+                        listOfPoints = daySpent.map { day ->
+                            LineChartPoint(
+                                x = day.key.toInstant(TimeZone.currentSystemDefault())
+                                    .toEpochMilliseconds(),
+                                y = (day.value / 100.0).toFloat(),
+                            )
+                        },
                     ),
+                ),
             )
         }
     if (withYChart) {
         LineChart(
             lineChartData = lineData,
-            modifier =
-                Modifier
-                    .fillMaxWidth(),
+            modifier = modifier
+                .fillMaxWidth(),
             xAxisLabel = {
                 XAxisLabel(it, contentColor)
             },
@@ -69,9 +73,8 @@ fun FinanceLineChart(
                     fontSize = 12.sp,
                     text = (it as Float).toMoneyFormat(),
                     textAlign = TextAlign.Center,
-                    modifier =
-                        Modifier
-                            .offset(x = 20.dp),
+                    modifier = Modifier
+                        .offset(x = 20.dp),
                     color = contentColor,
                 )
             },
@@ -89,9 +92,8 @@ fun FinanceLineChart(
     } else {
         LineChart(
             lineChartData = lineData,
-            modifier =
-                Modifier
-                    .fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             xAxisLabel = {
                 XAxisLabel(it, contentColor)
             },
@@ -113,7 +115,7 @@ fun FinanceLineChart(
 private fun OverlayHeaderLabel(
     localDate: Long,
     contentColor: Color,
-    daySpent: Map<LocalDateTime, Long>,
+    daySpent: ImmutableMap<LocalDateTime, Long>,
 ) {
     val day: LocalDate = localDate.toLocalDate()
     val localDateTime =
@@ -124,9 +126,12 @@ private fun OverlayHeaderLabel(
         )
     val moneySpent = ((daySpent[localDateTime] ?: 0) / 100.0).toFloat().toMoneyFormat()
     Text(
-        text =
-            "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}\n" +
-                moneySpent,
+        text = stringResource(
+            resource = Res.string.finance_line_chart_overlay,
+            day.dayOfMonth,
+            day.month,
+            moneySpent,
+        ),
         style = MaterialTheme.typography.bodyMedium,
         color = contentColor,
     )
@@ -142,9 +147,8 @@ private fun XAxisLabel(
         fontSize = 12.sp,
         text = "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}",
         textAlign = TextAlign.Center,
-        modifier =
-            Modifier
-                .offset(x = 20.dp),
+        modifier = Modifier
+            .offset(x = 20.dp),
         color = contentColor,
     )
 }

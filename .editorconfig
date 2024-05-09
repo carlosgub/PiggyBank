@@ -4,6 +4,11 @@ insert_final_newline = true
 max_line_length = 140
 ij_kotlin_allow_trailing_comma = true
 ij_kotlin_allow_trailing_comma_on_call_site = true
+ktlint_standard_multiline-expression-wrapping = disabled
+allowed_composition_locals=LocalNavController
 
 [**/generated/**/*]
+ktlint = disabled
+
+[Main.ios.kt]
 ktlint = disabled

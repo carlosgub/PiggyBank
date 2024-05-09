@@ -3,6 +3,7 @@ package presentation.viewmodel.months
 import androidx.annotation.VisibleForTesting
 import core.sealed.GenericState
 import domain.usecase.GetMonthsUseCase
+import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.datetime.LocalDateTime
@@ -47,7 +48,7 @@ class MonthsViewModel(
         }
 
     @VisibleForTesting
-    fun setMonths(months: Map<Int, List<LocalDateTime>>): Job =
+    fun setMonths(months: ImmutableMap<Int, List<LocalDateTime>>): Job =
         intent {
             reduce {
                 state.copy(

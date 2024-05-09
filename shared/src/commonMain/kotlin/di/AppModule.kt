@@ -128,7 +128,6 @@ val homeModule =
             )
         }
 
-
         factory {
             DeleteExpenseUseCase(
                 financeRepository = get(),

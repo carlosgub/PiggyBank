@@ -10,8 +10,10 @@ import androidx.compose.material.icons.filled.MoneyOff
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import core.navigation.LocalNavController
 import domain.model.MenuItem
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,7 +32,10 @@ import utils.getCurrentMonthKey
 import utils.views.Toolbar
 
 @Composable
-fun HomeScreen(monthKey: String) {
+fun HomeScreen(
+    monthKey: String,
+    modifier: Modifier = Modifier,
+) {
     val navigator = LocalNavController.current
     val viewModel = koinViewModel(vmClass = HomeViewModel::class)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
@@ -54,6 +59,7 @@ fun HomeScreen(monthKey: String) {
                 },
             )
         },
+        modifier = modifier,
     ) { paddingValues ->
         HomeContent(
             paddingValues = paddingValues,
@@ -90,7 +96,7 @@ private fun HomeToolbar(
         leftIcon = leftIcon,
         onLeftIconPressed = onCalendarPressed,
         dropDownItems =
-            mutableListOf(
+            persistentListOf(
                 MenuItem(
                     name = stringResource(Res.string.home_add_expense),
                     icon = Icons.Filled.MoneyOff,

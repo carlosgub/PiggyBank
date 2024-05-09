@@ -2,6 +2,7 @@ package utils.views
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -15,11 +16,12 @@ import theme.spacing_2
 fun DropdownMenuItem(
     icon: ImageVector,
     text: String,
+    modifier: Modifier = Modifier,
     onItemClicked: () -> Unit,
 ) {
-    androidx.compose.material3.DropdownMenuItem(
+    DropdownMenuItem(
         onClick = onItemClicked,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         text = {
             Text(
                 text = text,

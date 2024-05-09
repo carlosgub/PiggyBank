@@ -1,5 +1,9 @@
 package domain.model
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
 
@@ -7,9 +11,9 @@ data class FinanceScreenModel(
     val month: Month = Month.JANUARY,
     val expenseAmount: Long = 0L,
     val monthExpense: MonthExpense = MonthExpense(),
-    val expenses: List<FinanceScreenExpenses> = listOf(),
-    val income: List<FinanceScreenExpenses> = listOf(),
-    val daySpent: Map<LocalDateTime, Long> = mapOf(),
+    val expenses: ImmutableList<FinanceScreenExpenses> = persistentListOf(),
+    val income: ImmutableList<FinanceScreenExpenses> = persistentListOf(),
+    val daySpent: ImmutableMap<LocalDateTime, Long> = persistentMapOf(),
 )
 
 data class FinanceScreenExpenses(

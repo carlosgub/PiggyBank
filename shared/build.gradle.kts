@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose)
     alias(libs.plugins.sqldelight)
-    alias(libs.plugins.klint)
+    alias(libs.plugins.ktlint)
 }
 
 kotlin {
@@ -16,7 +16,7 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64(),
+        iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
@@ -54,9 +54,10 @@ kotlin {
                 implementation(libs.charts)
                 api(libs.orbit.core)
                 implementation(libs.delight.extension)
+                implementation(libs.kotlinx.collections.immutable)
             }
         }
-        commonTest{
+        commonTest {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(libs.kotlinx.coroutines.test)

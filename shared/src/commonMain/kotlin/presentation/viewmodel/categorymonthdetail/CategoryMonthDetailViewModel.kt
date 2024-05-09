@@ -31,17 +31,19 @@ class CategoryMonthDetailViewModel(
             if (state.category.type == FinanceEnum.EXPENSE) {
                 observeExpense(
                     categoryEnum = state.category,
-                    monthKey = state.monthKey
+                    monthKey = state.monthKey,
                 )
             } else {
-                observeIncome(monthKey = state.monthKey)
+                observeIncome(
+                    monthKey = state.monthKey,
+                )
             }
         }
 
     @VisibleForTesting
     suspend fun observeExpense(
         categoryEnum: CategoryEnum,
-        monthKey: String
+        monthKey: String,
     ) {
         getExpenseMonthDetailUseCase(
             GetExpenseMonthDetailUseCase.Params(
@@ -57,9 +59,7 @@ class CategoryMonthDetailViewModel(
     }
 
     @VisibleForTesting
-    suspend fun observeIncome(
-        monthKey: String
-    ) {
+    suspend fun observeIncome(monthKey: String) {
         getIncomeMonthDetailUseCase(
             GetIncomeMonthDetailUseCase.Params(
                 monthKey = monthKey,
@@ -76,8 +76,8 @@ class CategoryMonthDetailViewModel(
         intent {
             postSideEffect(
                 CategoryMonthDetailScreenSideEffect.NavigateToMonthDetail(
-                    expenseScreenModel
-                )
+                    expenseScreenModel,
+                ),
             )
         }
 

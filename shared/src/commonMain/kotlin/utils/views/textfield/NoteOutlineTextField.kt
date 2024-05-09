@@ -15,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
@@ -35,20 +36,22 @@ import theme.spacing_4
 
 @Composable
 fun NoteOutlineTextField(
-    firstValue: String = "",
     keyboard: SoftwareKeyboardController?,
     focusManager: FocusManager,
     onValueChange: (String) -> Unit,
     showError: Boolean,
+    modifier: Modifier = Modifier,
+    firstValue: String = "",
 ) {
     var text by remember { mutableStateOf("") }
+    val latestOnClick by rememberUpdatedState(onValueChange)
     LaunchedEffect(Unit) {
         text = firstValue
         snapshotFlow { text }
             .debounce(500L)
             .distinctUntilChanged()
             .onEach { value ->
-                onValueChange(value)
+                latestOnClick(value)
             }
             .launchIn(this)
     }
@@ -60,23 +63,20 @@ fun NoteOutlineTextField(
         label = {
             Text("Note")
         },
-        keyboardOptions =
-            KeyboardOptions(
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Text,
-            ),
-        keyboardActions =
-            KeyboardActions(
-                onDone = {
-                    keyboard?.hide()
-                    focusManager.clearFocus()
-                },
-            ),
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
+            keyboardType = KeyboardType.Text,
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                keyboard?.hide()
+                focusManager.clearFocus()
+            },
+        ),
         shape = MaterialTheme.shapes.small,
-        modifier =
-            Modifier
-                .padding(top = spacing_2)
-                .fillMaxWidth(),
+        modifier = modifier
+            .padding(top = spacing_2)
+            .fillMaxWidth(),
     )
 
     AnimatedVisibility(showError) {

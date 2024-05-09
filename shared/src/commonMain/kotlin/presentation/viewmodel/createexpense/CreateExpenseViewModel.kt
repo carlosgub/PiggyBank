@@ -18,7 +18,8 @@ import utils.toStringDateFormat
 
 class CreateExpenseViewModel(
     val createExpenseUseCase: CreateExpenseUseCase,
-) : ViewModel(), ContainerHost<CreateExpenseScreenState, GenericState<Unit>>,
+) : ViewModel(),
+    ContainerHost<CreateExpenseScreenState, GenericState<Unit>>,
     CreateExpenseScreenIntents {
     override fun create(): Job =
         intent {
@@ -66,7 +67,7 @@ class CreateExpenseViewModel(
             reduce {
                 state.copy(
                     dateInMillis = date,
-                    date = date.toStringDateFormat()
+                    date = date.toStringDateFormat(),
                 )
             }
         }

@@ -23,7 +23,10 @@ import presentation.viewmodel.createexpense.CreateExpenseViewModel
 import utils.views.Toolbar
 
 @Composable
-fun CreateExpenseScreen(viewModel: CreateExpenseViewModel = koinInject()) {
+fun CreateExpenseScreen(
+    modifier: Modifier = Modifier,
+    viewModel: CreateExpenseViewModel = koinInject(),
+) {
     val navigator = LocalNavController.current
     val scope = CoroutineScope(Dispatchers.Main)
     val createScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
@@ -43,13 +46,13 @@ fun CreateExpenseScreen(viewModel: CreateExpenseViewModel = koinInject()) {
                 },
             )
         },
+        modifier = modifier,
     ) { paddingValues ->
         CreateExpenseContent(
             state = createScreenState,
             intents = viewModel,
-            modifier =
-                Modifier
-                    .padding(paddingValues),
+            modifier = Modifier
+                .padding(paddingValues),
         )
     }
 }

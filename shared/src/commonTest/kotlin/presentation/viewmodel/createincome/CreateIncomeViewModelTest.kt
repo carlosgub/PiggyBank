@@ -41,8 +41,8 @@ class CreateIncomeViewModelTest {
                     amount = 100.0,
                 )
             createIncomeViewModel.test(
-                this,
-                state,
+                testScope = this,
+                initialState = state,
             ) {
                 expectInitialState()
                 containerHost.create()

@@ -2,7 +2,6 @@ package presentation.viewmodel.home
 
 import androidx.annotation.VisibleForTesting
 import core.sealed.GenericState
-import domain.model.FinanceScreenExpenses
 import domain.model.FinanceScreenModel
 import domain.usecase.GetFinanceUseCase
 import kotlinx.coroutines.Job

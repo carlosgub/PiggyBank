@@ -1,6 +1,5 @@
 package utils
 
-import domain.model.FinanceEnum
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -77,6 +76,6 @@ fun LocalDateTime.toMillis(): Long = this.toInstant(TimeZone.UTC).toEpochMillise
 fun Long.toStringDateFormat(): String {
     val localDate = this.toLocalDate()
     return "${localDate.dayOfMonth.toNumberOfTwoDigits()}/" +
-            "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
-            "${localDate.year}"
+        "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
+        "${localDate.year}"
 }

@@ -65,7 +65,7 @@ class CreateIncomeViewModel(
             reduce {
                 state.copy(
                     dateInMillis = date,
-                    date = date.toStringDateFormat()
+                    date = date.toStringDateFormat(),
                 )
             }
         }

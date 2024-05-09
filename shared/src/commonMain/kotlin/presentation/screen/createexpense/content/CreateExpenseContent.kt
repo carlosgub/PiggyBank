@@ -35,16 +35,15 @@ fun CreateExpenseContent(
     val keyboard = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     Column(
-        modifier =
-            Modifier.fillMaxSize().then(modifier)
-                .clickable(
-                    interactionSource = NoRippleInteractionSource(),
-                    indication = null,
-                ) {
-                    keyboard?.hide()
-                    focusManager.clearFocus()
-                }
-                .padding(horizontal = spacing_4),
+        modifier = Modifier.fillMaxSize().then(modifier)
+            .clickable(
+                interactionSource = NoRippleInteractionSource(),
+                indication = null,
+            ) {
+                keyboard?.hide()
+                focusManager.clearFocus()
+            }
+            .padding(horizontal = spacing_4),
     ) {
         AmountOutlineTextField(
             amountField = state.amountField,
@@ -91,10 +90,9 @@ fun CreateExpenseContent(
 @Composable
 private fun CreateExpenseButton(intents: CreateExpenseScreenIntents) {
     PrimaryButton(
-        modifier =
-            Modifier.padding(
-                bottom = spacing_6,
-            ),
+        modifier = Modifier.padding(
+            bottom = spacing_6,
+        ),
         buttonText = stringResource(Res.string.create_expense_button),
         onClick = {
             intents.create()

@@ -37,7 +37,7 @@ class EditExpenseViewModel(
             reduce {
                 state.copy(
                     dateInMillis = date,
-                    date = date.toStringDateFormat()
+                    date = date.toStringDateFormat(),
                 )
             }
         }
@@ -135,11 +135,12 @@ class EditExpenseViewModel(
 
     override fun getExpense(id: Long): Job =
         intent {
-            val result = getExpenseUseCase(
-                GetExpenseUseCase.Params(
-                    id = id,
-                ),
-            )
+            val result =
+                getExpenseUseCase(
+                    GetExpenseUseCase.Params(
+                        id = id,
+                    ),
+                )
             if (result is GenericState.Success) {
                 setAmount(result.data.amount.toString())
                 setCategory(getCategoryEnumFromName(result.data.category))
