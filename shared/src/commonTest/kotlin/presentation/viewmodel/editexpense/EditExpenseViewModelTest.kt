@@ -158,7 +158,9 @@ class EditExpenseViewModelTest {
     fun `Shot Date Error false`() = runTest {
         editExpenseViewModel.test(
             this,
-            EditExpenseScreenState(showDateError = true)
+            EditExpenseScreenState(
+                showDateError = true
+            )
         ) {
             expectInitialState()
             containerHost.showDateError(false)
