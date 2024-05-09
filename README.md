@@ -33,6 +33,7 @@ The Finance Tracker App is a versatile tool for managing your finances. Whether 
 - **Precompose:** Used for navigation and ViewModel. [GitHub Repository](https://github.com/Tlaster/PreCompose)
 - **Kotlinm-Charts:** Charting library for Kotlin Multiplatform projects, providing various chart types for visualizing data. [GitHub Repository](https://github.com/carlosgub/kotlinm-charts)
 - **String Resources:** Utilize string resources for localization and easier management of text content, leveraging Kotlin Multiplatform's experimental features.
+- **GitHub Actions:** Integrated GitHub Actions for continuous integration, including automated processes for running ktlint to enforce code style and executing unit tests to ensure code quality and functionality.
 
 #### Testing
 - **Kotlinx Coroutines Test:** Provides utilities for efficiently testing coroutines. [GitHub Repository](https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-test)
@@ -55,7 +56,7 @@ credentials {
   password = System.getenv("G_TOKEN")
 }
 ```
-If you don't know how configure this, you can read this [article](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry)
+If you don't know how configure your token, you can read this [article](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry)
 
 #### Contributing
 
