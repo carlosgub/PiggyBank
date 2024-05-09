@@ -14,10 +14,10 @@ fun Loading(modifier: Modifier = Modifier) {
     Column(
         modifier = Modifier.fillMaxSize().then(modifier),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         CircularProgressIndicator(
-            color = ColorOrange,
+            color = ColorOrange
         )
     }
 }

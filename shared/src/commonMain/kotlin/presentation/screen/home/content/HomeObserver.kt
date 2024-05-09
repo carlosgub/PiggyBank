@@ -8,24 +8,24 @@ import presentation.viewmodel.home.HomeScreenState
 fun homeObserver(
     sideEffect: HomeScreenSideEffect,
     navigator: Navigator,
-    state: HomeScreenState,
+    state: HomeScreenState
 ) {
     when (sideEffect) {
         HomeScreenSideEffect.NavigateToAddExpense ->
             navigateToAddExpenseScreen(
-                navigator = navigator,
+                navigator = navigator
             )
 
         HomeScreenSideEffect.NavigateToAddIncome ->
             navigateToAddIncomeScreen(
-                navigator = navigator,
+                navigator = navigator
             )
 
         is HomeScreenSideEffect.NavigateToMonthDetail ->
             navigateMonthDetailScreen(
                 navigator = navigator,
                 categoryName = sideEffect.categoryName,
-                monthKey = state.monthKey,
+                monthKey = state.monthKey
             )
 
         HomeScreenSideEffect.NavigateToMonths -> navigator.navigate(Screen.MonthsScreen.route)
@@ -34,25 +34,25 @@ fun homeObserver(
 
 private fun navigateToAddIncomeScreen(navigator: Navigator) {
     navigator.navigate(
-        Screen.CreateIncomeScreen.route,
+        Screen.CreateIncomeScreen.route
     )
 }
 
 private fun navigateToAddExpenseScreen(navigator: Navigator) {
     navigator.navigate(
-        Screen.CreateExpenseScreen.route,
+        Screen.CreateExpenseScreen.route
     )
 }
 
 private fun navigateMonthDetailScreen(
     navigator: Navigator,
     categoryName: String,
-    monthKey: String,
+    monthKey: String
 ) {
     navigator.navigate(
         Screen.CategoryMonthDetailScreen.createRoute(
             monthKey = monthKey,
-            categoryName = categoryName,
-        ),
+            categoryName = categoryName
+        )
     )
 }

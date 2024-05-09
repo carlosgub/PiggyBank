@@ -20,13 +20,13 @@ interface FinanceRepository {
         amount: Int,
         category: String,
         note: String,
-        dateInMillis: Long,
+        dateInMillis: Long
     ): GenericState<Unit>
 
     suspend fun createIncome(
         amount: Int,
         note: String,
-        dateInMillis: Long,
+        dateInMillis: Long
     ): GenericState<Unit>
 
     suspend fun editExpense(
@@ -34,29 +34,29 @@ interface FinanceRepository {
         category: String,
         note: String,
         dateInMillis: Long,
-        id: Long,
+        id: Long
     ): GenericState<Unit>
 
     suspend fun editIncome(
         amount: Long,
         note: String,
         dateInMillis: Long,
-        id: Long,
+        id: Long
     ): GenericState<Unit>
 
     suspend fun deleteIncome(
         id: Long,
-        monthKey: String,
+        monthKey: String
     ): GenericState<Unit>
 
     suspend fun deleteExpense(
         id: Long,
-        monthKey: String,
+        monthKey: String
     ): GenericState<Unit>
 
     suspend fun getExpenseMonthDetail(
         categoryEnum: CategoryEnum,
-        monthKey: String,
+        monthKey: String
     ): Flow<GenericState<MonthDetailScreenModel>>
 
     suspend fun getIncomeMonthDetail(monthKey: String): Flow<GenericState<MonthDetailScreenModel>>

@@ -13,5 +13,5 @@ data class CreateExpenseScreenState(
     val note: String = "",
     val date: String = "",
     val dateInMillis: Long = 0L,
-    val showLoading: Boolean = false,
+    val showLoading: Boolean = false
 )

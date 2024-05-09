@@ -16,7 +16,7 @@ import utils.toMoneyFormat
 import utils.toStringDateFormat
 
 class CreateIncomeViewModel(
-    val createIncomeUseCase: CreateIncomeUseCase,
+    val createIncomeUseCase: CreateIncomeUseCase
 ) : ViewModel(),
     ContainerHost<CreateIncomeScreenState, GenericState<Unit>>,
     CreateIncomeScreenIntents {
@@ -47,11 +47,11 @@ class CreateIncomeViewModel(
                     CreateIncomeUseCase.Params(
                         amount = (state.amount * 100).toInt(),
                         note = state.note,
-                        dateInMillis = state.dateInMillis,
-                    ),
+                        dateInMillis = state.dateInMillis
+                    )
                 )
             postSideEffect(
-                result,
+                result
             )
         }
 
@@ -65,7 +65,7 @@ class CreateIncomeViewModel(
             reduce {
                 state.copy(
                     dateInMillis = date,
-                    date = date.toStringDateFormat(),
+                    date = date.toStringDateFormat()
                 )
             }
         }
@@ -86,7 +86,7 @@ class CreateIncomeViewModel(
                 reduce {
                     state.copy(
                         amountField = amount.toMoneyFormat(),
-                        amount = amount,
+                        amount = amount
                     )
                 }
             }

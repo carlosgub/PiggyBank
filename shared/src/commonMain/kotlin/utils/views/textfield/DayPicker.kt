@@ -36,7 +36,7 @@ fun DayPicker(
     showError: Boolean,
     dayValueInMillis: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    dateInMillis: Long? = null,
+    dateInMillis: Long? = null
 ) {
     val initialDateMillis =
         if (dateInMillis != null && dateInMillis > 0L) {
@@ -47,7 +47,7 @@ fun DayPicker(
     var isVisible by remember { mutableStateOf(false) }
     val datePickerState =
         rememberDatePickerState(
-            initialSelectedDateMillis = initialDateMillis,
+            initialSelectedDateMillis = initialDateMillis
         )
     val keyboard = LocalSoftwareKeyboardController.current
     OutlinedTextField(
@@ -56,7 +56,7 @@ fun DayPicker(
         label = {
             Text(
                 text = "Enter day",
-                color = Color.Black,
+                color = Color.Black
             )
         },
         keyboardActions = KeyboardActions(),
@@ -73,16 +73,16 @@ fun DayPicker(
         leadingIcon = {
             Icon(
                 Icons.Default.CalendarMonth,
-                contentDescription = null,
+                contentDescription = null
             )
-        },
+        }
     )
     AnimatedVisibility(showError) {
         Text(
             text = "Enter a date",
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.padding(start = spacing_4),
+            modifier = Modifier.padding(start = spacing_4)
         )
     }
     AnimatedVisibility(isVisible) {
@@ -97,16 +97,16 @@ fun DayPicker(
                 Button(
                     onClick = {
                         isVisible = false
-                    },
+                    }
                 ) {
                     Text("Ok")
                 }
             },
             content = {
                 DatePicker(
-                    state = datePickerState,
+                    state = datePickerState
                 )
-            },
+            }
         )
     }
     datePickerState.selectedDateMillis?.let {

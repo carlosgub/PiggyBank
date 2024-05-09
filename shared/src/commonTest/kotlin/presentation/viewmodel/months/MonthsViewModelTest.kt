@@ -21,13 +21,13 @@ class MonthsViewModelTest {
                 containerHost.getMonths()
                 expectState {
                     copy(
-                        showLoading = true,
+                        showLoading = true
                     )
                 }
                 expectState {
                     copy(
                         months = monthListFiltered,
-                        showLoading = false,
+                        showLoading = false
                     )
                 }
             }
@@ -52,7 +52,7 @@ class MonthsViewModelTest {
                 expectState {
                     copy(
                         months = monthListFiltered,
-                        showLoading = false,
+                        showLoading = false
                     )
                 }
             }
@@ -66,7 +66,7 @@ class MonthsViewModelTest {
                 containerHost.showLoading()
                 expectState {
                     copy(
-                        showLoading = true,
+                        showLoading = true
                     )
                 }
             }

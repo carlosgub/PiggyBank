@@ -25,34 +25,34 @@ fun <E> DataZero(
     modifier: Modifier = Modifier,
     hasButton: Boolean = false,
     valueToPass: E? = null,
-    onButtonClick: (E) -> Unit = {},
+    onButtonClick: (E) -> Unit = {}
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize()
     ) {
         Text(
             title,
             style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Center,
             modifier =
-                Modifier.padding(
-                    top = spacing_1,
-                    start = spacing_2,
-                    end = spacing_2,
-                ),
+            Modifier.padding(
+                top = spacing_1,
+                start = spacing_2,
+                end = spacing_2
+            )
         )
         Text(
             message,
             style = MaterialTheme.typography.bodySmall,
             textAlign = TextAlign.Center,
             modifier =
-                Modifier.padding(
-                    top = spacing_1,
-                    start = spacing_2,
-                    end = spacing_2,
-                ),
+            Modifier.padding(
+                top = spacing_1,
+                start = spacing_2,
+                end = spacing_2
+            )
         )
         if (hasButton) {
             PrimaryButton(
@@ -63,13 +63,13 @@ fun <E> DataZero(
                     valueToPass?.let(onButtonClick)
                 },
                 modifier =
-                    Modifier
-                        .padding(
-                            top = spacing_4,
-                            start = spacing_2,
-                            end = spacing_2,
-                        )
-                        .width(IntrinsicSize.Max),
+                Modifier
+                    .padding(
+                        top = spacing_4,
+                        start = spacing_2,
+                        end = spacing_2
+                    )
+                    .width(IntrinsicSize.Max)
             )
         }
     }

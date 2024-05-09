@@ -40,7 +40,7 @@ fun FinanceLineChart(
     withYChart: Boolean,
     modifier: Modifier = Modifier,
     lineColor: Color = ColorPrimary,
-    contentColor: Color = Color.Black,
+    contentColor: Color = Color.Black
 ) {
     val lineData =
         remember {
@@ -53,11 +53,11 @@ fun FinanceLineChart(
                             LineChartPoint(
                                 x = day.key.toInstant(TimeZone.currentSystemDefault())
                                     .toEpochMilliseconds(),
-                                y = (day.value / 100.0).toFloat(),
+                                y = (day.value / 100.0).toFloat()
                             )
-                        },
-                    ),
-                ),
+                        }
+                    )
+                )
             )
         }
     if (withYChart) {
@@ -75,19 +75,19 @@ fun FinanceLineChart(
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .offset(x = 20.dp),
-                    color = contentColor,
+                    color = contentColor
                 )
             },
             overlayHeaderLabel = { localDate ->
                 OverlayHeaderLabel(
                     localDate = localDate as Long,
                     contentColor = contentColor,
-                    daySpent = daySpent,
+                    daySpent = daySpent
                 )
             },
             overlayDataEntryLabel = { _, _ ->
             },
-            animation = ChartAnimation.Sequenced(),
+            animation = ChartAnimation.Sequenced()
         )
     } else {
         LineChart(
@@ -101,12 +101,12 @@ fun FinanceLineChart(
                 OverlayHeaderLabel(
                     localDate = localDate as Long,
                     contentColor = contentColor,
-                    daySpent = daySpent,
+                    daySpent = daySpent
                 )
             },
             overlayDataEntryLabel = { _, _ ->
             },
-            animation = ChartAnimation.Sequenced(),
+            animation = ChartAnimation.Sequenced()
         )
     }
 }
@@ -115,14 +115,14 @@ fun FinanceLineChart(
 private fun OverlayHeaderLabel(
     localDate: Long,
     contentColor: Color,
-    daySpent: ImmutableMap<LocalDateTime, Long>,
+    daySpent: ImmutableMap<LocalDateTime, Long>
 ) {
     val day: LocalDate = localDate.toLocalDate()
     val localDateTime =
         createLocalDateTime(
             year = day.year,
             monthNumber = day.monthNumber,
-            dayOfMonth = day.dayOfMonth,
+            dayOfMonth = day.dayOfMonth
         )
     val moneySpent = ((daySpent[localDateTime] ?: 0) / 100.0).toFloat().toMoneyFormat()
     Text(
@@ -130,17 +130,17 @@ private fun OverlayHeaderLabel(
             Res.string.finance_line_chart_overlay,
             day.dayOfMonth,
             day.month,
-            moneySpent,
+            moneySpent
         ),
         style = MaterialTheme.typography.bodyMedium,
-        color = contentColor,
+        color = contentColor
     )
 }
 
 @Composable
 private fun XAxisLabel(
     it: Any,
-    contentColor: Color,
+    contentColor: Color
 ) {
     val day: LocalDate = (it as Long).toLocalDate()
     Text(
@@ -149,6 +149,6 @@ private fun XAxisLabel(
         textAlign = TextAlign.Center,
         modifier = Modifier
             .offset(x = 20.dp),
-        color = contentColor,
+        color = contentColor
     )
 }

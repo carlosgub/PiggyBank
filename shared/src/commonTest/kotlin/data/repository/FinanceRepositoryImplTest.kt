@@ -62,7 +62,7 @@ class FinanceRepositoryImplTest {
             val expected = monthExpenseDetailScreenModel
             financeRepositoryImpl.getExpenseMonthDetail(
                 categoryEnum = getCategoryEnumFromName(expenseOne.category),
-                monthKey = getCurrentMonthKey(),
+                monthKey = getCurrentMonthKey()
             ).test {
                 assertEquals(expected, (awaitItem() as GenericState.Success).data)
                 awaitComplete()
@@ -74,7 +74,7 @@ class FinanceRepositoryImplTest {
         runTest {
             val expected = monthIncomeDetailScreenModel
             financeRepositoryImpl.getIncomeMonthDetail(
-                monthKey = getCurrentMonthKey(),
+                monthKey = getCurrentMonthKey()
             ).test {
                 assertEquals(expected, (awaitItem() as GenericState.Success).data)
                 awaitComplete()

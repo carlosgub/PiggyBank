@@ -16,7 +16,7 @@ fun Database.getIncome(id: Long): Income {
 
 fun Database.getIncomeListPerCategory(
     month: String,
-    category: String,
+    category: String
 ): Flow<List<Income>> {
     return incomeQueries.getIncomePerCategoryList(month, category).asFlow()
         .mapToList(Dispatchers.IO)
@@ -29,7 +29,7 @@ suspend fun Database.createIncome(income: Income) {
         note = income.note,
         category = income.category,
         month = income.month,
-        dateInMillis = income.dateInMillis,
+        dateInMillis = income.dateInMillis
     )
 }
 
@@ -40,12 +40,12 @@ suspend fun Database.updateIncome(income: Income) {
         note = income.note,
         category = income.category,
         month = income.month,
-        dateInMillis = income.dateInMillis,
+        dateInMillis = income.dateInMillis
     )
 }
 
 suspend fun Database.deleteIncome(id: Long) {
     incomeQueries.delete(
-        id = id,
+        id = id
     )
 }

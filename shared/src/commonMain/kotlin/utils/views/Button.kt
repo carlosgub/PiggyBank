@@ -34,7 +34,7 @@ fun PrimaryButton(
     enabled: Boolean = true,
     backgroundColor: Color = ColorPrimary,
     fontColor: Color = Color.White,
-    shape: Shape = MaterialTheme.shapes.medium,
+    shape: Shape = MaterialTheme.shapes.medium
 ) {
     Button(
         onClick = onClick,
@@ -43,14 +43,14 @@ fun PrimaryButton(
         shape = shape,
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor,
-            contentColor = fontColor,
-        ),
+            contentColor = fontColor
+        )
     ) {
         PrimaryButtonContent(
             iconVector = iconVector,
             iconPainter = iconPainter,
             buttonText = buttonText,
-            fontColor = fontColor,
+            fontColor = fontColor
         )
     }
 }
@@ -61,13 +61,13 @@ fun PrimaryButtonContent(
     iconPainter: Painter?,
     buttonText: String,
     modifier: Modifier = Modifier,
-    fontColor: Color = Color.White,
+    fontColor: Color = Color.White
 ) {
     Row(
         horizontalArrangement = Arrangement.Center,
         modifier = modifier
             .padding(vertical = spacing_2)
-            .fillMaxWidth(),
+            .fillMaxWidth()
     ) {
         if (iconVector != null) {
             Icon(
@@ -76,7 +76,7 @@ fun PrimaryButtonContent(
                     .padding(start = spacing_1)
                     .size(view_6),
                 contentDescription = "button_icon",
-                tint = fontColor,
+                tint = fontColor
             )
         }
         if (iconPainter != null) {
@@ -86,7 +86,7 @@ fun PrimaryButtonContent(
                     .padding(start = spacing_1)
                     .size(view_6),
                 contentDescription = "button_icon",
-                tint = fontColor,
+                tint = fontColor
             )
         }
         Text(
@@ -101,8 +101,8 @@ fun PrimaryButtonContent(
                 .fillMaxWidth()
                 .padding(
                     start = spacing_2,
-                    end = spacing_2,
-                ),
+                    end = spacing_2
+                )
         )
     }
 }

@@ -5,13 +5,13 @@ import utils.createLocalDateTime
 import utils.toNumberOfTwoDigits
 
 data class FinanceLocalDate(
-    val localDate: LocalDate,
+    val localDate: LocalDate
 ) {
     val localDateTime =
         createLocalDateTime(
             year = localDate.year,
             monthNumber = localDate.monthNumber,
-            dayOfMonth = localDate.dayOfMonth,
+            dayOfMonth = localDate.dayOfMonth
         )
     private val dayOfMonth = localDateTime.dayOfMonth.toNumberOfTwoDigits()
     private val month =

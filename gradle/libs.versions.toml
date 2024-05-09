@@ -8,14 +8,14 @@ koinCoreVersion = "3.5.3"
 koinComposeVersion = "1.1.2"
 kotlinxCollectionsImmutableVersion = "0.3.7"
 kotlinxCoroutinesTestVersion = "1.8.0"
-ktlintVersion = "1.3.1"
+composeKtlintVersion = "1.3.1"
 precomposeVersion = "1.6.0"
 datetimeVersion = "0.5.0"
 kotlinStdlibVersion = "1.9.23"
 orbit = "7.1.0"
 androidVersion = "8.2.0"
 composeVersion = "1.6.2"
-klintVersion = "4.3.0"
+ktlintVersion = "4.3.0"
 turbineVersion = "1.1.0"
 
 [libraries]
@@ -29,7 +29,7 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinCore
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCoreVersion" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeVersion" }
 
-ktlint = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "ktlintVersion" }
+ktlint = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "composeKtlintVersion" }
 
 precompose-core = { module = "moe.tlaster:precompose", version.ref = "precomposeVersion" }
 precompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "precomposeVersion" }
@@ -67,4 +67,4 @@ android-application = { id = "com.android.application", version.ref = "androidVe
 android-library = { id = "com.android.library", version.ref = "androidVersion"}
 compose = { id = "org.jetbrains.compose", version.ref = "composeVersion"}
 sqldelight = { id = "app.cash.sqldelight", version.ref = "delightVersion"}
-klint = { id = "org.jmailen.kotlinter", version.ref = "klintVersion"}
+ktlint = { id = "org.jmailen.kotlinter", version.ref = "ktlintVersion"}

@@ -16,7 +16,7 @@ fun Database.getExpense(id: Long): Expense {
 
 fun Database.getExpenseListPerCategory(
     month: String,
-    category: String,
+    category: String
 ): Flow<List<Expense>> {
     return expenseQueries.getExpensePerCategoryList(month, category).asFlow().mapToList(Dispatchers.IO)
 }
@@ -28,7 +28,7 @@ suspend fun Database.createExpense(expense: Expense) {
         note = expense.note,
         category = expense.category,
         month = expense.month,
-        dateInMillis = expense.dateInMillis,
+        dateInMillis = expense.dateInMillis
     )
 }
 
@@ -39,12 +39,12 @@ suspend fun Database.updateExpense(expense: Expense) {
         note = expense.note,
         category = expense.category,
         month = expense.month,
-        dateInMillis = expense.dateInMillis,
+        dateInMillis = expense.dateInMillis
     )
 }
 
 suspend fun Database.deleteExpense(id: Long) {
     expenseQueries.delete(
-        id = id,
+        id = id
     )
 }

@@ -10,37 +10,37 @@ import androidx.compose.ui.unit.sp
 val Typography =
     Typography(
         headlineMedium =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.Bold,
-                fontSize = 32.sp,
-            ),
+        TextStyle(
+            fontFamily = FontFamily.Default,
+            fontWeight = FontWeight.Bold,
+            fontSize = 32.sp
+        ),
         headlineSmall =
-            TextStyle(
-                fontWeight = FontWeight.Medium,
-                fontSize = 24.sp,
-            ),
+        TextStyle(
+            fontWeight = FontWeight.Medium,
+            fontSize = 24.sp
+        ),
         bodyMedium =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.Medium,
-                fontSize = 16.sp,
-            ),
+        TextStyle(
+            fontFamily = FontFamily.Default,
+            fontWeight = FontWeight.Medium,
+            fontSize = 16.sp
+        ),
         bodySmall =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.Normal,
-                fontSize = 14.sp,
-            ),
+        TextStyle(
+            fontFamily = FontFamily.Default,
+            fontWeight = FontWeight.Normal,
+            fontSize = 14.sp
+        ),
         labelMedium =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight.Medium,
-                fontSize = 14.sp,
-            ),
+        TextStyle(
+            fontFamily = FontFamily.Default,
+            fontWeight = FontWeight.Medium,
+            fontSize = 14.sp
+        ),
         labelSmall =
-            TextStyle(
-                fontFamily = FontFamily.Default,
-                fontSize = 12.sp,
-            ),
+        TextStyle(
+            fontFamily = FontFamily.Default,
+            fontSize = 12.sp
+        )
     )

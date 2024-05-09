@@ -25,7 +25,7 @@ import utils.views.Toolbar
 @Composable
 fun CreateExpenseScreen(
     modifier: Modifier = Modifier,
-    viewModel: CreateExpenseViewModel = koinInject(),
+    viewModel: CreateExpenseViewModel = koinInject()
 ) {
     val navigator = LocalNavController.current
     val scope = CoroutineScope(Dispatchers.Main)
@@ -34,7 +34,7 @@ fun CreateExpenseScreen(
         viewModel.container.sideEffectFlow.collect { sideEffect ->
             createObserver(
                 sideEffect = sideEffect,
-                navigator = navigator,
+                navigator = navigator
             )
         }
     }
@@ -43,16 +43,16 @@ fun CreateExpenseScreen(
             CreateExpenseToolbar(
                 onBack = {
                     navigator.popBackStack()
-                },
+                }
             )
         },
-        modifier = modifier,
+        modifier = modifier
     ) { paddingValues ->
         CreateExpenseContent(
             state = createScreenState,
             intents = viewModel,
             modifier = Modifier
-                .padding(paddingValues),
+                .padding(paddingValues)
         )
     }
 }
@@ -62,6 +62,6 @@ private fun CreateExpenseToolbar(onBack: () -> Unit) {
     Toolbar(
         hasNavigationIcon = true,
         title = stringResource(Res.string.create_expense_title),
-        navigation = onBack,
+        navigation = onBack
     )
 }

@@ -41,7 +41,7 @@ fun NoteOutlineTextField(
     onValueChange: (String) -> Unit,
     showError: Boolean,
     modifier: Modifier = Modifier,
-    firstValue: String = "",
+    firstValue: String = ""
 ) {
     var text by remember { mutableStateOf("") }
     val latestOnClick by rememberUpdatedState(onValueChange)
@@ -65,18 +65,18 @@ fun NoteOutlineTextField(
         },
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done,
-            keyboardType = KeyboardType.Text,
+            keyboardType = KeyboardType.Text
         ),
         keyboardActions = KeyboardActions(
             onDone = {
                 keyboard?.hide()
                 focusManager.clearFocus()
-            },
+            }
         ),
         shape = MaterialTheme.shapes.small,
         modifier = modifier
             .padding(top = spacing_2)
-            .fillMaxWidth(),
+            .fillMaxWidth()
     )
 
     AnimatedVisibility(showError) {
@@ -84,7 +84,7 @@ fun NoteOutlineTextField(
             text = stringResource(Res.string.note_outline_textfield_error),
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.padding(start = spacing_4),
+            modifier = Modifier.padding(start = spacing_4)
         )
     }
 }

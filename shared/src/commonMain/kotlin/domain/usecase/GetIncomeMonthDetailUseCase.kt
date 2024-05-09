@@ -6,14 +6,14 @@ import domain.repository.FinanceRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetIncomeMonthDetailUseCase(
-    private val financeRepository: FinanceRepository,
+    private val financeRepository: FinanceRepository
 ) {
     suspend operator fun invoke(params: Params): Flow<GenericState<MonthDetailScreenModel>> =
         financeRepository.getIncomeMonthDetail(
-            monthKey = params.monthKey,
+            monthKey = params.monthKey
         )
 
     data class Params(
-        val monthKey: String,
+        val monthKey: String
     )
 }

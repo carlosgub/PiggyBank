@@ -33,19 +33,19 @@ val homeModule =
         // region ViewModels
         factory {
             HomeViewModel(
-                getFinanceUseCase = get(),
+                getFinanceUseCase = get()
             )
         }
 
         factory {
             CreateExpenseViewModel(
-                createExpenseUseCase = get(),
+                createExpenseUseCase = get()
             )
         }
 
         factory {
             CreateIncomeViewModel(
-                createIncomeUseCase = get(),
+                createIncomeUseCase = get()
             )
         }
 
@@ -53,7 +53,7 @@ val homeModule =
             EditExpenseViewModel(
                 editExpenseUseCase = get(),
                 deleteExpenseUseCase = get(),
-                getExpenseUseCase = get(),
+                getExpenseUseCase = get()
             )
         }
 
@@ -61,20 +61,20 @@ val homeModule =
             EditIncomeViewModel(
                 editIncomeUseCase = get(),
                 deleteUseCase = get(),
-                getIncomeUseCase = get(),
+                getIncomeUseCase = get()
             )
         }
 
         factory {
             CategoryMonthDetailViewModel(
                 getExpenseMonthDetailUseCase = get(),
-                getIncomeMonthDetailUseCase = get(),
+                getIncomeMonthDetailUseCase = get()
             )
         }
 
         factory {
             MonthsViewModel(
-                getMonthsUseCase = get(),
+                getMonthsUseCase = get()
             )
         }
         // endregion
@@ -82,86 +82,86 @@ val homeModule =
         // region Use Cases
         factory {
             GetFinanceUseCase(
-                financeRepository = get(),
+                financeRepository = get()
             )
         }
 
         factory {
             GetIncomeUseCase(
-                financeRepository = get(),
+                financeRepository = get()
             )
         }
 
         factory {
             GetExpenseUseCase(
-                financeRepository = get(),
+                financeRepository = get()
             )
         }
 
         factory {
             CreateExpenseUseCase(
-                financeRepository = get(),
+                financeRepository = get()
             )
         }
 
         factory {
             CreateIncomeUseCase(
-                financeRepository = get(),
+                financeRepository = get()
             )
         }
 
         factory {
             EditIncomeUseCase(
-                financeRepository = get(),
+                financeRepository = get()
             )
         }
 
         factory {
             EditExpenseUseCase(
-                financeRepository = get(),
+                financeRepository = get()
             )
         }
 
         factory {
             DeleteIncomeUseCase(
-                financeRepository = get(),
+                financeRepository = get()
             )
         }
 
         factory {
             DeleteExpenseUseCase(
-                financeRepository = get(),
+                financeRepository = get()
             )
         }
 
         factory {
             GetExpenseMonthDetailUseCase(
-                financeRepository = get(),
+                financeRepository = get()
             )
         }
 
         factory {
             GetIncomeMonthDetailUseCase(
-                financeRepository = get(),
+                financeRepository = get()
             )
         }
 
         factory {
             GetMonthsUseCase(
-                financeRepository = get(),
+                financeRepository = get()
             )
         }
         // endregion
 
         factory<FinanceRepository> {
             FinanceRepositoryImpl(
-                databaseFinance = get(),
+                databaseFinance = get()
             )
         }
 
         single<DatabaseFinanceDataSource> {
             DatabaseFinanceDataSourceImpl(
-                sharedDatabase = get(),
+                sharedDatabase = get()
             )
         }
     }
@@ -172,7 +172,7 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
         modules(
             homeModule,
             sqlDelightModule,
-            platformModule(),
+            platformModule()
         )
     }
 

@@ -19,7 +19,7 @@ class GetMonthsUseCaseTest {
             getMonthsUseCase().test {
                 assertEquals(
                     expected,
-                    (awaitItem() as GenericState.Success).data,
+                    (awaitItem() as GenericState.Success).data
                 )
                 awaitComplete()
             }

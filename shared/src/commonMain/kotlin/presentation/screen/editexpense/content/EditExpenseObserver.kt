@@ -5,7 +5,7 @@ import moe.tlaster.precompose.navigation.Navigator
 
 fun editExpenseObserver(
     sideEffect: GenericState<Unit>,
-    navigator: Navigator,
+    navigator: Navigator
 ) {
     when (sideEffect) {
         is GenericState.Success -> navigator.popBackStack()

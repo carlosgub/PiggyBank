@@ -32,7 +32,7 @@ fun EditExpenseContent(
     paddingValues: PaddingValues,
     state: EditExpenseScreenState,
     intents: EditExpenseScreenIntents,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     if (state.initialDataLoaded) {
         val keyboard = LocalSoftwareKeyboardController.current
@@ -43,12 +43,12 @@ fun EditExpenseContent(
                 .padding(paddingValues)
                 .clickable(
                     interactionSource = NoRippleInteractionSource(),
-                    indication = null,
+                    indication = null
                 ) {
                     keyboard?.hide()
                     focusManager.clearFocus()
                 }
-                .padding(horizontal = spacing_4),
+                .padding(horizontal = spacing_4)
         ) {
             AmountOutlineTextField(
                 amountField = state.amountField,
@@ -58,13 +58,13 @@ fun EditExpenseContent(
                     intents.setAmount(value)
                     intents.showError(false)
                 },
-                showError = state.showError,
+                showError = state.showError
             )
             CategoriesChips(
                 selectedSelected = state.category,
                 onChipPressed = { categoryEnumSelected ->
                     intents.setCategory(categoryEnumSelected)
-                },
+                }
             )
             DayPicker(
                 dateValue = state.date,
@@ -73,7 +73,7 @@ fun EditExpenseContent(
                 dayValueInMillis = { dateInMillis ->
                     intents.showDateError(false)
                     intents.setDate(dateInMillis)
-                },
+                }
             )
             NoteOutlineTextField(
                 firstValue = state.note,
@@ -83,13 +83,13 @@ fun EditExpenseContent(
                     intents.setNote(value)
                     intents.showNoteError(false)
                 },
-                showError = state.showNoteError,
+                showError = state.showNoteError
             )
             Box(
-                modifier = Modifier.weight(1.0f),
+                modifier = Modifier.weight(1.0f)
             )
             EditExpenseButton(
-                intents = intents,
+                intents = intents
             )
         }
     }
@@ -99,11 +99,11 @@ fun EditExpenseContent(
 private fun EditExpenseButton(intents: EditExpenseScreenIntents) {
     PrimaryButton(
         modifier = Modifier.padding(
-            bottom = spacing_6,
+            bottom = spacing_6
         ),
         buttonText = stringResource(Res.string.edit_expense_button),
         onClick = {
             intents.edit()
-        },
+        }
     )
 }

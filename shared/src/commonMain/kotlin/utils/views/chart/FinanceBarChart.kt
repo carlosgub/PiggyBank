@@ -27,25 +27,25 @@ fun FinanceBarChart(
     modifier: Modifier = Modifier,
     onOverlayData: (String) -> Unit = {},
     barColor: Color = ColorPrimary,
-    contentColor: Color = Color.Black,
+    contentColor: Color = Color.Black
 ) {
     val lineData =
         remember {
             BarChartData(
                 categories =
-                    listOf(
-                        BarChartCategory(
-                            name = "",
-                            entries =
-                                daySpent.map { day ->
-                                    BarChartEntry(
-                                        x = "${day.key.dayOfMonth.toDayString()}/${day.key.month.toMonthString()}",
-                                        y = (day.value / 100.0).toFloat(),
-                                        color = barColor,
-                                    )
-                                },
-                        ),
-                    ),
+                listOf(
+                    BarChartCategory(
+                        name = "",
+                        entries =
+                        daySpent.map { day ->
+                            BarChartEntry(
+                                x = "${day.key.dayOfMonth.toDayString()}/${day.key.month.toMonthString()}",
+                                y = (day.value / 100.0).toFloat(),
+                                color = barColor
+                            )
+                        }
+                    )
+                )
             )
         }
     BarChart(
@@ -64,14 +64,14 @@ fun FinanceBarChart(
                     text = text,
                     textAlign = TextAlign.Center,
                     modifier =
-                        Modifier
-                            .offset(x = 20.dp),
-                    color = contentColor,
+                    Modifier
+                        .offset(x = 20.dp),
+                    color = contentColor
                 )
             }
         },
         overlayDataEntryLabel = { date, value ->
             onOverlayData("$date\n${(value as Float).toMoneyFormat()}")
-        },
+        }
     )
 }

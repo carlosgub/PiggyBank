@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose)
     alias(libs.plugins.sqldelight)
-    alias(libs.plugins.klint)
+    alias(libs.plugins.ktlint)
 }
 
 kotlin {

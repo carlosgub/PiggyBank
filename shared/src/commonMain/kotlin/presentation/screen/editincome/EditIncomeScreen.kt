@@ -48,7 +48,7 @@ fun EditIncomeScreen(
         viewModel.container.sideEffectFlow.collect { sideEffect ->
             editIncomeObserver(
                 sideEffect = sideEffect,
-                navigator = navigator,
+                navigator = navigator
             )
         }
     }
@@ -58,15 +58,15 @@ fun EditIncomeScreen(
                 onBack = { navigator.popBackStack() },
                 onDelete = {
                     viewModel.delete()
-                },
+                }
             )
         },
-        modifier = modifier,
+        modifier = modifier
     ) { paddingValues ->
         EditIncomeContent(
             paddingValues = paddingValues,
             state = state,
-            intents = viewModel,
+            intents = viewModel
         )
     }
 }
@@ -74,7 +74,7 @@ fun EditIncomeScreen(
 @Composable
 private fun EditIncomeToolbar(
     onBack: () -> Unit,
-    onDelete: () -> Unit,
+    onDelete: () -> Unit
 ) {
     var popUpVisible by remember { mutableStateOf(false) }
     Toolbar(
@@ -84,7 +84,7 @@ private fun EditIncomeToolbar(
         leftIcon = Icons.Default.Delete,
         onLeftIconPressed = {
             popUpVisible = true
-        },
+        }
     )
     if (popUpVisible) {
         DeleteIncomePopUp(
@@ -94,7 +94,7 @@ private fun EditIncomeToolbar(
             },
             onDismissRequest = {
                 popUpVisible = false
-            },
+            }
         )
     }
 }
@@ -102,12 +102,12 @@ private fun EditIncomeToolbar(
 @Composable
 private fun DeleteIncomePopUp(
     onDelete: () -> Unit,
-    onDismissRequest: () -> Unit,
+    onDismissRequest: () -> Unit
 ) {
     AlertDialogFinance(
         onDismissRequest = onDismissRequest,
         onConfirmation = onDelete,
         dialogTitle = stringResource(Res.string.edit_income_pop_up_title),
-        dialogText = stringResource(Res.string.edit_income_pop_up_message),
+        dialogText = stringResource(Res.string.edit_income_pop_up_message)
     )
 }

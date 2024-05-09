@@ -23,7 +23,7 @@ import utils.toStringDateFormat
 class EditExpenseViewModel(
     val editExpenseUseCase: EditExpenseUseCase,
     val deleteExpenseUseCase: DeleteExpenseUseCase,
-    val getExpenseUseCase: GetExpenseUseCase,
+    val getExpenseUseCase: GetExpenseUseCase
 ) : ViewModel(),
     ContainerHost<EditExpenseScreenState, GenericState<Unit>>,
     EditExpenseScreenIntents {
@@ -37,7 +37,7 @@ class EditExpenseViewModel(
             reduce {
                 state.copy(
                     dateInMillis = date,
-                    date = date.toStringDateFormat(),
+                    date = date.toStringDateFormat()
                 )
             }
         }
@@ -58,7 +58,7 @@ class EditExpenseViewModel(
                 reduce {
                     state.copy(
                         amountField = amount.toMoneyFormat(),
-                        amount = amount,
+                        amount = amount
                     )
                 }
             }
@@ -92,11 +92,11 @@ class EditExpenseViewModel(
                         note = state.note,
                         dateInMillis = state.dateInMillis,
                         id = id,
-                        category = state.category.name,
-                    ),
+                        category = state.category.name
+                    )
                 )
             postSideEffect(
-                result,
+                result
             )
         }
 
@@ -121,8 +121,8 @@ class EditExpenseViewModel(
                 deleteExpenseUseCase(
                     DeleteExpenseUseCase.Params(
                         id = state.id,
-                        monthKey = state.monthKey,
-                    ),
+                        monthKey = state.monthKey
+                    )
                 )
             postSideEffect(result)
         }
@@ -138,8 +138,8 @@ class EditExpenseViewModel(
             val result =
                 getExpenseUseCase(
                     GetExpenseUseCase.Params(
-                        id = id,
-                    ),
+                        id = id
+                    )
                 )
             if (result is GenericState.Success) {
                 setAmount(result.data.amount.toString())
@@ -150,7 +150,7 @@ class EditExpenseViewModel(
                     state.copy(
                         initialDataLoaded = true,
                         id = result.data.id,
-                        monthKey = result.data.monthKey,
+                        monthKey = result.data.monthKey
                     )
                 }
             }

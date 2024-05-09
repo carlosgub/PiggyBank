@@ -12,6 +12,6 @@ fun ExpenseDivider(modifier: Modifier = Modifier) {
     Divider(
         modifier = Modifier.fillMaxWidth().then(modifier),
         thickness = divider_thickness,
-        color = ColorSeparator,
+        color = ColorSeparator
     )
 }

@@ -78,31 +78,31 @@ import kotlin.time.Duration.Companion.milliseconds
 fun HomeBodyContent(
     state: HomeScreenState,
     intents: HomeScreenIntents,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     var visible by rememberSaveable { mutableStateOf(false) }
     AnimatedVisibility(
         visible = visible,
         enter = slideInVertically(initialOffsetY = { it }),
         exit = slideOutVertically(targetOffsetY = { 0 }),
-        modifier = modifier,
+        modifier = modifier
     ) {
         Card(
             shape = RoundedCornerShape(
                 topStart = spacing_8,
-                topEnd = spacing_8,
+                topEnd = spacing_8
             ),
             colors = CardDefaults.cardColors(
-                containerColor = MonthBudgetCardColor,
-            ),
+                containerColor = MonthBudgetCardColor
+            )
         ) {
             Column {
                 CardMonthBudgetContent(
-                    monthExpense = state.financeScreenModel.monthExpense,
+                    monthExpense = state.financeScreenModel.monthExpense
                 )
                 CardMonthFinanceContent(
                     state = state,
-                    intents = intents,
+                    intents = intents
                 )
             }
         }
@@ -118,31 +118,31 @@ private fun CardMonthBudgetContent(monthExpense: MonthExpense) {
         modifier = Modifier.fillMaxWidth()
             .padding(
                 horizontal = spacing_6,
-                vertical = spacing_8,
-            ),
+                vertical = spacing_8
+            )
     ) {
         Row {
             Text(
                 text = stringResource(Res.string.home_body_month_budget),
                 style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Medium
             )
             Text(
                 monthExpense.incomeTotal.toMoneyFormat(),
                 modifier = Modifier.padding(start = spacing_3),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Gray600,
-                fontWeight = FontWeight.Normal,
+                fontWeight = FontWeight.Normal
             )
             Box(Modifier.weight(1f))
             Text(
                 text = "${monthExpense.percentage}%",
                 style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Medium
             )
         }
         CardMonthBudgetBar(
-            monthExpense = monthExpense,
+            monthExpense = monthExpense
         )
     }
 }
@@ -153,7 +153,7 @@ private fun CardMonthBudgetBar(monthExpense: MonthExpense) {
     var progress by rememberSaveable { mutableFloatStateOf(0f) }
     val progressAnimation by animateFloatAsState(
         targetValue = progress,
-        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
     )
     LinearProgressIndicator(
         progress = { progressAnimation },
@@ -161,7 +161,7 @@ private fun CardMonthBudgetBar(monthExpense: MonthExpense) {
         modifier = Modifier.fillMaxWidth()
             .padding(top = spacing_2)
             .height(6.dp),
-        strokeCap = StrokeCap.Round,
+        strokeCap = StrokeCap.Round
     )
     LaunchedEffect(percentage) {
         delay(AnimationConstants.DefaultDurationMillis.milliseconds)
@@ -173,20 +173,20 @@ private fun CardMonthBudgetBar(monthExpense: MonthExpense) {
 private fun CardMonthFinanceContent(
     state: HomeScreenState,
     intents: HomeScreenIntents,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     val tabs = FinanceEnum.entries.toImmutableList()
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(topStart = spacing_8, topEnd = spacing_8),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White,
-        ),
+            containerColor = Color.White
+        )
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = spacing_6, top = spacing_6, end = spacing_6),
+                .padding(start = spacing_6, top = spacing_6, end = spacing_6)
         ) {
             var tabIndex by rememberSaveable { mutableStateOf(FinanceEnum.EXPENSE) }
             CardMonthFinanceTabRow(
@@ -194,12 +194,12 @@ private fun CardMonthFinanceContent(
                 tabIndex = tabIndex,
                 onTabClicked = { financeEnum ->
                     tabIndex = financeEnum
-                },
+                }
             )
             CardMonthFinanceTabContent(
                 tabIndex = tabIndex,
                 state = state,
-                intents = intents,
+                intents = intents
             )
         }
     }
@@ -209,12 +209,12 @@ private fun CardMonthFinanceContent(
 private fun CardMonthFinanceTabRow(
     tabs: ImmutableList<FinanceEnum>,
     tabIndex: FinanceEnum,
-    onTabClicked: (FinanceEnum) -> Unit,
+    onTabClicked: (FinanceEnum) -> Unit
 ) {
     TabRow(
         selectedTabIndex = tabs.binarySearch(tabIndex),
         containerColor = Color.White,
-        divider = {},
+        divider = {}
     ) {
         tabs.forEach { financeEnum ->
             Tab(
@@ -222,11 +222,11 @@ private fun CardMonthFinanceTabRow(
                     Text(
                         text = stringResource(financeEnum.financeName),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = Color.Black,
+                        color = Color.Black
                     )
                 },
                 selected = tabIndex == financeEnum,
-                onClick = { onTabClicked(financeEnum) },
+                onClick = { onTabClicked(financeEnum) }
             )
         }
     }
@@ -236,14 +236,14 @@ private fun CardMonthFinanceTabRow(
 private fun CardMonthFinanceTabContent(
     tabIndex: FinanceEnum,
     state: HomeScreenState,
-    intents: HomeScreenIntents,
+    intents: HomeScreenIntents
 ) {
     when (tabIndex) {
         FinanceEnum.EXPENSE -> {
             CardMonthFinanceCategoryContent(
                 financeType = FinanceEnum.EXPENSE,
                 expenses = state.financeScreenModel.expenses,
-                intents = intents,
+                intents = intents
             )
         }
 
@@ -251,7 +251,7 @@ private fun CardMonthFinanceTabContent(
             CardMonthFinanceCategoryContent(
                 financeType = FinanceEnum.INCOME,
                 expenses = state.financeScreenModel.income,
-                intents = intents,
+                intents = intents
             )
     }
 }
@@ -261,20 +261,20 @@ fun CardMonthFinanceCategoryContent(
     financeType: FinanceEnum,
     expenses: ImmutableList<FinanceScreenExpenses>,
     intents: HomeScreenIntents,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     if (expenses.isNotEmpty()) {
         Column(
-            modifier = modifier.fillMaxSize(),
+            modifier = modifier.fillMaxSize()
         ) {
             LazyColumn(
-                modifier = Modifier.padding(top = spacing_3),
+                modifier = Modifier.padding(top = spacing_3)
             ) {
                 itemsIndexed(expenses) { count, expense ->
                     FinanceCategoryItem(
                         count = count,
                         intents = intents,
-                        expense = expense,
+                        expense = expense
                     )
                 }
             }
@@ -284,7 +284,7 @@ fun CardMonthFinanceCategoryContent(
             title = stringResource(Res.string.home_body_data_zero_title),
             message = stringResource(
                 resource = Res.string.home_body_data_zero_message,
-                stringResource(financeType.financeName).lowercase(),
+                stringResource(financeType.financeName).lowercase()
             ),
             hasButton = true,
             valueToPass = financeType,
@@ -294,7 +294,7 @@ fun CardMonthFinanceCategoryContent(
                 } else {
                     intents.navigateToAddIncome()
                 }
-            },
+            }
         )
     }
 }
@@ -303,14 +303,14 @@ fun CardMonthFinanceCategoryContent(
 private fun FinanceCategoryItem(
     count: Int,
     intents: HomeScreenIntents,
-    expense: FinanceScreenExpenses,
+    expense: FinanceScreenExpenses
 ) {
     Column {
         if (count != 0) {
             ExpenseDivider(
                 modifier = Modifier.padding(
-                    start = spacing_16,
-                ),
+                    start = spacing_16
+                )
             )
         }
         Row(
@@ -319,48 +319,48 @@ private fun FinanceCategoryItem(
                 .clickable {
                     intents.navigateToMonthDetail(expense.category.name)
                 }
-                .padding(vertical = spacing_3),
+                .padding(vertical = spacing_3)
         ) {
             ExpenseIconProgress(
-                expense = expense,
+                expense = expense
             )
             Column(
-                modifier = Modifier.weight(1f).padding(start = spacing_4),
+                modifier = Modifier.weight(1f).padding(start = spacing_4)
             ) {
                 Text(
                     text = stringResource(expense.category.categoryName),
                     style = MaterialTheme.typography.bodySmall,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.Medium
                 )
                 Text(
                     text = stringResource(
                         Res.string.home_body_finance_category_item_budget_percentage,
-                        expense.percentage,
+                        expense.percentage
                     ),
                     style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier.padding(top = spacing_1),
                     color = Gray600,
-                    fontWeight = FontWeight.Normal,
+                    fontWeight = FontWeight.Normal
                 )
             }
             Column(
                 modifier = Modifier.padding(start = spacing_4),
-                horizontalAlignment = Alignment.End,
+                horizontalAlignment = Alignment.End
             ) {
                 Text(
                     text = (expense.amount / 100.0).toMoneyFormat(),
                     style = MaterialTheme.typography.bodySmall,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.Medium
                 )
                 Text(
                     text = stringResource(
                         Res.string.home_body_finance_category_item_count_transactions,
-                        expense.count,
+                        expense.count
                     ),
                     style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier.padding(top = spacing_1),
                     color = Gray600,
-                    fontWeight = FontWeight.Normal,
+                    fontWeight = FontWeight.Normal
                 )
             }
         }
@@ -370,23 +370,23 @@ private fun FinanceCategoryItem(
 @Composable
 fun ExpenseIconProgress(
     expense: FinanceScreenExpenses,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     val percentage = (expense.percentage / 100.00).toFloat()
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier,
+        modifier = modifier
     ) {
         var progress by rememberSaveable { mutableFloatStateOf(0f) }
         val progressAnimation by animateFloatAsState(
             targetValue = progress,
-            animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+            animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
         )
         CircularProgressIndicator(
             progress = { 1f },
             modifier = Modifier.size(56.dp),
             strokeWidth = 3.dp,
-            color = Gray400,
+            color = Gray400
         )
         CircularProgressIndicator(
             progress = {
@@ -394,7 +394,7 @@ fun ExpenseIconProgress(
             },
             modifier = Modifier.size(56.dp),
             strokeWidth = 3.dp,
-            color = expense.category.color,
+            color = expense.category.color
         )
         LaunchedEffect(Unit) {
             delay(AnimationConstants.DefaultDurationMillis.milliseconds)
@@ -404,7 +404,7 @@ fun ExpenseIconProgress(
             imageVector = expense.category.icon,
             contentDescription = null,
             tint = Gray600,
-            modifier = Modifier.size(28.dp),
+            modifier = Modifier.size(28.dp)
         )
     }
 }

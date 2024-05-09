@@ -5,7 +5,7 @@ import moe.tlaster.precompose.navigation.Navigator
 
 fun createObserver(
     sideEffect: GenericState<Unit>,
-    navigator: Navigator,
+    navigator: Navigator
 ) {
     when (sideEffect) {
         is GenericState.Error -> {

@@ -62,7 +62,7 @@ import utils.views.chart.FinanceBarChart
 @Composable
 fun HomeHeaderContent(
     financeScreenModel: FinanceScreenModel,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     var visible by rememberSaveable { mutableStateOf(false) }
     val pagerState = rememberPagerState(pageCount = { 2 })
@@ -71,15 +71,15 @@ fun HomeHeaderContent(
         visible = visible,
         enter = slideInVertically(initialOffsetY = { -it }),
         exit = slideOutVertically(targetOffsetY = { it }),
-        modifier = modifier,
+        modifier = modifier
     ) {
         HorizontalPager(
             state = pagerState,
-            userScrollEnabled = false,
+            userScrollEnabled = false
         ) { page ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize()
             ) {
                 HomeHeaderLeftIcon(
                     currentPage = pagerState.currentPage,
@@ -87,22 +87,22 @@ fun HomeHeaderContent(
                         coroutine.launch {
                             pagerState.animateScrollToPage(pagerState.currentPage - 1)
                         }
-                    },
+                    }
                 )
                 if (page == 0) {
                     HomeHeaderFirstPage(
                         month = financeScreenModel.month,
                         monthAmount = financeScreenModel.expenseAmount,
                         modifier =
-                            Modifier
-                                .weight(1f),
+                        Modifier
+                            .weight(1f)
                     )
                 } else {
                     HomeHeaderSecondPage(
                         daySpent = financeScreenModel.daySpent,
                         modifier =
-                            Modifier
-                                .weight(1f),
+                        Modifier
+                            .weight(1f)
                     )
                 }
                 HomeHeaderRightIcon(
@@ -113,7 +113,7 @@ fun HomeHeaderContent(
                         coroutine.launch {
                             pagerState.animateScrollToPage(pagerState.currentPage + 1)
                         }
-                    },
+                    }
                 )
             }
         }
@@ -126,7 +126,7 @@ fun HomeHeaderContent(
 @Composable
 private fun HomeHeaderLeftIcon(
     currentPage: Int,
-    onIconClicked: () -> Unit,
+    onIconClicked: () -> Unit
 ) {
     IconButton(
         onClick = { if (currentPage > 0) onIconClicked() },
@@ -136,23 +136,23 @@ private fun HomeHeaderLeftIcon(
                 contentDescription = null,
                 tint = Color.White,
                 modifier =
-                    Modifier
-                        .padding(horizontal = spacing_4)
-                        .clip(CircleShape)
-                        .border(
-                            border =
-                                BorderStroke(
-                                    width = 1.dp,
-                                    color = Color.White,
-                                ),
-                            shape = CircleShape,
-                        )
-                        .padding(spacing_2),
+                Modifier
+                    .padding(horizontal = spacing_4)
+                    .clip(CircleShape)
+                    .border(
+                        border =
+                        BorderStroke(
+                            width = 1.dp,
+                            color = Color.White
+                        ),
+                        shape = CircleShape
+                    )
+                    .padding(spacing_2)
             )
         },
         modifier =
-            Modifier
-                .alpha(if (currentPage > 0) 1f else 0f),
+        Modifier
+            .alpha(if (currentPage > 0) 1f else 0f)
     )
 }
 
@@ -160,23 +160,23 @@ private fun HomeHeaderLeftIcon(
 private fun HomeHeaderFirstPage(
     month: Month,
     monthAmount: Long,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = month.name,
             style = MaterialTheme.typography.headlineSmall,
-            color = Color.White,
+            color = Color.White
         )
         Text(
             text = (monthAmount / 100.0).toMoneyFormat(),
             style = MaterialTheme.typography.headlineMedium,
             color = Color.White,
-            modifier = Modifier.padding(top = spacing_4),
+            modifier = Modifier.padding(top = spacing_4)
         )
     }
 }
@@ -184,15 +184,15 @@ private fun HomeHeaderFirstPage(
 @Composable
 private fun HomeHeaderSecondPage(
     daySpent: ImmutableMap<LocalDateTime, Long>,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     var overlayData by remember { mutableStateOf("") }
     Box(
-        modifier = modifier,
+        modifier = modifier
     ) {
         OverlayData(
             overlayData = overlayData,
-            modifier = Modifier.align(Alignment.TopEnd),
+            modifier = Modifier.align(Alignment.TopEnd)
         )
         FinanceBarChart(
             daySpent = daySpent,
@@ -200,11 +200,11 @@ private fun HomeHeaderSecondPage(
             withYChart = true,
             contentColor = Color.White,
             modifier =
-                Modifier
-                    .fillMaxSize(),
+            Modifier
+                .fillMaxSize(),
             onOverlayData = { data ->
                 overlayData = data
-            },
+            }
         )
     }
 }
@@ -212,7 +212,7 @@ private fun HomeHeaderSecondPage(
 @Composable
 private fun OverlayData(
     overlayData: String,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     if (overlayData.isNotEmpty()) {
         Box(
@@ -221,9 +221,9 @@ private fun OverlayData(
                 .background(color = Gray900)
                 .padding(
                     horizontal = spacing_2,
-                    vertical = spacing_1_2,
+                    vertical = spacing_1_2
                 )
-                .then(modifier),
+                .then(modifier)
         ) {
             AnimatedContent(
                 targetState = overlayData,
@@ -231,13 +231,13 @@ private fun OverlayData(
                     fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith
                         fadeOut(animationSpec = tween(durationMillis = 300))
                 },
-                contentAlignment = Alignment.Center,
+                contentAlignment = Alignment.Center
             ) { overlayData ->
                 Text(
                     text = overlayData,
                     color = Color.White,
                     textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.Medium
                 )
             }
         }
@@ -249,7 +249,7 @@ private fun HomeHeaderRightIcon(
     currentPage: Int,
     pageCount: Int,
     monthAmount: Long,
-    onIconClicked: () -> Unit,
+    onIconClicked: () -> Unit
 ) {
     val isEnabled = currentPage + 1 < pageCount && monthAmount > 0
     IconButton(
@@ -260,22 +260,22 @@ private fun HomeHeaderRightIcon(
                 contentDescription = null,
                 tint = Color.White,
                 modifier =
-                    Modifier
-                        .padding(horizontal = spacing_4)
-                        .clip(CircleShape)
-                        .border(
-                            border =
-                                BorderStroke(
-                                    width = 1.dp,
-                                    color = Color.White,
-                                ),
-                            shape = CircleShape,
-                        )
-                        .padding(spacing_2),
+                Modifier
+                    .padding(horizontal = spacing_4)
+                    .clip(CircleShape)
+                    .border(
+                        border =
+                        BorderStroke(
+                            width = 1.dp,
+                            color = Color.White
+                        ),
+                        shape = CircleShape
+                    )
+                    .padding(spacing_2)
             )
         },
         modifier =
-            Modifier
-                .alpha(if (isEnabled) 1f else 0f),
+        Modifier
+            .alpha(if (isEnabled) 1f else 0f)
     )
 }

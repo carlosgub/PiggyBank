@@ -6,5 +6,5 @@ import kotlinx.datetime.LocalDateTime
 
 data class MonthsScreenState(
     val months: ImmutableMap<Int, List<LocalDateTime>> = persistentMapOf(),
-    val showLoading: Boolean = false,
+    val showLoading: Boolean = false
 )

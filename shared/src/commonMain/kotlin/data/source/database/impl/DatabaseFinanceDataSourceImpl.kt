@@ -32,7 +32,7 @@ import utils.toLocalDate
 import utils.toMonthString
 
 class DatabaseFinanceDataSourceImpl(
-    private val sharedDatabase: SharedDatabase,
+    private val sharedDatabase: SharedDatabase
 ) : DatabaseFinanceDataSource {
     override suspend fun getAllMonthExpenses(monthKey: String): Flow<ResponseResult<List<Expense>>> =
         flow {
@@ -76,7 +76,7 @@ class DatabaseFinanceDataSourceImpl(
         amount: Int,
         category: String,
         note: String,
-        dateInMillis: Long,
+        dateInMillis: Long
     ): ResponseResult<Unit> =
         try {
             val date: LocalDate = dateInMillis.toLocalDate()
@@ -88,11 +88,11 @@ class DatabaseFinanceDataSourceImpl(
                     category = category,
                     note = note,
                     dateInMillis = dateInMillis,
-                    month = currentMonthKey,
-                ),
+                    month = currentMonthKey
+                )
             )
             sharedDatabase().createMonth(
-                currentMonthKey,
+                currentMonthKey
             )
             ResponseResult.Success(Unit)
         } catch (e: Exception) {
@@ -102,7 +102,7 @@ class DatabaseFinanceDataSourceImpl(
     override suspend fun createIncome(
         amount: Int,
         note: String,
-        dateInMillis: Long,
+        dateInMillis: Long
     ): ResponseResult<Unit> =
         try {
             val date: LocalDate = dateInMillis.toLocalDate()
@@ -114,11 +114,11 @@ class DatabaseFinanceDataSourceImpl(
                     category = CategoryEnum.WORK.name,
                     note = note,
                     dateInMillis = dateInMillis,
-                    month = currentMonthKey,
-                ),
+                    month = currentMonthKey
+                )
             )
             sharedDatabase().createMonth(
-                currentMonthKey,
+                currentMonthKey
             )
             ResponseResult.Success(Unit)
         } catch (e: Exception) {
@@ -127,13 +127,13 @@ class DatabaseFinanceDataSourceImpl(
 
     override suspend fun getExpenseMonthDetail(
         categoryEnum: CategoryEnum,
-        monthKey: String,
+        monthKey: String
     ): Flow<ResponseResult<List<Expense>>> =
         flow {
             try {
                 sharedDatabase().getExpenseListPerCategory(
                     month = monthKey,
-                    category = categoryEnum.name,
+                    category = categoryEnum.name
                 ).collect { list ->
                     emit(ResponseResult.Success(list))
                 }
@@ -147,7 +147,7 @@ class DatabaseFinanceDataSourceImpl(
             try {
                 sharedDatabase().getIncomeListPerCategory(
                     month = monthKey,
-                    category = CategoryEnum.WORK.name,
+                    category = CategoryEnum.WORK.name
                 ).collect { list ->
                     emit(ResponseResult.Success(list))
                 }
@@ -161,7 +161,7 @@ class DatabaseFinanceDataSourceImpl(
         category: String,
         note: String,
         dateInMillis: Long,
-        id: Long,
+        id: Long
     ): ResponseResult<Unit> =
         try {
             val date: LocalDate = dateInMillis.toLocalDate()
@@ -173,8 +173,8 @@ class DatabaseFinanceDataSourceImpl(
                     category = category,
                     amount = amount,
                     dateInMillis = dateInMillis,
-                    month = currentMonthKey,
-                ),
+                    month = currentMonthKey
+                )
             )
             ResponseResult.Success(Unit)
         } catch (e: Exception) {
@@ -185,7 +185,7 @@ class DatabaseFinanceDataSourceImpl(
         amount: Long,
         note: String,
         dateInMillis: Long,
-        id: Long,
+        id: Long
     ): ResponseResult<Unit> =
         try {
             val date: LocalDate = dateInMillis.toLocalDate()
@@ -197,8 +197,8 @@ class DatabaseFinanceDataSourceImpl(
                     category = CategoryEnum.WORK.name,
                     amount = amount,
                     dateInMillis = dateInMillis,
-                    month = currentMonthKey,
-                ),
+                    month = currentMonthKey
+                )
             )
             ResponseResult.Success(Unit)
         } catch (e: Exception) {
@@ -207,11 +207,11 @@ class DatabaseFinanceDataSourceImpl(
 
     override suspend fun deleteExpense(
         id: Long,
-        monthKey: String,
+        monthKey: String
     ): ResponseResult<Unit> =
         try {
             sharedDatabase().deleteExpense(
-                id = id,
+                id = id
             )
             val expenses = sharedDatabase().getExpenseList(monthKey).first()
             val income = sharedDatabase().getIncomeList(monthKey).first()
@@ -225,11 +225,11 @@ class DatabaseFinanceDataSourceImpl(
 
     override suspend fun deleteIncome(
         id: Long,
-        monthKey: String,
+        monthKey: String
     ): ResponseResult<Unit> =
         try {
             sharedDatabase().deleteIncome(
-                id = id,
+                id = id
             )
             val expenses = sharedDatabase().getExpenseList(monthKey).first()
             val income = sharedDatabase().getIncomeList(monthKey).first()
@@ -251,7 +251,7 @@ class DatabaseFinanceDataSourceImpl(
                                 MonthModel(
                                     id = monthKey,
                                     month = monthKey.take(2),
-                                    year = monthKey.takeLast(4),
+                                    year = monthKey.takeLast(4)
                                 )
                             }.sortedByDescending { it.month }
                         emit(ResponseResult.Success(list))

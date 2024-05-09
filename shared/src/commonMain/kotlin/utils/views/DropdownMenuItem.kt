@@ -17,7 +17,7 @@ fun DropdownMenuItem(
     icon: ImageVector,
     text: String,
     modifier: Modifier = Modifier,
-    onItemClicked: () -> Unit,
+    onItemClicked: () -> Unit
 ) {
     DropdownMenuItem(
         onClick = onItemClicked,
@@ -27,15 +27,15 @@ fun DropdownMenuItem(
                 text = text,
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(horizontal = spacing_2),
-                color = Color.Black,
+                color = Color.Black
             )
         },
         leadingIcon = {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = Color.Black,
+                tint = Color.Black
             )
-        },
+        }
     )
 }

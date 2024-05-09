@@ -32,7 +32,7 @@ import utils.toMonthKey
 import kotlin.math.roundToInt
 
 class FinanceRepositoryImpl(
-    private val databaseFinance: DatabaseFinanceDataSource,
+    private val databaseFinance: DatabaseFinanceDataSource
 ) : FinanceRepository {
     override suspend fun getFinance(monthKey: String): Flow<GenericState<FinanceScreenModel>> =
         flow {
@@ -53,7 +53,7 @@ class FinanceRepositoryImpl(
                                         category = getCategoryEnumFromName(it.key),
                                         amount = amount,
                                         count = it.value.size,
-                                        percentage = (amount / expenseTotal.toFloat() * 100).roundToInt(),
+                                        percentage = (amount / expenseTotal.toFloat() * 100).roundToInt()
                                     )
                                 }.sortedByDescending { it.percentage }
                                 .toImmutableList()
@@ -65,19 +65,19 @@ class FinanceRepositoryImpl(
                                         category = getCategoryEnumFromName(it.key),
                                         amount = amount,
                                         count = it.value.size,
-                                        percentage = (amount / incomeTotal.toFloat() * 100).roundToInt(),
+                                        percentage = (amount / incomeTotal.toFloat() * 100).roundToInt()
                                     )
                                 }.sortedByDescending { it.amount }
                                 .toImmutableList()
                         val monthExpense =
                             MonthExpense(
                                 incomeTotal = incomeTotal / 100.0,
-                                percentage = if (incomeTotal != 0L) expenseTotal * 100 / incomeTotal else 100,
+                                percentage = if (incomeTotal != 0L) expenseTotal * 100 / incomeTotal else 100
                             )
                         val date =
                             createLocalDateTime(
                                 year = monthKey.substring(2, 6).toInt(),
-                                monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
+                                monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
                             )
                         val expenseScreenModelList = expenses.data.map { expense ->
                             val localDate = FinanceLocalDate(expense.dateInMillis.toLocalDate())
@@ -87,7 +87,7 @@ class FinanceRepositoryImpl(
                                 note = expense.note.replaceFirstChar { it.uppercase() },
                                 category = expense.category,
                                 localDateTime = localDate.localDateTime,
-                                date = localDate.date,
+                                date = localDate.date
                             )
                         }.sortedByDescending { it.localDateTime }
                         val daySpent =
@@ -96,7 +96,7 @@ class FinanceRepositoryImpl(
                                     year = monthKey.substring(2, 6).toInt(),
                                     monthNumber = monthKey.substring(0, 2).trimStart('0')
                                         .toInt(),
-                                    dayOfMonth = day,
+                                    dayOfMonth = day
                                 )
                                 dateInternal to expenseScreenModelList.filter { expense ->
                                     expense.localDateTime == dateInternal
@@ -110,9 +110,9 @@ class FinanceRepositoryImpl(
                                     income = incomeList,
                                     month = date.month,
                                     monthExpense = monthExpense,
-                                    daySpent = daySpent,
-                                ),
-                            ),
+                                    daySpent = daySpent
+                                )
+                            )
                         )
                     } else {
                         if (expenses is ResponseResult.Error) {
@@ -137,8 +137,8 @@ class FinanceRepositoryImpl(
                         category = expense.data.category,
                         localDateTime = localDate.localDateTime,
                         date = localDate.date,
-                        monthKey = expense.data.month,
-                    ),
+                        monthKey = expense.data.month
+                    )
                 )
             } else {
                 GenericState.Error("")
@@ -158,8 +158,8 @@ class FinanceRepositoryImpl(
                         category = income.data.category,
                         localDateTime = localDate.localDateTime,
                         date = localDate.date,
-                        monthKey = income.data.month,
-                    ),
+                        monthKey = income.data.month
+                    )
                 )
             } else {
                 GenericState.Error("")
@@ -170,7 +170,7 @@ class FinanceRepositoryImpl(
         amount: Int,
         category: String,
         note: String,
-        dateInMillis: Long,
+        dateInMillis: Long
     ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             ResultMapper.toGenericState(
@@ -178,23 +178,23 @@ class FinanceRepositoryImpl(
                     amount = amount,
                     category = category,
                     note = note,
-                    dateInMillis = dateInMillis,
-                ),
+                    dateInMillis = dateInMillis
+                )
             )
         }
 
     override suspend fun createIncome(
         amount: Int,
         note: String,
-        dateInMillis: Long,
+        dateInMillis: Long
     ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             ResultMapper.toGenericState(
                 databaseFinance.createIncome(
                     amount = amount,
                     note = note,
-                    dateInMillis = dateInMillis,
-                ),
+                    dateInMillis = dateInMillis
+                )
             )
         }
 
@@ -203,7 +203,7 @@ class FinanceRepositoryImpl(
         category: String,
         note: String,
         dateInMillis: Long,
-        id: Long,
+        id: Long
     ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             when (
@@ -213,7 +213,7 @@ class FinanceRepositoryImpl(
                         category = category,
                         note = note,
                         dateInMillis = dateInMillis,
-                        id = id,
+                        id = id
                     )
             ) {
                 is ResponseResult.Success -> GenericState.Success(Unit)
@@ -225,7 +225,7 @@ class FinanceRepositoryImpl(
         amount: Long,
         note: String,
         dateInMillis: Long,
-        id: Long,
+        id: Long
     ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             when (
@@ -234,7 +234,7 @@ class FinanceRepositoryImpl(
                         amount = amount,
                         note = note,
                         dateInMillis = dateInMillis,
-                        id = id,
+                        id = id
                     )
             ) {
                 is ResponseResult.Success -> GenericState.Success(Unit)
@@ -244,14 +244,14 @@ class FinanceRepositoryImpl(
 
     override suspend fun deleteIncome(
         id: Long,
-        monthKey: String,
+        monthKey: String
     ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             when (
                 val result =
                     databaseFinance.deleteIncome(
                         id = id,
-                        monthKey = monthKey,
+                        monthKey = monthKey
                     )
             ) {
                 is ResponseResult.Success -> GenericState.Success(Unit)
@@ -261,14 +261,14 @@ class FinanceRepositoryImpl(
 
     override suspend fun deleteExpense(
         id: Long,
-        monthKey: String,
+        monthKey: String
     ): GenericState<Unit> =
         withContext(Dispatchers.Default) {
             when (
                 val result =
                     databaseFinance.deleteExpense(
                         id = id,
-                        monthKey = monthKey,
+                        monthKey = monthKey
                     )
             ) {
                 is ResponseResult.Success -> GenericState.Success(Unit)
@@ -278,7 +278,7 @@ class FinanceRepositoryImpl(
 
     override suspend fun getExpenseMonthDetail(
         categoryEnum: CategoryEnum,
-        monthKey: String,
+        monthKey: String
     ): Flow<GenericState<MonthDetailScreenModel>> =
         flow {
             databaseFinance.getExpenseMonthDetail(categoryEnum, monthKey).collect { result ->
@@ -295,19 +295,19 @@ class FinanceRepositoryImpl(
                                     note = expense.note.replaceFirstChar { it.uppercase() },
                                     category = expense.category,
                                     localDateTime = localDate.localDateTime,
-                                    date = localDate.date,
+                                    date = localDate.date
                                 )
                             }.sortedByDescending { it.localDateTime }
                         val date = createLocalDateTime(
                             year = monthKey.substring(2, 6).toInt(),
-                            monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
+                            monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
                         )
                         val daySpent =
                             (1..date.monthNumber.monthLength(isLeapYear(date.year))).associate { day ->
                                 val dateInternal = createLocalDateTime(
                                     year = monthKey.substring(2, 6).toInt(),
                                     monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
-                                    dayOfMonth = day,
+                                    dayOfMonth = day
                                 )
                                 dateInternal to expenseScreenModelList.filter { expense ->
                                     expense.localDateTime == dateInternal
@@ -318,9 +318,9 @@ class FinanceRepositoryImpl(
                                 MonthDetailScreenModel(
                                     monthAmount = monthAmount,
                                     expenseScreenModel = expenseScreenModelList,
-                                    daySpent = daySpent,
-                                ),
-                            ),
+                                    daySpent = daySpent
+                                )
+                            )
                         )
                     }
                 }
@@ -345,12 +345,12 @@ class FinanceRepositoryImpl(
                                         note = expense.note.replaceFirstChar { it.uppercase() },
                                         category = expense.category,
                                         localDateTime = localDate.localDateTime,
-                                        date = localDate.date,
+                                        date = localDate.date
                                     )
                                 }.sortedByDescending { it.localDateTime }
                             val date = createLocalDateTime(
                                 year = monthKey.substring(2, 6).toInt(),
-                                monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
+                                monthNumber = monthKey.substring(0, 2).trimStart('0').toInt()
                             )
                             val daySpent =
                                 (1..date.monthNumber.monthLength(isLeapYear(date.year))).associate { day ->
@@ -358,7 +358,7 @@ class FinanceRepositoryImpl(
                                         year = monthKey.substring(2, 6).toInt(),
                                         monthNumber = monthKey.substring(0, 2).trimStart('0')
                                             .toInt(),
-                                        dayOfMonth = day,
+                                        dayOfMonth = day
                                     )
                                     dateInternal to expenseScreenModelList.filter { expense ->
                                         expense.localDateTime == dateInternal
@@ -369,9 +369,9 @@ class FinanceRepositoryImpl(
                                     MonthDetailScreenModel(
                                         monthAmount = monthAmount,
                                         expenseScreenModel = expenseScreenModelList,
-                                        daySpent = daySpent,
-                                    ),
-                                ),
+                                        daySpent = daySpent
+                                    )
+                                )
                             )
                         }
                     }
@@ -388,14 +388,14 @@ class FinanceRepositoryImpl(
                                 result.data.map { month ->
                                     createLocalDateTime(
                                         year = month.year.toInt(),
-                                        monthNumber = month.month.trimStart('0').toInt(),
+                                        monthNumber = month.month.trimStart('0').toInt()
                                     )
                                 }.filter { localDateTime ->
                                     localDateTime.toMonthKey() != getCurrentMonthKey()
                                 }.groupBy { localDateTime ->
                                     localDateTime.year
-                                }.toImmutableMap(),
-                            ),
+                                }.toImmutableMap()
+                            )
                         )
                     }
 

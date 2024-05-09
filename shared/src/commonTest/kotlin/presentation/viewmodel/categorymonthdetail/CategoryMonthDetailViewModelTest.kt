@@ -20,7 +20,7 @@ class CategoryMonthDetailViewModelTest {
     private var categoryMonthDetailViewModel =
         CategoryMonthDetailViewModel(
             getExpenseMonthDetailUseCase = getExpenseMonthDetailUseCase,
-            getIncomeMonthDetailUseCase = getIncomeMonthDetailUseCase,
+            getIncomeMonthDetailUseCase = getIncomeMonthDetailUseCase
         )
 
     @Test
@@ -31,14 +31,14 @@ class CategoryMonthDetailViewModelTest {
                 containerHost.getMonthDetail()
                 expectState {
                     copy(
-                        showLoading = true,
+                        showLoading = true
                     )
                 }
                 expectState {
                     copy(
                         monthDetail = monthExpenseDetailScreenModel,
                         showLoading = false,
-                        isInitialDataLoaded = true,
+                        isInitialDataLoaded = true
                     )
                 }
             }
@@ -50,21 +50,21 @@ class CategoryMonthDetailViewModelTest {
             categoryMonthDetailViewModel.test(
                 this,
                 CategoryMonthDetailScreenState(
-                    category = CategoryEnum.WORK,
-                ),
+                    category = CategoryEnum.WORK
+                )
             ) {
                 expectInitialState()
                 containerHost.getMonthDetail()
                 expectState {
                     copy(
-                        showLoading = true,
+                        showLoading = true
                     )
                 }
                 expectState {
                     copy(
                         monthDetail = monthIncomeDetailScreenModel,
                         showLoading = false,
-                        isInitialDataLoaded = true,
+                        isInitialDataLoaded = true
                     )
                 }
             }
@@ -76,18 +76,18 @@ class CategoryMonthDetailViewModelTest {
             val state = CategoryMonthDetailScreenState()
             categoryMonthDetailViewModel.test(
                 this,
-                state,
+                state
             ) {
                 expectInitialState()
                 containerHost.observeExpense(
                     categoryEnum = state.category,
-                    monthKey = state.monthKey,
+                    monthKey = state.monthKey
                 )
                 expectState {
                     copy(
                         monthDetail = monthExpenseDetailScreenModel,
                         showLoading = false,
-                        isInitialDataLoaded = true,
+                        isInitialDataLoaded = true
                     )
                 }
             }
@@ -99,17 +99,17 @@ class CategoryMonthDetailViewModelTest {
             val state = CategoryMonthDetailScreenState()
             categoryMonthDetailViewModel.test(
                 this,
-                state,
+                state
             ) {
                 expectInitialState()
                 containerHost.observeIncome(
-                    monthKey = state.monthKey,
+                    monthKey = state.monthKey
                 )
                 expectState {
                     copy(
                         monthDetail = monthIncomeDetailScreenModel,
                         showLoading = false,
-                        isInitialDataLoaded = true,
+                        isInitialDataLoaded = true
                     )
                 }
             }
@@ -123,8 +123,8 @@ class CategoryMonthDetailViewModelTest {
                 containerHost.navigateToEditExpense(expenseScreenModelOne)
                 expectSideEffect(
                     CategoryMonthDetailScreenSideEffect.NavigateToMonthDetail(
-                        expenseScreenModelOne,
-                    ),
+                        expenseScreenModelOne
+                    )
                 )
             }
         }
@@ -136,24 +136,24 @@ class CategoryMonthDetailViewModelTest {
                 expectInitialState()
                 containerHost.setInitialConfiguration(
                     monthKey = getCurrentMonthKey(),
-                    category = CategoryEnum.WORK.name,
+                    category = CategoryEnum.WORK.name
                 )
                 expectState {
                     copy(
                         monthKey = getCurrentMonthKey(),
-                        category = CategoryEnum.WORK,
+                        category = CategoryEnum.WORK
                     )
                 }
                 expectState {
                     copy(
-                        showLoading = true,
+                        showLoading = true
                     )
                 }
                 expectState {
                     copy(
                         monthDetail = monthIncomeDetailScreenModel,
                         showLoading = false,
-                        isInitialDataLoaded = true,
+                        isInitialDataLoaded = true
                     )
                 }
             }
@@ -164,7 +164,7 @@ class CategoryMonthDetailViewModelTest {
         runTest {
             categoryMonthDetailViewModel.test(
                 this,
-                CategoryMonthDetailScreenState(),
+                CategoryMonthDetailScreenState()
             ) {
                 expectInitialState()
                 containerHost.setMonthDetailScreenModel(monthExpenseDetailScreenModel)
@@ -172,7 +172,7 @@ class CategoryMonthDetailViewModelTest {
                     copy(
                         monthDetail = monthExpenseDetailScreenModel,
                         showLoading = false,
-                        isInitialDataLoaded = true,
+                        isInitialDataLoaded = true
                     )
                 }
             }
@@ -183,13 +183,13 @@ class CategoryMonthDetailViewModelTest {
         runTest {
             categoryMonthDetailViewModel.test(
                 this,
-                CategoryMonthDetailScreenState(),
+                CategoryMonthDetailScreenState()
             ) {
                 expectInitialState()
                 containerHost.showLoading()
                 expectState {
                     copy(
-                        showLoading = true,
+                        showLoading = true
                     )
                 }
             }

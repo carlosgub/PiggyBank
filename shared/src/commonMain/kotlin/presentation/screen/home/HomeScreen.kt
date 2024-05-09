@@ -34,7 +34,7 @@ import utils.views.Toolbar
 @Composable
 fun HomeScreen(
     monthKey: String,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     val navigator = LocalNavController.current
     val viewModel = koinViewModel(vmClass = HomeViewModel::class)
@@ -56,15 +56,15 @@ fun HomeScreen(
                 },
                 onBack = {
                     navigator.popBackStack()
-                },
+                }
             )
         },
-        modifier = modifier,
+        modifier = modifier
     ) { paddingValues ->
         HomeContent(
             paddingValues = paddingValues,
             state = state,
-            intents = viewModel,
+            intents = viewModel
         )
     }
     scope.launch {
@@ -72,7 +72,7 @@ fun HomeScreen(
             homeObserver(
                 sideEffect = sideEffect,
                 navigator = navigator,
-                state = state,
+                state = state
             )
         }
     }
@@ -84,7 +84,7 @@ private fun HomeToolbar(
     onAddExpensePressed: () -> Unit,
     onAddIncomePressed: () -> Unit,
     onCalendarPressed: () -> Unit,
-    onBack: () -> Unit,
+    onBack: () -> Unit
 ) {
     val leftIcon = if (showLeftIcon) Icons.Filled.CalendarMonth else null
     Toolbar(
@@ -96,17 +96,17 @@ private fun HomeToolbar(
         leftIcon = leftIcon,
         onLeftIconPressed = onCalendarPressed,
         dropDownItems =
-            persistentListOf(
-                MenuItem(
-                    name = stringResource(Res.string.home_add_expense),
-                    icon = Icons.Filled.MoneyOff,
-                    onItemClicked = onAddExpensePressed,
-                ),
-                MenuItem(
-                    name = stringResource(Res.string.home_add_income),
-                    icon = Icons.Filled.AttachMoney,
-                    onItemClicked = onAddIncomePressed,
-                ),
+        persistentListOf(
+            MenuItem(
+                name = stringResource(Res.string.home_add_expense),
+                icon = Icons.Filled.MoneyOff,
+                onItemClicked = onAddExpensePressed
             ),
+            MenuItem(
+                name = stringResource(Res.string.home_add_income),
+                icon = Icons.Filled.AttachMoney,
+                onItemClicked = onAddIncomePressed
+            )
+        )
     )
 }

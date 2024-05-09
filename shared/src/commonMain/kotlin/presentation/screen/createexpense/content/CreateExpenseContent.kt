@@ -30,21 +30,21 @@ import utils.views.textfield.NoteOutlineTextField
 fun CreateExpenseContent(
     state: CreateExpenseScreenState,
     intents: CreateExpenseScreenIntents,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     Column(
         modifier =
-            Modifier.fillMaxSize().then(modifier)
-                .clickable(
-                    interactionSource = NoRippleInteractionSource(),
-                    indication = null,
-                ) {
-                    keyboard?.hide()
-                    focusManager.clearFocus()
-                }
-                .padding(horizontal = spacing_4),
+        Modifier.fillMaxSize().then(modifier)
+            .clickable(
+                interactionSource = NoRippleInteractionSource(),
+                indication = null
+            ) {
+                keyboard?.hide()
+                focusManager.clearFocus()
+            }
+            .padding(horizontal = spacing_4)
     ) {
         AmountOutlineTextField(
             amountField = state.amountField,
@@ -54,13 +54,13 @@ fun CreateExpenseContent(
                 intents.setAmount(value)
                 intents.showError(false)
             },
-            showError = state.showError,
+            showError = state.showError
         )
         CategoriesChips(
             selectedSelected = state.category,
             onChipPressed = { categoryEnumSelected ->
                 intents.setCategory(categoryEnumSelected)
-            },
+            }
         )
         DayPicker(
             dateValue = state.date,
@@ -68,7 +68,7 @@ fun CreateExpenseContent(
             dayValueInMillis = { dateInMillis ->
                 intents.showDateError(false)
                 intents.setDate(dateInMillis)
-            },
+            }
         )
         NoteOutlineTextField(
             keyboard = keyboard,
@@ -77,13 +77,13 @@ fun CreateExpenseContent(
                 intents.setNote(value)
                 intents.showNoteError(false)
             },
-            showError = state.showNoteError,
+            showError = state.showNoteError
         )
         Box(
-            modifier = Modifier.weight(1.0f),
+            modifier = Modifier.weight(1.0f)
         )
         CreateExpenseButton(
-            intents = intents,
+            intents = intents
         )
     }
 }
@@ -92,12 +92,12 @@ fun CreateExpenseContent(
 private fun CreateExpenseButton(intents: CreateExpenseScreenIntents) {
     PrimaryButton(
         modifier =
-            Modifier.padding(
-                bottom = spacing_6,
-            ),
+        Modifier.padding(
+            bottom = spacing_6
+        ),
         buttonText = stringResource(Res.string.create_expense_button),
         onClick = {
             intents.create()
-        },
+        }
     )
 }
