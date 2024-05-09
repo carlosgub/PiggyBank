@@ -7,6 +7,7 @@ import data.sqldelight.SharedDatabase
 import domain.repository.FinanceRepository
 import domain.usecase.CreateExpenseUseCase
 import domain.usecase.CreateIncomeUseCase
+import domain.usecase.DeleteExpenseUseCase
 import domain.usecase.DeleteIncomeUseCase
 import domain.usecase.EditExpenseUseCase
 import domain.usecase.EditIncomeUseCase
@@ -123,6 +124,13 @@ val homeModule =
 
         factory {
             DeleteIncomeUseCase(
+                financeRepository = get(),
+            )
+        }
+
+
+        factory {
+            DeleteExpenseUseCase(
                 financeRepository = get(),
             )
         }

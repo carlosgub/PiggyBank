@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import myapplication.shared.generated.resources.Res
-import myapplication.shared.generated.resources.edit_income_button
+import myapplication.shared.generated.resources.edit_expense_button
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.editexpense.EditExpenseScreenIntents
@@ -102,7 +102,7 @@ private fun EditExpenseButton(intents: EditExpenseScreenIntents) {
             Modifier.padding(
                 bottom = spacing_6,
             ),
-        buttonText = stringResource(Res.string.edit_income_button),
+        buttonText = stringResource(Res.string.edit_expense_button),
         onClick = {
             intents.edit()
         },

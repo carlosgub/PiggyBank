@@ -17,9 +17,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import myapplication.shared.generated.resources.Res
+import myapplication.shared.generated.resources.edit_expense_pop_up_message
+import myapplication.shared.generated.resources.edit_expense_pop_up_title
 import myapplication.shared.generated.resources.edit_expense_title
-import myapplication.shared.generated.resources.edit_income_pop_up_message
-import myapplication.shared.generated.resources.edit_income_pop_up_title
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
@@ -104,7 +104,7 @@ private fun DeletePopUp(
     AlertDialogFinance(
         onDismissRequest = onDismissRequest,
         onConfirmation = onDelete,
-        dialogTitle = stringResource(Res.string.edit_income_pop_up_title),
-        dialogText = stringResource(Res.string.edit_income_pop_up_message),
+        dialogTitle = stringResource(Res.string.edit_expense_pop_up_title),
+        dialogText = stringResource(Res.string.edit_expense_pop_up_message),
     )
 }
