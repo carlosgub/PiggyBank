@@ -20,9 +20,9 @@ The Finance Tracker App is a versatile tool for managing your finances. Whether 
 - **Data Security:** Your financial data is securely offline stored to ensure your privacy and confidentiality.
 - **Platform Compatibility:** Built with Kotlin Multiplatform technology, the app works seamlessly on both Android and iOS devices.
 - **Offline Functionality:** All data is stored locally on your device, allowing you to access and manage your finances even without an internet connection.
--  **Unit Testing:** Comprehensive unit tests to ensure the reliability and stability of the app's codebase.
+- **Unit Testing:** Comprehensive unit tests to ensure the reliability and stability of the app's codebase.
 
-#### Technologies Used
+### Technologies Used
 
 - **Kotlin Multiplatform:** Used for cross-platform development, enabling the app to run on both Android and iOS. [GitHub Repository](https://github.com/JetBrains/kotlin)
 - **Koin:** Dependency injection framework for managing dependencies in a Kotlin application. [GitHub Repository](https://github.com/InsertKoinIO/koin)
@@ -32,6 +32,7 @@ The Finance Tracker App is a versatile tool for managing your finances. Whether 
 - **Orbit Core for MVI:** Used for implementing the Model-View-Intent (MVI) architecture, facilitating a reactive and predictable approach to UI development. [GitHub Repository](https://github.com/babylonhealth/orbit-mvi)
 - **Precompose:** Used for navigation and ViewModel. [GitHub Repository](https://github.com/Tlaster/PreCompose)
 - **Kotlinm-Charts:** Charting library for Kotlin Multiplatform projects, providing various chart types for visualizing data. [GitHub Repository](https://github.com/carlosgub/kotlinm-charts)
+- **String Resources:** Utilize string resources for localization and easier management of text content, leveraging Kotlin Multiplatform's experimental features.
 
 ##### Testing
 - **Kotlinx Coroutines Test:** Provides utilities for efficiently testing coroutines. [GitHub Repository](https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-test)
