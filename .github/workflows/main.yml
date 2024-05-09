@@ -30,6 +30,12 @@ jobs:
       - name: Run Unit Test Android
         shell: bash
         run: ./gradlew :shared:testDebugUnitTest
+        env:
+          G_USERNAME: ${{vars.G_USERNAME}}
+          G_TOKEN: ${{vars.G_USERNAME}}
       - name: Run Unit Test iOS
         shell: bash
         run: ./gradlew :shared:iosSimulatorArm64Test
+        env:
+          G_USERNAME: ${{vars.G_USERNAME}}
+          G_TOKEN: ${{vars.G_USERNAME}}
