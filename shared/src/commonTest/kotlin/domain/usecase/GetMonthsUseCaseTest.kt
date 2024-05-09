@@ -13,11 +13,15 @@ class GetMonthsUseCaseTest {
     private val getMonthsUseCase = GetMonthsUseCase(fakeFinanceRepositoryImpl)
 
     @Test
-    fun `Get Months success`() = runTest {
-        val expected = monthListFiltered
-        getMonthsUseCase().test {
-            assertEquals(expected,(awaitItem() as GenericState.Success).data)
-            awaitComplete()
+    fun `Get Months success`() =
+        runTest {
+            val expected = monthListFiltered
+            getMonthsUseCase().test {
+                assertEquals(
+                    expected,
+                    (awaitItem() as GenericState.Success).data,
+                )
+                awaitComplete()
+            }
         }
-    }
 }

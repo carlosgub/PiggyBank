@@ -14,12 +14,13 @@ class GetFinanceUseCaseTest {
     private val getFinanceUseCase = GetFinanceUseCase(fakeFinanceRepositoryImpl)
 
     @Test
-    fun `Get Finance success`() = runTest {
-        val expected = financeScreenModel
-        getFinanceUseCase(GetFinanceUseCase.Params(monthKey = getCurrentMonthKey()))
-            .test {
-                assertEquals(expected, (awaitItem() as GenericState.Success).data)
-                awaitComplete()
-            }
-    }
+    fun `Get Finance success`() =
+        runTest {
+            val expected = financeScreenModel
+            getFinanceUseCase(GetFinanceUseCase.Params(monthKey = getCurrentMonthKey()))
+                .test {
+                    assertEquals(expected, (awaitItem() as GenericState.Success).data)
+                    awaitComplete()
+                }
+        }
 }

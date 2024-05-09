@@ -17,16 +17,17 @@ class GetExpenseMonthDetailUseCaseTest {
         GetExpenseMonthDetailUseCase(fakeFinanceRepositoryImpl)
 
     @Test
-    fun `Get Category Month Detail success`() = runTest {
-        val expected = monthExpenseDetailScreenModel
-        getExpenseMonthDetailUseCase(
-            GetExpenseMonthDetailUseCase.Params(
-                categoryEnum = getCategoryEnumFromName(expenseOne.category),
-                monthKey = getCurrentMonthKey()
-            )
-        ).test {
-            assertEquals(expected, (awaitItem() as GenericState.Success).data)
-            awaitComplete()
+    fun `Get Category Month Detail success`() =
+        runTest {
+            val expected = monthExpenseDetailScreenModel
+            getExpenseMonthDetailUseCase(
+                GetExpenseMonthDetailUseCase.Params(
+                    categoryEnum = getCategoryEnumFromName(expenseOne.category),
+                    monthKey = getCurrentMonthKey(),
+                ),
+            ).test {
+                assertEquals(expected, (awaitItem() as GenericState.Success).data)
+                awaitComplete()
+            }
         }
-    }
 }

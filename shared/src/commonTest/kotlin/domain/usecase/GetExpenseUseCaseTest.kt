@@ -13,15 +13,15 @@ class GetExpenseUseCaseTest {
     private val getExpenseUseCase = GetExpenseUseCase(fakeFinanceRepositoryImpl)
 
     @Test
-    fun `Get Expense success`() = runTest {
-        val expected = expenseFinanceModelOne
-        val result = getExpenseUseCase(GetExpenseUseCase.Params(id = expenseOne.id))
-        when (result) {
-            is GenericState.Success -> {
-                assertEquals(expected, result.data)
-            }
+    fun `Get Expense success`() =
+        runTest {
+            val expected = expenseFinanceModelOne
+            when (val result = getExpenseUseCase(GetExpenseUseCase.Params(id = expenseOne.id))) {
+                is GenericState.Success -> {
+                    assertEquals(expected, result.data)
+                }
 
-            else -> Unit
+                else -> Unit
+            }
         }
-    }
 }

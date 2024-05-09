@@ -13,14 +13,15 @@ class GetIncomeUseCaseTest {
     private val getIncomeUseCase = GetIncomeUseCase(fakeFinanceRepositoryImpl)
 
     @Test
-    fun `Get Income success`() = runTest {
-        val expected = incomeFinanceModelOne
-        when (val result = getIncomeUseCase(GetIncomeUseCase.Params(id = incomeOne.id))) {
-            is GenericState.Success -> {
-                assertEquals(expected, result.data)
-            }
+    fun `Get Income success`() =
+        runTest {
+            val expected = incomeFinanceModelOne
+            when (val result = getIncomeUseCase(GetIncomeUseCase.Params(id = incomeOne.id))) {
+                is GenericState.Success -> {
+                    assertEquals(expected, result.data)
+                }
 
-            else -> Unit
+                else -> Unit
+            }
         }
-    }
 }
