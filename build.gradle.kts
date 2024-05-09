@@ -6,10 +6,15 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.compose) apply false
     alias(libs.plugins.klint)
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 buildscript {
     dependencies {
         classpath(libs.ktlint)
     }
+}
+
+subprojects {
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
 }
