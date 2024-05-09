@@ -48,6 +48,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import domain.model.FinanceScreenModel
+import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
@@ -182,7 +183,7 @@ private fun HomeHeaderFirstPage(
 
 @Composable
 private fun HomeHeaderSecondPage(
-    daySpent: Map<LocalDateTime, Long>,
+    daySpent: ImmutableMap<LocalDateTime, Long>,
     modifier: Modifier = Modifier,
 ) {
     var overlayData by remember { mutableStateOf("") }

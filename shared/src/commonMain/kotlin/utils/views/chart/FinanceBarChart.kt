@@ -13,6 +13,7 @@ import com.carlosgub.kotlinm.charts.bar.BarChart
 import com.carlosgub.kotlinm.charts.bar.BarChartCategory
 import com.carlosgub.kotlinm.charts.bar.BarChartData
 import com.carlosgub.kotlinm.charts.bar.BarChartEntry
+import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.datetime.LocalDateTime
 import theme.ColorPrimary
 import utils.toDayString
@@ -21,7 +22,7 @@ import utils.toMonthString
 
 @Composable
 fun FinanceBarChart(
-    daySpent: Map<LocalDateTime, Long>,
+    daySpent: ImmutableMap<LocalDateTime, Long>,
     withYChart: Boolean,
     modifier: Modifier = Modifier,
     onOverlayData: (String) -> Unit = {},

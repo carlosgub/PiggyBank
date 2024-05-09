@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.datetime.LocalDateTime
 import myapplication.shared.generated.resources.Res
 import myapplication.shared.generated.resources.months_data_zero_message
@@ -77,7 +78,7 @@ fun MonthsContent(
 
 @Composable
 private fun MonthsScreenSuccessContent(
-    data: Map<Int, List<LocalDateTime>>,
+    data: ImmutableMap<Int, List<LocalDateTime>>,
     onMonthClicked: (String) -> Unit,
 ) {
     var visible by rememberSaveable { mutableStateOf(false) }
@@ -114,7 +115,7 @@ private fun MonthsScreenSuccessContent(
 
 @Composable
 fun MonthList(
-    months: Map<Int, List<LocalDateTime>>,
+    months: ImmutableMap<Int, List<LocalDateTime>>,
     modifier: Modifier = Modifier,
     onClickItem: (String) -> Unit,
 ) {

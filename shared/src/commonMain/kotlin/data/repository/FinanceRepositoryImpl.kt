@@ -13,6 +13,9 @@ import domain.model.FinanceScreenModel
 import domain.model.MonthDetailScreenModel
 import domain.model.MonthExpense
 import domain.repository.FinanceRepository
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -53,6 +56,7 @@ class FinanceRepositoryImpl(
                                         percentage = (amount / expenseTotal.toFloat() * 100).roundToInt(),
                                     )
                                 }.sortedByDescending { it.percentage }
+                                .toImmutableList()
                         val incomeList =
                             income.data.groupBy { it.category }
                                 .map {
@@ -64,6 +68,7 @@ class FinanceRepositoryImpl(
                                         percentage = (amount / incomeTotal.toFloat() * 100).roundToInt(),
                                     )
                                 }.sortedByDescending { it.amount }
+                                .toImmutableList()
                         val monthExpense =
                             MonthExpense(
                                 incomeTotal = incomeTotal / 100.0,
@@ -74,33 +79,29 @@ class FinanceRepositoryImpl(
                                 year = monthKey.substring(2, 6).toInt(),
                                 monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
                             )
-                        val expenseScreenModelList =
-                            expenses.data.map { expense ->
-                                val localDate = FinanceLocalDate(expense.dateInMillis.toLocalDate())
-                                ExpenseScreenModel(
-                                    id = expense.id,
-                                    amount = expense.amount,
-                                    note = expense.note.replaceFirstChar { it.uppercase() },
-                                    category = expense.category,
-                                    localDateTime = localDate.localDateTime,
-                                    date = localDate.date,
-                                )
-                            }.sortedByDescending { it.localDateTime }
+                        val expenseScreenModelList = expenses.data.map { expense ->
+                            val localDate = FinanceLocalDate(expense.dateInMillis.toLocalDate())
+                            ExpenseScreenModel(
+                                id = expense.id,
+                                amount = expense.amount,
+                                note = expense.note.replaceFirstChar { it.uppercase() },
+                                category = expense.category,
+                                localDateTime = localDate.localDateTime,
+                                date = localDate.date,
+                            )
+                        }.sortedByDescending { it.localDateTime }
                         val daySpent =
                             (1..date.monthNumber.monthLength(isLeapYear(date.year))).associate { day ->
-                                val dateInternal =
-                                    createLocalDateTime(
-                                        year = monthKey.substring(2, 6).toInt(),
-                                        monthNumber =
-                                            monthKey.substring(0, 2).trimStart('0')
-                                                .toInt(),
-                                        dayOfMonth = day,
-                                    )
-                                dateInternal to
-                                    expenseScreenModelList.filter { expense ->
-                                        expense.localDateTime == dateInternal
-                                    }.sumOf { it.amount }
-                            }
+                                val dateInternal = createLocalDateTime(
+                                    year = monthKey.substring(2, 6).toInt(),
+                                    monthNumber = monthKey.substring(0, 2).trimStart('0')
+                                        .toInt(),
+                                    dayOfMonth = day,
+                                )
+                                dateInternal to expenseScreenModelList.filter { expense ->
+                                    expense.localDateTime == dateInternal
+                                }.sumOf { it.amount }
+                            }.toImmutableMap()
                         emit(
                             GenericState.Success(
                                 FinanceScreenModel(
@@ -297,24 +298,21 @@ class FinanceRepositoryImpl(
                                     date = localDate.date,
                                 )
                             }.sortedByDescending { it.localDateTime }
-                        val date =
-                            createLocalDateTime(
-                                year = monthKey.substring(2, 6).toInt(),
-                                monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
-                            )
+                        val date = createLocalDateTime(
+                            year = monthKey.substring(2, 6).toInt(),
+                            monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
+                        )
                         val daySpent =
                             (1..date.monthNumber.monthLength(isLeapYear(date.year))).associate { day ->
-                                val dateInternal =
-                                    createLocalDateTime(
-                                        year = monthKey.substring(2, 6).toInt(),
-                                        monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
-                                        dayOfMonth = day,
-                                    )
-                                dateInternal to
-                                    expenseScreenModelList.filter { expense ->
-                                        expense.localDateTime == dateInternal
-                                    }.sumOf { it.amount }
-                            }
+                                val dateInternal = createLocalDateTime(
+                                    year = monthKey.substring(2, 6).toInt(),
+                                    monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
+                                    dayOfMonth = day,
+                                )
+                                dateInternal to expenseScreenModelList.filter { expense ->
+                                    expense.localDateTime == dateInternal
+                                }.sumOf { it.amount }
+                            }.toImmutableMap()
                         emit(
                             GenericState.Success(
                                 MonthDetailScreenModel(
@@ -350,26 +348,22 @@ class FinanceRepositoryImpl(
                                         date = localDate.date,
                                     )
                                 }.sortedByDescending { it.localDateTime }
-                            val date =
-                                createLocalDateTime(
-                                    year = monthKey.substring(2, 6).toInt(),
-                                    monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
-                                )
+                            val date = createLocalDateTime(
+                                year = monthKey.substring(2, 6).toInt(),
+                                monthNumber = monthKey.substring(0, 2).trimStart('0').toInt(),
+                            )
                             val daySpent =
                                 (1..date.monthNumber.monthLength(isLeapYear(date.year))).associate { day ->
-                                    val dateInternal =
-                                        createLocalDateTime(
-                                            year = monthKey.substring(2, 6).toInt(),
-                                            monthNumber =
-                                                monthKey.substring(0, 2).trimStart('0')
-                                                    .toInt(),
-                                            dayOfMonth = day,
-                                        )
-                                    dateInternal to
-                                        expenseScreenModelList.filter { expense ->
-                                            expense.localDateTime == dateInternal
-                                        }.sumOf { it.amount }
-                                }
+                                    val dateInternal = createLocalDateTime(
+                                        year = monthKey.substring(2, 6).toInt(),
+                                        monthNumber = monthKey.substring(0, 2).trimStart('0')
+                                            .toInt(),
+                                        dayOfMonth = day,
+                                    )
+                                    dateInternal to expenseScreenModelList.filter { expense ->
+                                        expense.localDateTime == dateInternal
+                                    }.sumOf { it.amount }
+                                }.toImmutableMap()
                             emit(
                                 GenericState.Success(
                                     MonthDetailScreenModel(
@@ -384,7 +378,7 @@ class FinanceRepositoryImpl(
                 }
         }
 
-    override suspend fun getMonths(): Flow<GenericState<Map<Int, List<LocalDateTime>>>> =
+    override suspend fun getMonths(): Flow<GenericState<ImmutableMap<Int, List<LocalDateTime>>>> =
         flow {
             databaseFinance.getMonths().collect { result ->
                 when (result) {
@@ -400,7 +394,7 @@ class FinanceRepositoryImpl(
                                     localDateTime.toMonthKey() != getCurrentMonthKey()
                                 }.groupBy { localDateTime ->
                                     localDateTime.year
-                                },
+                                }.toImmutableMap(),
                             ),
                         )
                     }

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalResourceApi::class)
+
 package utils.views.chart
 
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,10 +18,15 @@ import com.carlosgub.kotlinm.charts.line.LineChart
 import com.carlosgub.kotlinm.charts.line.LineChartData
 import com.carlosgub.kotlinm.charts.line.LineChartPoint
 import com.carlosgub.kotlinm.charts.line.LineChartSeries
+import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
+import myapplication.shared.generated.resources.Res
+import myapplication.shared.generated.resources.finance_line_chart_overlay
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import theme.ColorPrimary
 import utils.createLocalDateTime
 import utils.toDayString
@@ -29,7 +36,7 @@ import utils.toMonthString
 
 @Composable
 fun FinanceLineChart(
-    daySpent: Map<LocalDateTime, Long>,
+    daySpent: ImmutableMap<LocalDateTime, Long>,
     withYChart: Boolean,
     modifier: Modifier = Modifier,
     lineColor: Color = ColorPrimary,
@@ -108,7 +115,7 @@ fun FinanceLineChart(
 private fun OverlayHeaderLabel(
     localDate: Long,
     contentColor: Color,
-    daySpent: Map<LocalDateTime, Long>,
+    daySpent: ImmutableMap<LocalDateTime, Long>,
 ) {
     val day: LocalDate = localDate.toLocalDate()
     val localDateTime =
@@ -119,8 +126,12 @@ private fun OverlayHeaderLabel(
         )
     val moneySpent = ((daySpent[localDateTime] ?: 0) / 100.0).toFloat().toMoneyFormat()
     Text(
-        text = "${day.dayOfMonth.toDayString()}/${day.month.toMonthString()}\n" +
-                moneySpent,
+        text = stringResource(
+            Res.string.finance_line_chart_overlay,
+            day.dayOfMonth,
+            day.month,
+            moneySpent,
+        ),
         style = MaterialTheme.typography.bodyMedium,
         color = contentColor,
     )

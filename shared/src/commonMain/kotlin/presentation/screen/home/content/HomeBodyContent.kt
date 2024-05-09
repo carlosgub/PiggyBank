@@ -45,6 +45,8 @@ import androidx.compose.ui.unit.dp
 import domain.model.FinanceEnum
 import domain.model.FinanceScreenExpenses
 import domain.model.MonthExpense
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import myapplication.shared.generated.resources.Res
 import myapplication.shared.generated.resources.home_body_data_zero_message
@@ -173,7 +175,7 @@ private fun CardMonthFinanceContent(
     intents: HomeScreenIntents,
     modifier: Modifier = Modifier,
 ) {
-    val tabs = FinanceEnum.entries.toList()
+    val tabs = FinanceEnum.entries.toImmutableList()
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(topStart = spacing_8, topEnd = spacing_8),
@@ -205,7 +207,7 @@ private fun CardMonthFinanceContent(
 
 @Composable
 private fun CardMonthFinanceTabRow(
-    tabs: List<FinanceEnum>,
+    tabs: ImmutableList<FinanceEnum>,
     tabIndex: FinanceEnum,
     onTabClicked: (FinanceEnum) -> Unit,
 ) {
@@ -257,7 +259,7 @@ private fun CardMonthFinanceTabContent(
 @Composable
 fun CardMonthFinanceCategoryContent(
     financeType: FinanceEnum,
-    expenses: List<FinanceScreenExpenses>,
+    expenses: ImmutableList<FinanceScreenExpenses>,
     intents: HomeScreenIntents,
     modifier: Modifier = Modifier,
 ) {

@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import core.navigation.LocalNavController
 import domain.model.MenuItem
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -95,7 +96,7 @@ private fun HomeToolbar(
         leftIcon = leftIcon,
         onLeftIconPressed = onCalendarPressed,
         dropDownItems =
-            mutableListOf(
+            persistentListOf(
                 MenuItem(
                     name = stringResource(Res.string.home_add_expense),
                     icon = Icons.Filled.MoneyOff,

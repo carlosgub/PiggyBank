@@ -54,6 +54,7 @@ kotlin {
                 implementation(libs.charts)
                 api(libs.orbit.core)
                 implementation(libs.delight.extension)
+                implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
             }
         }
         commonTest{

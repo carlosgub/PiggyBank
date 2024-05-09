@@ -29,6 +29,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import domain.model.MenuItem
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import theme.ColorPrimary
 import theme.spacing_2
 import theme.view_10
@@ -44,7 +46,7 @@ fun Toolbar(
     onLeftIconPressed: () -> Unit = {},
     contentColor: Color = Color.White,
     dropDownMenu: Boolean = false,
-    dropDownItems: List<MenuItem> = listOf(),
+    dropDownItems: ImmutableList<MenuItem> = persistentListOf(),
     leftIcon: ImageVector? = null,
     dropDownIcon: ImageVector? = null,
 ) {

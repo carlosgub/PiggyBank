@@ -15,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
@@ -43,13 +44,14 @@ fun NoteOutlineTextField(
     firstValue: String = "",
 ) {
     var text by remember { mutableStateOf("") }
+    val latestOnClick by rememberUpdatedState(onValueChange)
     LaunchedEffect(Unit) {
         text = firstValue
         snapshotFlow { text }
             .debounce(500L)
             .distinctUntilChanged()
             .onEach { value ->
-                onValueChange(value)
+                latestOnClick(value)
             }
             .launchIn(this)
     }
