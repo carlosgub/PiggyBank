@@ -127,7 +127,7 @@ private fun OverlayHeaderLabel(
     val moneySpent = ((daySpent[localDateTime] ?: 0) / 100.0).toFloat().toMoneyFormat()
     Text(
         text = stringResource(
-            Res.string.finance_line_chart_overlay,
+            resource = Res.string.finance_line_chart_overlay,
             day.dayOfMonth,
             day.month,
             moneySpent,

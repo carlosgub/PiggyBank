@@ -35,8 +35,7 @@ fun FinanceBarChart(
                 categories = listOf(
                     BarChartCategory(
                         name = "",
-                        entries =
-                        daySpent.map { day ->
+                        entries = daySpent.map { day ->
                             BarChartEntry(
                                 x = "${day.key.dayOfMonth.toDayString()}/${day.key.month.toMonthString()}",
                                 y = (day.value / 100.0).toFloat(),
@@ -62,8 +61,7 @@ fun FinanceBarChart(
                     fontSize = 12.sp,
                     text = text,
                     textAlign = TextAlign.Center,
-                    modifier =
-                    Modifier
+                    modifier = Modifier
                         .offset(x = 20.dp),
                     color = contentColor,
                 )
