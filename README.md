@@ -32,6 +32,7 @@ The Finance Tracker App is a versatile tool for managing your finances. Whether 
 - **Orbit Core for MVI:** Used for implementing the Model-View-Intent (MVI) architecture, facilitating a reactive and predictable approach to UI development. [GitHub Repository](https://github.com/babylonhealth/orbit-mvi)
 - **Precompose:** Used for navigation and ViewModel. [GitHub Repository](https://github.com/Tlaster/PreCompose)
 - **Kotlinm-Charts:** Charting library for Kotlin Multiplatform projects, providing various chart types for visualizing data. [GitHub Repository](https://github.com/carlosgub/kotlinm-charts)
+- Ktlint: Static code analysis tool for ensuring consistent coding styles across the project. Integrated into GitHub Actions for automated code style checking. This repository also is using the Compose lint rules from the slack team. [Compose Lint Rules](https://github.com/slackhq/compose-lints)
 - **String Resources:** Utilize string resources for localization and easier management of text content, leveraging Kotlin Multiplatform's experimental features.
 - **GitHub Actions:** Integrated GitHub Actions for continuous integration, including automated processes for running ktlint to enforce code style and executing unit tests to ensure code quality and functionality.
 
