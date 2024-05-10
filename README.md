@@ -7,6 +7,8 @@
 <img width="312" alt="Screenshot one" src="https://github.com/carlosgub/myFinances/assets/30916886/d45b99d3-18f7-4463-9289-6a1c6da26c73">
 <img width="309" alt="Screenshot two" src="https://github.com/carlosgub/myFinances/assets/30916886/2c38ec9d-f00d-42b7-9199-fcf0bc19de54">
 
+https://github.com/carlosgub/myFinances/assets/30916886/1fb1e887-5afd-4e9b-b287-ddb7be3ffb19
+
 #### Overview
 
 The Finance Tracker App is a versatile tool for managing your finances. Whether you want to track expenses, log incomes, or visualize your financial movements through charts, this app has got you covered. It offers a user-friendly interface and robust functionalities to help you stay on top of your finances.
