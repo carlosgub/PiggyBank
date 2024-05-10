@@ -4,9 +4,6 @@
 
 #### Screenshots
 
-<img width="312" alt="Screenshot one" src="https://github.com/carlosgub/myFinances/assets/30916886/d45b99d3-18f7-4463-9289-6a1c6da26c73">
-<img width="309" alt="Screenshot two" src="https://github.com/carlosgub/myFinances/assets/30916886/2c38ec9d-f00d-42b7-9199-fcf0bc19de54">
-
 https://github.com/carlosgub/myFinances/assets/30916886/1fb1e887-5afd-4e9b-b287-ddb7be3ffb19
 
 #### Overview
