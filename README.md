@@ -64,7 +64,7 @@ Contributions are welcome! If you have any suggestions, feature requests, or bug
 
 #### Acknowledgments
 
-- Carlos Ugaz (@carlosgub) - Mainteiner
+- Carlos Ugaz (@carlosgub) - Maintainer
 
 #### Design
 
