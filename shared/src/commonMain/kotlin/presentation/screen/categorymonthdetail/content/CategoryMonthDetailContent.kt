@@ -29,9 +29,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import domain.model.ExpenseScreenModel
-import myapplication.shared.generated.resources.Res
-import myapplication.shared.generated.resources.category_month_detail_data_zero_message
-import myapplication.shared.generated.resources.category_month_detail_data_zero_title
+import myfinances.shared.generated.resources.Res
+import myfinances.shared.generated.resources.category_month_detail_data_zero_message
+import myfinances.shared.generated.resources.category_month_detail_data_zero_title
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.categorymonthdetail.CategoryMonthDetailScreenState

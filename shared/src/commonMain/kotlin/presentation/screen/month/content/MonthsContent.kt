@@ -34,9 +34,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.datetime.LocalDateTime
-import myapplication.shared.generated.resources.Res
-import myapplication.shared.generated.resources.months_data_zero_message
-import myapplication.shared.generated.resources.months_data_zero_title
+import myfinances.shared.generated.resources.Res
+import myfinances.shared.generated.resources.months_data_zero_message
+import myfinances.shared.generated.resources.months_data_zero_title
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.months.MonthsScreenState

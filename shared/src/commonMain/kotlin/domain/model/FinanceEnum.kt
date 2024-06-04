@@ -2,9 +2,9 @@
 
 package domain.model
 
-import myapplication.shared.generated.resources.Res
-import myapplication.shared.generated.resources.finance_expense
-import myapplication.shared.generated.resources.finance_income
+import myfinances.shared.generated.resources.Res
+import myfinances.shared.generated.resources.finance_expense
+import myfinances.shared.generated.resources.finance_income
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.StringResource
 

@@ -27,8 +27,8 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import myapplication.shared.generated.resources.Res
-import myapplication.shared.generated.resources.note_outline_textfield_error
+import myfinances.shared.generated.resources.Res
+import myfinances.shared.generated.resources.note_outline_textfield_error
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import theme.spacing_2

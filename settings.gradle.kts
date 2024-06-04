@@ -1,8 +1,3 @@
-rootProject.name = "MyApplication"
-
-include(":androidApp")
-include(":shared")
-
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -42,3 +37,8 @@ dependencyResolutionManagement {
         }
     }
 }
+
+rootProject.name = "MyFinances"
+
+include(":androidApp")
+include(":shared")

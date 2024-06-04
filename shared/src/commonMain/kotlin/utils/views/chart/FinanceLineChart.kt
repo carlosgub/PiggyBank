@@ -23,8 +23,8 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
-import myapplication.shared.generated.resources.Res
-import myapplication.shared.generated.resources.finance_line_chart_overlay
+import myfinances.shared.generated.resources.Res
+import myfinances.shared.generated.resources.finance_line_chart_overlay
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import theme.ColorPrimary

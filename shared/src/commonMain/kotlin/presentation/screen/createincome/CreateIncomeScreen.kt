@@ -12,8 +12,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
-import myapplication.shared.generated.resources.Res
-import myapplication.shared.generated.resources.create_income_title
+import myfinances.shared.generated.resources.Res
+import myfinances.shared.generated.resources.create_income_title
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject

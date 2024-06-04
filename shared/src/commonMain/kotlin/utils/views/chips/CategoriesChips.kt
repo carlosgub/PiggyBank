@@ -27,8 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import domain.model.CategoryEnum
 import domain.model.FinanceEnum
-import myapplication.shared.generated.resources.Res
-import myapplication.shared.generated.resources.categories_header
+import myfinances.shared.generated.resources.Res
+import myfinances.shared.generated.resources.categories_header
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import theme.ColorPrimary

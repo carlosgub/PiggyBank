@@ -12,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import myapplication.shared.generated.resources.Res
-import myapplication.shared.generated.resources.edit_expense_button
+import myfinances.shared.generated.resources.Res
+import myfinances.shared.generated.resources.edit_expense_button
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.editexpense.EditExpenseScreenIntents

@@ -19,10 +19,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
-import myapplication.shared.generated.resources.Res
-import myapplication.shared.generated.resources.home_add_expense
-import myapplication.shared.generated.resources.home_add_income
-import myapplication.shared.generated.resources.home_app_name
+import myfinances.shared.generated.resources.Res
+import myfinances.shared.generated.resources.home_add_expense
+import myfinances.shared.generated.resources.home_add_income
+import myfinances.shared.generated.resources.home_app_name
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import presentation.screen.home.content.HomeContent
