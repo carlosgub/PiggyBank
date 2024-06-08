@@ -30,7 +30,6 @@
     <string name="home_add_expense">Add Expense</string>
     <string name="home_add_income">Add Income</string>
     <string name="home_body_month_budget">Month Budget</string>
-    <string name="home_body_month_budget">Month Budget</string>
     <string name="home_body_data_zero_title">Ooops! It's Empty</string>
     <string name="home_body_data_zero_message">Looks like you don't have anything in your %1$s</string>
     <string name="home_body_finance_category_item_budget_percentage">%1$d% of budget</string>

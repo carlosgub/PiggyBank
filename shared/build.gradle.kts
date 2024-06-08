@@ -1,10 +1,11 @@
 plugins {
-    kotlin("multiplatform")
+    alias(libs.plugins.kotlin.multiplatform)
     kotlin("native.cocoapods")
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose)
     alias(libs.plugins.sqldelight)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
