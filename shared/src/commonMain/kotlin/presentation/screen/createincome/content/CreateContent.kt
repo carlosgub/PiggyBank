@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalResourceApi::class)
-
 package presentation.screen.createincome.content
 
 import androidx.compose.foundation.clickable
@@ -11,14 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import com.carlosgub.myfinances.theme.spacing_4
+import com.carlosgub.myfinances.theme.spacing_6
 import myfinances.shared.generated.resources.Res
 import myfinances.shared.generated.resources.create_income_button
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.createincome.CreateIncomeScreenIntents
 import presentation.viewmodel.createincome.CreateIncomeScreenState
-import theme.spacing_4
-import theme.spacing_6
 import utils.NoRippleInteractionSource
 import utils.views.PrimaryButton
 import utils.views.textfield.AmountOutlineTextField

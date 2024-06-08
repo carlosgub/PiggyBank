@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
+@file:OptIn(ExperimentalFoundationApi::class)
 
 package presentation.screen.categorymonthdetail.content
 
@@ -28,20 +28,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.carlosgub.myfinances.theme.Gray600
+import com.carlosgub.myfinances.theme.Gray900
+import com.carlosgub.myfinances.theme.White
+import com.carlosgub.myfinances.theme.spacing_1
+import com.carlosgub.myfinances.theme.spacing_2
+import com.carlosgub.myfinances.theme.spacing_4
+import com.carlosgub.myfinances.theme.spacing_6
 import domain.model.ExpenseScreenModel
 import myfinances.shared.generated.resources.Res
 import myfinances.shared.generated.resources.category_month_detail_data_zero_message
 import myfinances.shared.generated.resources.category_month_detail_data_zero_title
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.categorymonthdetail.CategoryMonthDetailScreenState
-import theme.Gray600
-import theme.Gray900
-import theme.White
-import theme.spacing_1
-import theme.spacing_2
-import theme.spacing_4
-import theme.spacing_6
 import utils.toMoneyFormat
 import utils.views.DataZero
 import utils.views.ExpenseDivider

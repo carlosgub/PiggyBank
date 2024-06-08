@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalResourceApi::class)
-
 package utils.views.chart
 
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +16,7 @@ import com.carlosgub.kotlinm.charts.line.LineChart
 import com.carlosgub.kotlinm.charts.line.LineChartData
 import com.carlosgub.kotlinm.charts.line.LineChartPoint
 import com.carlosgub.kotlinm.charts.line.LineChartSeries
+import com.carlosgub.myfinances.theme.ColorPrimary
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -25,9 +24,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import myfinances.shared.generated.resources.Res
 import myfinances.shared.generated.resources.finance_line_chart_overlay
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
-import theme.ColorPrimary
 import utils.createLocalDateTime
 import utils.toDayString
 import utils.toLocalDate

@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import theme.ColorSeparator
-import theme.divider_thickness
+import com.carlosgub.myfinances.theme.ColorSeparator
+import com.carlosgub.myfinances.theme.divider_thickness
 
 @Composable
 fun ExpenseDivider(modifier: Modifier = Modifier) {

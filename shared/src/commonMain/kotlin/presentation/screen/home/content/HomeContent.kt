@@ -19,9 +19,9 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.carlosgub.myfinances.theme.ColorPrimary
 import presentation.viewmodel.home.HomeScreenIntents
 import presentation.viewmodel.home.HomeScreenState
-import theme.ColorPrimary
 
 @Composable
 fun HomeContent(

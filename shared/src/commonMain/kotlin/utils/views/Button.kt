@@ -19,10 +19,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import theme.ColorPrimary
-import theme.spacing_1
-import theme.spacing_2
-import theme.view_6
+import com.carlosgub.myfinances.theme.ColorPrimary
+import com.carlosgub.myfinances.theme.spacing_1
+import com.carlosgub.myfinances.theme.spacing_2
+import com.carlosgub.myfinances.theme.view_6
 
 @Composable
 fun PrimaryButton(

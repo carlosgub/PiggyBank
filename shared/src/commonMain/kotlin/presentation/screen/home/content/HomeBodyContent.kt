@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalResourceApi::class)
-
 package presentation.screen.home.content
 
 import androidx.compose.animation.AnimatedVisibility
@@ -42,6 +40,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.carlosgub.myfinances.theme.ColorPrimary
+import com.carlosgub.myfinances.theme.Gray400
+import com.carlosgub.myfinances.theme.Gray600
+import com.carlosgub.myfinances.theme.MonthBudgetCardColor
+import com.carlosgub.myfinances.theme.spacing_1
+import com.carlosgub.myfinances.theme.spacing_16
+import com.carlosgub.myfinances.theme.spacing_2
+import com.carlosgub.myfinances.theme.spacing_3
+import com.carlosgub.myfinances.theme.spacing_4
+import com.carlosgub.myfinances.theme.spacing_6
+import com.carlosgub.myfinances.theme.spacing_8
 import domain.model.FinanceEnum
 import domain.model.FinanceScreenExpenses
 import domain.model.MonthExpense
@@ -54,21 +63,9 @@ import myfinances.shared.generated.resources.home_body_data_zero_title
 import myfinances.shared.generated.resources.home_body_finance_category_item_budget_percentage
 import myfinances.shared.generated.resources.home_body_finance_category_item_count_transactions
 import myfinances.shared.generated.resources.home_body_month_budget
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.home.HomeScreenIntents
 import presentation.viewmodel.home.HomeScreenState
-import theme.ColorPrimary
-import theme.Gray400
-import theme.Gray600
-import theme.MonthBudgetCardColor
-import theme.spacing_1
-import theme.spacing_16
-import theme.spacing_2
-import theme.spacing_3
-import theme.spacing_4
-import theme.spacing_6
-import theme.spacing_8
 import utils.toMoneyFormat
 import utils.views.DataZero
 import utils.views.ExpenseDivider

@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import theme.spacing_2
+import com.carlosgub.myfinances.theme.spacing_2
 
 @Composable
 fun DropdownMenuItem(

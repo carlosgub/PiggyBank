@@ -14,9 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import theme.spacing_1
-import theme.spacing_2
-import theme.spacing_4
+import com.carlosgub.myfinances.theme.spacing_1
+import com.carlosgub.myfinances.theme.spacing_2
+import com.carlosgub.myfinances.theme.spacing_4
 
 @Composable
 fun <E> DataZero(

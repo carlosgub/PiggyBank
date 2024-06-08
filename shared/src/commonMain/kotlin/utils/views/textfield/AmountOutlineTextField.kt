@@ -19,8 +19,8 @@ import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
-import theme.spacing_2
-import theme.spacing_4
+import com.carlosgub.myfinances.theme.spacing_2
+import com.carlosgub.myfinances.theme.spacing_4
 
 @Composable
 fun AmountOutlineTextField(

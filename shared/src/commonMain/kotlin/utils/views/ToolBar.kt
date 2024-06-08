@@ -28,12 +28,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.carlosgub.myfinances.theme.ColorPrimary
+import com.carlosgub.myfinances.theme.spacing_2
+import com.carlosgub.myfinances.theme.view_10
 import domain.model.MenuItem
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import theme.ColorPrimary
-import theme.spacing_2
-import theme.view_10
 
 @Composable
 fun Toolbar(

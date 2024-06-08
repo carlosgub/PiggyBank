@@ -42,3 +42,4 @@ rootProject.name = "MyFinances"
 
 include(":androidApp")
 include(":shared")
+include(":theme")

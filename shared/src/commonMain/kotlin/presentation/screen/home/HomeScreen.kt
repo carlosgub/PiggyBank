@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalResourceApi::class)
-
 package presentation.screen.home
 
 import androidx.compose.material.icons.Icons
@@ -23,7 +21,6 @@ import myfinances.shared.generated.resources.Res
 import myfinances.shared.generated.resources.home_add_expense
 import myfinances.shared.generated.resources.home_add_income
 import myfinances.shared.generated.resources.home_app_name
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import presentation.screen.home.content.HomeContent
 import presentation.screen.home.content.homeObserver
@@ -95,18 +92,17 @@ private fun HomeToolbar(
         dropDownMenu = true,
         leftIcon = leftIcon,
         onLeftIconPressed = onCalendarPressed,
-        dropDownItems =
-            persistentListOf(
-                MenuItem(
-                    name = stringResource(Res.string.home_add_expense),
-                    icon = Icons.Filled.MoneyOff,
-                    onItemClicked = onAddExpensePressed,
-                ),
-                MenuItem(
-                    name = stringResource(Res.string.home_add_income),
-                    icon = Icons.Filled.AttachMoney,
-                    onItemClicked = onAddIncomePressed,
-                ),
+        dropDownItems = persistentListOf(
+            MenuItem(
+                name = stringResource(Res.string.home_add_expense),
+                icon = Icons.Filled.MoneyOff,
+                onItemClicked = onAddExpensePressed,
             ),
+            MenuItem(
+                name = stringResource(Res.string.home_add_income),
+                icon = Icons.Filled.AttachMoney,
+                onItemClicked = onAddIncomePressed,
+            ),
+        ),
     )
 }

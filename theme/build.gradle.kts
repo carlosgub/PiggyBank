@@ -1,35 +1,39 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
     androidTarget()
+    
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "theme"
+            isStatic = true
+        }
+    }
+
     sourceSets {
-        val androidMain by getting {
-            dependencies {
-                implementation(project(":shared"))
-                api(libs.koin.android)
-            }
+        commonMain.dependencies {
+            implementation(compose.material3)
+            implementation(compose.foundation)
         }
     }
 }
 
 android {
+    namespace = "com.carlosgub.myfinances.theme"
     compileSdk = libs.versions.app.compile.sdk.get().toInt()
-    namespace = "com.carlosgub.myfinance.app"
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-
     defaultConfig {
-        applicationId = "com.carlosgub.myfinance.app"
         minSdk = libs.versions.app.min.sdk.get().toInt()
-        targetSdk = (findProperty("android.targetSdk") as String).toInt()
-        versionCode = 1
-        versionName = "1.0"
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

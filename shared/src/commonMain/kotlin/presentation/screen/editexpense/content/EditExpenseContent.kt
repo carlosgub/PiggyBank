@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalResourceApi::class)
-
 package presentation.screen.editexpense.content
 
 import androidx.compose.foundation.clickable
@@ -12,14 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import com.carlosgub.myfinances.theme.spacing_4
+import com.carlosgub.myfinances.theme.spacing_6
 import myfinances.shared.generated.resources.Res
 import myfinances.shared.generated.resources.edit_expense_button
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.editexpense.EditExpenseScreenIntents
 import presentation.viewmodel.editexpense.EditExpenseScreenState
-import theme.spacing_4
-import theme.spacing_6
 import utils.NoRippleInteractionSource
 import utils.views.PrimaryButton
 import utils.views.chips.CategoriesChips

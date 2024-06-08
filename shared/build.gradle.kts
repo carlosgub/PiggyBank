@@ -56,6 +56,7 @@ kotlin {
                 api(libs.orbit.core)
                 implementation(libs.delight.extension)
                 implementation(libs.kotlinx.collections.immutable)
+                implementation(project(":theme"))
             }
         }
         commonTest {
@@ -89,7 +90,7 @@ kotlin {
 }
 
 android {
-    compileSdk = (findProperty("android.compileSdk") as String).toInt()
+    compileSdk = libs.versions.app.compile.sdk.get().toInt()
     namespace = "com.carlosgub.myfinance.app.common"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -97,14 +98,14 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        minSdk = (findProperty("android.minSdk") as String).toInt()
+        minSdk = libs.versions.app.min.sdk.get().toInt()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlin {
-        jvmToolchain(17)
+        jvmToolchain(libs.versions.java.jdk.get().toInt())
     }
 }
 

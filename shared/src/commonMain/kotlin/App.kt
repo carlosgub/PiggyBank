@@ -2,6 +2,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
+import com.carlosgub.myfinances.theme.ColorPrimary
+import com.carlosgub.myfinances.theme.Shapes
+import com.carlosgub.myfinances.theme.Typography
 import core.navigation.LocalNavController
 import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.NavHost
@@ -16,9 +19,6 @@ import presentation.screen.editexpense.EditExpenseScreen
 import presentation.screen.editincome.EditIncomeScreen
 import presentation.screen.home.HomeScreen
 import presentation.screen.month.MonthsScreen
-import theme.ColorPrimary
-import theme.Shapes
-import theme.Typography
 import utils.getCurrentMonthKey
 
 @Composable
@@ -29,10 +29,9 @@ fun App() {
             AppTheme {
                 NavHost(
                     navigator = navigator,
-                    initialRoute =
-                        Screen.Home.createRoute(
-                            getCurrentMonthKey(),
-                        ),
+                    initialRoute = Screen.Home.createRoute(
+                        getCurrentMonthKey(),
+                    ),
                 ) {
                     scene(route = Screen.Home.route) { backStackEntry ->
                         val monthKey: String = backStackEntry.path<String>(NavArgs.MONTH_KEY.key)!!
@@ -80,11 +79,10 @@ fun App() {
 @Composable
 fun AppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colorScheme =
-            MaterialTheme.colorScheme.copy(
-                primary = ColorPrimary,
-                surface = Color.White,
-            ),
+        colorScheme = MaterialTheme.colorScheme.copy(
+            primary = ColorPrimary,
+            surface = Color.White,
+        ),
         shapes = Shapes,
         typography = Typography,
     ) {

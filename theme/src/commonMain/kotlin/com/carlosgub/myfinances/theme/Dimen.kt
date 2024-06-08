@@ -1,4 +1,4 @@
-package theme
+package com.carlosgub.myfinances.theme
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp

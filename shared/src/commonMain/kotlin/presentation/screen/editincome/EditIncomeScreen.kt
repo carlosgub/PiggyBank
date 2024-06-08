@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalResourceApi::class)
-
 package presentation.screen.editincome
 
 import androidx.compose.material.icons.Icons
@@ -21,7 +19,6 @@ import myfinances.shared.generated.resources.Res
 import myfinances.shared.generated.resources.edit_income_pop_up_message
 import myfinances.shared.generated.resources.edit_income_pop_up_title
 import myfinances.shared.generated.resources.edit_income_title
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import presentation.screen.editincome.content.EditIncomeContent

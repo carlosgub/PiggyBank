@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
+@file:OptIn(ExperimentalFoundationApi::class)
 
 package presentation.screen.month.content
 
@@ -32,19 +32,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.carlosgub.myfinances.theme.ColorPrimary
+import com.carlosgub.myfinances.theme.White
+import com.carlosgub.myfinances.theme.spacing_1_2
+import com.carlosgub.myfinances.theme.spacing_2
+import com.carlosgub.myfinances.theme.spacing_3
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.datetime.LocalDateTime
 import myfinances.shared.generated.resources.Res
 import myfinances.shared.generated.resources.months_data_zero_message
 import myfinances.shared.generated.resources.months_data_zero_title
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.months.MonthsScreenState
-import theme.ColorPrimary
-import theme.White
-import theme.spacing_1_2
-import theme.spacing_2
-import theme.spacing_3
 import utils.toMonthKey
 import utils.views.DataZero
 import utils.views.ExpenseDivider

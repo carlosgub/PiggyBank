@@ -1,7 +1,6 @@
 @file:OptIn(
     ExperimentalMaterialApi::class,
     ExperimentalLayoutApi::class,
-    ExperimentalResourceApi::class,
 )
 
 package utils.views.chips
@@ -25,18 +24,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.carlosgub.myfinances.theme.ColorPrimary
+import com.carlosgub.myfinances.theme.Gray100
+import com.carlosgub.myfinances.theme.Gray400
+import com.carlosgub.myfinances.theme.Gray600
+import com.carlosgub.myfinances.theme.spacing_2
+import com.carlosgub.myfinances.theme.spacing_4
 import domain.model.CategoryEnum
 import domain.model.FinanceEnum
 import myfinances.shared.generated.resources.Res
 import myfinances.shared.generated.resources.categories_header
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
-import theme.ColorPrimary
-import theme.Gray100
-import theme.Gray400
-import theme.Gray600
-import theme.spacing_2
-import theme.spacing_4
 
 @Composable
 fun CategoriesChips(

@@ -7,7 +7,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import theme.ColorOrange
+import com.carlosgub.myfinances.theme.ColorOrange
 
 @Composable
 fun Loading(modifier: Modifier = Modifier) {

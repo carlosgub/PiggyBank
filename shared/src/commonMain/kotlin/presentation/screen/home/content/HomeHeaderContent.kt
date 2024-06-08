@@ -47,15 +47,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.carlosgub.myfinances.theme.Gray900
+import com.carlosgub.myfinances.theme.spacing_1_2
+import com.carlosgub.myfinances.theme.spacing_2
+import com.carlosgub.myfinances.theme.spacing_4
 import domain.model.FinanceScreenModel
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
-import theme.Gray900
-import theme.spacing_1_2
-import theme.spacing_2
-import theme.spacing_4
 import utils.toMoneyFormat
 import utils.views.chart.FinanceBarChart
 

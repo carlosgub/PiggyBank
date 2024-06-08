@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalResourceApi::class)
-
 package domain.model
 
 import androidx.compose.material.icons.Icons
@@ -15,6 +13,12 @@ import androidx.compose.material.icons.filled.Savings
 import androidx.compose.material.icons.filled.Work
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.carlosgub.myfinances.theme.Brown
+import com.carlosgub.myfinances.theme.ColorOrange
+import com.carlosgub.myfinances.theme.ColorPrimary
+import com.carlosgub.myfinances.theme.Pink
+import com.carlosgub.myfinances.theme.Purple
+import com.carlosgub.myfinances.theme.Teal
 import myfinances.shared.generated.resources.Res
 import myfinances.shared.generated.resources.category_clothes
 import myfinances.shared.generated.resources.category_food
@@ -26,14 +30,7 @@ import myfinances.shared.generated.resources.category_savings
 import myfinances.shared.generated.resources.category_study
 import myfinances.shared.generated.resources.category_taxi
 import myfinances.shared.generated.resources.category_work
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.StringResource
-import theme.Brown
-import theme.ColorOrange
-import theme.ColorPrimary
-import theme.Pink
-import theme.Purple
-import theme.Teal
 
 enum class CategoryEnum(
     val categoryName: StringResource,

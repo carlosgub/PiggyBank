@@ -18,6 +18,9 @@ composeVersion = "1.6.11"
 ktlintVersion = "4.3.0"
 turbineVersion = "1.1.0"
 kotlin = "2.0.0"
+app-compile-sdk = "34"
+app-min-sdk = "24"
+java-jdk = "17"
 
 [libraries]
 charts = { module = "com.carlosgub.kotlinm.charts:charts", version.ref = "chartsVersion" }
