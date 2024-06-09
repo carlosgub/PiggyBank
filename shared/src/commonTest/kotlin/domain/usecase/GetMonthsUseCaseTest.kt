@@ -15,12 +15,9 @@ class GetMonthsUseCaseTest {
     @Test
     fun `Get Months success`() =
         runTest {
-            val expected = monthListFiltered
+            val expected = GenericState.Success(monthListFiltered)
             getMonthsUseCase().test {
-                assertEquals(
-                    expected,
-                    (awaitItem() as GenericState.Success).data,
-                )
+                assertEquals(expected, awaitItem())
                 awaitComplete()
             }
         }

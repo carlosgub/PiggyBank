@@ -16,10 +16,10 @@ class GetIncomeMonthDetailUseCaseTest {
     @Test
     fun `Get Income Month Detail success`() =
         runTest {
-            val expected = monthIncomeDetailScreenModel
+            val expected = GenericState.Success(monthIncomeDetailScreenModel)
             getIncomeMonthDetailUseCase(GetIncomeMonthDetailUseCase.Params(monthKey = getCurrentMonthKey()))
                 .test {
-                    assertEquals(expected, (awaitItem() as GenericState.Success).data)
+                    assertEquals(expected, awaitItem())
                     awaitComplete()
                 }
         }

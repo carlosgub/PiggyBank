@@ -23,9 +23,9 @@ class FinanceRepositoryImplTest {
     @Test
     fun `Get Finance success`() =
         runTest {
-            val expected = financeScreenModel
+            val expected = GenericState.Success(financeScreenModel)
             financeRepositoryImpl.getFinance(getCurrentMonthKey()).test {
-                assertEquals(expected, (awaitItem() as GenericState.Success).data)
+                assertEquals(expected, awaitItem())
                 awaitComplete()
             }
         }
@@ -33,38 +33,30 @@ class FinanceRepositoryImplTest {
     @Test
     fun `Get Expense success`() =
         runTest {
-            val expected = expenseFinanceModelOne
-            when (val result = financeRepositoryImpl.getExpense(1)) {
-                is GenericState.Success -> {
-                    assertEquals(expected, result.data)
-                }
-
-                else -> Unit
-            }
+            val expected = GenericState.Success(expenseFinanceModelOne)
+            val result = financeRepositoryImpl.getExpense(1)
+            assertEquals(expected, result)
         }
 
     @Test
     fun `Get Income success`() =
         runTest {
-            val expected = incomeFinanceModelOne
-            when (val result = financeRepositoryImpl.getIncome(1)) {
-                is GenericState.Success -> {
-                    assertEquals(expected, result.data)
-                }
-
-                else -> Unit
-            }
+            val expected = GenericState.Success(incomeFinanceModelOne)
+            val result = financeRepositoryImpl.getIncome(1)
+            assertEquals(expected, result)
         }
 
     @Test
     fun `Get Expense Month Detail success`() =
         runTest {
-            val expected = monthExpenseDetailScreenModel
+            val expected = GenericState.Success(
+                monthExpenseDetailScreenModel,
+            )
             financeRepositoryImpl.getExpenseMonthDetail(
                 categoryEnum = getCategoryEnumFromName(expenseOne.category),
                 monthKey = getCurrentMonthKey(),
             ).test {
-                assertEquals(expected, (awaitItem() as GenericState.Success).data)
+                assertEquals(expected, awaitItem())
                 awaitComplete()
             }
         }
@@ -72,11 +64,13 @@ class FinanceRepositoryImplTest {
     @Test
     fun `Get Income Month Detail success`() =
         runTest {
-            val expected = monthIncomeDetailScreenModel
+            val expected = GenericState.Success(
+                monthIncomeDetailScreenModel,
+            )
             financeRepositoryImpl.getIncomeMonthDetail(
                 monthKey = getCurrentMonthKey(),
             ).test {
-                assertEquals(expected, (awaitItem() as GenericState.Success).data)
+                assertEquals(expected, awaitItem())
                 awaitComplete()
             }
         }
@@ -84,9 +78,11 @@ class FinanceRepositoryImplTest {
     @Test
     fun `Get Months success`() =
         runTest {
-            val expected = monthListFiltered
+            val expected = GenericState.Success(
+                monthListFiltered,
+            )
             financeRepositoryImpl.getMonths().test {
-                assertEquals(expected, (awaitItem() as GenericState.Success).data)
+                assertEquals(expected, awaitItem())
                 awaitComplete()
             }
         }

@@ -19,14 +19,14 @@ class GetExpenseMonthDetailUseCaseTest {
     @Test
     fun `Get Category Month Detail success`() =
         runTest {
-            val expected = monthExpenseDetailScreenModel
+            val expected = GenericState.Success(monthExpenseDetailScreenModel)
             getExpenseMonthDetailUseCase(
                 GetExpenseMonthDetailUseCase.Params(
                     categoryEnum = getCategoryEnumFromName(expenseOne.category),
                     monthKey = getCurrentMonthKey(),
                 ),
             ).test {
-                assertEquals(expected, (awaitItem() as GenericState.Success).data)
+                assertEquals(expected, awaitItem())
                 awaitComplete()
             }
         }
