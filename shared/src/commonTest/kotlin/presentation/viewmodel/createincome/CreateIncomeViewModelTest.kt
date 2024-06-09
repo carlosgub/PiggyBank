@@ -1,6 +1,6 @@
 package presentation.viewmodel.createincome
 
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.state.GenericState
 import data.repository.FakeFinanceRepositoryImpl
 import domain.usecase.CreateIncomeUseCase
 import kotlinx.coroutines.test.runTest

@@ -1,7 +1,7 @@
 package data.repository
 
 import app.cash.turbine.test
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.state.GenericState
 import data.repository.source.database.expenseFinanceModelOne
 import data.repository.source.database.expenseOne
 import data.repository.source.database.financeScreenModel
@@ -10,8 +10,8 @@ import data.repository.source.database.incomeFinanceModelOne
 import data.repository.source.database.monthExpenseDetailScreenModel
 import data.repository.source.database.monthIncomeDetailScreenModel
 import data.repository.source.database.monthListFiltered
+import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import kotlinx.coroutines.test.runTest
-import utils.getCategoryEnumFromName
 import utils.getCurrentMonthKey
 import kotlin.test.Test
 import kotlin.test.assertEquals

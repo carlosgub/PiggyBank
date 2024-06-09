@@ -1,6 +1,6 @@
 package presentation.viewmodel.createexpense
 
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.state.GenericState
 import data.repository.FakeFinanceRepositoryImpl
 import domain.model.CategoryEnum
 import domain.usecase.CreateExpenseUseCase

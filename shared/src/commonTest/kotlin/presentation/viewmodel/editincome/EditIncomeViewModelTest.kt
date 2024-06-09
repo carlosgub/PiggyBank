@@ -1,6 +1,6 @@
 package presentation.viewmodel.editincome
 
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.state.GenericState
 import data.repository.FakeFinanceRepositoryImpl
 import data.repository.source.database.incomeFinanceModelOne
 import domain.usecase.DeleteIncomeUseCase

@@ -1,7 +1,7 @@
 package domain.usecase
 
 import app.cash.turbine.test
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.state.GenericState
 import data.repository.FakeFinanceRepositoryImpl
 import data.repository.source.database.financeScreenModel
 import kotlinx.coroutines.test.runTest

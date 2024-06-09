@@ -1,6 +1,6 @@
 package domain.usecase
 
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.state.GenericState
 import data.repository.FakeFinanceRepositoryImpl
 import data.repository.source.database.expenseFinanceModelOne
 import data.repository.source.database.expenseOne

@@ -1,15 +1,15 @@
 package presentation.viewmodel.editexpense
 
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.state.GenericState
 import data.repository.FakeFinanceRepositoryImpl
 import data.repository.source.database.expenseFinanceModelOne
 import domain.model.CategoryEnum
+import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import domain.usecase.DeleteExpenseUseCase
 import domain.usecase.EditExpenseUseCase
 import domain.usecase.GetExpenseUseCase
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.test
-import utils.getCategoryEnumFromName
 import utils.toMillis
 import utils.toMoneyFormat
 import utils.toStringDateFormat

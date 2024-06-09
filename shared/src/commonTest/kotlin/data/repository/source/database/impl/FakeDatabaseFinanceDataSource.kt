@@ -1,6 +1,6 @@
 package data.repository.source.database.impl
 
-import core.network.ResponseResult
+import com.carlosgub.myfinances.core.network.ResponseResult
 import data.repository.source.database.expenseOne
 import data.repository.source.database.expensesList
 import data.repository.source.database.incomeList
@@ -8,12 +8,12 @@ import data.repository.source.database.incomeOne
 import data.repository.source.database.monthList
 import data.source.database.DatabaseFinanceDataSource
 import domain.model.CategoryEnum
+import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import domain.model.MonthModel
 import expense.Expense
 import income.Income
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import utils.getCategoryEnumFromName
 
 class FakeDatabaseFinanceDataSource : DatabaseFinanceDataSource {
     override suspend fun getAllMonthExpenses(monthKey: String): Flow<ResponseResult<List<Expense>>> =

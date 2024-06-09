@@ -1,6 +1,6 @@
 package data.repository
 
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.state.GenericState
 import data.repository.source.database.expenseFinanceModelOne
 import data.repository.source.database.financeScreenModel
 import data.repository.source.database.incomeFinanceModelOne
