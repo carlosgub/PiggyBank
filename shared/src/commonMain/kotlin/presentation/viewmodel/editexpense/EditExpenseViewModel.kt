@@ -3,6 +3,7 @@ package presentation.viewmodel.editexpense
 import androidx.annotation.VisibleForTesting
 import core.sealed.GenericState
 import domain.model.CategoryEnum
+import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import domain.usecase.DeleteExpenseUseCase
 import domain.usecase.EditExpenseUseCase
 import domain.usecase.GetExpenseUseCase
@@ -15,7 +16,6 @@ import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
-import utils.getCategoryEnumFromName
 import utils.toMillis
 import utils.toMoneyFormat
 import utils.toStringDateFormat

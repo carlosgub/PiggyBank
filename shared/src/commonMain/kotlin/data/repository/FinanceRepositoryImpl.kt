@@ -5,6 +5,7 @@ import core.network.ResponseResult
 import core.sealed.GenericState
 import data.source.database.DatabaseFinanceDataSource
 import domain.model.CategoryEnum
+import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import domain.model.ExpenseScreenModel
 import domain.model.FinanceLocalDate
 import domain.model.FinanceModel
@@ -23,7 +24,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDateTime
 import utils.createLocalDateTime
-import utils.getCategoryEnumFromName
 import utils.getCurrentMonthKey
 import utils.isLeapYear
 import utils.monthLength

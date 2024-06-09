@@ -1,11 +1,11 @@
 package presentation.screen.categorymonthdetail.content
 
+import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import domain.model.ExpenseScreenModel
 import domain.model.FinanceEnum
 import moe.tlaster.precompose.navigation.Navigator
 import presentation.navigation.Screen
 import presentation.viewmodel.categorymonthdetail.CategoryMonthDetailScreenSideEffect
-import utils.getCategoryEnumFromName
 
 fun categoryMonthDetailObserver(
     sideEffect: CategoryMonthDetailScreenSideEffect,

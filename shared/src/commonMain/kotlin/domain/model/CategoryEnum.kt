@@ -97,5 +97,16 @@ enum class CategoryEnum(
         icon = Icons.Filled.Work,
         color = Color.Green,
         type = FinanceEnum.INCOME,
-    ),
+    );
+
+    companion object {
+        fun getCategoryEnumFromName(name: String): CategoryEnum {
+            for (enum in entries) {
+                if (enum.name == name) {
+                    return enum
+                }
+            }
+            return entries.first()
+        }
+    }
 }

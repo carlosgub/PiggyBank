@@ -3,6 +3,7 @@ package presentation.viewmodel.categorymonthdetail
 import androidx.annotation.VisibleForTesting
 import core.sealed.GenericState
 import domain.model.CategoryEnum
+import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import domain.model.ExpenseScreenModel
 import domain.model.FinanceEnum
 import domain.model.MonthDetailScreenModel
@@ -17,7 +18,6 @@ import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
-import utils.getCategoryEnumFromName
 
 class CategoryMonthDetailViewModel(
     private val getExpenseMonthDetailUseCase: GetExpenseMonthDetailUseCase,
