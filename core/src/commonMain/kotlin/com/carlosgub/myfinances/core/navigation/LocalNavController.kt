@@ -1,4 +1,4 @@
-package core.navigation
+package com.carlosgub.myfinances.core.navigation
 
 import androidx.compose.runtime.compositionLocalOf
 import moe.tlaster.precompose.navigation.Navigator

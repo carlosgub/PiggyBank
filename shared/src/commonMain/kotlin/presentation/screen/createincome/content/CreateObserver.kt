@@ -1,6 +1,6 @@
 package presentation.screen.createincome.content
 
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.state.GenericState
 import moe.tlaster.precompose.navigation.Navigator
 
 fun createIncomeObserver(

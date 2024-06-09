@@ -1,6 +1,6 @@
 package data.source.database.impl
 
-import core.network.ResponseResult
+import com.carlosgub.myfinances.core.network.ResponseResult
 import data.source.database.DatabaseFinanceDataSource
 import data.source.database.expense.createExpense
 import data.source.database.expense.deleteExpense

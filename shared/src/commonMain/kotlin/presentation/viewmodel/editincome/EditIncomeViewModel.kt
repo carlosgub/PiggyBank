@@ -1,7 +1,7 @@
 package presentation.viewmodel.editincome
 
 import androidx.annotation.VisibleForTesting
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.state.GenericState
 import domain.usecase.DeleteIncomeUseCase
 import domain.usecase.EditIncomeUseCase
 import domain.usecase.GetIncomeUseCase

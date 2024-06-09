@@ -1,6 +1,6 @@
 package data.source.database
 
-import core.network.ResponseResult
+import com.carlosgub.myfinances.core.network.ResponseResult
 import domain.model.CategoryEnum
 import domain.model.MonthModel
 import expense.Expense

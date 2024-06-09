@@ -1,7 +1,7 @@
-package core.mapper
+package com.carlosgub.myfinances.core.mapper
 
-import core.network.ResponseResult
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.network.ResponseResult
+import com.carlosgub.myfinances.core.state.GenericState
 
 object ResultMapper {
     fun <T> toGenericState(responseResult: ResponseResult<T>): GenericState<T> {

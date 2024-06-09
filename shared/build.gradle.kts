@@ -57,6 +57,7 @@ kotlin {
                 implementation(libs.delight.extension)
                 implementation(libs.kotlinx.collections.immutable)
                 implementation(project(":theme"))
+                implementation(project(":core"))
             }
         }
         commonTest {

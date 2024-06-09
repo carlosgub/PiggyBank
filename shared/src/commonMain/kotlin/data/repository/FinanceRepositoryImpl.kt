@@ -1,8 +1,8 @@
 package data.repository
 
-import core.mapper.ResultMapper
-import core.network.ResponseResult
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.mapper.ResultMapper
+import com.carlosgub.myfinances.core.network.ResponseResult
+import com.carlosgub.myfinances.core.state.GenericState
 import data.source.database.DatabaseFinanceDataSource
 import domain.model.CategoryEnum
 import domain.model.CategoryEnum.Companion.getCategoryEnumFromName

@@ -2,10 +2,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
+import com.carlosgub.myfinances.core.navigation.LocalNavController
 import com.carlosgub.myfinances.theme.ColorPrimary
 import com.carlosgub.myfinances.theme.Shapes
 import com.carlosgub.myfinances.theme.Typography
-import core.navigation.LocalNavController
 import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.path

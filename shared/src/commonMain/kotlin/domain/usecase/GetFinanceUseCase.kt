@@ -1,6 +1,6 @@
 package domain.usecase
 
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.state.GenericState
 import domain.model.FinanceScreenModel
 import domain.repository.FinanceRepository
 import kotlinx.coroutines.flow.Flow

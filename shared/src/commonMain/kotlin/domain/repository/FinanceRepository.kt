@@ -1,6 +1,6 @@
 package domain.repository
 
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.state.GenericState
 import domain.model.CategoryEnum
 import domain.model.FinanceModel
 import domain.model.FinanceScreenModel

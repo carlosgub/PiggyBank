@@ -1,7 +1,7 @@
 package presentation.viewmodel.createincome
 
 import androidx.annotation.VisibleForTesting
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.state.GenericState
 import domain.usecase.CreateIncomeUseCase
 import kotlinx.coroutines.Job
 import moe.tlaster.precompose.viewmodel.ViewModel

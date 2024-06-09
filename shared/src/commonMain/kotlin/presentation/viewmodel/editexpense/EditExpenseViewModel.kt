@@ -1,7 +1,7 @@
 package presentation.viewmodel.editexpense
 
 import androidx.annotation.VisibleForTesting
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.state.GenericState
 import domain.model.CategoryEnum
 import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import domain.usecase.DeleteExpenseUseCase

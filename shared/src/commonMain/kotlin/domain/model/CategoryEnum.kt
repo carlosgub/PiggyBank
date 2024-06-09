@@ -97,7 +97,7 @@ enum class CategoryEnum(
         icon = Icons.Filled.Work,
         color = Color.Green,
         type = FinanceEnum.INCOME,
-    );
+    ), ;
 
     companion object {
         fun getCategoryEnumFromName(name: String): CategoryEnum {

@@ -1,7 +1,7 @@
 package presentation.viewmodel.months
 
 import androidx.annotation.VisibleForTesting
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.state.GenericState
 import domain.usecase.GetMonthsUseCase
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.coroutines.Job

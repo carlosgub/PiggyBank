@@ -1,17 +1,13 @@
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
-        }
-    }
-    
+    androidTarget()
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -25,22 +21,24 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            //put your multiplatform dependencies here
-        }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
+            implementation(compose.runtime)
+            api(libs.bundles.precompose)
         }
     }
 }
 
 android {
     namespace = "com.carlosgub.myfinances.core"
-    compileSdk = 34
+    compileSdk = libs.versions.app.compile.sdk.get().toInt()
     defaultConfig {
-        minSdk = 24
+        minSdk = libs.versions.app.min.sdk.get().toInt()
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlin {
+        jvmToolchain(libs.versions.java.jdk.get().toInt())
     }
 }

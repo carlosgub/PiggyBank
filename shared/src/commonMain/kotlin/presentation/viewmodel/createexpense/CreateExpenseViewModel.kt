@@ -1,7 +1,7 @@
 package presentation.viewmodel.createexpense
 
 import androidx.annotation.VisibleForTesting
-import core.sealed.GenericState
+import com.carlosgub.myfinances.core.state.GenericState
 import domain.model.CategoryEnum
 import domain.usecase.CreateExpenseUseCase
 import kotlinx.coroutines.Job
