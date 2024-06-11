@@ -22,6 +22,8 @@ import myfinances.shared.generated.resources.home_add_expense
 import myfinances.shared.generated.resources.home_add_income
 import myfinances.shared.generated.resources.home_app_name
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
+import presentation.navigation.AppNavigation
 import presentation.screen.home.content.HomeContent
 import presentation.screen.home.content.homeObserver
 import presentation.viewmodel.home.HomeViewModel
@@ -34,6 +36,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
 ) {
     val navigator = LocalNavController.current
+    val appNavigation: AppNavigation = koinInject()
     val viewModel = koinViewModel(vmClass = HomeViewModel::class)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     viewModel.setMonthKey(monthKey)
@@ -70,6 +73,7 @@ fun HomeScreen(
                 sideEffect = sideEffect,
                 navigator = navigator,
                 state = state,
+                appNavigation = appNavigation,
             )
         }
     }

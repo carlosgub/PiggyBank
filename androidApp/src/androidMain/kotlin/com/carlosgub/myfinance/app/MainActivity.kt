@@ -1,10 +1,10 @@
 package com.carlosgub.myfinance.app
 
-import MainView
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import di.initKoin
+import com.carlosgub.myfinances.navigation.MainView
+import com.carlosgub.myfinances.navigation.di.initKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.stopKoin
 

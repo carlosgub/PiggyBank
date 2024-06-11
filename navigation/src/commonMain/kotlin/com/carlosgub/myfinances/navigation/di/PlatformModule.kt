@@ -1,4 +1,4 @@
-package di
+package com.carlosgub.myfinances.navigation.di
 
 import org.koin.core.module.Module
 

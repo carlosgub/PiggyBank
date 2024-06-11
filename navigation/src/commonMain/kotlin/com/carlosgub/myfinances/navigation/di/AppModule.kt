@@ -1,5 +1,6 @@
-package di
+package com.carlosgub.myfinances.navigation.di
 
+import com.carlosgub.myfinances.navigation.impl.AppNavigationImpl
 import data.repository.FinanceRepositoryImpl
 import data.source.database.DatabaseFinanceDataSource
 import data.source.database.impl.DatabaseFinanceDataSourceImpl
@@ -20,6 +21,7 @@ import domain.usecase.GetMonthsUseCase
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
+import presentation.navigation.AppNavigation
 import presentation.viewmodel.categorymonthdetail.CategoryMonthDetailViewModel
 import presentation.viewmodel.createexpense.CreateExpenseViewModel
 import presentation.viewmodel.createincome.CreateIncomeViewModel
@@ -30,6 +32,12 @@ import presentation.viewmodel.months.MonthsViewModel
 
 val homeModule =
     module {
+        // region Navigation
+        single<AppNavigation> {
+            AppNavigationImpl()
+        }
+        // endregion*
+
         // region ViewModels
         factory {
             HomeViewModel(
@@ -153,6 +161,7 @@ val homeModule =
         }
         // endregion
 
+        // region Repository
         factory<FinanceRepository> {
             FinanceRepositoryImpl(
                 databaseFinance = get(),
@@ -164,6 +173,7 @@ val homeModule =
                 sharedDatabase = get(),
             )
         }
+        // endregion
     }
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) =

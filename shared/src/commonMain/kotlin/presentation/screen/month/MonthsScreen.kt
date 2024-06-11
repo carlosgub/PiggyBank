@@ -11,6 +11,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
+import org.koin.compose.koinInject
+import presentation.navigation.AppNavigation
 import presentation.screen.month.content.MonthsContent
 import presentation.screen.month.content.monthsObserver
 import presentation.viewmodel.months.MonthsViewModel
@@ -19,6 +21,7 @@ import utils.views.Toolbar
 @Composable
 fun MonthsScreen(modifier: Modifier = Modifier) {
     val navigator = LocalNavController.current
+    val appNavigation: AppNavigation = koinInject()
     val viewModel = koinViewModel(vmClass = MonthsViewModel::class)
     val monthsScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     val scope = CoroutineScope(Dispatchers.Main)
@@ -47,6 +50,7 @@ fun MonthsScreen(modifier: Modifier = Modifier) {
             monthsObserver(
                 sideEffect = sideEffect,
                 navigator = navigator,
+                appNavigation = appNavigation,
             )
         }
     }

@@ -14,4 +14,5 @@ iosApp/iosApp.xcworkspace/*
 iosApp/iosApp.xcodeproj/*
 !iosApp/iosApp.xcodeproj/project.pbxproj
 shared/shared.podspec
+navigation/shared.podspec
 /iosApp/iosApp/GoogleService-Info.plist

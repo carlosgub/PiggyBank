@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
+import presentation.navigation.AppNavigation
 import presentation.screen.categorymonthdetail.content.CategoryMonthDetailContent
 import presentation.screen.categorymonthdetail.content.categoryMonthDetailObserver
 import presentation.viewmodel.categorymonthdetail.CategoryMonthDetailViewModel
@@ -24,6 +26,7 @@ fun CategoryMonthDetailScreen(
     modifier: Modifier = Modifier,
 ) {
     val navigator = LocalNavController.current
+    val appNavigation: AppNavigation = koinInject()
     val viewModel = koinViewModel(vmClass = CategoryMonthDetailViewModel::class)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     viewModel.setInitialConfiguration(monthKey = monthKey, category = categoryName)
@@ -52,6 +55,7 @@ fun CategoryMonthDetailScreen(
             categoryMonthDetailObserver(
                 sideEffect = sideEffect,
                 navigator = navigator,
+                appNavigation = appNavigation,
             )
         }
     }

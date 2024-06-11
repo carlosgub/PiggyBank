@@ -1,7 +1,7 @@
 package presentation.screen.home.content
 
 import moe.tlaster.precompose.navigation.Navigator
-import presentation.navigation.Screen
+import presentation.navigation.AppNavigation
 import presentation.viewmodel.home.HomeScreenSideEffect
 import presentation.viewmodel.home.HomeScreenState
 
@@ -9,50 +9,27 @@ fun homeObserver(
     sideEffect: HomeScreenSideEffect,
     navigator: Navigator,
     state: HomeScreenState,
+    appNavigation: AppNavigation,
 ) {
     when (sideEffect) {
         HomeScreenSideEffect.NavigateToAddExpense ->
-            navigateToAddExpenseScreen(
+            appNavigation.navigateToAddExpense(
                 navigator = navigator,
             )
 
         HomeScreenSideEffect.NavigateToAddIncome ->
-            navigateToAddIncomeScreen(
+            appNavigation.navigateToAddIncome(
                 navigator = navigator,
             )
 
-        is HomeScreenSideEffect.NavigateToMonthDetail ->
-            navigateMonthDetailScreen(
-                navigator = navigator,
-                categoryName = sideEffect.categoryName,
-                monthKey = state.monthKey,
-            )
+        is HomeScreenSideEffect.NavigateToMonthDetail -> appNavigation.navigateToMonthDetail(
+            navigator = navigator,
+            categoryName = sideEffect.categoryName,
+            monthKey = state.monthKey,
+        )
 
-        HomeScreenSideEffect.NavigateToMonths -> navigator.navigate(Screen.MonthsScreen.route)
+        HomeScreenSideEffect.NavigateToMonths -> appNavigation.navigateToMonths(
+            navigator = navigator,
+        )
     }
-}
-
-private fun navigateToAddIncomeScreen(navigator: Navigator) {
-    navigator.navigate(
-        Screen.CreateIncomeScreen.route,
-    )
-}
-
-private fun navigateToAddExpenseScreen(navigator: Navigator) {
-    navigator.navigate(
-        Screen.CreateExpenseScreen.route,
-    )
-}
-
-private fun navigateMonthDetailScreen(
-    navigator: Navigator,
-    categoryName: String,
-    monthKey: String,
-) {
-    navigator.navigate(
-        Screen.CategoryMonthDetailScreen.createRoute(
-            monthKey = monthKey,
-            categoryName = categoryName,
-        ),
-    )
 }
