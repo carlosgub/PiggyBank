@@ -18,6 +18,7 @@ composeVersion = "1.6.11"
 ktlintVersion = "4.3.0"
 turbineVersion = "1.1.0"
 kotlin = "2.0.0-RC3"
+modulegraph = "0.10.0"
 app-compile-sdk = "34"
 app-min-sdk = "24"
 java-jdk = "17"
@@ -73,4 +74,5 @@ compose = { id = "org.jetbrains.compose", version.ref = "composeVersion"}
 sqldelight = { id = "app.cash.sqldelight", version.ref = "delightVersion"}
 ktlint = { id = "org.jmailen.kotlinter", version.ref = "ktlintVersion"}
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+modulegraph = {id = "dev.iurysouza.modulegraph", version.ref = "modulegraph"}
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

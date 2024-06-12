@@ -58,6 +58,28 @@ credentials {
 ```
 If you don't know how configure your token, you can read this [article](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry)
 
+### Module Graph
+
+```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {"primaryTextColor":"#fff","primaryColor":"#5a4f7c","primaryBorderColor":"#5a4f7c","lineColor":"#f5a623","tertiaryColor":"#40375c","fontSize":"12px"}
+  }
+}%%
+
+graph LR
+  :navigation --> :core
+  :navigation --> :shared
+  :navigation --> :theme
+  :shared --> :theme
+  :shared --> :core
+  :shared --> :components
+  :androidApp --> :navigation
+  :components --> :theme
+  :components --> :core
+```
+
 #### Contributing
 
 Contributions are welcome! If you have any suggestions, feature requests, or bug reports, please open an issue or submit a pull request.
