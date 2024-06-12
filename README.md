@@ -76,6 +76,7 @@ graph LR
   :shared --> :core
   :shared --> :components
   :androidApp --> :navigation
+  :iosApp --> :navigation
   :components --> :theme
   :components --> :core
 ```
