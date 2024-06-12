@@ -58,7 +58,7 @@ credentials {
 ```
 If you don't know how configure your token, you can read this [article](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry)
 
-### Module Graph
+#### Module Graph
 
 ```mermaid
 %%{
