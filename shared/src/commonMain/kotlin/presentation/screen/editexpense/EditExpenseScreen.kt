@@ -10,6 +10,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.carlosgub.myfinances.components.alertdialog.AlertDialog
+import com.carlosgub.myfinances.components.toolbar.Toolbar
 import com.carlosgub.myfinances.core.navigation.LocalNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,8 +26,6 @@ import org.koin.compose.koinInject
 import presentation.screen.editexpense.content.EditExpenseContent
 import presentation.screen.editexpense.content.editExpenseObserver
 import presentation.viewmodel.editexpense.EditExpenseViewModel
-import utils.views.AlertDialogFinance
-import utils.views.Toolbar
 
 @Composable
 fun EditExpenseScreen(
@@ -101,7 +101,7 @@ private fun DeletePopUp(
     onDelete: () -> Unit,
     onDismissRequest: () -> Unit,
 ) {
-    AlertDialogFinance(
+    AlertDialog(
         onDismissRequest = onDismissRequest,
         onConfirmation = onDelete,
         dialogTitle = stringResource(Res.string.edit_expense_pop_up_title),

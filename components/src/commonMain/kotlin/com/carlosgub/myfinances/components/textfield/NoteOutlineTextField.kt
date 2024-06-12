@@ -1,4 +1,6 @@
-package utils.views.textfield
+@file:OptIn(FlowPreview::class)
+
+package com.carlosgub.myfinances.components.textfield
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,12 +25,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.carlosgub.myfinances.theme.spacing_2
 import com.carlosgub.myfinances.theme.spacing_4
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import myfinances.shared.generated.resources.Res
-import myfinances.shared.generated.resources.note_outline_textfield_error
+import myfinances.components.generated.resources.Res
+import myfinances.components.generated.resources.note_outline_textfield_error
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

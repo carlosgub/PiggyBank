@@ -1,5 +1,6 @@
 package presentation.viewmodel.categorymonthdetail
 
+import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
 import data.repository.FakeFinanceRepositoryImpl
 import data.repository.source.database.expenseScreenModelOne
 import data.repository.source.database.monthExpenseDetailScreenModel
@@ -9,7 +10,6 @@ import domain.usecase.GetExpenseMonthDetailUseCase
 import domain.usecase.GetIncomeMonthDetailUseCase
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.test
-import utils.getCurrentMonthKey
 import kotlin.test.Test
 
 class CategoryMonthDetailViewModelTest {

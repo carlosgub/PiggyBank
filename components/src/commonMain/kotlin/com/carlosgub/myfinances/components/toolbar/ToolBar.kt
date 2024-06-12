@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package utils.views
+package com.carlosgub.myfinances.components.toolbar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,10 +28,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.carlosgub.myfinances.components.toolbar.content.DropdownMenuItem
+import com.carlosgub.myfinances.components.toolbar.parameter.MenuItem
 import com.carlosgub.myfinances.theme.ColorPrimary
 import com.carlosgub.myfinances.theme.spacing_2
 import com.carlosgub.myfinances.theme.view_10
-import domain.model.MenuItem
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -54,33 +55,30 @@ fun Toolbar(
         title = {
             Text(
                 text = title,
-                style =
-                    TextStyle(
-                        color = contentColor,
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 16.sp,
-                    ),
+                style = TextStyle(
+                    color = contentColor,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 16.sp,
+                ),
             )
         },
-        colors =
-            TopAppBarDefaults.centerAlignedTopAppBarColors(
-                containerColor = backgroundColor,
-                navigationIconContentColor = contentColor,
-                titleContentColor = contentColor,
-                actionIconContentColor = contentColor,
-                scrolledContainerColor = backgroundColor,
-            ),
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = backgroundColor,
+            navigationIconContentColor = contentColor,
+            titleContentColor = contentColor,
+            actionIconContentColor = contentColor,
+            scrolledContainerColor = backgroundColor,
+        ),
         navigationIcon = {
             if (hasNavigationIcon) {
                 Icon(
                     imageVector = navigationIcon,
                     contentDescription = null,
-                    modifier =
-                        Modifier
-                            .padding(spacing_2)
-                            .size(40.dp)
-                            .clickable { navigation() }
-                            .padding(spacing_2),
+                    modifier = Modifier
+                        .padding(spacing_2)
+                        .size(40.dp)
+                        .clickable { navigation() }
+                        .padding(spacing_2),
                     tint = contentColor,
                 )
             }
@@ -90,12 +88,11 @@ fun Toolbar(
                 Icon(
                     imageVector = leftIcon,
                     contentDescription = null,
-                    modifier =
-                        Modifier
-                            .padding(spacing_2)
-                            .size(view_10)
-                            .clickable { onLeftIconPressed() }
-                            .padding(spacing_2),
+                    modifier = Modifier
+                        .padding(spacing_2)
+                        .size(view_10)
+                        .clickable { onLeftIconPressed() }
+                        .padding(spacing_2),
                     tint = contentColor,
                 )
             }
@@ -105,12 +102,11 @@ fun Toolbar(
                     Icon(
                         imageVector = dropDownIcon ?: Icons.Filled.MoreVert,
                         contentDescription = null,
-                        modifier =
-                            Modifier
-                                .padding(spacing_2)
-                                .size(view_10)
-                                .clickable { expanded = true }
-                                .padding(spacing_2),
+                        modifier = Modifier
+                            .padding(spacing_2)
+                            .size(view_10)
+                            .clickable { expanded = true }
+                            .padding(spacing_2),
                         tint = contentColor,
                     )
                     DropdownMenu(

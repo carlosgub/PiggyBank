@@ -1,0 +1,9 @@
+<resources>
+    <!--region Note Outline TextField-->
+    <string name="note_outline_textfield_error">Write a note</string>
+    <!--endregion-->
+
+    <!--region Finance Line Chart-->
+    <string name="finance_line_chart_overlay">%1$d/%2$d\n%3$s</string>
+    <!--endregion-->
+</resources>

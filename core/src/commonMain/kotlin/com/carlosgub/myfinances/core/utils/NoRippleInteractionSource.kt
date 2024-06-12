@@ -1,4 +1,4 @@
-package utils
+package com.carlosgub.myfinances.core.utils
 
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource

@@ -12,7 +12,7 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
             baseName = "core"
@@ -23,7 +23,9 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(compose.runtime)
+            implementation(compose.foundation)
             api(libs.bundles.precompose)
+            api(libs.kotlinx.datetime)
         }
     }
 }

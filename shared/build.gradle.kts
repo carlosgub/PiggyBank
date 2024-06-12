@@ -55,6 +55,7 @@ kotlin {
                 implementation(libs.kotlinx.collections.immutable)
                 implementation(project(":theme"))
                 implementation(project(":core"))
+                implementation(project(":components"))
             }
         }
         commonTest {

@@ -9,6 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import com.carlosgub.myfinances.components.button.PrimaryButton
+import com.carlosgub.myfinances.components.textfield.AmountOutlineTextField
+import com.carlosgub.myfinances.components.textfield.DayPicker
+import com.carlosgub.myfinances.components.textfield.NoteOutlineTextField
+import com.carlosgub.myfinances.core.utils.NoRippleInteractionSource
 import com.carlosgub.myfinances.theme.spacing_4
 import com.carlosgub.myfinances.theme.spacing_6
 import myfinances.shared.generated.resources.Res
@@ -16,11 +21,6 @@ import myfinances.shared.generated.resources.create_income_button
 import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.createincome.CreateIncomeScreenIntents
 import presentation.viewmodel.createincome.CreateIncomeScreenState
-import utils.NoRippleInteractionSource
-import utils.views.PrimaryButton
-import utils.views.textfield.AmountOutlineTextField
-import utils.views.textfield.DayPicker
-import utils.views.textfield.NoteOutlineTextField
 
 @Composable
 fun CreateIncomeContent(

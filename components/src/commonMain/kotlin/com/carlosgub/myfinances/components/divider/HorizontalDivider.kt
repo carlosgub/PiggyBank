@@ -1,4 +1,4 @@
-package utils.views
+package com.carlosgub.myfinances.components.divider
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.HorizontalDivider
@@ -8,7 +8,7 @@ import com.carlosgub.myfinances.theme.ColorSeparator
 import com.carlosgub.myfinances.theme.divider_thickness
 
 @Composable
-fun ExpenseDivider(modifier: Modifier = Modifier) {
+fun HorizontalDivider(modifier: Modifier = Modifier) {
     HorizontalDivider(
         modifier = Modifier.fillMaxWidth().then(modifier),
         thickness = divider_thickness,

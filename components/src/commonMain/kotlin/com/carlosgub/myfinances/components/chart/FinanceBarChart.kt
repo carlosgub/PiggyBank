@@ -1,4 +1,4 @@
-package utils.views.chart
+package com.carlosgub.myfinances.components.chart
 
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material3.Text
@@ -13,12 +13,12 @@ import com.carlosgub.kotlinm.charts.bar.BarChart
 import com.carlosgub.kotlinm.charts.bar.BarChartCategory
 import com.carlosgub.kotlinm.charts.bar.BarChartData
 import com.carlosgub.kotlinm.charts.bar.BarChartEntry
+import com.carlosgub.myfinances.core.utils.toDayString
+import com.carlosgub.myfinances.core.utils.toMoneyFormat
+import com.carlosgub.myfinances.core.utils.toMonthString
 import com.carlosgub.myfinances.theme.ColorPrimary
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.datetime.LocalDateTime
-import utils.toDayString
-import utils.toMoneyFormat
-import utils.toMonthString
 
 @Composable
 fun FinanceBarChart(

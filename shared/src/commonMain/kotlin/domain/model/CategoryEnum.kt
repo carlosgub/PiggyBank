@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.Savings
 import androidx.compose.material.icons.filled.Work
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.carlosgub.myfinances.theme.Brown
@@ -31,6 +32,7 @@ import myfinances.shared.generated.resources.category_study
 import myfinances.shared.generated.resources.category_taxi
 import myfinances.shared.generated.resources.category_work
 import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 enum class CategoryEnum(
     val categoryName: StringResource,
@@ -97,12 +99,22 @@ enum class CategoryEnum(
         icon = Icons.Filled.Work,
         color = Color.Green,
         type = FinanceEnum.INCOME,
-    ), ;
+    ),
+    ;
 
     companion object {
         fun getCategoryEnumFromName(name: String): CategoryEnum {
             for (enum in entries) {
                 if (enum.name == name) {
+                    return enum
+                }
+            }
+            return entries.first()
+        }
+
+        fun getCategoryEnumFromCategoryName(categoryName: StringResource): CategoryEnum {
+            for (enum in entries) {
+                if (enum.categoryName == categoryName) {
                     return enum
                 }
             }

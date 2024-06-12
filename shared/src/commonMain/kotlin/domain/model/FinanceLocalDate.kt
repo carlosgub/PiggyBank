@@ -1,8 +1,8 @@
 package domain.model
 
+import com.carlosgub.myfinances.core.utils.createLocalDateTime
+import com.carlosgub.myfinances.core.utils.toNumberOfTwoDigits
 import kotlinx.datetime.LocalDate
-import utils.createLocalDateTime
-import utils.toNumberOfTwoDigits
 
 data class FinanceLocalDate(
     val localDate: LocalDate,

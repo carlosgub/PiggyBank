@@ -1,7 +1,7 @@
 package presentation.viewmodel.createincome
 
+import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import domain.model.CategoryEnum
-import utils.toMoneyFormat
 
 data class CreateIncomeScreenState(
     val category: CategoryEnum = CategoryEnum.FOOD,

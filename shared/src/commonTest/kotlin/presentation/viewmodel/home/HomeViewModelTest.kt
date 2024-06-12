@@ -1,12 +1,12 @@
 package presentation.viewmodel.home
 
+import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
 import data.repository.FakeFinanceRepositoryImpl
 import data.repository.source.database.financeScreenModel
 import domain.model.CategoryEnum
 import domain.usecase.GetFinanceUseCase
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.test
-import utils.getCurrentMonthKey
 import kotlin.test.Test
 
 class HomeViewModelTest {

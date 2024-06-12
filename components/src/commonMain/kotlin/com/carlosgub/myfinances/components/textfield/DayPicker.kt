@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package utils.views.textfield
+package com.carlosgub.myfinances.components.textfield
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable

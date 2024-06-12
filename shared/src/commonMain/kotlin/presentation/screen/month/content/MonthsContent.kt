@@ -32,6 +32,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.carlosgub.myfinances.components.datazero.DataZero
+import com.carlosgub.myfinances.components.divider.HorizontalDivider
+import com.carlosgub.myfinances.components.loading.Loading
+import com.carlosgub.myfinances.core.utils.toMonthKey
 import com.carlosgub.myfinances.theme.ColorPrimary
 import com.carlosgub.myfinances.theme.White
 import com.carlosgub.myfinances.theme.spacing_1_2
@@ -44,10 +48,6 @@ import myfinances.shared.generated.resources.months_data_zero_message
 import myfinances.shared.generated.resources.months_data_zero_title
 import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.months.MonthsScreenState
-import utils.toMonthKey
-import utils.views.DataZero
-import utils.views.ExpenseDivider
-import utils.views.Loading
 
 @Composable
 fun MonthsContent(
@@ -131,7 +131,7 @@ fun MonthList(
                     localDateTime = localDateTime,
                     onClickItem = onClickItem,
                 )
-                ExpenseDivider()
+                HorizontalDivider()
             }
         }
     }

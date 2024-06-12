@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.carlosgub.myfinances.components.toolbar.Toolbar
 import com.carlosgub.myfinances.core.navigation.LocalNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +18,6 @@ import presentation.navigation.AppNavigation
 import presentation.screen.categorymonthdetail.content.CategoryMonthDetailContent
 import presentation.screen.categorymonthdetail.content.categoryMonthDetailObserver
 import presentation.viewmodel.categorymonthdetail.CategoryMonthDetailViewModel
-import utils.views.Toolbar
 
 @Composable
 fun CategoryMonthDetailScreen(

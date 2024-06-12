@@ -2,6 +2,9 @@ package presentation.viewmodel.editexpense
 
 import androidx.annotation.VisibleForTesting
 import com.carlosgub.myfinances.core.state.GenericState
+import com.carlosgub.myfinances.core.utils.toMillis
+import com.carlosgub.myfinances.core.utils.toMoneyFormat
+import com.carlosgub.myfinances.core.utils.toStringDateFormat
 import domain.model.CategoryEnum
 import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import domain.usecase.DeleteExpenseUseCase
@@ -16,9 +19,6 @@ import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
-import utils.toMillis
-import utils.toMoneyFormat
-import utils.toStringDateFormat
 
 class EditExpenseViewModel(
     val editExpenseUseCase: EditExpenseUseCase,

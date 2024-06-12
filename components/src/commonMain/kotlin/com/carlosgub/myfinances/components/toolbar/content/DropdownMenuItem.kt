@@ -1,4 +1,4 @@
-package utils.views
+package com.carlosgub.myfinances.components.toolbar.content
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

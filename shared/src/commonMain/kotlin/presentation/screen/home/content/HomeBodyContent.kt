@@ -40,6 +40,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.carlosgub.myfinances.components.datazero.DataZero
+import com.carlosgub.myfinances.components.divider.HorizontalDivider
+import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import com.carlosgub.myfinances.theme.ColorPrimary
 import com.carlosgub.myfinances.theme.Gray400
 import com.carlosgub.myfinances.theme.Gray600
@@ -66,9 +69,6 @@ import myfinances.shared.generated.resources.home_body_month_budget
 import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.home.HomeScreenIntents
 import presentation.viewmodel.home.HomeScreenState
-import utils.toMoneyFormat
-import utils.views.DataZero
-import utils.views.ExpenseDivider
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
@@ -304,7 +304,7 @@ private fun FinanceCategoryItem(
 ) {
     Column {
         if (count != 0) {
-            ExpenseDivider(
+            HorizontalDivider(
                 modifier = Modifier.padding(
                     start = spacing_16,
                 ),

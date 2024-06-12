@@ -1,6 +1,9 @@
 package presentation.viewmodel.editexpense
 
 import com.carlosgub.myfinances.core.state.GenericState
+import com.carlosgub.myfinances.core.utils.toMillis
+import com.carlosgub.myfinances.core.utils.toMoneyFormat
+import com.carlosgub.myfinances.core.utils.toStringDateFormat
 import data.repository.FakeFinanceRepositoryImpl
 import data.repository.source.database.expenseFinanceModelOne
 import domain.model.CategoryEnum
@@ -10,9 +13,6 @@ import domain.usecase.EditExpenseUseCase
 import domain.usecase.GetExpenseUseCase
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.test
-import utils.toMillis
-import utils.toMoneyFormat
-import utils.toStringDateFormat
 import kotlin.test.Test
 
 class EditExpenseViewModelTest {

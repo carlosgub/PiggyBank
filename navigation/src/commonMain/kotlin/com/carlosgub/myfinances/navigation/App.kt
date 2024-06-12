@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import com.carlosgub.myfinances.core.navigation.LocalNavController
+import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
 import com.carlosgub.myfinances.theme.ColorPrimary
 import com.carlosgub.myfinances.theme.Shapes
 import com.carlosgub.myfinances.theme.Typography
@@ -20,7 +21,6 @@ import presentation.screen.editexpense.EditExpenseScreen
 import presentation.screen.editincome.EditIncomeScreen
 import presentation.screen.home.HomeScreen
 import presentation.screen.month.MonthsScreen
-import utils.getCurrentMonthKey
 
 @Composable
 fun App() {

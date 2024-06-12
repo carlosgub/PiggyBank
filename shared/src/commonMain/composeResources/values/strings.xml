@@ -17,10 +17,6 @@
     <string name="finance_income">Income</string>
     <!--endregion-->
 
-    <!--region Note Outline TextField-->
-    <string name="note_outline_textfield_error">Write a note</string>
-    <!--endregion-->
-
     <!--region Categories Chips-->
     <string name="categories_header">Categories</string>
     <!--endregion-->
@@ -68,9 +64,5 @@
     <!--region Category Month Detail-->
     <string name="category_month_detail_data_zero_title">Ooops! It's Empty</string>
     <string name="category_month_detail_data_zero_message">Looks like you don't have anything in this category</string>
-    <!--endregion-->
-
-    <!--region Finance Line Chart-->
-    <string name="finance_line_chart_overlay">%1$d/%2$d\n%3$s</string>
     <!--endregion-->
 </resources>

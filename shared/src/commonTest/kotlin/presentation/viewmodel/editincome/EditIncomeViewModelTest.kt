@@ -1,6 +1,9 @@
 package presentation.viewmodel.editincome
 
 import com.carlosgub.myfinances.core.state.GenericState
+import com.carlosgub.myfinances.core.utils.toMillis
+import com.carlosgub.myfinances.core.utils.toMoneyFormat
+import com.carlosgub.myfinances.core.utils.toStringDateFormat
 import data.repository.FakeFinanceRepositoryImpl
 import data.repository.source.database.incomeFinanceModelOne
 import domain.usecase.DeleteIncomeUseCase
@@ -8,9 +11,6 @@ import domain.usecase.EditIncomeUseCase
 import domain.usecase.GetIncomeUseCase
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.test
-import utils.toMillis
-import utils.toMoneyFormat
-import utils.toStringDateFormat
 import kotlin.test.Test
 
 class EditIncomeViewModelTest {

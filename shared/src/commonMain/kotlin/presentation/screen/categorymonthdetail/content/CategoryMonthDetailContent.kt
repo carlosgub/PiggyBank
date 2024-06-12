@@ -28,6 +28,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.carlosgub.myfinances.components.chart.FinanceLineChart
+import com.carlosgub.myfinances.components.datazero.DataZero
+import com.carlosgub.myfinances.components.divider.HorizontalDivider
+import com.carlosgub.myfinances.components.loading.Loading
+import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import com.carlosgub.myfinances.theme.Gray600
 import com.carlosgub.myfinances.theme.Gray900
 import com.carlosgub.myfinances.theme.White
@@ -41,11 +46,6 @@ import myfinances.shared.generated.resources.category_month_detail_data_zero_mes
 import myfinances.shared.generated.resources.category_month_detail_data_zero_title
 import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.categorymonthdetail.CategoryMonthDetailScreenState
-import utils.toMoneyFormat
-import utils.views.DataZero
-import utils.views.ExpenseDivider
-import utils.views.Loading
-import utils.views.chart.FinanceLineChart
 
 @Composable
 fun CategoryMonthDetailContent(
@@ -114,7 +114,7 @@ fun CategoryMonthDetailBody(
                     itemsIndexed(state.monthDetail.expenseScreenModel) { count, expense ->
                         Column {
                             if (count != 0) {
-                                ExpenseDivider()
+                                HorizontalDivider()
                             }
                             CategoryMonthExpenseItem(
                                 expense = expense,

@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.carlosgub.myfinances.components.toolbar.Toolbar
 import com.carlosgub.myfinances.core.navigation.LocalNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +17,6 @@ import presentation.navigation.AppNavigation
 import presentation.screen.month.content.MonthsContent
 import presentation.screen.month.content.monthsObserver
 import presentation.viewmodel.months.MonthsViewModel
-import utils.views.Toolbar
 
 @Composable
 fun MonthsScreen(modifier: Modifier = Modifier) {

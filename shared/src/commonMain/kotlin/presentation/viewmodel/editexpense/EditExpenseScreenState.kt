@@ -1,7 +1,7 @@
 package presentation.viewmodel.editexpense
 
+import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import domain.model.CategoryEnum
-import utils.toMoneyFormat
 
 data class EditExpenseScreenState(
     val category: CategoryEnum = CategoryEnum.FOOD,

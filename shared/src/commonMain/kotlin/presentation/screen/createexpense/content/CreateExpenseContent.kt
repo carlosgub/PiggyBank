@@ -1,27 +1,39 @@
+@file:OptIn(ExperimentalLayoutApi::class)
+
 package presentation.screen.createexpense.content
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import com.carlosgub.myfinances.components.button.PrimaryButton
+import com.carlosgub.myfinances.components.chips.CategoryChip
+import com.carlosgub.myfinances.components.textfield.AmountOutlineTextField
+import com.carlosgub.myfinances.components.textfield.DayPicker
+import com.carlosgub.myfinances.components.textfield.NoteOutlineTextField
+import com.carlosgub.myfinances.core.utils.NoRippleInteractionSource
+import com.carlosgub.myfinances.theme.spacing_2
 import com.carlosgub.myfinances.theme.spacing_4
 import com.carlosgub.myfinances.theme.spacing_6
+import domain.model.CategoryEnum
+import domain.model.FinanceEnum
 import myfinances.shared.generated.resources.Res
+import myfinances.shared.generated.resources.categories_header
 import myfinances.shared.generated.resources.create_expense_button
 import org.jetbrains.compose.resources.stringResource
 import presentation.viewmodel.createexpense.CreateExpenseScreenIntents
 import presentation.viewmodel.createexpense.CreateExpenseScreenState
-import utils.NoRippleInteractionSource
-import utils.views.PrimaryButton
-import utils.views.chips.CategoriesChips
-import utils.views.textfield.AmountOutlineTextField
-import utils.views.textfield.DayPicker
-import utils.views.textfield.NoteOutlineTextField
 
 @Composable
 fun CreateExpenseContent(
@@ -53,7 +65,7 @@ fun CreateExpenseContent(
             showError = state.showError,
         )
         CategoriesChips(
-            selectedSelected = state.category,
+            categoryEnumSelected = state.category,
             onChipPressed = { categoryEnumSelected ->
                 intents.setCategory(categoryEnumSelected)
             },
@@ -95,4 +107,37 @@ private fun CreateExpenseButton(intents: CreateExpenseScreenIntents) {
             intents.create()
         },
     )
+}
+
+@Composable
+private fun CategoriesChips(
+    categoryEnumSelected: CategoryEnum,
+    onChipPressed: (CategoryEnum) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+    ) {
+        val categoriesList = CategoryEnum.entries.filter { it.type == FinanceEnum.EXPENSE }
+        Text(
+            text = stringResource(Res.string.categories_header),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(top = spacing_4),
+        )
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(spacing_2),
+        ) {
+            categoriesList.forEach { categoryEnum ->
+                CategoryChip(
+                    text = categoryEnum.categoryName,
+                    icon = categoryEnum.icon,
+                    selected = categoryEnumSelected.categoryName == categoryEnum.categoryName,
+                    onChipPressed = { categoryName ->
+                        onChipPressed(CategoryEnum.getCategoryEnumFromCategoryName(categoryName))
+                    },
+                )
+            }
+        }
+    }
 }

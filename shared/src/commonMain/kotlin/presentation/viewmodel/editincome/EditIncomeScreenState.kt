@@ -1,7 +1,7 @@
 package presentation.viewmodel.editincome
 
+import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import domain.model.CategoryEnum
-import utils.toMoneyFormat
 
 data class EditIncomeScreenState(
     val category: CategoryEnum = CategoryEnum.WORK,

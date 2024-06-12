@@ -2,6 +2,8 @@ package presentation.viewmodel.createincome
 
 import androidx.annotation.VisibleForTesting
 import com.carlosgub.myfinances.core.state.GenericState
+import com.carlosgub.myfinances.core.utils.toMoneyFormat
+import com.carlosgub.myfinances.core.utils.toStringDateFormat
 import domain.usecase.CreateIncomeUseCase
 import kotlinx.coroutines.Job
 import moe.tlaster.precompose.viewmodel.ViewModel
@@ -12,8 +14,6 @@ import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
-import utils.toMoneyFormat
-import utils.toStringDateFormat
 
 class CreateIncomeViewModel(
     val createIncomeUseCase: CreateIncomeUseCase,

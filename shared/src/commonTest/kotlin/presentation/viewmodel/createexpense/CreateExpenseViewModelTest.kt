@@ -1,13 +1,13 @@
 package presentation.viewmodel.createexpense
 
 import com.carlosgub.myfinances.core.state.GenericState
+import com.carlosgub.myfinances.core.utils.toMoneyFormat
+import com.carlosgub.myfinances.core.utils.toStringDateFormat
 import data.repository.FakeFinanceRepositoryImpl
 import domain.model.CategoryEnum
 import domain.usecase.CreateExpenseUseCase
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.test
-import utils.toMoneyFormat
-import utils.toStringDateFormat
 import kotlin.test.Test
 
 class CreateExpenseViewModelTest {

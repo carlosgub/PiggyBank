@@ -1,4 +1,4 @@
-package utils.views.chart
+package com.carlosgub.myfinances.components.chart
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -16,20 +16,20 @@ import com.carlosgub.kotlinm.charts.line.LineChart
 import com.carlosgub.kotlinm.charts.line.LineChartData
 import com.carlosgub.kotlinm.charts.line.LineChartPoint
 import com.carlosgub.kotlinm.charts.line.LineChartSeries
+import com.carlosgub.myfinances.core.utils.createLocalDateTime
+import com.carlosgub.myfinances.core.utils.toDayString
+import com.carlosgub.myfinances.core.utils.toLocalDate
+import com.carlosgub.myfinances.core.utils.toMoneyFormat
+import com.carlosgub.myfinances.core.utils.toMonthString
 import com.carlosgub.myfinances.theme.ColorPrimary
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
-import myfinances.shared.generated.resources.Res
-import myfinances.shared.generated.resources.finance_line_chart_overlay
+import myfinances.components.generated.resources.Res
+import myfinances.components.generated.resources.finance_line_chart_overlay
 import org.jetbrains.compose.resources.stringResource
-import utils.createLocalDateTime
-import utils.toDayString
-import utils.toLocalDate
-import utils.toMoneyFormat
-import utils.toMonthString
 
 @Composable
 fun FinanceLineChart(
@@ -115,12 +115,11 @@ private fun OverlayHeaderLabel(
     daySpent: ImmutableMap<LocalDateTime, Long>,
 ) {
     val day: LocalDate = localDate.toLocalDate()
-    val localDateTime =
-        createLocalDateTime(
-            year = day.year,
-            monthNumber = day.monthNumber,
-            dayOfMonth = day.dayOfMonth,
-        )
+    val localDateTime = createLocalDateTime(
+        year = day.year,
+        monthNumber = day.monthNumber,
+        dayOfMonth = day.dayOfMonth,
+    )
     val moneySpent = ((daySpent[localDateTime] ?: 0) / 100.0).toFloat().toMoneyFormat()
     Text(
         text = stringResource(

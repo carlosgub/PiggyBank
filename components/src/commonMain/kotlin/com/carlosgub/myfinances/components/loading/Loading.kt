@@ -1,4 +1,4 @@
-package utils.views
+package com.carlosgub.myfinances.components.loading
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

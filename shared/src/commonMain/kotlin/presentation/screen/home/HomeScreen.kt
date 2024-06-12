@@ -9,8 +9,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import com.carlosgub.myfinances.components.toolbar.Toolbar
+import com.carlosgub.myfinances.components.toolbar.parameter.MenuItem
 import com.carlosgub.myfinances.core.navigation.LocalNavController
-import domain.model.MenuItem
+import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,8 +29,6 @@ import presentation.navigation.AppNavigation
 import presentation.screen.home.content.HomeContent
 import presentation.screen.home.content.homeObserver
 import presentation.viewmodel.home.HomeViewModel
-import utils.getCurrentMonthKey
-import utils.views.Toolbar
 
 @Composable
 fun HomeScreen(

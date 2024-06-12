@@ -5,6 +5,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import com.carlosgub.myfinances.components.toolbar.Toolbar
 import com.carlosgub.myfinances.core.navigation.LocalNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +18,6 @@ import org.koin.compose.koinInject
 import presentation.screen.createexpense.content.CreateExpenseContent
 import presentation.screen.createexpense.content.createObserver
 import presentation.viewmodel.createexpense.CreateExpenseViewModel
-import utils.views.Toolbar
 
 @Composable
 fun CreateExpenseScreen(

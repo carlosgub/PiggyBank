@@ -2,6 +2,7 @@ package data.repository
 
 import app.cash.turbine.test
 import com.carlosgub.myfinances.core.state.GenericState
+import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
 import data.repository.source.database.expenseFinanceModelOne
 import data.repository.source.database.expenseOne
 import data.repository.source.database.financeScreenModel
@@ -12,7 +13,6 @@ import data.repository.source.database.monthIncomeDetailScreenModel
 import data.repository.source.database.monthListFiltered
 import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import kotlinx.coroutines.test.runTest
-import utils.getCurrentMonthKey
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
