@@ -1,10 +1,10 @@
 package com.carlosgub.myfinances.navigation.di
 
+import com.carlosgub.myfinances.data.database.DatabaseFinanceDataSource
+import com.carlosgub.myfinances.data.database.impl.DatabaseFinanceDataSourceImpl
+import com.carlosgub.myfinances.data.repository.FinanceRepositoryImpl
+import com.carlosgub.myfinances.data.sqldelight.SharedDatabase
 import com.carlosgub.myfinances.navigation.impl.AppNavigationImpl
-import data.repository.FinanceRepositoryImpl
-import data.source.database.DatabaseFinanceDataSource
-import data.source.database.impl.DatabaseFinanceDataSourceImpl
-import data.sqldelight.SharedDatabase
 import domain.repository.FinanceRepository
 import domain.usecase.CreateExpenseUseCase
 import domain.usecase.CreateIncomeUseCase
