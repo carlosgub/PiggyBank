@@ -42,6 +42,7 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(project(":core"))
             implementation(project(":shared"))
+            implementation(project(":data"))
             implementation(project(":theme"))
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)

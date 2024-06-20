@@ -4,14 +4,14 @@ import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.core.utils.toMillis
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import com.carlosgub.myfinances.core.utils.toStringDateFormat
-import data.repository.FakeFinanceRepositoryImpl
-import data.repository.source.database.expenseFinanceModelOne
+import data.repository.impl.FakeFinanceRepositoryImpl
 import domain.model.CategoryEnum
 import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import domain.usecase.DeleteExpenseUseCase
 import domain.usecase.EditExpenseUseCase
 import domain.usecase.GetExpenseUseCase
 import kotlinx.coroutines.test.runTest
+import mock.expenseFinanceModelOne
 import org.orbitmvi.orbit.test.test
 import kotlin.test.Test
 

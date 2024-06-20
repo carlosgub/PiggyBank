@@ -71,12 +71,15 @@ If you don't know how configure your token, you can read this [article](https://
 graph LR
   :navigation --> :core
   :navigation --> :shared
+  :navigation --> :data
   :navigation --> :theme
   :shared --> :theme
   :shared --> :core
   :shared --> :components
   :androidApp --> :navigation
   :iosApp --> :navigation
+  :data --> :shared
+  :data --> :core
   :components --> :theme
   :components --> :core
 ```

@@ -3,7 +3,6 @@ plugins {
     kotlin("native.cocoapods")
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose)
-    alias(libs.plugins.sqldelight)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.compose.compiler)
 }
@@ -51,7 +50,6 @@ kotlin {
                 implementation(libs.kotlin.stdlib)
                 implementation(libs.charts)
                 api(libs.orbit.core)
-                implementation(libs.delight.extension)
                 implementation(libs.kotlinx.collections.immutable)
                 implementation(project(":theme"))
                 implementation(project(":core"))
@@ -105,14 +103,5 @@ android {
     }
     kotlin {
         jvmToolchain(libs.versions.java.jdk.get().toInt())
-    }
-}
-
-sqldelight {
-    databases {
-        create("Database") {
-            packageName.set("com.carlosgub.myfinance.app")
-            generateAsync.set(true)
-        }
     }
 }

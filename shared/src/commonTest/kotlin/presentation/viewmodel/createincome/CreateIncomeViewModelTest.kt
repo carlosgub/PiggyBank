@@ -3,7 +3,7 @@ package presentation.viewmodel.createincome
 import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import com.carlosgub.myfinances.core.utils.toStringDateFormat
-import data.repository.FakeFinanceRepositoryImpl
+import data.repository.impl.FakeFinanceRepositoryImpl
 import domain.usecase.CreateIncomeUseCase
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.test

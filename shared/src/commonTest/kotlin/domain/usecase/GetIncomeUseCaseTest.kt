@@ -1,10 +1,9 @@
 package domain.usecase
 
 import com.carlosgub.myfinances.core.state.GenericState
-import data.repository.FakeFinanceRepositoryImpl
-import data.repository.source.database.incomeFinanceModelOne
-import data.repository.source.database.incomeOne
+import data.repository.impl.FakeFinanceRepositoryImpl
 import kotlinx.coroutines.test.runTest
+import mock.incomeFinanceModelOne
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -16,7 +15,7 @@ class GetIncomeUseCaseTest {
     fun `Get Income success`() =
         runTest {
             val expected = GenericState.Success(incomeFinanceModelOne)
-            val result = getIncomeUseCase(GetIncomeUseCase.Params(id = incomeOne.id))
+            val result = getIncomeUseCase(GetIncomeUseCase.Params(id = incomeFinanceModelOne.id))
             assertEquals(expected, result)
         }
 }

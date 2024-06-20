@@ -1,11 +1,11 @@
 package presentation.viewmodel.home
 
 import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
-import data.repository.FakeFinanceRepositoryImpl
-import data.repository.source.database.financeScreenModel
+import data.repository.impl.FakeFinanceRepositoryImpl
 import domain.model.CategoryEnum
 import domain.usecase.GetFinanceUseCase
 import kotlinx.coroutines.test.runTest
+import mock.financeScreenModel
 import org.orbitmvi.orbit.test.test
 import kotlin.test.Test
 
@@ -28,7 +28,7 @@ class HomeViewModelTest {
                 expectState {
                     copy(
                         showLoading = false,
-                        financeScreenModel = data.repository.source.database.financeScreenModel,
+                        financeScreenModel = mock.financeScreenModel,
                         isInitialDataLoaded = true,
                     )
                 }
@@ -44,7 +44,7 @@ class HomeViewModelTest {
                 expectState {
                     copy(
                         showLoading = false,
-                        financeScreenModel = data.repository.source.database.financeScreenModel,
+                        financeScreenModel = mock.financeScreenModel,
                         isInitialDataLoaded = true,
                     )
                 }
