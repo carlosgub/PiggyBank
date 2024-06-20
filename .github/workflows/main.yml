@@ -30,9 +30,15 @@ jobs:
           java-version: '17'
       - name: "Test Username"
         run: echo "$G_USERNAME"
-      - name: Run Unit Test Android
+      - name: Run Unit Test Android Shared Module
         shell: bash
         run: ./gradlew :shared:testDebugUnitTest
-      - name: Run Unit Test iOS
+      - name: Run Unit Test Android Data Module
+        shell: bash
+        run: ./gradlew :data:testDebugUnitTest
+      - name: Run Unit Test iOS Shared Module
         shell: bash
         run: ./gradlew :shared:iosSimulatorArm64Test
+      - name: Run Unit Test iOS Data Module
+        shell: bash
+        run: ./gradlew :data:iosSimulatorArm64Test
