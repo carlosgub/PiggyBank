@@ -2,11 +2,11 @@ package com.carlosgub.myfinances.data.repository.database.impl
 
 import com.carlosgub.myfinances.core.network.ResponseResult
 import com.carlosgub.myfinances.data.database.DatabaseFinanceDataSource
-import com.carlosgub.myfinances.data.repository.database.expenseOne
-import com.carlosgub.myfinances.data.repository.database.expensesList
-import com.carlosgub.myfinances.data.repository.database.incomeList
-import com.carlosgub.myfinances.data.repository.database.incomeOne
-import com.carlosgub.myfinances.data.repository.database.monthList
+import com.carlosgub.myfinances.data.mock.expenseOne
+import com.carlosgub.myfinances.data.mock.expensesList
+import com.carlosgub.myfinances.data.mock.incomeList
+import com.carlosgub.myfinances.data.mock.incomeOne
+import com.carlosgub.myfinances.data.mock.monthList
 import domain.model.CategoryEnum
 import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import domain.model.MonthModel

@@ -1,4 +1,4 @@
-package com.carlosgub.myfinances.data.repository.database
+package com.carlosgub.myfinances.data.mock
 
 import com.carlosgub.myfinances.core.utils.createLocalDateTime
 import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
