@@ -1,14 +1,14 @@
 package presentation.viewmodel.categorymonthdetail
 
 import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
-import data.repository.FakeFinanceRepositoryImpl
-import data.repository.source.database.expenseScreenModelOne
-import data.repository.source.database.monthExpenseDetailScreenModel
-import data.repository.source.database.monthIncomeDetailScreenModel
+import data.repository.impl.FakeFinanceRepositoryImpl
 import domain.model.CategoryEnum
 import domain.usecase.GetExpenseMonthDetailUseCase
 import domain.usecase.GetIncomeMonthDetailUseCase
 import kotlinx.coroutines.test.runTest
+import mock.expenseScreenModelOne
+import mock.monthExpenseDetailScreenModel
+import mock.monthIncomeDetailScreenModel
 import org.orbitmvi.orbit.test.test
 import kotlin.test.Test
 

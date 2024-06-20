@@ -1,12 +1,6 @@
-package data.repository
+package data.repository.impl
 
 import com.carlosgub.myfinances.core.state.GenericState
-import data.repository.source.database.expenseFinanceModelOne
-import data.repository.source.database.financeScreenModel
-import data.repository.source.database.incomeFinanceModelOne
-import data.repository.source.database.monthExpenseDetailScreenModel
-import data.repository.source.database.monthIncomeDetailScreenModel
-import data.repository.source.database.monthListFiltered
 import domain.model.CategoryEnum
 import domain.model.FinanceModel
 import domain.model.FinanceScreenModel
@@ -16,6 +10,12 @@ import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.LocalDateTime
+import mock.expenseFinanceModelOne
+import mock.financeScreenModel
+import mock.incomeFinanceModelOne
+import mock.monthExpenseDetailScreenModel
+import mock.monthIncomeDetailScreenModel
+import mock.monthListFiltered
 
 class FakeFinanceRepositoryImpl : FinanceRepository {
     override suspend fun getFinance(monthKey: String): Flow<GenericState<FinanceScreenModel>> =

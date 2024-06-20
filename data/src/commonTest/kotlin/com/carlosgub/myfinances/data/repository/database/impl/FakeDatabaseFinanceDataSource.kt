@@ -1,12 +1,12 @@
-package data.repository.source.database.impl
+package com.carlosgub.myfinances.data.repository.database.impl
 
 import com.carlosgub.myfinances.core.network.ResponseResult
-import data.repository.source.database.expenseOne
-import data.repository.source.database.expensesList
-import data.repository.source.database.incomeList
-import data.repository.source.database.incomeOne
-import data.repository.source.database.monthList
-import data.source.database.DatabaseFinanceDataSource
+import com.carlosgub.myfinances.data.database.DatabaseFinanceDataSource
+import com.carlosgub.myfinances.data.repository.database.expenseOne
+import com.carlosgub.myfinances.data.repository.database.expensesList
+import com.carlosgub.myfinances.data.repository.database.incomeList
+import com.carlosgub.myfinances.data.repository.database.incomeOne
+import com.carlosgub.myfinances.data.repository.database.monthList
 import domain.model.CategoryEnum
 import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import domain.model.MonthModel

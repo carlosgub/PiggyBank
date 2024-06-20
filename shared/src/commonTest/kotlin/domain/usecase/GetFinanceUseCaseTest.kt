@@ -3,9 +3,9 @@ package domain.usecase
 import app.cash.turbine.test
 import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
-import data.repository.FakeFinanceRepositoryImpl
-import data.repository.source.database.financeScreenModel
+import data.repository.impl.FakeFinanceRepositoryImpl
 import kotlinx.coroutines.test.runTest
+import mock.financeScreenModel
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

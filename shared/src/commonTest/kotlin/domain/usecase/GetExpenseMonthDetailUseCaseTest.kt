@@ -3,11 +3,11 @@ package domain.usecase
 import app.cash.turbine.test
 import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
-import data.repository.FakeFinanceRepositoryImpl
-import data.repository.source.database.expenseOne
-import data.repository.source.database.monthExpenseDetailScreenModel
+import data.repository.impl.FakeFinanceRepositoryImpl
 import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import kotlinx.coroutines.test.runTest
+import mock.expenseFinanceModelOne
+import mock.monthExpenseDetailScreenModel
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -22,7 +22,7 @@ class GetExpenseMonthDetailUseCaseTest {
             val expected = GenericState.Success(monthExpenseDetailScreenModel)
             getExpenseMonthDetailUseCase(
                 GetExpenseMonthDetailUseCase.Params(
-                    categoryEnum = getCategoryEnumFromName(expenseOne.category),
+                    categoryEnum = getCategoryEnumFromName(expenseFinanceModelOne.category),
                     monthKey = getCurrentMonthKey(),
                 ),
             ).test {

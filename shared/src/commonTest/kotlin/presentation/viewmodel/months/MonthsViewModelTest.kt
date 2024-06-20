@@ -1,10 +1,10 @@
 package presentation.viewmodel.months
 
 import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
-import data.repository.FakeFinanceRepositoryImpl
-import data.repository.source.database.monthListFiltered
+import data.repository.impl.FakeFinanceRepositoryImpl
 import domain.usecase.GetMonthsUseCase
 import kotlinx.coroutines.test.runTest
+import mock.monthListFiltered
 import org.orbitmvi.orbit.test.test
 import kotlin.test.Test
 
