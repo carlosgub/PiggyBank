@@ -70,23 +70,23 @@ If you don't know how configure your token, you can read this [article](https://
 
 graph LR
   :navigation --> :core
-  :navigation --> :shared
+  :navigation --> :domain
   :navigation --> :data
   :navigation --> :theme
   :navigation --> :presentation
-  :shared --> :theme
-  :shared --> :core
+  :domain --> :theme
+  :domain --> :core
   :androidApp --> :navigation
   :iosApp --> :navigation
   :test --> :core
   :test --> :data
-  :test --> :shared
+  :test --> :domain
   :test --> :presentation
-  :data --> :shared
+  :data --> :domain
   :data --> :core
   :components --> :theme
   :components --> :core
-  :presentation --> :shared
+  :presentation --> :domain
   :presentation --> :core
   :presentation --> :components
   :presentation --> :theme
