@@ -73,15 +73,23 @@ graph LR
   :navigation --> :shared
   :navigation --> :data
   :navigation --> :theme
+  :navigation --> :presentation
   :shared --> :theme
   :shared --> :core
-  :shared --> :components
   :androidApp --> :navigation
   :iosApp --> :navigation
+  :test --> :core
+  :test --> :data
+  :test --> :shared
+  :test --> :presentation
   :data --> :shared
   :data --> :core
   :components --> :theme
   :components --> :core
+  :presentation --> :shared
+  :presentation --> :core
+  :presentation --> :components
+  :presentation --> :theme
 ```
 
 #### Contributing
