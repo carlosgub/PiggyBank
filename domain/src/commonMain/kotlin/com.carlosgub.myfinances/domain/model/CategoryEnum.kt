@@ -1,4 +1,4 @@
-package domain.model
+package com.carlosgub.myfinances.domain.model
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
@@ -19,17 +19,17 @@ import com.carlosgub.myfinances.theme.ColorPrimary
 import com.carlosgub.myfinances.theme.Pink
 import com.carlosgub.myfinances.theme.Purple
 import com.carlosgub.myfinances.theme.Teal
-import myfinances.shared.generated.resources.Res
-import myfinances.shared.generated.resources.category_clothes
-import myfinances.shared.generated.resources.category_food
-import myfinances.shared.generated.resources.category_home
-import myfinances.shared.generated.resources.category_love
-import myfinances.shared.generated.resources.category_personal
-import myfinances.shared.generated.resources.category_pets
-import myfinances.shared.generated.resources.category_savings
-import myfinances.shared.generated.resources.category_study
-import myfinances.shared.generated.resources.category_taxi
-import myfinances.shared.generated.resources.category_work
+import myfinances.domain.generated.resources.Res
+import myfinances.domain.generated.resources.category_clothes
+import myfinances.domain.generated.resources.category_food
+import myfinances.domain.generated.resources.category_home
+import myfinances.domain.generated.resources.category_love
+import myfinances.domain.generated.resources.category_personal
+import myfinances.domain.generated.resources.category_pets
+import myfinances.domain.generated.resources.category_savings
+import myfinances.domain.generated.resources.category_study
+import myfinances.domain.generated.resources.category_taxi
+import myfinances.domain.generated.resources.category_work
 import org.jetbrains.compose.resources.StringResource
 
 enum class CategoryEnum(

@@ -1,10 +1,10 @@
 package com.carlosgub.myfinances.presentation.viewmodel.editexpense
 
-import domain.model.CategoryEnum
+import com.carlosgub.myfinances.domain.model.CategoryEnum
 import kotlinx.coroutines.Job
 
 interface EditExpenseScreenIntents {
-    fun setCategory(categoryEnum: CategoryEnum): Job
+    fun setCategory(categoryEnum: com.carlosgub.myfinances.domain.model.CategoryEnum): Job
 
     fun setAmount(textFieldValue: String): Job
 

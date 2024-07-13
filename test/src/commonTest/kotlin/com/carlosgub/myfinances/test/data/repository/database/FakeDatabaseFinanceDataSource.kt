@@ -2,14 +2,13 @@ package com.carlosgub.myfinances.test.data.repository.database
 
 import com.carlosgub.myfinances.core.network.ResponseResult
 import com.carlosgub.myfinances.data.database.DatabaseFinanceDataSource
+import com.carlosgub.myfinances.domain.model.CategoryEnum.Companion.getCategoryEnumFromName
+import com.carlosgub.myfinances.domain.model.MonthModel
 import com.carlosgub.myfinances.test.mock.expenseOne
 import com.carlosgub.myfinances.test.mock.expensesList
 import com.carlosgub.myfinances.test.mock.incomeList
 import com.carlosgub.myfinances.test.mock.incomeOne
 import com.carlosgub.myfinances.test.mock.monthList
-import domain.model.CategoryEnum
-import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
-import domain.model.MonthModel
 import expense.Expense
 import income.Income
 import kotlinx.coroutines.flow.Flow
@@ -52,7 +51,7 @@ class FakeDatabaseFinanceDataSource : DatabaseFinanceDataSource {
     ): ResponseResult<Unit> = ResponseResult.Success(Unit)
 
     override suspend fun getExpenseMonthDetail(
-        categoryEnum: CategoryEnum,
+        categoryEnum: com.carlosgub.myfinances.domain.model.CategoryEnum,
         monthKey: String,
     ): Flow<ResponseResult<List<Expense>>> =
         flow {

@@ -35,7 +35,7 @@ kotlin {
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlinx.collections.immutable)
                 implementation(libs.koin.compose)
-                implementation(project(":shared"))
+                implementation(project(":domain"))
                 implementation(project(":core"))
                 implementation(project(":components"))
                 implementation(project(":theme"))

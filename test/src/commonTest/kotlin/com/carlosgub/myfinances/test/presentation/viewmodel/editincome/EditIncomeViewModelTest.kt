@@ -4,13 +4,13 @@ import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.core.utils.toMillis
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import com.carlosgub.myfinances.core.utils.toStringDateFormat
+import com.carlosgub.myfinances.domain.usecase.DeleteIncomeUseCase
+import com.carlosgub.myfinances.domain.usecase.EditIncomeUseCase
+import com.carlosgub.myfinances.domain.usecase.GetIncomeUseCase
 import com.carlosgub.myfinances.presentation.viewmodel.editincome.EditIncomeScreenState
 import com.carlosgub.myfinances.presentation.viewmodel.editincome.EditIncomeViewModel
 import com.carlosgub.myfinances.test.data.repository.impl.FakeFinanceRepositoryImpl
 import com.carlosgub.myfinances.test.mock.incomeFinanceModelOne
-import domain.usecase.DeleteIncomeUseCase
-import domain.usecase.EditIncomeUseCase
-import domain.usecase.GetIncomeUseCase
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.test
 import kotlin.test.Test

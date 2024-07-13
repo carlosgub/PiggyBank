@@ -33,6 +33,7 @@ import com.carlosgub.myfinances.components.datazero.DataZero
 import com.carlosgub.myfinances.components.divider.HorizontalDivider
 import com.carlosgub.myfinances.components.loading.Loading
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
+import com.carlosgub.myfinances.domain.model.ExpenseScreenModel
 import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail.CategoryMonthDetailScreenState
 import com.carlosgub.myfinances.theme.Gray600
 import com.carlosgub.myfinances.theme.Gray900
@@ -41,7 +42,6 @@ import com.carlosgub.myfinances.theme.spacing_1
 import com.carlosgub.myfinances.theme.spacing_2
 import com.carlosgub.myfinances.theme.spacing_4
 import com.carlosgub.myfinances.theme.spacing_6
-import domain.model.ExpenseScreenModel
 import myfinances.presentation.generated.resources.Res
 import myfinances.presentation.generated.resources.category_month_detail_data_zero_message
 import myfinances.presentation.generated.resources.category_month_detail_data_zero_title

@@ -41,7 +41,7 @@ dependencyResolutionManagement {
 rootProject.name = "MyFinances"
 
 include(":androidApp")
-include(":shared")
+include(":domain")
 include(":theme")
 include(":core")
 include(":navigation")

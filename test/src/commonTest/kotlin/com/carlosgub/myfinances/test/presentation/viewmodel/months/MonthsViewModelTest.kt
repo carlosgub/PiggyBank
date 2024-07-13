@@ -1,12 +1,12 @@
 package com.carlosgub.myfinances.test.presentation.viewmodel.months
 
 import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
+import com.carlosgub.myfinances.domain.usecase.GetMonthsUseCase
 import com.carlosgub.myfinances.presentation.viewmodel.months.MonthsScreenSideEffect
 import com.carlosgub.myfinances.presentation.viewmodel.months.MonthsScreenState
 import com.carlosgub.myfinances.presentation.viewmodel.months.MonthsViewModel
 import com.carlosgub.myfinances.test.data.repository.impl.FakeFinanceRepositoryImpl
 import com.carlosgub.myfinances.test.mock.monthListFiltered
-import domain.usecase.GetMonthsUseCase
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.test
 import kotlin.test.Test

@@ -1,10 +1,10 @@
-package domain.repository
+package com.carlosgub.myfinances.domain.repository
 
 import com.carlosgub.myfinances.core.state.GenericState
-import domain.model.CategoryEnum
-import domain.model.FinanceModel
-import domain.model.FinanceScreenModel
-import domain.model.MonthDetailScreenModel
+import com.carlosgub.myfinances.domain.model.CategoryEnum
+import com.carlosgub.myfinances.domain.model.FinanceModel
+import com.carlosgub.myfinances.domain.model.FinanceScreenModel
+import com.carlosgub.myfinances.domain.model.MonthDetailScreenModel
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDateTime

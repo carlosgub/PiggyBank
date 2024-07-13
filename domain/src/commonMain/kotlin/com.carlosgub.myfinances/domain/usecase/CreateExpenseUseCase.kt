@@ -1,7 +1,7 @@
-package domain.usecase
+package com.carlosgub.myfinances.domain.usecase
 
 import com.carlosgub.myfinances.core.state.GenericState
-import domain.repository.FinanceRepository
+import com.carlosgub.myfinances.domain.repository.FinanceRepository
 
 class CreateExpenseUseCase(
     private val financeRepository: FinanceRepository,

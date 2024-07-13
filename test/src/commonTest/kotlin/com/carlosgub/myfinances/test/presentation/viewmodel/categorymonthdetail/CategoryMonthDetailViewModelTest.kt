@@ -1,6 +1,8 @@
 package com.carlosgub.myfinances.test.presentation.viewmodel.categorymonthdetail
 
 import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
+import com.carlosgub.myfinances.domain.usecase.GetExpenseMonthDetailUseCase
+import com.carlosgub.myfinances.domain.usecase.GetIncomeMonthDetailUseCase
 import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail.CategoryMonthDetailScreenSideEffect
 import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail.CategoryMonthDetailScreenState
 import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail.CategoryMonthDetailViewModel
@@ -8,9 +10,6 @@ import com.carlosgub.myfinances.test.data.repository.impl.FakeFinanceRepositoryI
 import com.carlosgub.myfinances.test.mock.expenseScreenModelOne
 import com.carlosgub.myfinances.test.mock.monthExpenseDetailScreenModel
 import com.carlosgub.myfinances.test.mock.monthIncomeDetailScreenModel
-import domain.model.CategoryEnum
-import domain.usecase.GetExpenseMonthDetailUseCase
-import domain.usecase.GetIncomeMonthDetailUseCase
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.test
 import kotlin.test.Test
@@ -53,7 +52,7 @@ class CategoryMonthDetailViewModelTest {
             categoryMonthDetailViewModel.test(
                 this,
                 CategoryMonthDetailScreenState(
-                    category = CategoryEnum.WORK,
+                    category = com.carlosgub.myfinances.domain.model.CategoryEnum.WORK,
                 ),
             ) {
                 expectInitialState()
@@ -139,12 +138,12 @@ class CategoryMonthDetailViewModelTest {
                 expectInitialState()
                 containerHost.setInitialConfiguration(
                     monthKey = getCurrentMonthKey(),
-                    category = CategoryEnum.WORK.name,
+                    category = com.carlosgub.myfinances.domain.model.CategoryEnum.WORK.name,
                 )
                 expectState {
                     copy(
                         monthKey = getCurrentMonthKey(),
-                        category = CategoryEnum.WORK,
+                        category = com.carlosgub.myfinances.domain.model.CategoryEnum.WORK,
                     )
                 }
                 expectState {

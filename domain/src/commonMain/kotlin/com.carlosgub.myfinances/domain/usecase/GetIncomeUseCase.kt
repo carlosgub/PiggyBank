@@ -1,8 +1,8 @@
-package domain.usecase
+package com.carlosgub.myfinances.domain.usecase
 
 import com.carlosgub.myfinances.core.state.GenericState
-import domain.model.FinanceModel
-import domain.repository.FinanceRepository
+import com.carlosgub.myfinances.domain.model.FinanceModel
+import com.carlosgub.myfinances.domain.repository.FinanceRepository
 
 class GetIncomeUseCase(
     private val financeRepository: FinanceRepository,

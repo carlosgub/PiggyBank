@@ -5,9 +5,9 @@ import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.core.utils.toMillis
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import com.carlosgub.myfinances.core.utils.toStringDateFormat
-import domain.usecase.DeleteIncomeUseCase
-import domain.usecase.EditIncomeUseCase
-import domain.usecase.GetIncomeUseCase
+import com.carlosgub.myfinances.domain.usecase.DeleteIncomeUseCase
+import com.carlosgub.myfinances.domain.usecase.EditIncomeUseCase
+import com.carlosgub.myfinances.domain.usecase.GetIncomeUseCase
 import kotlinx.coroutines.Job
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope

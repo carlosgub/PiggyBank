@@ -1,13 +1,13 @@
-package domain.usecase
+package com.carlosgub.myfinances.domain.usecase
 
 import com.carlosgub.myfinances.core.state.GenericState
-import domain.repository.FinanceRepository
+import com.carlosgub.myfinances.domain.repository.FinanceRepository
 
-class DeleteExpenseUseCase(
+class DeleteIncomeUseCase(
     private val financeRepository: FinanceRepository,
 ) {
     suspend operator fun invoke(params: Params): GenericState<Unit> =
-        financeRepository.deleteExpense(
+        financeRepository.deleteIncome(
             id = params.id,
             monthKey = params.monthKey,
         )

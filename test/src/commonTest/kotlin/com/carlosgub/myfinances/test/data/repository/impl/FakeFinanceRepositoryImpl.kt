@@ -1,17 +1,16 @@
 package com.carlosgub.myfinances.test.data.repository.impl
 
 import com.carlosgub.myfinances.core.state.GenericState
+import com.carlosgub.myfinances.domain.model.FinanceModel
+import com.carlosgub.myfinances.domain.model.FinanceScreenModel
+import com.carlosgub.myfinances.domain.model.MonthDetailScreenModel
+import com.carlosgub.myfinances.domain.repository.FinanceRepository
 import com.carlosgub.myfinances.test.mock.expenseFinanceModelOne
 import com.carlosgub.myfinances.test.mock.financeScreenModelMock
 import com.carlosgub.myfinances.test.mock.incomeFinanceModelOne
 import com.carlosgub.myfinances.test.mock.monthExpenseDetailScreenModel
 import com.carlosgub.myfinances.test.mock.monthIncomeDetailScreenModel
 import com.carlosgub.myfinances.test.mock.monthListFiltered
-import domain.model.CategoryEnum
-import domain.model.FinanceModel
-import domain.model.FinanceScreenModel
-import domain.model.MonthDetailScreenModel
-import domain.repository.FinanceRepository
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -66,7 +65,7 @@ internal class FakeFinanceRepositoryImpl : FinanceRepository {
     ): GenericState<Unit> = GenericState.Success(Unit)
 
     override suspend fun getExpenseMonthDetail(
-        categoryEnum: CategoryEnum,
+        categoryEnum: com.carlosgub.myfinances.domain.model.CategoryEnum,
         monthKey: String,
     ): Flow<GenericState<MonthDetailScreenModel>> =
         flow {

@@ -1,10 +1,10 @@
 package com.carlosgub.myfinances.presentation.screen.categorymonthdetail.content
 
+import com.carlosgub.myfinances.domain.model.CategoryEnum.Companion.getCategoryEnumFromName
+import com.carlosgub.myfinances.domain.model.ExpenseScreenModel
+import com.carlosgub.myfinances.domain.model.FinanceEnum
 import com.carlosgub.myfinances.presentation.navigation.AppNavigation
 import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail.CategoryMonthDetailScreenSideEffect
-import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
-import domain.model.ExpenseScreenModel
-import domain.model.FinanceEnum
 import moe.tlaster.precompose.navigation.Navigator
 
 fun categoryMonthDetailObserver(

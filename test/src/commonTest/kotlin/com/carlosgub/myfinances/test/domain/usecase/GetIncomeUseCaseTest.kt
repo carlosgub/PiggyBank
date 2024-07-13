@@ -1,9 +1,9 @@
 package com.carlosgub.myfinances.test.domain.usecase
 
 import com.carlosgub.myfinances.core.state.GenericState
+import com.carlosgub.myfinances.domain.usecase.GetIncomeUseCase
 import com.carlosgub.myfinances.test.data.repository.impl.FakeFinanceRepositoryImpl
 import com.carlosgub.myfinances.test.mock.incomeFinanceModelOne
-import domain.usecase.GetIncomeUseCase
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

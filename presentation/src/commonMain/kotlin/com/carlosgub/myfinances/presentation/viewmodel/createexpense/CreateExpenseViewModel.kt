@@ -4,8 +4,7 @@ import androidx.annotation.VisibleForTesting
 import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import com.carlosgub.myfinances.core.utils.toStringDateFormat
-import domain.model.CategoryEnum
-import domain.usecase.CreateExpenseUseCase
+import com.carlosgub.myfinances.domain.usecase.CreateExpenseUseCase
 import kotlinx.coroutines.Job
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
@@ -72,7 +71,7 @@ class CreateExpenseViewModel(
             }
         }
 
-    override fun setCategory(categoryEnum: CategoryEnum): Job =
+    override fun setCategory(categoryEnum: com.carlosgub.myfinances.domain.model.CategoryEnum): Job =
         intent {
             reduce { state.copy(category = categoryEnum) }
         }

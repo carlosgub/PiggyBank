@@ -2,7 +2,7 @@ package com.carlosgub.myfinances.presentation.viewmodel.months
 
 import androidx.annotation.VisibleForTesting
 import com.carlosgub.myfinances.core.state.GenericState
-import domain.usecase.GetMonthsUseCase
+import com.carlosgub.myfinances.domain.usecase.GetMonthsUseCase
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

@@ -1,7 +1,7 @@
 package com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail
 
-import domain.model.CategoryEnum
-import domain.model.MonthDetailScreenModel
+import com.carlosgub.myfinances.domain.model.CategoryEnum
+import com.carlosgub.myfinances.domain.model.MonthDetailScreenModel
 
 data class CategoryMonthDetailScreenState(
     val monthDetail: MonthDetailScreenModel = MonthDetailScreenModel(),

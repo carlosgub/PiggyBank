@@ -2,8 +2,8 @@ package com.carlosgub.myfinances.presentation.viewmodel.home
 
 import androidx.annotation.VisibleForTesting
 import com.carlosgub.myfinances.core.state.GenericState
-import domain.model.FinanceScreenModel
-import domain.usecase.GetFinanceUseCase
+import com.carlosgub.myfinances.domain.model.FinanceScreenModel
+import com.carlosgub.myfinances.domain.usecase.GetFinanceUseCase
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import moe.tlaster.precompose.viewmodel.ViewModel

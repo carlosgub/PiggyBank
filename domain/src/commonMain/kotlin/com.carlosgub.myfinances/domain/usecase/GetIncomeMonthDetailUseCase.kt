@@ -1,8 +1,8 @@
-package domain.usecase
+package com.carlosgub.myfinances.domain.usecase
 
 import com.carlosgub.myfinances.core.state.GenericState
-import domain.model.MonthDetailScreenModel
-import domain.repository.FinanceRepository
+import com.carlosgub.myfinances.domain.model.MonthDetailScreenModel
+import com.carlosgub.myfinances.domain.repository.FinanceRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetIncomeMonthDetailUseCase(

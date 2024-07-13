@@ -1,8 +1,7 @@
 package com.carlosgub.myfinances.data.database
 
 import com.carlosgub.myfinances.core.network.ResponseResult
-import domain.model.CategoryEnum
-import domain.model.MonthModel
+import com.carlosgub.myfinances.domain.model.MonthModel
 import expense.Expense
 import income.Income
 import kotlinx.coroutines.flow.Flow
@@ -30,7 +29,7 @@ interface DatabaseFinanceDataSource {
     ): ResponseResult<Unit>
 
     suspend fun getExpenseMonthDetail(
-        categoryEnum: CategoryEnum,
+        categoryEnum: com.carlosgub.myfinances.domain.model.CategoryEnum,
         monthKey: String,
     ): Flow<ResponseResult<List<Expense>>>
 

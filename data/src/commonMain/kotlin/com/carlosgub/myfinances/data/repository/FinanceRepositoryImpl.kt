@@ -10,16 +10,15 @@ import com.carlosgub.myfinances.core.utils.monthLength
 import com.carlosgub.myfinances.core.utils.toLocalDate
 import com.carlosgub.myfinances.core.utils.toMonthKey
 import com.carlosgub.myfinances.data.database.DatabaseFinanceDataSource
-import domain.model.CategoryEnum
-import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
-import domain.model.ExpenseScreenModel
-import domain.model.FinanceLocalDate
-import domain.model.FinanceModel
-import domain.model.FinanceScreenExpenses
-import domain.model.FinanceScreenModel
-import domain.model.MonthDetailScreenModel
-import domain.model.MonthExpense
-import domain.repository.FinanceRepository
+import com.carlosgub.myfinances.domain.model.CategoryEnum.Companion.getCategoryEnumFromName
+import com.carlosgub.myfinances.domain.model.ExpenseScreenModel
+import com.carlosgub.myfinances.domain.model.FinanceLocalDate
+import com.carlosgub.myfinances.domain.model.FinanceModel
+import com.carlosgub.myfinances.domain.model.FinanceScreenExpenses
+import com.carlosgub.myfinances.domain.model.FinanceScreenModel
+import com.carlosgub.myfinances.domain.model.MonthDetailScreenModel
+import com.carlosgub.myfinances.domain.model.MonthExpense
+import com.carlosgub.myfinances.domain.repository.FinanceRepository
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toImmutableMap
@@ -277,7 +276,7 @@ class FinanceRepositoryImpl(
         }
 
     override suspend fun getExpenseMonthDetail(
-        categoryEnum: CategoryEnum,
+        categoryEnum: com.carlosgub.myfinances.domain.model.CategoryEnum,
         monthKey: String,
     ): Flow<GenericState<MonthDetailScreenModel>> =
         flow {

@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
 import com.carlosgub.myfinances.data.repository.FinanceRepositoryImpl
+import com.carlosgub.myfinances.domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import com.carlosgub.myfinances.test.data.repository.database.FakeDatabaseFinanceDataSource
 import com.carlosgub.myfinances.test.mock.expenseFinanceModelOne
 import com.carlosgub.myfinances.test.mock.expenseOne
@@ -12,7 +13,6 @@ import com.carlosgub.myfinances.test.mock.incomeFinanceModelOne
 import com.carlosgub.myfinances.test.mock.monthExpenseDetailScreenModel
 import com.carlosgub.myfinances.test.mock.monthIncomeDetailScreenModel
 import com.carlosgub.myfinances.test.mock.monthListFiltered
-import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

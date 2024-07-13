@@ -5,11 +5,10 @@ import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.core.utils.toMillis
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import com.carlosgub.myfinances.core.utils.toStringDateFormat
-import domain.model.CategoryEnum
-import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
-import domain.usecase.DeleteExpenseUseCase
-import domain.usecase.EditExpenseUseCase
-import domain.usecase.GetExpenseUseCase
+import com.carlosgub.myfinances.domain.model.CategoryEnum.Companion.getCategoryEnumFromName
+import com.carlosgub.myfinances.domain.usecase.DeleteExpenseUseCase
+import com.carlosgub.myfinances.domain.usecase.EditExpenseUseCase
+import com.carlosgub.myfinances.domain.usecase.GetExpenseUseCase
 import kotlinx.coroutines.Job
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
@@ -27,7 +26,7 @@ class EditExpenseViewModel(
 ) : ViewModel(),
     ContainerHost<EditExpenseScreenState, GenericState<Unit>>,
     EditExpenseScreenIntents {
-    override fun setCategory(categoryEnum: CategoryEnum): Job =
+    override fun setCategory(categoryEnum: com.carlosgub.myfinances.domain.model.CategoryEnum): Job =
         intent {
             reduce { state.copy(category = categoryEnum) }
         }

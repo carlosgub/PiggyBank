@@ -4,15 +4,14 @@ import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.core.utils.toMillis
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import com.carlosgub.myfinances.core.utils.toStringDateFormat
+import com.carlosgub.myfinances.domain.model.CategoryEnum.Companion.getCategoryEnumFromName
+import com.carlosgub.myfinances.domain.usecase.DeleteExpenseUseCase
+import com.carlosgub.myfinances.domain.usecase.EditExpenseUseCase
+import com.carlosgub.myfinances.domain.usecase.GetExpenseUseCase
 import com.carlosgub.myfinances.presentation.viewmodel.editexpense.EditExpenseScreenState
 import com.carlosgub.myfinances.presentation.viewmodel.editexpense.EditExpenseViewModel
 import com.carlosgub.myfinances.test.data.repository.impl.FakeFinanceRepositoryImpl
 import com.carlosgub.myfinances.test.mock.expenseFinanceModelOne
-import domain.model.CategoryEnum
-import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
-import domain.usecase.DeleteExpenseUseCase
-import domain.usecase.EditExpenseUseCase
-import domain.usecase.GetExpenseUseCase
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.test
 import kotlin.test.Test
@@ -140,7 +139,7 @@ class EditExpenseViewModelTest {
     @Test
     fun `Set Category`() =
         runTest {
-            val category = CategoryEnum.CLOTHES
+            val category = com.carlosgub.myfinances.domain.model.CategoryEnum.CLOTHES
             editExpenseViewModel.test(
                 this,
                 EditExpenseScreenState(),

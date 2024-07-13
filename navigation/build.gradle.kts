@@ -41,7 +41,7 @@ kotlin {
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(project(":core"))
-            implementation(project(":shared"))
+            implementation(project(":domain"))
             implementation(project(":data"))
             implementation(project(":theme"))
             implementation(project(":presentation"))

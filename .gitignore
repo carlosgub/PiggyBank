@@ -13,6 +13,6 @@ iosApp/Pods/*
 iosApp/iosApp.xcworkspace/*
 iosApp/iosApp.xcodeproj/*
 !iosApp/iosApp.xcodeproj/project.pbxproj
-shared/shared.podspec
+domain/domain.podspec
 navigation/navigation.podspec
 /iosApp/iosApp/GoogleService-Info.plist

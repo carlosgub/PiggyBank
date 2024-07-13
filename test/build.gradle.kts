@@ -30,7 +30,7 @@ kotlin {
                 implementation(libs.kotlinx.collections.immutable)
                 implementation(project(":core"))
                 implementation(project(":data"))
-                implementation(project(":shared"))
+                implementation(project(":domain"))
                 implementation(project(":presentation"))
             }
         }

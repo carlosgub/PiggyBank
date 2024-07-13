@@ -2,13 +2,12 @@ package com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail
 
 import androidx.annotation.VisibleForTesting
 import com.carlosgub.myfinances.core.state.GenericState
-import domain.model.CategoryEnum
-import domain.model.CategoryEnum.Companion.getCategoryEnumFromName
-import domain.model.ExpenseScreenModel
-import domain.model.FinanceEnum
-import domain.model.MonthDetailScreenModel
-import domain.usecase.GetExpenseMonthDetailUseCase
-import domain.usecase.GetIncomeMonthDetailUseCase
+import com.carlosgub.myfinances.domain.model.CategoryEnum.Companion.getCategoryEnumFromName
+import com.carlosgub.myfinances.domain.model.ExpenseScreenModel
+import com.carlosgub.myfinances.domain.model.FinanceEnum
+import com.carlosgub.myfinances.domain.model.MonthDetailScreenModel
+import com.carlosgub.myfinances.domain.usecase.GetExpenseMonthDetailUseCase
+import com.carlosgub.myfinances.domain.usecase.GetIncomeMonthDetailUseCase
 import kotlinx.coroutines.Job
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
@@ -42,7 +41,7 @@ class CategoryMonthDetailViewModel(
 
     @VisibleForTesting
     suspend fun observeExpense(
-        categoryEnum: CategoryEnum,
+        categoryEnum: com.carlosgub.myfinances.domain.model.CategoryEnum,
         monthKey: String,
     ) {
         getExpenseMonthDetailUseCase(

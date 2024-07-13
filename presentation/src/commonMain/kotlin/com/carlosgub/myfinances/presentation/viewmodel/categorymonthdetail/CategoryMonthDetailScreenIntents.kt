@@ -1,6 +1,6 @@
 package com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail
 
-import domain.model.ExpenseScreenModel
+import com.carlosgub.myfinances.domain.model.ExpenseScreenModel
 import kotlinx.coroutines.Job
 
 interface CategoryMonthDetailScreenIntents {

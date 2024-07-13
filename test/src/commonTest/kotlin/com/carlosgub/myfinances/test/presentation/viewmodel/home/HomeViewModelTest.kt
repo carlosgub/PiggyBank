@@ -1,13 +1,12 @@
 package com.carlosgub.myfinances.test.presentation.viewmodel.home
 
 import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
+import com.carlosgub.myfinances.domain.usecase.GetFinanceUseCase
 import com.carlosgub.myfinances.presentation.viewmodel.home.HomeScreenSideEffect
 import com.carlosgub.myfinances.presentation.viewmodel.home.HomeScreenState
 import com.carlosgub.myfinances.presentation.viewmodel.home.HomeViewModel
 import com.carlosgub.myfinances.test.data.repository.impl.FakeFinanceRepositoryImpl
 import com.carlosgub.myfinances.test.mock.financeScreenModelMock
-import domain.model.CategoryEnum
-import domain.usecase.GetFinanceUseCase
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.test
 import kotlin.test.Test
@@ -115,7 +114,7 @@ class HomeViewModelTest {
     @Test
     fun `Navigate To Month Detail`() =
         runTest {
-            val expectedCategoryName = CategoryEnum.HOME.name
+            val expectedCategoryName = com.carlosgub.myfinances.domain.model.CategoryEnum.HOME.name
             homeViewModel.test(this, HomeScreenState()) {
                 expectInitialState()
                 containerHost.navigateToMonthDetail(expectedCategoryName)

@@ -43,6 +43,9 @@ import androidx.compose.ui.unit.dp
 import com.carlosgub.myfinances.components.datazero.DataZero
 import com.carlosgub.myfinances.components.divider.HorizontalDivider
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
+import com.carlosgub.myfinances.domain.model.FinanceEnum
+import com.carlosgub.myfinances.domain.model.FinanceScreenExpenses
+import com.carlosgub.myfinances.domain.model.MonthExpense
 import com.carlosgub.myfinances.presentation.viewmodel.home.HomeScreenIntents
 import com.carlosgub.myfinances.presentation.viewmodel.home.HomeScreenState
 import com.carlosgub.myfinances.theme.ColorPrimary
@@ -56,9 +59,6 @@ import com.carlosgub.myfinances.theme.spacing_3
 import com.carlosgub.myfinances.theme.spacing_4
 import com.carlosgub.myfinances.theme.spacing_6
 import com.carlosgub.myfinances.theme.spacing_8
-import domain.model.FinanceEnum
-import domain.model.FinanceScreenExpenses
-import domain.model.MonthExpense
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay

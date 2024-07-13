@@ -1,10 +1,10 @@
 package com.carlosgub.myfinances.presentation.viewmodel.editincome
 
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
-import domain.model.CategoryEnum
+import com.carlosgub.myfinances.domain.model.CategoryEnum
 
 data class EditIncomeScreenState(
-    val category: CategoryEnum = CategoryEnum.WORK,
+    val category: com.carlosgub.myfinances.domain.model.CategoryEnum = com.carlosgub.myfinances.domain.model.CategoryEnum.WORK,
     val amountField: String = 0.0.toMoneyFormat(),
     val amount: Double = 0.0,
     val showDateError: Boolean = false,

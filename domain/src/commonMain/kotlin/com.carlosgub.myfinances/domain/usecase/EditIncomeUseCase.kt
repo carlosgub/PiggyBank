@@ -1,21 +1,23 @@
-package domain.usecase
+package com.carlosgub.myfinances.domain.usecase
 
 import com.carlosgub.myfinances.core.state.GenericState
-import domain.repository.FinanceRepository
+import com.carlosgub.myfinances.domain.repository.FinanceRepository
 
-class CreateIncomeUseCase(
+class EditIncomeUseCase(
     private val financeRepository: FinanceRepository,
 ) {
     suspend operator fun invoke(params: Params): GenericState<Unit> =
-        financeRepository.createIncome(
+        financeRepository.editIncome(
             amount = params.amount,
             note = params.note,
             dateInMillis = params.dateInMillis,
+            id = params.id,
         )
 
     data class Params(
-        val amount: Int,
+        val amount: Long,
         val note: String,
         val dateInMillis: Long,
+        val id: Long,
     )
 }

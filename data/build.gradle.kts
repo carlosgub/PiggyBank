@@ -30,7 +30,7 @@ kotlin {
                 implementation(libs.delight.extension)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlinx.collections.immutable)
-                implementation(project(":shared"))
+                implementation(project(":domain"))
                 implementation(project(":core"))
             }
         }

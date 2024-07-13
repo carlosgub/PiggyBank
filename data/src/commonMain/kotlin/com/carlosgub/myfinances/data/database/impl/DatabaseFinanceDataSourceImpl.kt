@@ -20,8 +20,7 @@ import com.carlosgub.myfinances.data.database.month.createMonth
 import com.carlosgub.myfinances.data.database.month.deleteMonth
 import com.carlosgub.myfinances.data.database.month.getMonthList
 import com.carlosgub.myfinances.data.sqldelight.SharedDatabase
-import domain.model.CategoryEnum
-import domain.model.MonthModel
+import com.carlosgub.myfinances.domain.model.MonthModel
 import expense.Expense
 import income.Income
 import kotlinx.coroutines.currentCoroutineContext
@@ -111,7 +110,7 @@ class DatabaseFinanceDataSourceImpl(
                 Income(
                     id = 1,
                     amount = amount.toLong(),
-                    category = CategoryEnum.WORK.name,
+                    category = com.carlosgub.myfinances.domain.model.CategoryEnum.WORK.name,
                     note = note,
                     dateInMillis = dateInMillis,
                     month = currentMonthKey,
@@ -126,7 +125,7 @@ class DatabaseFinanceDataSourceImpl(
         }
 
     override suspend fun getExpenseMonthDetail(
-        categoryEnum: CategoryEnum,
+        categoryEnum: com.carlosgub.myfinances.domain.model.CategoryEnum,
         monthKey: String,
     ): Flow<ResponseResult<List<Expense>>> =
         flow {
@@ -147,7 +146,7 @@ class DatabaseFinanceDataSourceImpl(
             try {
                 sharedDatabase().getIncomeListPerCategory(
                     month = monthKey,
-                    category = CategoryEnum.WORK.name,
+                    category = com.carlosgub.myfinances.domain.model.CategoryEnum.WORK.name,
                 ).collect { list ->
                     emit(ResponseResult.Success(list))
                 }
@@ -194,7 +193,7 @@ class DatabaseFinanceDataSourceImpl(
                 Income(
                     id = id,
                     note = note,
-                    category = CategoryEnum.WORK.name,
+                    category = com.carlosgub.myfinances.domain.model.CategoryEnum.WORK.name,
                     amount = amount,
                     dateInMillis = dateInMillis,
                     month = currentMonthKey,

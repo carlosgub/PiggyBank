@@ -16,19 +16,19 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "shared"
+            baseName = "domain"
             isStatic = true
         }
     }
 
     cocoapods {
         version = "1.0.0"
-        summary = "Some description for the Shared Module"
-        homepage = "Link to the Shared Module homepage"
+        summary = "Some description for the Domain Module"
+        homepage = "Link to the Domain Module homepage"
         ios.deploymentTarget = "14.1"
         podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = "shared"
+            baseName = "domain"
             isStatic = true
         }
     }
@@ -73,7 +73,7 @@ kotlin {
 
 android {
     compileSdk = libs.versions.app.compile.sdk.get().toInt()
-    namespace = "com.carlosgub.myfinance.app.common"
+    namespace = "com.carlosgub.myfinances.domain"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")

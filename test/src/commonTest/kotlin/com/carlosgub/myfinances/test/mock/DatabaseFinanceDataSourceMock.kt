@@ -6,15 +6,15 @@ import com.carlosgub.myfinances.core.utils.isLeapYear
 import com.carlosgub.myfinances.core.utils.monthLength
 import com.carlosgub.myfinances.core.utils.toLocalDate
 import com.carlosgub.myfinances.core.utils.toMonthKey
-import domain.model.CategoryEnum
-import domain.model.ExpenseScreenModel
-import domain.model.FinanceLocalDate
-import domain.model.FinanceModel
-import domain.model.FinanceScreenExpenses
-import domain.model.FinanceScreenModel
-import domain.model.MonthDetailScreenModel
-import domain.model.MonthExpense
-import domain.model.MonthModel
+import com.carlosgub.myfinances.domain.model.CategoryEnum
+import com.carlosgub.myfinances.domain.model.ExpenseScreenModel
+import com.carlosgub.myfinances.domain.model.FinanceLocalDate
+import com.carlosgub.myfinances.domain.model.FinanceModel
+import com.carlosgub.myfinances.domain.model.FinanceScreenExpenses
+import com.carlosgub.myfinances.domain.model.FinanceScreenModel
+import com.carlosgub.myfinances.domain.model.MonthDetailScreenModel
+import com.carlosgub.myfinances.domain.model.MonthExpense
+import com.carlosgub.myfinances.domain.model.MonthModel
 import expense.Expense
 import income.Income
 import kotlinx.collections.immutable.persistentListOf
@@ -25,7 +25,7 @@ val expenseOne =
         id = 1L,
         amount = 100L,
         note = "expenseOne",
-        category = CategoryEnum.CLOTHES.name,
+        category = com.carlosgub.myfinances.domain.model.CategoryEnum.CLOTHES.name,
         month = getCurrentMonthKey(),
         dateInMillis = 0L,
     )
@@ -35,7 +35,7 @@ val expenseTwo =
         id = 2L,
         amount = 200L,
         note = "expenseTwo",
-        category = CategoryEnum.TAXI.name,
+        category = com.carlosgub.myfinances.domain.model.CategoryEnum.TAXI.name,
         month = getCurrentMonthKey(),
         dateInMillis = 0L,
     )
@@ -45,7 +45,7 @@ val expenseThree =
         id = 3L,
         amount = 300L,
         note = "expenseThree",
-        category = CategoryEnum.LOVE.name,
+        category = com.carlosgub.myfinances.domain.model.CategoryEnum.LOVE.name,
         month = getCurrentMonthKey(),
         dateInMillis = 0L,
     )
@@ -78,7 +78,7 @@ val incomeOne =
         id = 1L,
         amount = 100L,
         note = "incomeOne",
-        category = CategoryEnum.WORK.name,
+        category = com.carlosgub.myfinances.domain.model.CategoryEnum.WORK.name,
         month = getCurrentMonthKey(),
         dateInMillis = 0L,
     )
@@ -88,7 +88,7 @@ val incomeTwo =
         id = 2L,
         amount = 200L,
         note = "incomeTwo",
-        category = CategoryEnum.WORK.name,
+        category = com.carlosgub.myfinances.domain.model.CategoryEnum.WORK.name,
         month = getCurrentMonthKey(),
         dateInMillis = 0L,
     )
@@ -112,7 +112,7 @@ val incomeThree =
         id = 3L,
         amount = 300L,
         note = "incomeThree",
-        category = CategoryEnum.WORK.name,
+        category = com.carlosgub.myfinances.domain.model.CategoryEnum.WORK.name,
         month = getCurrentMonthKey(),
         dateInMillis = 0L,
     )
@@ -137,7 +137,7 @@ val financeScreenExpensesTwo =
         count = 1,
         amount = 200L,
         percentage = 33,
-        category = CategoryEnum.TAXI,
+        category = com.carlosgub.myfinances.domain.model.CategoryEnum.TAXI,
     )
 
 val financeScreenExpensesThree =
@@ -145,7 +145,7 @@ val financeScreenExpensesThree =
         count = 1,
         amount = 300L,
         percentage = 50,
-        category = CategoryEnum.LOVE,
+        category = com.carlosgub.myfinances.domain.model.CategoryEnum.LOVE,
     )
 
 val financeScreenExpensesLists =
@@ -160,7 +160,7 @@ val financeScreenIncomeOne =
         count = 3,
         amount = 600L,
         percentage = 100,
-        category = CategoryEnum.WORK,
+        category = com.carlosgub.myfinances.domain.model.CategoryEnum.WORK,
     )
 
 val financeScreenIncomeLists =

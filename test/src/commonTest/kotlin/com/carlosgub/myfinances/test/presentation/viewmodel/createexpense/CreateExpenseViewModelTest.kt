@@ -3,11 +3,10 @@ package com.carlosgub.myfinances.test.presentation.viewmodel.createexpense
 import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import com.carlosgub.myfinances.core.utils.toStringDateFormat
+import com.carlosgub.myfinances.domain.usecase.CreateExpenseUseCase
 import com.carlosgub.myfinances.presentation.viewmodel.createexpense.CreateExpenseScreenState
 import com.carlosgub.myfinances.presentation.viewmodel.createexpense.CreateExpenseViewModel
 import com.carlosgub.myfinances.test.data.repository.impl.FakeFinanceRepositoryImpl
-import domain.model.CategoryEnum
-import domain.usecase.CreateExpenseUseCase
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.test
 import kotlin.test.Test
@@ -125,7 +124,7 @@ class CreateExpenseViewModelTest {
     @Test
     fun `Set Category`() =
         runTest {
-            val category = CategoryEnum.CLOTHES
+            val category = com.carlosgub.myfinances.domain.model.CategoryEnum.CLOTHES
             createExpenseViewModel.test(
                 this,
                 CreateExpenseScreenState(),

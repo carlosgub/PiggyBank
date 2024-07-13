@@ -24,13 +24,13 @@ import com.carlosgub.myfinances.components.textfield.AmountOutlineTextField
 import com.carlosgub.myfinances.components.textfield.DayPicker
 import com.carlosgub.myfinances.components.textfield.NoteOutlineTextField
 import com.carlosgub.myfinances.core.utils.NoRippleInteractionSource
+import com.carlosgub.myfinances.domain.model.CategoryEnum
+import com.carlosgub.myfinances.domain.model.FinanceEnum
 import com.carlosgub.myfinances.presentation.viewmodel.editexpense.EditExpenseScreenIntents
 import com.carlosgub.myfinances.presentation.viewmodel.editexpense.EditExpenseScreenState
 import com.carlosgub.myfinances.theme.spacing_2
 import com.carlosgub.myfinances.theme.spacing_4
 import com.carlosgub.myfinances.theme.spacing_6
-import domain.model.CategoryEnum
-import domain.model.FinanceEnum
 import myfinances.presentation.generated.resources.Res
 import myfinances.presentation.generated.resources.categories_header
 import myfinances.presentation.generated.resources.edit_expense_button

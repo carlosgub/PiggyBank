@@ -4,7 +4,7 @@ import androidx.annotation.VisibleForTesting
 import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import com.carlosgub.myfinances.core.utils.toStringDateFormat
-import domain.usecase.CreateIncomeUseCase
+import com.carlosgub.myfinances.domain.usecase.CreateIncomeUseCase
 import kotlinx.coroutines.Job
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope

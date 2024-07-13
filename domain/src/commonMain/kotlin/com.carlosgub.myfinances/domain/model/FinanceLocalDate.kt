@@ -1,4 +1,4 @@
-package domain.model
+package com.carlosgub.myfinances.domain.model
 
 import com.carlosgub.myfinances.core.utils.createLocalDateTime
 import com.carlosgub.myfinances.core.utils.toNumberOfTwoDigits

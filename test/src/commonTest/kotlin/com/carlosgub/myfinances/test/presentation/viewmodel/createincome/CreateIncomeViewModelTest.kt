@@ -3,10 +3,10 @@ package com.carlosgub.myfinances.test.presentation.viewmodel.createincome
 import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import com.carlosgub.myfinances.core.utils.toStringDateFormat
+import com.carlosgub.myfinances.domain.usecase.CreateIncomeUseCase
 import com.carlosgub.myfinances.presentation.viewmodel.createincome.CreateIncomeScreenState
 import com.carlosgub.myfinances.presentation.viewmodel.createincome.CreateIncomeViewModel
 import com.carlosgub.myfinances.test.data.repository.impl.FakeFinanceRepositoryImpl
-import domain.usecase.CreateIncomeUseCase
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.test
 import kotlin.test.Test
