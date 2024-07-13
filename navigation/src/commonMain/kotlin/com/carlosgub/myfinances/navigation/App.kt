@@ -6,6 +6,13 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import com.carlosgub.myfinances.core.navigation.LocalNavController
 import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
+import com.carlosgub.myfinances.presentation.screen.categorymonthdetail.CategoryMonthDetailScreen
+import com.carlosgub.myfinances.presentation.screen.createexpense.CreateExpenseScreen
+import com.carlosgub.myfinances.presentation.screen.createincome.CreateIncomeScreen
+import com.carlosgub.myfinances.presentation.screen.editexpense.EditExpenseScreen
+import com.carlosgub.myfinances.presentation.screen.editincome.EditIncomeScreen
+import com.carlosgub.myfinances.presentation.screen.home.HomeScreen
+import com.carlosgub.myfinances.presentation.screen.month.MonthsScreen
 import com.carlosgub.myfinances.theme.ColorPrimary
 import com.carlosgub.myfinances.theme.Shapes
 import com.carlosgub.myfinances.theme.Typography
@@ -14,13 +21,6 @@ import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
 import org.koin.compose.KoinContext
-import presentation.screen.categorymonthdetail.CategoryMonthDetailScreen
-import presentation.screen.createexpense.CreateExpenseScreen
-import presentation.screen.createincome.CreateIncomeScreen
-import presentation.screen.editexpense.EditExpenseScreen
-import presentation.screen.editincome.EditIncomeScreen
-import presentation.screen.home.HomeScreen
-import presentation.screen.month.MonthsScreen
 
 @Composable
 fun App() {

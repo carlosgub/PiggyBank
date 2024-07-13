@@ -1,8 +1,8 @@
 package com.carlosgub.myfinances.navigation.impl
 
 import com.carlosgub.myfinances.navigation.Navigation
+import com.carlosgub.myfinances.presentation.navigation.AppNavigation
 import moe.tlaster.precompose.navigation.Navigator
-import presentation.navigation.AppNavigation
 
 class AppNavigationImpl : AppNavigation {
     override fun navigateToEditIncome(

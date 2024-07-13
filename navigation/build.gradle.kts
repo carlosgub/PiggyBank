@@ -44,6 +44,7 @@ kotlin {
             implementation(project(":shared"))
             implementation(project(":data"))
             implementation(project(":theme"))
+            implementation(project(":presentation"))
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
         }

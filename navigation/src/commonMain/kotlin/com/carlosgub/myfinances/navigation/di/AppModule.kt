@@ -5,6 +5,14 @@ import com.carlosgub.myfinances.data.database.impl.DatabaseFinanceDataSourceImpl
 import com.carlosgub.myfinances.data.repository.FinanceRepositoryImpl
 import com.carlosgub.myfinances.data.sqldelight.SharedDatabase
 import com.carlosgub.myfinances.navigation.impl.AppNavigationImpl
+import com.carlosgub.myfinances.presentation.navigation.AppNavigation
+import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail.CategoryMonthDetailViewModel
+import com.carlosgub.myfinances.presentation.viewmodel.createexpense.CreateExpenseViewModel
+import com.carlosgub.myfinances.presentation.viewmodel.createincome.CreateIncomeViewModel
+import com.carlosgub.myfinances.presentation.viewmodel.editexpense.EditExpenseViewModel
+import com.carlosgub.myfinances.presentation.viewmodel.editincome.EditIncomeViewModel
+import com.carlosgub.myfinances.presentation.viewmodel.home.HomeViewModel
+import com.carlosgub.myfinances.presentation.viewmodel.months.MonthsViewModel
 import domain.repository.FinanceRepository
 import domain.usecase.CreateExpenseUseCase
 import domain.usecase.CreateIncomeUseCase
@@ -21,14 +29,6 @@ import domain.usecase.GetMonthsUseCase
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
-import presentation.navigation.AppNavigation
-import presentation.viewmodel.categorymonthdetail.CategoryMonthDetailViewModel
-import presentation.viewmodel.createexpense.CreateExpenseViewModel
-import presentation.viewmodel.createincome.CreateIncomeViewModel
-import presentation.viewmodel.editexpense.EditExpenseViewModel
-import presentation.viewmodel.editincome.EditIncomeViewModel
-import presentation.viewmodel.home.HomeViewModel
-import presentation.viewmodel.months.MonthsViewModel
 
 val homeModule =
     module {

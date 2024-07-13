@@ -2,8 +2,8 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     kotlin("native.cocoapods")
     alias(libs.plugins.android.library)
-    alias(libs.plugins.compose)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
 }
 
@@ -36,32 +36,17 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material)
-                implementation(compose.material3)
-                implementation(compose.materialIconsExtended)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
                 api(libs.koin.core)
-                implementation(libs.koin.compose)
                 api(libs.bundles.precompose)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlin.stdlib)
-                implementation(libs.charts)
                 api(libs.orbit.core)
                 implementation(libs.kotlinx.collections.immutable)
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.components.resources)
+                implementation(compose.materialIconsExtended)
                 implementation(project(":theme"))
                 implementation(project(":core"))
-                implementation(project(":components"))
-            }
-        }
-        commonTest {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(libs.kotlinx.coroutines.test)
-                implementation(libs.turbine)
-                implementation(libs.orbit.testing)
             }
         }
         val androidMain by getting {
