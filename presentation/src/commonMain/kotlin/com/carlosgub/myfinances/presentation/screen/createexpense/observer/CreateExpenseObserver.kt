@@ -1,9 +1,9 @@
-package com.carlosgub.myfinances.presentation.screen.createexpense.content
+package com.carlosgub.myfinances.presentation.screen.createexpense.observer
 
 import com.carlosgub.myfinances.core.state.GenericState
 import moe.tlaster.precompose.navigation.Navigator
 
-fun createObserver(
+fun createExpenseObserver(
     sideEffect: GenericState<Unit>,
     navigator: Navigator,
 ) {

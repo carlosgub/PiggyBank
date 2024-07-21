@@ -42,6 +42,7 @@
     <string name="edit_income_pop_up_title">Delete</string>
     <string name="edit_income_pop_up_message">Do you want to delete this income?</string>
     <string name="edit_income_button">Edit Income</string>
+    <string name="edit_income_error_text">Write a note</string>
     <!--endregion-->
 
     <!--region Edit Expense-->
@@ -49,16 +50,19 @@
     <string name="edit_expense_pop_up_title">Delete</string>
     <string name="edit_expense_pop_up_message">Do you want to delete this expense?</string>
     <string name="edit_expense_button">Edit Expense</string>
+    <string name="edit_expense_error_text">Write a note</string>
     <!--endregion-->
 
     <!--region Create Income-->
     <string name="create_income_title">Create Income</string>
     <string name="create_income_button">Create Income</string>
+    <string name="create_income_error_text">Write a note</string>
     <!--endregion-->
 
     <!--region Create Expense-->
     <string name="create_expense_title">Create Expense</string>
     <string name="create_expense_button">Create Expense</string>
+    <string name="create_expense_error_text">Write a note</string>
     <!--endregion-->
 
     <!--region Category Month Detail-->

@@ -1,4 +1,4 @@
-package com.carlosgub.myfinances.presentation.screen.month.content
+package com.carlosgub.myfinances.presentation.screen.month.observer
 
 import com.carlosgub.myfinances.presentation.navigation.AppNavigation
 import com.carlosgub.myfinances.presentation.viewmodel.months.MonthsScreenSideEffect

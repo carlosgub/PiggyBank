@@ -14,7 +14,7 @@ import com.carlosgub.myfinances.components.alertdialog.AlertDialog
 import com.carlosgub.myfinances.components.toolbar.Toolbar
 import com.carlosgub.myfinances.core.navigation.LocalNavController
 import com.carlosgub.myfinances.presentation.screen.editexpense.content.EditExpenseContent
-import com.carlosgub.myfinances.presentation.screen.editexpense.content.editExpenseObserver
+import com.carlosgub.myfinances.presentation.screen.editexpense.observer.editExpenseObserver
 import com.carlosgub.myfinances.presentation.viewmodel.editexpense.EditExpenseViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

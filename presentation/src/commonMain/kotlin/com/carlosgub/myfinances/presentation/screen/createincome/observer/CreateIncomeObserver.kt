@@ -1,4 +1,4 @@
-package com.carlosgub.myfinances.presentation.screen.createincome.content
+package com.carlosgub.myfinances.presentation.screen.createincome.observer
 
 import com.carlosgub.myfinances.core.state.GenericState
 import moe.tlaster.precompose.navigation.Navigator

@@ -33,6 +33,7 @@ import com.carlosgub.myfinances.theme.spacing_6
 import myfinances.presentation.generated.resources.Res
 import myfinances.presentation.generated.resources.categories_header
 import myfinances.presentation.generated.resources.create_expense_button
+import myfinances.presentation.generated.resources.create_expense_error_text
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -86,6 +87,7 @@ fun CreateExpenseContent(
                 intents.showNoteError(false)
             },
             showError = state.showNoteError,
+            errorText = stringResource(Res.string.create_expense_error_text),
         )
         Box(
             modifier = Modifier.weight(1.0f),

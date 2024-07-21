@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import com.carlosgub.myfinances.components.toolbar.Toolbar
 import com.carlosgub.myfinances.core.navigation.LocalNavController
 import com.carlosgub.myfinances.presentation.screen.createincome.content.CreateIncomeContent
-import com.carlosgub.myfinances.presentation.screen.createincome.content.createIncomeObserver
+import com.carlosgub.myfinances.presentation.screen.createincome.observer.createIncomeObserver
 import com.carlosgub.myfinances.presentation.viewmodel.createincome.CreateIncomeViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

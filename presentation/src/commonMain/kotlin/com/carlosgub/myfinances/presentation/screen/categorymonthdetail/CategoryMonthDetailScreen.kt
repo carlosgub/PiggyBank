@@ -9,7 +9,7 @@ import com.carlosgub.myfinances.components.toolbar.Toolbar
 import com.carlosgub.myfinances.core.navigation.LocalNavController
 import com.carlosgub.myfinances.presentation.navigation.AppNavigation
 import com.carlosgub.myfinances.presentation.screen.categorymonthdetail.content.CategoryMonthDetailContent
-import com.carlosgub.myfinances.presentation.screen.categorymonthdetail.content.categoryMonthDetailObserver
+import com.carlosgub.myfinances.presentation.screen.categorymonthdetail.observer.categoryMonthDetailObserver
 import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail.CategoryMonthDetailViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

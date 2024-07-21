@@ -1,4 +1,4 @@
-package com.carlosgub.myfinances.presentation.screen.home.content
+package com.carlosgub.myfinances.presentation.screen.home.observer
 
 import com.carlosgub.myfinances.presentation.navigation.AppNavigation
 import com.carlosgub.myfinances.presentation.viewmodel.home.HomeScreenSideEffect

@@ -1,4 +1,4 @@
-package com.carlosgub.myfinances.presentation.screen.categorymonthdetail.content
+package com.carlosgub.myfinances.presentation.screen.categorymonthdetail.observer
 
 import com.carlosgub.myfinances.domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import com.carlosgub.myfinances.domain.model.ExpenseScreenModel

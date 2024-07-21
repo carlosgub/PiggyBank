@@ -15,7 +15,7 @@ import com.carlosgub.myfinances.core.navigation.LocalNavController
 import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
 import com.carlosgub.myfinances.presentation.navigation.AppNavigation
 import com.carlosgub.myfinances.presentation.screen.home.content.HomeContent
-import com.carlosgub.myfinances.presentation.screen.home.content.homeObserver
+import com.carlosgub.myfinances.presentation.screen.home.observer.homeObserver
 import com.carlosgub.myfinances.presentation.viewmodel.home.HomeViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.CoroutineScope

@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import com.carlosgub.myfinances.components.toolbar.Toolbar
 import com.carlosgub.myfinances.core.navigation.LocalNavController
 import com.carlosgub.myfinances.presentation.screen.createexpense.content.CreateExpenseContent
-import com.carlosgub.myfinances.presentation.screen.createexpense.content.createObserver
+import com.carlosgub.myfinances.presentation.screen.createexpense.observer.createExpenseObserver
 import com.carlosgub.myfinances.presentation.viewmodel.createexpense.CreateExpenseViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +29,7 @@ fun CreateExpenseScreen(
     val createScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     scope.launch {
         viewModel.container.sideEffectFlow.collect { sideEffect ->
-            createObserver(
+            createExpenseObserver(
                 sideEffect = sideEffect,
                 navigator = navigator,
             )

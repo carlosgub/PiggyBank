@@ -30,9 +30,6 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import myfinances.components.generated.resources.Res
-import myfinances.components.generated.resources.note_outline_textfield_error
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun NoteOutlineTextField(
@@ -40,6 +37,7 @@ fun NoteOutlineTextField(
     focusManager: FocusManager,
     onValueChange: (String) -> Unit,
     showError: Boolean,
+    errorText: String,
     modifier: Modifier = Modifier,
     firstValue: String = "",
 ) {
@@ -81,7 +79,7 @@ fun NoteOutlineTextField(
 
     AnimatedVisibility(showError) {
         Text(
-            text = stringResource(Res.string.note_outline_textfield_error),
+            text = errorText,
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.labelMedium,
             modifier = Modifier.padding(start = spacing_4),
