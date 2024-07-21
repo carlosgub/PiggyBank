@@ -30,6 +30,9 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import myfinances.components.generated.resources.Res
+import myfinances.components.generated.resources.finance_note_outline_text_field_label
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun NoteOutlineTextField(
@@ -59,7 +62,7 @@ fun NoteOutlineTextField(
             text = value
         },
         label = {
-            Text("Note")
+            Text(stringResource(Res.string.finance_note_outline_text_field_label))
         },
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done,

@@ -29,6 +29,11 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.carlosgub.myfinances.theme.spacing_2
 import com.carlosgub.myfinances.theme.spacing_4
+import myfinances.components.generated.resources.Res
+import myfinances.components.generated.resources.finance_day_picker_confirm_button
+import myfinances.components.generated.resources.finance_day_picker_error_text
+import myfinances.components.generated.resources.finance_day_picker_label
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun DayPicker(
@@ -55,7 +60,7 @@ fun DayPicker(
         onValueChange = {},
         label = {
             Text(
-                text = "Enter day",
+                text = stringResource(Res.string.finance_day_picker_label),
                 color = Color.Black,
             )
         },
@@ -79,7 +84,7 @@ fun DayPicker(
     )
     AnimatedVisibility(showError) {
         Text(
-            text = "Enter a date",
+            text = stringResource(Res.string.finance_day_picker_error_text),
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.labelMedium,
             modifier = Modifier.padding(start = spacing_4),
@@ -99,7 +104,7 @@ fun DayPicker(
                         isVisible = false
                     },
                 ) {
-                    Text("Ok")
+                    Text(stringResource(Res.string.finance_day_picker_confirm_button))
                 }
             },
             content = {

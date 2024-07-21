@@ -6,6 +6,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import myfinances.components.generated.resources.Res
+import myfinances.components.generated.resources.finance_alert_dialog_confirm_button
+import myfinances.components.generated.resources.finance_alert_dialog_dismiss_button
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AlertDialog(
@@ -36,7 +40,7 @@ fun AlertDialog(
                     onConfirmation()
                 },
             ) {
-                Text("Confirm")
+                Text(stringResource(Res.string.finance_alert_dialog_confirm_button))
             }
         },
         dismissButton = {
@@ -45,7 +49,7 @@ fun AlertDialog(
                     onDismissRequest()
                 },
             ) {
-                Text("Dismiss")
+                Text(stringResource(Res.string.finance_alert_dialog_dismiss_button))
             }
         },
     )

@@ -21,6 +21,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import com.carlosgub.myfinances.theme.spacing_2
 import com.carlosgub.myfinances.theme.spacing_4
+import myfinances.components.generated.resources.Res
+import myfinances.components.generated.resources.finance_amount_outline_text_field_error_text
+import myfinances.components.generated.resources.finance_amount_outline_text_field_label
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AmountOutlineTextField(
@@ -50,7 +54,7 @@ fun AmountOutlineTextField(
             onValueChange(value.text)
         },
         label = {
-            Text("Enter amount")
+            Text(stringResource(Res.string.finance_amount_outline_text_field_label))
         },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Number,
@@ -68,7 +72,7 @@ fun AmountOutlineTextField(
     )
     AnimatedVisibility(showError) {
         Text(
-            text = "Enter an amount greather than zero",
+            text = stringResource(Res.string.finance_amount_outline_text_field_error_text),
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.labelMedium,
             modifier = Modifier.padding(start = spacing_4),

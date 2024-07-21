@@ -3,6 +3,26 @@
     <string name="finance_data_zero_add_button">Add new</string>
     <!--endregion-->
 
+    <!--region Alert Dialog-->
+    <string name="finance_alert_dialog_confirm_button">Confirm</string>
+    <string name="finance_alert_dialog_dismiss_button">Dismiss</string>
+    <!--endregion-->
+
+    <!--region Alert Dialog-->
+    <string name="finance_amount_outline_text_field_label">Enter amount</string>
+    <string name="finance_amount_outline_text_field_error_text">Enter an amount greater than zero</string>
+    <!--endregion-->
+
+    <!--region Day Picker-->
+    <string name="finance_day_picker_label">Enter day</string>
+    <string name="finance_day_picker_error_text">Enter a date</string>
+    <string name="finance_day_picker_confirm_button">Ok</string>
+    <!--endregion-->
+
+    <!--region Note Outline Text Field-->
+    <string name="finance_note_outline_text_field_label">Note</string>
+    <!--endregion-->
+
     <!--region Line Chart-->
     <string name="finance_line_chart_overlay">%1$d/%2$d\n%3$s</string>
     <!--endregion-->

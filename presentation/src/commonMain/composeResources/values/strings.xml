@@ -33,6 +33,7 @@
     <!--endregion-->
 
     <!--region Months-->
+    <string name="months_toolbar_title">Months</string>
     <string name="months_data_zero_title">Ooops! It's Empty</string>
     <string name="months_data_zero_message">Looks like you don't any month</string>
     <!--endregion-->
