@@ -57,7 +57,6 @@ import com.carlosgub.myfinances.theme.spacing_4
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.Month
 
 @Composable
 fun HomeHeaderContent(
@@ -173,7 +172,7 @@ private fun HomeHeaderFirstPage(
             color = Color.White,
         )
         Text(
-            text = (monthAmount / 100.0).toMoneyFormat(),
+            text = monthAmount.toMoneyFormat(),
             style = MaterialTheme.typography.headlineMedium,
             color = Color.White,
             modifier = Modifier.padding(top = spacing_4),

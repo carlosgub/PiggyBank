@@ -2,6 +2,7 @@ package com.carlosgub.myfinances.presentation.viewmodel.createincome
 
 import androidx.annotation.VisibleForTesting
 import com.carlosgub.myfinances.core.state.GenericState
+import com.carlosgub.myfinances.core.utils.toAmount
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import com.carlosgub.myfinances.core.utils.toStringDateFormat
 import com.carlosgub.myfinances.domain.usecase.CreateIncomeUseCase
@@ -42,7 +43,7 @@ class CreateIncomeViewModel(
             val result =
                 createIncomeUseCase(
                     CreateIncomeUseCase.Params(
-                        amount = (state.amount * 100).toInt(),
+                        amount = state.amount,
                         note = state.note,
                         dateInMillis = state.dateInMillis,
                     ),
@@ -70,16 +71,7 @@ class CreateIncomeViewModel(
     override fun setAmount(textFieldValue: String): Job =
         intent {
             if (textFieldValue != state.amountField) {
-                val cleanString: String =
-                    textFieldValue.replace("""[$,.A-Za-z]""".toRegex(), "").trim().trimStart('0')
-                val parsed =
-                    if (cleanString.isBlank()) {
-                        0.0
-                    } else {
-                        cleanString.toDouble()
-                    }
-                val amount = parsed / 100
-
+                val amount = textFieldValue.toAmount()
                 reduce {
                     state.copy(
                         amountField = amount.toMoneyFormat(),

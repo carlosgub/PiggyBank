@@ -5,8 +5,8 @@ import com.carlosgub.myfinances.domain.model.CategoryEnum
 
 data class EditIncomeScreenState(
     val category: CategoryEnum = CategoryEnum.WORK,
-    val amountField: String = 0.0.toMoneyFormat(),
-    val amount: Double = 0.0,
+    val amountField: String = 0L.toMoneyFormat(),
+    val amount: Long = 0L,
     val showDateError: Boolean = false,
     val showNoteError: Boolean = false,
     val showError: Boolean = false,

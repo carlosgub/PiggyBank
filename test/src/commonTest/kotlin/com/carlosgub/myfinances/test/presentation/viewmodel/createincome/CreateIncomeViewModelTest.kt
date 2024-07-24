@@ -40,7 +40,7 @@ class CreateIncomeViewModelTest {
                 CreateIncomeScreenState(
                     note = "note",
                     dateInMillis = 1000L,
-                    amount = 100.0,
+                    amount = 100,
                 )
             createIncomeViewModel.test(
                 testScope = this,
@@ -128,7 +128,7 @@ class CreateIncomeViewModelTest {
     fun `Set Amount`() =
         runTest {
             val amount = "100"
-            val amountInteger = amount.toInt() / 100.0
+            val amountInteger = amount.toLong()
             createIncomeViewModel.test(
                 this,
                 CreateIncomeScreenState(),

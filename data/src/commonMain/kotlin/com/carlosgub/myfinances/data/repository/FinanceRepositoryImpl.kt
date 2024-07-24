@@ -71,7 +71,7 @@ class FinanceRepositoryImpl(
                                 .toImmutableList()
                         val monthExpense =
                             MonthExpense(
-                                incomeTotal = incomeTotal / 100.0,
+                                incomeTotal = incomeTotal,
                                 percentage = if (incomeTotal != 0L) expenseTotal * 100 / incomeTotal else 100,
                             )
                         val date =
@@ -167,7 +167,7 @@ class FinanceRepositoryImpl(
         }
 
     override suspend fun createExpense(
-        amount: Int,
+        amount: Long,
         category: String,
         note: String,
         dateInMillis: Long,
@@ -184,7 +184,7 @@ class FinanceRepositoryImpl(
         }
 
     override suspend fun createIncome(
-        amount: Int,
+        amount: Long,
         note: String,
         dateInMillis: Long,
     ): GenericState<Unit> =

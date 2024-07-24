@@ -14,7 +14,7 @@ class CreateIncomeUseCase(
         )
 
     data class Params(
-        val amount: Int,
+        val amount: Long,
         val note: String,
         val dateInMillis: Long,
     )

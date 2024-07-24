@@ -15,7 +15,32 @@ import kotlin.math.floor
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
-fun Double.toMoneyFormat(): String = "$${this.toPrecision(2)}"
+fun Long.toMoneyFormat(): String {
+    return when {
+        this < 10 -> {
+            "$0.0${this}"
+        }
+
+        this < 100 -> {
+            "$0.${this}"
+        }
+
+        else -> {
+            val numberString = this.toString()
+            "$${numberString.substring(0, numberString.length - 2)}.${numberString.substring(numberString.length - 2, numberString.length)}"
+        }
+    }
+}
+
+fun String.toAmount(): Long {
+    val cleanString: String =
+        this.replace("""[$,.A-Za-z]""".toRegex(), "").trim().trimStart('0')
+    return if (cleanString.isBlank()) {
+        0L
+    } else {
+        cleanString.toLongOrNull() ?: Long.MAX_VALUE
+    }
+}
 
 fun Float.toMoneyFormat(): String = "$${this.toPrecision(2)}"
 
@@ -78,8 +103,8 @@ fun LocalDateTime.toMillis(): Long = this.toInstant(TimeZone.UTC).toEpochMillise
 fun Long.toStringDateFormat(): String {
     val localDate = this.toLocalDate()
     return "${localDate.dayOfMonth.toNumberOfTwoDigits()}/" +
-        "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
-        "${localDate.year}"
+            "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
+            "${localDate.year}"
 }
 
 fun Month.toLocaleString(): String {

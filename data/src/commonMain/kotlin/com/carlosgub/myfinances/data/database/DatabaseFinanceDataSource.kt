@@ -16,14 +16,14 @@ interface DatabaseFinanceDataSource {
     suspend fun getIncome(id: Long): ResponseResult<Income>
 
     suspend fun createExpense(
-        amount: Int,
+        amount: Long,
         category: String,
         note: String,
         dateInMillis: Long,
     ): ResponseResult<Unit>
 
     suspend fun createIncome(
-        amount: Int,
+        amount: Long,
         note: String,
         dateInMillis: Long,
     ): ResponseResult<Unit>

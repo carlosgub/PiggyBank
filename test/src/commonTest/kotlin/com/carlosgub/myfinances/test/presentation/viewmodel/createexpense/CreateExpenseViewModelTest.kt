@@ -37,7 +37,7 @@ class CreateExpenseViewModelTest {
                 CreateExpenseScreenState(
                     note = "note",
                     dateInMillis = 1000L,
-                    amount = 100.0,
+                    amount = 100,
                 )
             createExpenseViewModel.test(
                 this,
@@ -143,7 +143,7 @@ class CreateExpenseViewModelTest {
     fun `Set Amount`() =
         runTest {
             val amount = "100"
-            val amountInteger = amount.toInt() / 100.0
+            val amountInteger = amount.toLong()
             createExpenseViewModel.test(
                 this,
                 CreateExpenseScreenState(),

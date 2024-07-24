@@ -17,14 +17,14 @@ interface FinanceRepository {
     suspend fun getIncome(id: Long): GenericState<FinanceModel>
 
     suspend fun createExpense(
-        amount: Int,
+        amount: Long,
         category: String,
         note: String,
         dateInMillis: Long,
     ): GenericState<Unit>
 
     suspend fun createIncome(
-        amount: Int,
+        amount: Long,
         note: String,
         dateInMillis: Long,
     ): GenericState<Unit>

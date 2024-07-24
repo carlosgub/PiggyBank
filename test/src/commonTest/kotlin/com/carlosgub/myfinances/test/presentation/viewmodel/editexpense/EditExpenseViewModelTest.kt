@@ -52,7 +52,7 @@ class EditExpenseViewModelTest {
                 EditExpenseScreenState(
                     note = "note",
                     dateInMillis = 1000L,
-                    amount = 100.0,
+                    amount = 100,
                 )
             editExpenseViewModel.test(
                 this,
@@ -158,7 +158,7 @@ class EditExpenseViewModelTest {
     fun `Set Amount`() =
         runTest {
             val amount = "100"
-            val amountInteger = amount.toInt() / 100.0
+            val amountInteger = amount.toLong()
             editExpenseViewModel.test(
                 this,
                 EditExpenseScreenState(),
@@ -300,7 +300,7 @@ class EditExpenseViewModelTest {
                 this,
                 EditExpenseScreenState(),
             ) {
-                val amount = expenseFinanceModelOne.amount / 100.0
+                val amount = expenseFinanceModelOne.amount
                 expectInitialState()
                 containerHost.getExpense(expenseFinanceModelOne.id)
                 expectState {

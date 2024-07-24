@@ -23,6 +23,6 @@ data class FinanceScreenExpenses(
 )
 
 data class MonthExpense(
-    val incomeTotal: Double = 0.0,
+    val incomeTotal: Long = 0L,
     val percentage: Long = 0L,
 )

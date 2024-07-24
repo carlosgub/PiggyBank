@@ -38,14 +38,14 @@ class FakeDatabaseFinanceDataSource : DatabaseFinanceDataSource {
     override suspend fun getIncome(id: Long): ResponseResult<Income> = ResponseResult.Success(incomeOne)
 
     override suspend fun createExpense(
-        amount: Int,
+        amount: Long,
         category: String,
         note: String,
         dateInMillis: Long,
     ): ResponseResult<Unit> = ResponseResult.Success(Unit)
 
     override suspend fun createIncome(
-        amount: Int,
+        amount: Long,
         note: String,
         dateInMillis: Long,
     ): ResponseResult<Unit> = ResponseResult.Success(Unit)

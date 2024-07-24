@@ -15,7 +15,7 @@ class CreateExpenseUseCase(
         )
 
     data class Params(
-        val amount: Int,
+        val amount: Long,
         val category: String,
         val note: String,
         val dateInMillis: Long,

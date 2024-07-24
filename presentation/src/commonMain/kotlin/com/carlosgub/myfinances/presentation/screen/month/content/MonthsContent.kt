@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.carlosgub.myfinances.components.datazero.DataZero
 import com.carlosgub.myfinances.components.divider.HorizontalDivider
 import com.carlosgub.myfinances.components.loading.Loading
+import com.carlosgub.myfinances.core.utils.toLocaleString
 import com.carlosgub.myfinances.core.utils.toMonthKey
 import com.carlosgub.myfinances.presentation.viewmodel.months.MonthsScreenState
 import com.carlosgub.myfinances.theme.ColorPrimary
@@ -182,7 +183,7 @@ fun MonthItem(
                     .background(color = ColorPrimary),
             )
             Text(
-                text = localDateTime.month.name.take(1),
+                text = localDateTime.month.toLocaleString().take(1),
                 color = White,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
@@ -190,7 +191,7 @@ fun MonthItem(
         }
 
         Text(
-            localDateTime.month.name,
+            localDateTime.month.toLocaleString(),
             color = ColorPrimary,
             modifier = Modifier.fillMaxSize()
                 .padding(spacing_2),

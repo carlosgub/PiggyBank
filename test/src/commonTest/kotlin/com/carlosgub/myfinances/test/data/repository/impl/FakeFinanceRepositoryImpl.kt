@@ -27,14 +27,14 @@ internal class FakeFinanceRepositoryImpl : FinanceRepository {
     override suspend fun getIncome(id: Long): GenericState<FinanceModel> = GenericState.Success(incomeFinanceModelOne)
 
     override suspend fun createExpense(
-        amount: Int,
+        amount: Long,
         category: String,
         note: String,
         dateInMillis: Long,
     ): GenericState<Unit> = GenericState.Success(Unit)
 
     override suspend fun createIncome(
-        amount: Int,
+        amount: Long,
         note: String,
         dateInMillis: Long,
     ): GenericState<Unit> = GenericState.Success(Unit)

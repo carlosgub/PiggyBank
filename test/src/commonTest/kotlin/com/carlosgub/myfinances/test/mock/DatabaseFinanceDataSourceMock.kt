@@ -5,6 +5,7 @@ import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
 import com.carlosgub.myfinances.core.utils.isLeapYear
 import com.carlosgub.myfinances.core.utils.monthLength
 import com.carlosgub.myfinances.core.utils.toLocalDate
+import com.carlosgub.myfinances.core.utils.toLocaleString
 import com.carlosgub.myfinances.core.utils.toMonthKey
 import com.carlosgub.myfinances.domain.model.CategoryEnum
 import com.carlosgub.myfinances.domain.model.ExpenseScreenModel
@@ -303,10 +304,10 @@ val daySpentFinanceScreenModel =
 
 val financeScreenModelMock =
     FinanceScreenModel(
-        month = date.month,
+        month = date.month.toLocaleString(),
         expenseAmount = expensesList.sumOf { it.amount },
         monthExpense = MonthExpense(
-            incomeTotal = incomeList.sumOf { it.amount } / 100.0,
+            incomeTotal = incomeList.sumOf { it.amount },
             percentage = 100,
         ),
         expenses = financeScreenExpensesLists,

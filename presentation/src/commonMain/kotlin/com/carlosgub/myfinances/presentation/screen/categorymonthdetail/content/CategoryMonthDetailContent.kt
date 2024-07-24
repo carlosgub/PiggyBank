@@ -177,7 +177,7 @@ private fun CategoryMonthExpenseItem(
             verticalArrangement = Arrangement.Top,
         ) {
             Text(
-                text = (expense.amount / 100.0).toMoneyFormat(),
+                text = expense.amount.toMoneyFormat(),
                 style = MaterialTheme.typography.bodySmall,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.End,
@@ -206,7 +206,7 @@ private fun CategoryMonthDetailHeader(state: CategoryMonthDetailScreenState) {
                 }
                 Column {
                     Text(
-                        text = (state.monthDetail.monthAmount / 100.0).toMoneyFormat(),
+                        text = state.monthDetail.monthAmount.toMoneyFormat(),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = Gray900,

@@ -2,6 +2,7 @@ package com.carlosgub.myfinances.presentation.viewmodel.editexpense
 
 import androidx.annotation.VisibleForTesting
 import com.carlosgub.myfinances.core.state.GenericState
+import com.carlosgub.myfinances.core.utils.toAmount
 import com.carlosgub.myfinances.core.utils.toMillis
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import com.carlosgub.myfinances.core.utils.toStringDateFormat
@@ -41,16 +42,7 @@ class EditExpenseViewModel(
     override fun setAmount(textFieldValue: String): Job =
         intent {
             if (textFieldValue != state.amountField) {
-                val cleanString: String =
-                    textFieldValue.replace("""[$,.A-Za-z]""".toRegex(), "").trim().trimStart('0')
-                val parsed =
-                    if (cleanString.isBlank()) {
-                        0.0
-                    } else {
-                        cleanString.toDouble()
-                    }
-                val amount = parsed / 100
-
+                val amount = textFieldValue.toAmount()
                 reduce {
                     state.copy(
                         amountField = amount.toMoneyFormat(),
@@ -84,7 +76,7 @@ class EditExpenseViewModel(
             val result =
                 editExpenseUseCase(
                     EditExpenseUseCase.Params(
-                        amount = (state.amount * 100).toLong(),
+                        amount = state.amount,
                         note = state.note,
                         dateInMillis = state.dateInMillis,
                         id = id,

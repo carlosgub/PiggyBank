@@ -346,7 +346,7 @@ private fun FinanceCategoryItem(
                 horizontalAlignment = Alignment.End,
             ) {
                 Text(
-                    text = (expense.amount / 100.0).toMoneyFormat(),
+                    text = expense.amount.toMoneyFormat(),
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Medium,
                 )

@@ -72,7 +72,7 @@ class DatabaseFinanceDataSourceImpl(
         }
 
     override suspend fun createExpense(
-        amount: Int,
+        amount: Long,
         category: String,
         note: String,
         dateInMillis: Long,
@@ -83,7 +83,7 @@ class DatabaseFinanceDataSourceImpl(
             sharedDatabase().createExpense(
                 Expense(
                     id = 1,
-                    amount = amount.toLong(),
+                    amount = amount,
                     category = category,
                     note = note,
                     dateInMillis = dateInMillis,
@@ -99,7 +99,7 @@ class DatabaseFinanceDataSourceImpl(
         }
 
     override suspend fun createIncome(
-        amount: Int,
+        amount: Long,
         note: String,
         dateInMillis: Long,
     ): ResponseResult<Unit> =
