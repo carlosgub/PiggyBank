@@ -5,7 +5,18 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
-import kotlinx.datetime.Month.*
+import kotlinx.datetime.Month.APRIL
+import kotlinx.datetime.Month.AUGUST
+import kotlinx.datetime.Month.DECEMBER
+import kotlinx.datetime.Month.FEBRUARY
+import kotlinx.datetime.Month.JANUARY
+import kotlinx.datetime.Month.JULY
+import kotlinx.datetime.Month.JUNE
+import kotlinx.datetime.Month.MARCH
+import kotlinx.datetime.Month.MAY
+import kotlinx.datetime.Month.NOVEMBER
+import kotlinx.datetime.Month.OCTOBER
+import kotlinx.datetime.Month.SEPTEMBER
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.number
 import kotlinx.datetime.toInstant
@@ -18,11 +29,11 @@ import kotlin.math.roundToInt
 fun Long.toMoneyFormat(): String {
     return when {
         this < 10 -> {
-            "$0.0${this}"
+            "$0.0$this"
         }
 
         this < 100 -> {
-            "$0.${this}"
+            "$0.$this"
         }
 
         else -> {
@@ -42,24 +53,17 @@ fun String.toAmount(): Long {
     }
 }
 
-fun Float.toMoneyFormat(): String = "$${this.toPrecision(2)}"
+fun Float.toMoneyFormat(): String {
+    val p = 10.0.pow(2)
+    val v = (abs(this) * p).roundToInt()
+    val i = floor(v / p)
+    var f = "${floor(v - (i * p)).toInt()}"
+    while (f.length < 2) f = "0$f"
+    val s = if (this < 0) "-" else ""
+    return "$$s${i.toInt()}.$f"
+}
 
 fun LocalDateTime.toMonthKey(): String = "${this.month.toMonthString()}${this.year}"
-
-fun Float.toPrecision(precision: Int) = this.toDouble().toPrecision(precision)
-
-fun Double.toPrecision(precision: Int) =
-    if (precision < 1) {
-        "${this.roundToInt()}"
-    } else {
-        val p = 10.0.pow(precision)
-        val v = (abs(this) * p).roundToInt()
-        val i = floor(v / p)
-        var f = "${floor(v - (i * p)).toInt()}"
-        while (f.length < precision) f = "0$f"
-        val s = if (this < 0) "-" else ""
-        "$s${i.toInt()}.$f"
-    }
 
 fun isLeapYear(year: Int): Boolean {
     val prolepticYear: Long = year.toLong()
@@ -103,8 +107,8 @@ fun LocalDateTime.toMillis(): Long = this.toInstant(TimeZone.UTC).toEpochMillise
 fun Long.toStringDateFormat(): String {
     val localDate = this.toLocalDate()
     return "${localDate.dayOfMonth.toNumberOfTwoDigits()}/" +
-            "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
-            "${localDate.year}"
+        "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
+        "${localDate.year}"
 }
 
 fun Month.toLocaleString(): String {
