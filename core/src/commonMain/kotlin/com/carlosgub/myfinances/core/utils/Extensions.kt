@@ -1,9 +1,11 @@
 package com.carlosgub.myfinances.core.utils
 
+import androidx.compose.ui.text.intl.Locale
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
+import kotlinx.datetime.Month.*
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.number
 import kotlinx.datetime.toInstant
@@ -78,4 +80,30 @@ fun Long.toStringDateFormat(): String {
     return "${localDate.dayOfMonth.toNumberOfTwoDigits()}/" +
         "${localDate.monthNumber.toNumberOfTwoDigits()}/" +
         "${localDate.year}"
+}
+
+fun Month.toLocaleString(): String {
+    return if (Locale.current.language.contains("es")) {
+        this.toSpanishLocale()
+    } else {
+        this.name
+    }
+}
+
+private fun Month.toSpanishLocale(): String {
+    return when (this) {
+        JANUARY -> "ENERO"
+        FEBRUARY -> "FEBRERO"
+        MARCH -> "MARZO"
+        APRIL -> "ABRIL"
+        MAY -> "MAYO"
+        JUNE -> "JUNIO"
+        JULY -> "JULIO"
+        AUGUST -> "AGOSTO"
+        SEPTEMBER -> "SEPTIEMBRE"
+        OCTOBER -> "OCTUBRE"
+        NOVEMBER -> "NOVIEMBRE"
+        DECEMBER -> "DICIEMBRE"
+        else -> ""
+    }
 }

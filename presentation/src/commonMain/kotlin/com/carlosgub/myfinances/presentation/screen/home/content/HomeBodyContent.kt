@@ -67,7 +67,8 @@ import myfinances.presentation.generated.resources.home_body_data_zero_message
 import myfinances.presentation.generated.resources.home_body_data_zero_title
 import myfinances.presentation.generated.resources.home_body_finance_category_item_budget_percentage
 import myfinances.presentation.generated.resources.home_body_finance_category_item_count_transactions
-import myfinances.presentation.generated.resources.home_body_month_budget
+import myfinances.presentation.generated.resources.home_body_monthly_budget
+import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -120,7 +121,7 @@ private fun CardMonthBudgetContent(monthExpense: MonthExpense) {
     ) {
         Row {
             Text(
-                text = stringResource(Res.string.home_body_month_budget),
+                text = stringResource(Res.string.home_body_monthly_budget),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium,
             )
@@ -350,8 +351,9 @@ private fun FinanceCategoryItem(
                     fontWeight = FontWeight.Medium,
                 )
                 Text(
-                    text = stringResource(
-                        Res.string.home_body_finance_category_item_count_transactions,
+                    text = pluralStringResource(
+                        Res.plurals.home_body_finance_category_item_count_transactions,
+                        expense.count,
                         expense.count,
                     ),
                     style = MaterialTheme.typography.labelMedium,

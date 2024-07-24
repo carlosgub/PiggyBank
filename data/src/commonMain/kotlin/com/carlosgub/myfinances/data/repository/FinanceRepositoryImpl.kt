@@ -8,6 +8,7 @@ import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
 import com.carlosgub.myfinances.core.utils.isLeapYear
 import com.carlosgub.myfinances.core.utils.monthLength
 import com.carlosgub.myfinances.core.utils.toLocalDate
+import com.carlosgub.myfinances.core.utils.toLocaleString
 import com.carlosgub.myfinances.core.utils.toMonthKey
 import com.carlosgub.myfinances.data.database.DatabaseFinanceDataSource
 import com.carlosgub.myfinances.domain.model.CategoryEnum.Companion.getCategoryEnumFromName
@@ -107,7 +108,7 @@ class FinanceRepositoryImpl(
                                     expenseAmount = expenseTotal,
                                     expenses = expenseList,
                                     income = incomeList,
-                                    month = date.month,
+                                    month = date.month.toLocaleString(),
                                     monthExpense = monthExpense,
                                     daySpent = daySpent,
                                 ),

@@ -1,22 +1,4 @@
 <resources>
-    <!--region category-->
-    <string name="category_food">Food</string>
-    <string name="category_clothes">Clothes</string>
-    <string name="category_home">Home</string>
-    <string name="category_personal">Personal</string>
-    <string name="category_study">Studies</string>
-    <string name="category_savings">Savings</string>
-    <string name="category_pets">Pets</string>
-    <string name="category_taxi">Taxi</string>
-    <string name="category_love">Love</string>
-    <string name="category_work">Work</string>
-    <!--endregion-->
-
-    <!--region finance enum-->
-    <string name="finance_expense">Expenses</string>
-    <string name="finance_income">Income</string>
-    <!--endregion-->
-
     <!--region Categories Chips-->
     <string name="categories_header">Categories</string>
     <!--endregion-->
@@ -25,17 +7,20 @@
     <string name="home_app_name">My Finances</string>
     <string name="home_add_expense">Add Expense</string>
     <string name="home_add_income">Add Income</string>
-    <string name="home_body_month_budget">Month Budget</string>
+    <string name="home_body_monthly_budget">Monthly Budget</string>
     <string name="home_body_data_zero_title">Ooops! It's Empty</string>
     <string name="home_body_data_zero_message">Looks like you don't have anything in your %1$s</string>
     <string name="home_body_finance_category_item_budget_percentage">%1$d% of budget</string>
-    <string name="home_body_finance_category_item_count_transactions">%1$d transactions</string>
+    <plurals name="home_body_finance_category_item_count_transactions">
+        <item quantity="one">%1$d transaction</item>
+        <item quantity="other">%1$d transactions</item>
+    </plurals>
     <!--endregion-->
 
     <!--region Months-->
     <string name="months_toolbar_title">Months</string>
     <string name="months_data_zero_title">Ooops! It's Empty</string>
-    <string name="months_data_zero_message">Looks like you don't any month</string>
+    <string name="months_data_zero_message">It looks like you haven't made any expenses in any month</string>
     <!--endregion-->
 
     <!--region Edit Income-->
@@ -68,6 +53,6 @@
 
     <!--region Category Month Detail-->
     <string name="category_month_detail_data_zero_title">Ooops! It's Empty</string>
-    <string name="category_month_detail_data_zero_message">Looks like you don't have anything in this category</string>
+    <string name="category_month_detail_data_zero_message">Looks like you don't have any record in this category</string>
     <!--endregion-->
 </resources>

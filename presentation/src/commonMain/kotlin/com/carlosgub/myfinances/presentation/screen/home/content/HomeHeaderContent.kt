@@ -158,7 +158,7 @@ private fun HomeHeaderLeftIcon(
 
 @Composable
 private fun HomeHeaderFirstPage(
-    month: Month,
+    month: String,
     monthAmount: Long,
     modifier: Modifier = Modifier,
 ) {
@@ -168,7 +168,7 @@ private fun HomeHeaderFirstPage(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = month.name,
+            text = month,
             style = MaterialTheme.typography.headlineSmall,
             color = Color.White,
         )

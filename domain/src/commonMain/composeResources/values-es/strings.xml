@@ -1,0 +1,19 @@
+<resources>
+    <!--region category-->
+    <string name="category_food">Comida</string>
+    <string name="category_clothes">Ropa</string>
+    <string name="category_home">Casa</string>
+    <string name="category_personal">Personal</string>
+    <string name="category_study">Estudios</string>
+    <string name="category_savings">Ahorros</string>
+    <string name="category_pets">Mascotas</string>
+    <string name="category_taxi">Taxi</string>
+    <string name="category_love">Amor</string>
+    <string name="category_work">Trabajo</string>
+    <!--endregion-->
+
+    <!--region finance enum-->
+    <string name="finance_expense">Gastos</string>
+    <string name="finance_income">Ingresos</string>
+    <!--endregion-->
+</resources>

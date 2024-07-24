@@ -1,0 +1,58 @@
+<resources>
+    <!--region Categories Chips-->
+    <string name="categories_header">Categorias</string>
+    <!--endregion-->
+
+    <!--region Home-->
+    <string name="home_app_name">My Finances</string>
+    <string name="home_add_expense">Agregar gasto</string>
+    <string name="home_add_income">Agregar ingreso</string>
+    <string name="home_body_monthly_budget">Presupuesto mensual</string>
+    <string name="home_body_data_zero_title">Ooops! Esta vacio</string>
+    <string name="home_body_data_zero_message">Parece que no tienes nada en tus %1$s</string>
+    <string name="home_body_finance_category_item_budget_percentage">%1$d% del presupuesto</string>
+    <plurals name="home_body_finance_category_item_count_transactions">
+        <item quantity="one">%1$d transacción</item>
+        <item quantity="other">%1$d transacciones</item>
+    </plurals>
+    <!--endregion-->
+
+    <!--region Months-->
+    <string name="months_toolbar_title">Months</string>
+    <string name="months_data_zero_title">Ooops! Esta vacio</string>
+    <string name="months_data_zero_message">Parece que no haz hecho ningun gasto en ningun mes</string>
+    <!--endregion-->
+
+    <!--region Edit Income-->
+    <string name="edit_income_title">Editar Ingreso</string>
+    <string name="edit_income_pop_up_title">Eliminar</string>
+    <string name="edit_income_pop_up_message">¿Estas seguro de querer eliminar este ingreso?</string>
+    <string name="edit_income_button">Editar Ingreso</string>
+    <string name="edit_income_error_text">Escriba una nota</string>
+    <!--endregion-->
+
+    <!--region Edit Expense-->
+    <string name="edit_expense_title">Editar Gasto</string>
+    <string name="edit_expense_pop_up_title">Eliminar</string>
+    <string name="edit_expense_pop_up_message">¿Estas seguro de querer eliminar este gasto?</string>
+    <string name="edit_expense_button">Editar Gasto</string>
+    <string name="edit_expense_error_text">Escriba una nota</string>
+    <!--endregion-->
+
+    <!--region Create Income-->
+    <string name="create_income_title">Crear Ingreso</string>
+    <string name="create_income_button">Crear Ingreso</string>
+    <string name="create_income_error_text">Escriba una nota</string>
+    <!--endregion-->
+
+    <!--region Create Expense-->
+    <string name="create_expense_title">Crear Gasto</string>
+    <string name="create_expense_button">Crear Gasto</string>
+    <string name="create_expense_error_text">Escriba una nota</string>
+    <!--endregion-->
+
+    <!--region Category Month Detail-->
+    <string name="category_month_detail_data_zero_title">Ooops! Parece que esta vacio</string>
+    <string name="category_month_detail_data_zero_message">Parece que no tiene ningun registro en esta categoría</string>
+    <!--endregion-->
+</resources>

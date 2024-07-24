@@ -1,0 +1,29 @@
+<resources>
+    <!--region Data Zero-->
+    <string name="finance_data_zero_add_button">Agregar</string>
+    <!--endregion-->
+
+    <!--region Alert Dialog-->
+    <string name="finance_alert_dialog_confirm_button">Confirmar</string>
+    <string name="finance_alert_dialog_dismiss_button">Cancelar</string>
+    <!--endregion-->
+
+    <!--region Alert Dialog-->
+    <string name="finance_amount_outline_text_field_label">Ingresa el monto</string>
+    <string name="finance_amount_outline_text_field_error_text">Ingresa un monto mayor a cero</string>
+    <!--endregion-->
+
+    <!--region Day Picker-->
+    <string name="finance_day_picker_label">Ingresa el dia</string>
+    <string name="finance_day_picker_error_text">Ingresa el dia</string>
+    <string name="finance_day_picker_confirm_button">Aceptar</string>
+    <!--endregion-->
+
+    <!--region Note Outline Text Field-->
+    <string name="finance_note_outline_text_field_label">Nota</string>
+    <!--endregion-->
+
+    <!--region Line Chart-->
+    <string name="finance_line_chart_overlay">%1$d/%2$d\n%3$s</string>
+    <!--endregion-->
+</resources>

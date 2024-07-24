@@ -5,10 +5,9 @@ import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.Month
 
 data class FinanceScreenModel(
-    val month: Month = Month.JANUARY,
+    val month: String = "",
     val expenseAmount: Long = 0L,
     val monthExpense: MonthExpense = MonthExpense(),
     val expenses: ImmutableList<FinanceScreenExpenses> = persistentListOf(),
@@ -17,7 +16,7 @@ data class FinanceScreenModel(
 )
 
 data class FinanceScreenExpenses(
-    val category: com.carlosgub.myfinances.domain.model.CategoryEnum,
+    val category: CategoryEnum,
     val amount: Long,
     val count: Int,
     val percentage: Int,
