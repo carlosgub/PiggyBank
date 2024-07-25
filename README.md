@@ -6,7 +6,7 @@ https://github.com/carlosgub/myFinances/assets/30916886/1fb1e887-5afd-4e9b-b287-
 
 #### Overview
 
-The Finance Tracker App is a versatile tool for managing your finances. Whether you want to track expenses, log incomes, or visualize your financial movements through charts, this app has got you covered. It offers a user-friendly interface and robust functionalities to help you stay on top of your finances.
+The PiggyBank App is a versatile tool for managing your finances. Whether you want to track expenses, log incomes, or visualize your financial movements through charts, this app has got you covered. It offers a user-friendly interface and robust functionalities to help you stay on top of your finances.
 
 #### Features
 
