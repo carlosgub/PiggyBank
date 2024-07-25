@@ -27,7 +27,7 @@ android {
         applicationId = "com.carlosgub.myfinance.app"
         minSdk = libs.versions.app.min.sdk.get().toInt()
         targetSdk = (findProperty("android.targetSdk") as String).toInt()
-        versionCode = 1
+        versionCode = 2
         versionName = "1.0"
     }
     compileOptions {
