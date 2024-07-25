@@ -1,4 +1,4 @@
-### My finances
+### PiggyBank
 
 #### Screenshots
 

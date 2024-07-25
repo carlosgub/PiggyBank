@@ -4,7 +4,7 @@
     <!--endregion-->
 
     <!--region Home-->
-    <string name="home_app_name">My Finances</string>
+    <string name="home_app_name">PiggyBank</string>
     <string name="home_add_expense">Agregar gasto</string>
     <string name="home_add_income">Agregar ingreso</string>
     <string name="home_body_monthly_budget">Presupuesto mensual</string>
