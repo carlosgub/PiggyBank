@@ -1,8 +1,17 @@
 ### PiggyBank
 
+![New Project-2](https://github.com/user-attachments/assets/563cfa5e-3024-4658-852e-3669b811f751)
+
+<a href='https://play.google.com/store/apps/details?id=com.carlosgub.myfinance.app'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='80px'/></a>
+
 #### Screenshots
 
-https://github.com/carlosgub/myFinances/assets/30916886/1fb1e887-5afd-4e9b-b287-ddb7be3ffb19
+<img width="150" alt="Screenshot 2024-07-24 at 8 56 30 PM" src="https://github.com/user-attachments/assets/6e3a69f6-152e-4ae0-b1d0-f4c5eb6ac315">
+<img width="150" alt="Screenshot 2024-07-24 at 8 56 15 PM" src="https://github.com/user-attachments/assets/38c00bec-cd22-40ff-826a-3b52f09cadef">
+<img width="150" alt="Screenshot 2024-07-24 at 8 55 35 PM" src="https://github.com/user-attachments/assets/7046919b-6013-49ac-9498-b8b124c89608">
+<img width="150" alt="Screenshot 2024-07-24 at 8 55 27 PM" src="https://github.com/user-attachments/assets/6cf1bd0e-9409-49bb-ab5f-944276543b2b">
+<img width="150" alt="Screenshot 2024-07-24 at 8 55 16 PM" src="https://github.com/user-attachments/assets/671128d0-234b-4306-a287-2131d3f3d562">
+
 
 #### Overview
 
