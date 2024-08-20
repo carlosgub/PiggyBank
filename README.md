@@ -109,6 +109,6 @@ Contributions are welcome! If you have any suggestions, feature requests, or bug
 
 #### Design
 
-This design is inspired by a design I found on Dribbble. I couldn't find the original post anymore, so I will post a screenshot instead.
+This design is inspired by a design I found on [Dribbble](https://dribbble.com/shots/7449879-Budget-Expenses).
 
 <img width="300" alt="Screenshot 2023-08-16 at 3 23 47 AM" src="https://github.com/carlosgub/myFinances/assets/30916886/6e2b0a02-99ca-432f-8151-c086ac09100d">
