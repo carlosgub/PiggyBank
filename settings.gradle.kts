@@ -38,7 +38,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MyFinances"
+rootProject.name = "PiggyBank"
 
 include(":androidApp")
 include(":domain")

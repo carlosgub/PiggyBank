@@ -77,7 +77,7 @@ fun PrimaryButtonContent(
                 modifier = Modifier
                     .padding(start = spacing_1)
                     .size(view_6),
-                contentDescription = "button_icon",
+                contentDescription = "button icon",
                 tint = fontColor,
             )
         }
@@ -87,7 +87,7 @@ fun PrimaryButtonContent(
                 modifier = Modifier
                     .padding(start = spacing_1)
                     .size(view_6),
-                contentDescription = "button_icon",
+                contentDescription = "button icon",
                 tint = fontColor,
             )
         }

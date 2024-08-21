@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
+    kotlin("native.cocoapods")
     alias(libs.plugins.android.library)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.compose)
@@ -15,6 +16,17 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
+            baseName = "presentation"
+            isStatic = true
+        }
+    }
+
+    cocoapods {
+        version = "1.0.0"
+        summary = "This module is used for the presentation"
+        ios.deploymentTarget = "14.1"
+        podfile = project.file("../iosApp/Podfile")
+        framework {
             baseName = "presentation"
             isStatic = true
         }

@@ -5,10 +5,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import myfinances.components.generated.resources.Res
-import myfinances.components.generated.resources.finance_alert_dialog_confirm_button
-import myfinances.components.generated.resources.finance_alert_dialog_dismiss_button
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import piggybank.components.generated.resources.Res
+import piggybank.components.generated.resources.finance_alert_dialog_confirm_button
+import piggybank.components.generated.resources.finance_alert_dialog_dismiss_button
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -22,7 +24,11 @@ fun AlertDialog(
     AlertDialog(
         icon = {
             icon?.let {
-                Icon(icon, contentDescription = "Example Icon")
+                Icon(
+                    icon,
+                    contentDescription = null,
+                    modifier = Modifier.clearAndSetSemantics { },
+                )
             }
         },
         title = {

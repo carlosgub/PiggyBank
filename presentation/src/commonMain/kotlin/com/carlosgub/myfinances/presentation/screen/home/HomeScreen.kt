@@ -23,10 +23,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
-import myfinances.presentation.generated.resources.Res
-import myfinances.presentation.generated.resources.home_add_expense
-import myfinances.presentation.generated.resources.home_add_income
-import myfinances.presentation.generated.resources.home_app_name
+import piggybank.presentation.generated.resources.Res
+import piggybank.presentation.generated.resources.home_add_expense
+import piggybank.presentation.generated.resources.home_add_income
+import piggybank.presentation.generated.resources.home_app_name
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 

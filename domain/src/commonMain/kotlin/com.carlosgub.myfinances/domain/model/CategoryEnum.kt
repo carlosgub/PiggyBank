@@ -19,17 +19,17 @@ import com.carlosgub.myfinances.theme.ColorPrimary
 import com.carlosgub.myfinances.theme.Pink
 import com.carlosgub.myfinances.theme.Purple
 import com.carlosgub.myfinances.theme.Teal
-import myfinances.domain.generated.resources.Res
-import myfinances.domain.generated.resources.category_clothes
-import myfinances.domain.generated.resources.category_food
-import myfinances.domain.generated.resources.category_home
-import myfinances.domain.generated.resources.category_love
-import myfinances.domain.generated.resources.category_personal
-import myfinances.domain.generated.resources.category_pets
-import myfinances.domain.generated.resources.category_savings
-import myfinances.domain.generated.resources.category_study
-import myfinances.domain.generated.resources.category_taxi
-import myfinances.domain.generated.resources.category_work
+import piggybank.domain.generated.resources.Res
+import piggybank.domain.generated.resources.category_clothes
+import piggybank.domain.generated.resources.category_food
+import piggybank.domain.generated.resources.category_home
+import piggybank.domain.generated.resources.category_love
+import piggybank.domain.generated.resources.category_personal
+import piggybank.domain.generated.resources.category_pets
+import piggybank.domain.generated.resources.category_savings
+import piggybank.domain.generated.resources.category_study
+import piggybank.domain.generated.resources.category_taxi
+import piggybank.domain.generated.resources.category_work
 import org.jetbrains.compose.resources.StringResource
 
 enum class CategoryEnum(

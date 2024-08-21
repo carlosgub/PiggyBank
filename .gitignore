@@ -15,6 +15,7 @@ iosApp/iosApp.xcodeproj/*
 !iosApp/iosApp.xcodeproj/project.pbxproj
 domain/domain.podspec
 navigation/navigation.podspec
+presentation/presentation.podspec
 /iosApp/iosApp/GoogleService-Info.plist
 Untitled
 androidApp/release/*

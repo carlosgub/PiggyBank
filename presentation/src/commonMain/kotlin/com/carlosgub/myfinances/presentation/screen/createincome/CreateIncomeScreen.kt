@@ -14,8 +14,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
-import myfinances.presentation.generated.resources.Res
-import myfinances.presentation.generated.resources.create_income_title
+import piggybank.presentation.generated.resources.Res
+import piggybank.presentation.generated.resources.create_income_title
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 

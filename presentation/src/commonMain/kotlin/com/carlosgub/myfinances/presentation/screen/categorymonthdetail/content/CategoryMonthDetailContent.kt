@@ -42,9 +42,9 @@ import com.carlosgub.myfinances.theme.spacing_1
 import com.carlosgub.myfinances.theme.spacing_2
 import com.carlosgub.myfinances.theme.spacing_4
 import com.carlosgub.myfinances.theme.spacing_6
-import myfinances.presentation.generated.resources.Res
-import myfinances.presentation.generated.resources.category_month_detail_data_zero_message
-import myfinances.presentation.generated.resources.category_month_detail_data_zero_title
+import piggybank.presentation.generated.resources.Res
+import piggybank.presentation.generated.resources.category_month_detail_data_zero_message
+import piggybank.presentation.generated.resources.category_month_detail_data_zero_title
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

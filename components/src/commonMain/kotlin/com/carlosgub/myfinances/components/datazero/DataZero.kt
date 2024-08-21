@@ -18,8 +18,8 @@ import com.carlosgub.myfinances.components.button.PrimaryButton
 import com.carlosgub.myfinances.theme.spacing_1
 import com.carlosgub.myfinances.theme.spacing_2
 import com.carlosgub.myfinances.theme.spacing_4
-import myfinances.components.generated.resources.Res
-import myfinances.components.generated.resources.finance_data_zero_add_button
+import piggybank.components.generated.resources.Res
+import piggybank.components.generated.resources.finance_data_zero_add_button
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
