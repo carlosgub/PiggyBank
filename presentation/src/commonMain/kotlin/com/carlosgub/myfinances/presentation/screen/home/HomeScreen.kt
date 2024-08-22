@@ -23,12 +23,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import piggybank.presentation.generated.resources.Res
 import piggybank.presentation.generated.resources.home_add_expense
 import piggybank.presentation.generated.resources.home_add_income
 import piggybank.presentation.generated.resources.home_app_name
-import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
 
 @Composable
 fun HomeScreen(

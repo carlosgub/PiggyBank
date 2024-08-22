@@ -30,11 +30,11 @@ import com.carlosgub.myfinances.presentation.viewmodel.createexpense.CreateExpen
 import com.carlosgub.myfinances.theme.spacing_2
 import com.carlosgub.myfinances.theme.spacing_4
 import com.carlosgub.myfinances.theme.spacing_6
+import org.jetbrains.compose.resources.stringResource
 import piggybank.presentation.generated.resources.Res
 import piggybank.presentation.generated.resources.categories_header
 import piggybank.presentation.generated.resources.create_expense_button
 import piggybank.presentation.generated.resources.create_expense_error_text
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun CreateExpenseContent(

@@ -8,10 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.clearAndSetSemantics
+import org.jetbrains.compose.resources.stringResource
 import piggybank.components.generated.resources.Res
 import piggybank.components.generated.resources.finance_alert_dialog_confirm_button
 import piggybank.components.generated.resources.finance_alert_dialog_dismiss_button
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AlertDialog(

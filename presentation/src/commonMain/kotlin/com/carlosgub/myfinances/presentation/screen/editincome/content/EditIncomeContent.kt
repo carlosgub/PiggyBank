@@ -19,10 +19,10 @@ import com.carlosgub.myfinances.presentation.viewmodel.editincome.EditIncomeScre
 import com.carlosgub.myfinances.presentation.viewmodel.editincome.EditIncomeScreenState
 import com.carlosgub.myfinances.theme.spacing_4
 import com.carlosgub.myfinances.theme.spacing_6
+import org.jetbrains.compose.resources.stringResource
 import piggybank.presentation.generated.resources.Res
 import piggybank.presentation.generated.resources.edit_income_button
 import piggybank.presentation.generated.resources.edit_income_error_text
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun EditIncomeContent(

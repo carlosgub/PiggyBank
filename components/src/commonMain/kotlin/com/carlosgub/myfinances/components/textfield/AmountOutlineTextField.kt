@@ -21,10 +21,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import com.carlosgub.myfinances.theme.spacing_2
 import com.carlosgub.myfinances.theme.spacing_4
+import org.jetbrains.compose.resources.stringResource
 import piggybank.components.generated.resources.Res
 import piggybank.components.generated.resources.finance_amount_outline_text_field_error_text
 import piggybank.components.generated.resources.finance_amount_outline_text_field_label
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AmountOutlineTextField(

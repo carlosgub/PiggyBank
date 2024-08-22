@@ -45,10 +45,10 @@ import com.carlosgub.myfinances.theme.spacing_2
 import com.carlosgub.myfinances.theme.spacing_3
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.datetime.LocalDateTime
+import org.jetbrains.compose.resources.stringResource
 import piggybank.presentation.generated.resources.Res
 import piggybank.presentation.generated.resources.months_data_zero_message
 import piggybank.presentation.generated.resources.months_data_zero_title
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MonthsContent(

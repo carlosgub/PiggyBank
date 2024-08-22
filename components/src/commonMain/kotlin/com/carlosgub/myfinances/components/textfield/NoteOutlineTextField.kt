@@ -30,9 +30,9 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.jetbrains.compose.resources.stringResource
 import piggybank.components.generated.resources.Res
 import piggybank.components.generated.resources.finance_note_outline_text_field_label
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun NoteOutlineTextField(

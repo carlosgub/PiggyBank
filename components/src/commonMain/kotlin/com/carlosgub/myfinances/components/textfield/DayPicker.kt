@@ -29,11 +29,11 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.carlosgub.myfinances.theme.spacing_2
 import com.carlosgub.myfinances.theme.spacing_4
+import org.jetbrains.compose.resources.stringResource
 import piggybank.components.generated.resources.Res
 import piggybank.components.generated.resources.finance_day_picker_confirm_button
 import piggybank.components.generated.resources.finance_day_picker_error_text
 import piggybank.components.generated.resources.finance_day_picker_label
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun DayPicker(

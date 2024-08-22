@@ -62,14 +62,14 @@ import com.carlosgub.myfinances.theme.spacing_8
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.pluralStringResource
+import org.jetbrains.compose.resources.stringResource
 import piggybank.presentation.generated.resources.Res
 import piggybank.presentation.generated.resources.home_body_data_zero_message
 import piggybank.presentation.generated.resources.home_body_data_zero_title
 import piggybank.presentation.generated.resources.home_body_finance_category_item_budget_percentage
 import piggybank.presentation.generated.resources.home_body_finance_category_item_count_transactions
 import piggybank.presentation.generated.resources.home_body_monthly_budget
-import org.jetbrains.compose.resources.pluralStringResource
-import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable

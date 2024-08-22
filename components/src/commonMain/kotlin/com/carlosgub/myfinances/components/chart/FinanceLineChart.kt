@@ -27,9 +27,9 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
+import org.jetbrains.compose.resources.stringResource
 import piggybank.components.generated.resources.Res
 import piggybank.components.generated.resources.finance_line_chart_overlay
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FinanceLineChart(

@@ -19,6 +19,7 @@ import com.carlosgub.myfinances.theme.ColorPrimary
 import com.carlosgub.myfinances.theme.Pink
 import com.carlosgub.myfinances.theme.Purple
 import com.carlosgub.myfinances.theme.Teal
+import org.jetbrains.compose.resources.StringResource
 import piggybank.domain.generated.resources.Res
 import piggybank.domain.generated.resources.category_clothes
 import piggybank.domain.generated.resources.category_food
@@ -30,7 +31,6 @@ import piggybank.domain.generated.resources.category_savings
 import piggybank.domain.generated.resources.category_study
 import piggybank.domain.generated.resources.category_taxi
 import piggybank.domain.generated.resources.category_work
-import org.jetbrains.compose.resources.StringResource
 
 enum class CategoryEnum(
     val categoryName: StringResource,
