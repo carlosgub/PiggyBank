@@ -23,6 +23,7 @@ import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import piggybank.presentation.generated.resources.Res
+import piggybank.presentation.generated.resources.edit_expense_left_icon_content_description
 import piggybank.presentation.generated.resources.edit_income_pop_up_message
 import piggybank.presentation.generated.resources.edit_income_pop_up_title
 import piggybank.presentation.generated.resources.edit_income_title
@@ -79,6 +80,7 @@ private fun EditIncomeToolbar(
         title = stringResource(Res.string.edit_income_title),
         navigation = onBack,
         leftIcon = Icons.Default.Delete,
+        leftIconContentDescription = stringResource(Res.string.edit_expense_left_icon_content_description),
         onLeftIconPressed = {
             popUpVisible = true
         },

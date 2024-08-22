@@ -29,6 +29,8 @@ import piggybank.presentation.generated.resources.Res
 import piggybank.presentation.generated.resources.home_add_expense
 import piggybank.presentation.generated.resources.home_add_income
 import piggybank.presentation.generated.resources.home_app_name
+import piggybank.presentation.generated.resources.home_drop_down_menu_content_description
+import piggybank.presentation.generated.resources.home_left_icon_content_description
 
 @Composable
 fun HomeScreen(
@@ -88,13 +90,20 @@ private fun HomeToolbar(
     onBack: () -> Unit,
 ) {
     val leftIcon = if (showLeftIcon) Icons.Filled.CalendarMonth else null
+    val leftIconContentDescription = if (showLeftIcon) {
+        stringResource(Res.string.home_left_icon_content_description)
+    } else {
+        null
+    }
     Toolbar(
         hasNavigationIcon = !showLeftIcon,
         navigation = onBack,
         title = stringResource(Res.string.home_app_name),
         dropDownIcon = Icons.Filled.Add,
         dropDownMenu = true,
+        dropDownMenuContentDescription = stringResource(Res.string.home_drop_down_menu_content_description),
         leftIcon = leftIcon,
+        leftIconContentDescription = leftIconContentDescription,
         onLeftIconPressed = onCalendarPressed,
         dropDownItems = persistentListOf(
             MenuItem(

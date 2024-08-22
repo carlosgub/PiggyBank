@@ -13,6 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import com.carlosgub.myfinances.components.button.PrimaryButton
 import com.carlosgub.myfinances.theme.spacing_1
@@ -57,8 +60,9 @@ fun <E> DataZero(
             ),
         )
         if (hasButton) {
+            val buttonText = stringResource(Res.string.finance_data_zero_add_button)
             PrimaryButton(
-                buttonText = stringResource(Res.string.finance_data_zero_add_button),
+                buttonText = buttonText,
                 iconVector = Icons.Default.Add,
                 shape = MaterialTheme.shapes.extraLarge,
                 onClick = {
@@ -70,7 +74,9 @@ fun <E> DataZero(
                         start = spacing_2,
                         end = spacing_2,
                     )
-                    .width(IntrinsicSize.Max),
+                    .width(IntrinsicSize.Max)
+                    .semantics(mergeDescendants = true) {}
+                    .clearAndSetSemantics { contentDescription = buttonText },
             )
         }
     }

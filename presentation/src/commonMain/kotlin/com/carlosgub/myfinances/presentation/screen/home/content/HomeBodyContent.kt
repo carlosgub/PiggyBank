@@ -38,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.carlosgub.myfinances.components.datazero.DataZero
@@ -51,6 +52,7 @@ import com.carlosgub.myfinances.presentation.viewmodel.home.HomeScreenState
 import com.carlosgub.myfinances.theme.ColorPrimary
 import com.carlosgub.myfinances.theme.Gray400
 import com.carlosgub.myfinances.theme.Gray600
+import com.carlosgub.myfinances.theme.Gray900
 import com.carlosgub.myfinances.theme.MonthBudgetCardColor
 import com.carlosgub.myfinances.theme.spacing_1
 import com.carlosgub.myfinances.theme.spacing_16
@@ -158,7 +160,8 @@ private fun CardMonthBudgetBar(monthExpense: MonthExpense) {
         color = ColorPrimary,
         modifier = Modifier.fillMaxWidth()
             .padding(top = spacing_2)
-            .height(6.dp),
+            .height(6.dp)
+            .clearAndSetSemantics {  },
         strokeCap = StrokeCap.Round,
     )
     LaunchedEffect(percentage) {
@@ -401,7 +404,7 @@ fun ExpenseIconProgress(
         }
         Icon(
             imageVector = expense.category.icon,
-            contentDescription = null,
+            contentDescription = "${stringResource(expense.category.categoryName)} icon",
             tint = Gray600,
             modifier = Modifier.size(28.dp),
         )

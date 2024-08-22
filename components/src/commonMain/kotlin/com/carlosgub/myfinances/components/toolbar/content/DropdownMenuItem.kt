@@ -10,6 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import com.carlosgub.myfinances.theme.spacing_2
 
 @Composable
@@ -21,7 +24,9 @@ fun DropdownMenuItem(
 ) {
     DropdownMenuItem(
         onClick = onItemClicked,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth()
+            .semantics(mergeDescendants = true) {}
+            .clearAndSetSemantics { contentDescription = text },
         text = {
             Text(
                 text = text,

@@ -7,10 +7,12 @@
     <string name="home_app_name">PiggyBank</string>
     <string name="home_add_expense">Agregar gasto</string>
     <string name="home_add_income">Agregar ingreso</string>
+    <string name="home_drop_down_menu_content_description">Agregar</string>
     <string name="home_body_monthly_budget">Presupuesto mensual</string>
     <string name="home_body_data_zero_title">Ooops! Esta vacio</string>
     <string name="home_body_data_zero_message">Parece que no tienes nada en tus %1$s</string>
     <string name="home_body_finance_category_item_budget_percentage">%1$d% del presupuesto</string>
+    <string name="home_left_icon_content_description">Ver meses pasados</string>
     <plurals name="home_body_finance_category_item_count_transactions">
         <item quantity="one">%1$d transacción</item>
         <item quantity="other">%1$d transacciones</item>
@@ -29,6 +31,7 @@
     <string name="edit_income_pop_up_message">¿Estas seguro de querer eliminar este ingreso?</string>
     <string name="edit_income_button">Editar Ingreso</string>
     <string name="edit_income_error_text">Escriba una nota</string>
+    <string name="edit_income_left_icon_content_description">Eliminar Ingreso</string>
     <!--endregion-->
 
     <!--region Edit Expense-->
@@ -37,6 +40,7 @@
     <string name="edit_expense_pop_up_message">¿Estas seguro de querer eliminar este gasto?</string>
     <string name="edit_expense_button">Editar Gasto</string>
     <string name="edit_expense_error_text">Escriba una nota</string>
+    <string name="edit_expense_left_icon_content_description">Eliminar Gasto</string>
     <!--endregion-->
 
     <!--region Create Income-->
