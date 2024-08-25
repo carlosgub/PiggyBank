@@ -18,6 +18,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.carlosgub.myfinances.theme.ColorPrimary
 import com.carlosgub.myfinances.theme.Gray100
@@ -51,9 +54,10 @@ fun CategoryChip(
     } else {
         BorderStroke(
             width = 1.dp,
-            color = Gray400,
+            color = Gray600,
         )
     }
+    val categoryText = stringResource(text)
     Chip(
         onClick = {
             onChipPressed(text)
@@ -66,10 +70,13 @@ fun CategoryChip(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(
-                horizontal = 6.dp,
-                vertical = 4.dp,
-            ),
+            modifier = Modifier
+                .padding(
+                    horizontal = 6.dp,
+                    vertical = 4.dp,
+                )
+                .semantics(mergeDescendants = true) {}
+                .clearAndSetSemantics { contentDescription = categoryText },
         ) {
             Icon(
                 imageVector = icon,
@@ -77,7 +84,7 @@ fun CategoryChip(
                 tint = contentColor,
             )
             Text(
-                text = stringResource(text),
+                text = categoryText,
                 color = contentColor,
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier.padding(start = 4.dp),

@@ -7,10 +7,12 @@
     <string name="home_app_name">PiggyBank</string>
     <string name="home_add_expense">Add Expense</string>
     <string name="home_add_income">Add Income</string>
+    <string name="home_drop_down_menu_content_description">Add</string>
     <string name="home_body_monthly_budget">Monthly Budget</string>
     <string name="home_body_data_zero_title">Ooops! It's Empty</string>
     <string name="home_body_data_zero_message">Looks like you don't have anything in your %1$s</string>
     <string name="home_body_finance_category_item_budget_percentage">%1$d% of budget</string>
+    <string name="home_left_icon_content_description">See past months</string>
     <plurals name="home_body_finance_category_item_count_transactions">
         <item quantity="one">%1$d transaction</item>
         <item quantity="other">%1$d transactions</item>
@@ -29,6 +31,7 @@
     <string name="edit_income_pop_up_message">Do you want to delete this income?</string>
     <string name="edit_income_button">Edit Income</string>
     <string name="edit_income_error_text">Write a note</string>
+    <string name="edit_income_left_icon_content_description">Delete Income</string>
     <!--endregion-->
 
     <!--region Edit Expense-->
@@ -37,6 +40,7 @@
     <string name="edit_expense_pop_up_message">Do you want to delete this expense?</string>
     <string name="edit_expense_button">Edit Expense</string>
     <string name="edit_expense_error_text">Write a note</string>
+    <string name="edit_expense_left_icon_content_description">Delete Expense</string>
     <!--endregion-->
 
     <!--region Create Income-->

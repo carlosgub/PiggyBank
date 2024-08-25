@@ -26,6 +26,7 @@ import piggybank.presentation.generated.resources.Res
 import piggybank.presentation.generated.resources.edit_expense_pop_up_message
 import piggybank.presentation.generated.resources.edit_expense_pop_up_title
 import piggybank.presentation.generated.resources.edit_expense_title
+import piggybank.presentation.generated.resources.edit_income_left_icon_content_description
 
 @Composable
 fun EditExpenseScreen(
@@ -79,6 +80,7 @@ private fun EditExpenseToolbar(
         title = stringResource(Res.string.edit_expense_title),
         navigation = onBack,
         leftIcon = Icons.Default.Delete,
+        leftIconContentDescription = stringResource(Res.string.edit_income_left_icon_content_description),
         onLeftIconPressed = {
             popUpVisible = true
         },
