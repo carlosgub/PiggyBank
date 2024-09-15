@@ -24,7 +24,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.carlosgub.myfinances.theme.ColorPrimary
 import com.carlosgub.myfinances.theme.Gray100
-import com.carlosgub.myfinances.theme.Gray400
 import com.carlosgub.myfinances.theme.Gray600
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
@@ -74,8 +73,7 @@ fun CategoryChip(
                 .padding(
                     horizontal = 6.dp,
                     vertical = 4.dp,
-                )
-                .semantics(mergeDescendants = true) {}
+                ).semantics(mergeDescendants = true) {}
                 .clearAndSetSemantics { contentDescription = categoryText },
         ) {
             Icon(

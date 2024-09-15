@@ -3,11 +3,12 @@ package com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail
 import androidx.annotation.VisibleForTesting
 import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.domain.model.CategoryEnum.Companion.getCategoryEnumFromName
-import com.carlosgub.myfinances.domain.model.ExpenseScreenModel
 import com.carlosgub.myfinances.domain.model.FinanceEnum
-import com.carlosgub.myfinances.domain.model.MonthDetailScreenModel
 import com.carlosgub.myfinances.domain.usecase.GetExpenseMonthDetailUseCase
 import com.carlosgub.myfinances.domain.usecase.GetIncomeMonthDetailUseCase
+import com.carlosgub.myfinances.presentation.mapper.MonthDetailModelToMonthDetailScreenModel
+import com.carlosgub.myfinances.presentation.model.ExpenseScreenModel
+import com.carlosgub.myfinances.presentation.model.MonthDetailScreenModel
 import kotlinx.coroutines.Job
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
@@ -48,7 +49,7 @@ class CategoryMonthDetailViewModel(
             ),
         ).collect { result ->
             when (result) {
-                is GenericState.Success -> setMonthDetailScreenModel(result.data)
+                is GenericState.Success -> setMonthDetailScreenModel(MonthDetailModelToMonthDetailScreenModel.map(result.data))
                 else -> Unit
             }
         }
@@ -62,7 +63,7 @@ class CategoryMonthDetailViewModel(
             ),
         ).collect { result ->
             when (result) {
-                is GenericState.Success -> setMonthDetailScreenModel(result.data)
+                is GenericState.Success -> setMonthDetailScreenModel(MonthDetailModelToMonthDetailScreenModel.map(result.data))
                 else -> Unit
             }
         }

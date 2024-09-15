@@ -20,7 +20,9 @@ class EditIncomeViewModel(
     val editIncomeUseCase: EditIncomeUseCase,
     val deleteUseCase: DeleteIncomeUseCase,
     val getIncomeUseCase: GetIncomeUseCase,
-) : ViewModel(), ContainerHost<EditIncomeScreenState, GenericState<Unit>>, EditIncomeScreenIntents {
+) : ViewModel(),
+    ContainerHost<EditIncomeScreenState, GenericState<Unit>>,
+    EditIncomeScreenIntents {
     override fun setDate(date: Long): Job =
         intent {
             reduce {

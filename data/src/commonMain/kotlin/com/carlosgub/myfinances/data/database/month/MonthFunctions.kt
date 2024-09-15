@@ -7,9 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 
-fun Database.getMonthList(): Flow<List<String>> {
-    return monthQueries.getMonthListList().asFlow().mapToList(Dispatchers.IO)
-}
+fun Database.getMonthList(): Flow<List<String>> = monthQueries.getMonthListList().asFlow().mapToList(Dispatchers.IO)
 
 suspend fun Database.createMonth(month: String) {
     monthQueries.insert(

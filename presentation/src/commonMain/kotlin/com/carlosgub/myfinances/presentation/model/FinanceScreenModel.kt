@@ -1,5 +1,7 @@
-package com.carlosgub.myfinances.domain.model
+package com.carlosgub.myfinances.presentation.model
 
+import com.carlosgub.myfinances.domain.model.FinanceExpenses
+import com.carlosgub.myfinances.domain.model.MonthExpense
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.persistentListOf
@@ -10,19 +12,7 @@ data class FinanceScreenModel(
     val month: String = "",
     val expenseAmount: Long = 0L,
     val monthExpense: MonthExpense = MonthExpense(),
-    val expenses: ImmutableList<FinanceScreenExpenses> = persistentListOf(),
-    val income: ImmutableList<FinanceScreenExpenses> = persistentListOf(),
+    val expenses: ImmutableList<FinanceExpenses> = persistentListOf(),
+    val income: ImmutableList<FinanceExpenses> = persistentListOf(),
     val daySpent: ImmutableMap<LocalDateTime, Long> = persistentMapOf(),
-)
-
-data class FinanceScreenExpenses(
-    val category: CategoryEnum,
-    val amount: Long,
-    val count: Int,
-    val percentage: Int,
-)
-
-data class MonthExpense(
-    val incomeTotal: Long = 0L,
-    val percentage: Long = 0L,
 )

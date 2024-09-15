@@ -130,12 +130,13 @@ class DatabaseFinanceDataSourceImpl(
     ): Flow<ResponseResult<List<Expense>>> =
         flow {
             try {
-                sharedDatabase().getExpenseListPerCategory(
-                    month = monthKey,
-                    category = categoryEnum.name,
-                ).collect { list ->
-                    emit(ResponseResult.Success(list))
-                }
+                sharedDatabase()
+                    .getExpenseListPerCategory(
+                        month = monthKey,
+                        category = categoryEnum.name,
+                    ).collect { list ->
+                        emit(ResponseResult.Success(list))
+                    }
             } catch (e: Exception) {
                 emit(ResponseResult.Error(e))
             }
@@ -144,12 +145,13 @@ class DatabaseFinanceDataSourceImpl(
     override suspend fun getIncomeMonthDetail(monthKey: String): Flow<ResponseResult<List<Income>>> =
         flow {
             try {
-                sharedDatabase().getIncomeListPerCategory(
-                    month = monthKey,
-                    category = com.carlosgub.myfinances.domain.model.CategoryEnum.WORK.name,
-                ).collect { list ->
-                    emit(ResponseResult.Success(list))
-                }
+                sharedDatabase()
+                    .getIncomeListPerCategory(
+                        month = monthKey,
+                        category = com.carlosgub.myfinances.domain.model.CategoryEnum.WORK.name,
+                    ).collect { list ->
+                        emit(ResponseResult.Success(list))
+                    }
             } catch (e: Exception) {
                 emit(ResponseResult.Error(e))
             }
@@ -243,16 +245,18 @@ class DatabaseFinanceDataSourceImpl(
     override suspend fun getMonths(): Flow<ResponseResult<List<MonthModel>>> =
         flow {
             try {
-                sharedDatabase().getMonthList()
+                sharedDatabase()
+                    .getMonthList()
                     .collect { listMonth ->
                         val list =
-                            listMonth.map { monthKey ->
-                                MonthModel(
-                                    id = monthKey,
-                                    month = monthKey.take(2),
-                                    year = monthKey.takeLast(4),
-                                )
-                            }.sortedByDescending { it.month }
+                            listMonth
+                                .map { monthKey ->
+                                    MonthModel(
+                                        id = monthKey,
+                                        month = monthKey.take(2),
+                                        year = monthKey.takeLast(4),
+                                    )
+                                }.sortedByDescending { it.month }
                         emit(ResponseResult.Success(list))
                     }
             } catch (e: Exception) {

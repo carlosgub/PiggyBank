@@ -6,6 +6,7 @@ import com.carlosgub.myfinances.core.utils.toAmount
 import com.carlosgub.myfinances.core.utils.toMillis
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import com.carlosgub.myfinances.core.utils.toStringDateFormat
+import com.carlosgub.myfinances.domain.model.CategoryEnum
 import com.carlosgub.myfinances.domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import com.carlosgub.myfinances.domain.usecase.DeleteExpenseUseCase
 import com.carlosgub.myfinances.domain.usecase.EditExpenseUseCase
@@ -24,7 +25,7 @@ class EditExpenseViewModel(
 ) : ViewModel(),
     ContainerHost<EditExpenseScreenState, GenericState<Unit>>,
     EditExpenseScreenIntents {
-    override fun setCategory(categoryEnum: com.carlosgub.myfinances.domain.model.CategoryEnum): Job =
+    override fun setCategory(categoryEnum: CategoryEnum): Job =
         intent {
             reduce { state.copy(category = categoryEnum) }
         }

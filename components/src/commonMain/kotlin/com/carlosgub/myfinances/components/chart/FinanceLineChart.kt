@@ -48,7 +48,8 @@ fun FinanceLineChart(
                         lineColor = lineColor,
                         listOfPoints = daySpent.map { day ->
                             LineChartPoint(
-                                x = day.key.toInstant(TimeZone.currentSystemDefault())
+                                x = day.key
+                                    .toInstant(TimeZone.currentSystemDefault())
                                     .toEpochMilliseconds(),
                                 y = (day.value / 100.0).toFloat(),
                             )

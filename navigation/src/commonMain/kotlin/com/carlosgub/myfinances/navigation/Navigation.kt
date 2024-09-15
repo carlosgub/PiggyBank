@@ -1,6 +1,8 @@
 package com.carlosgub.myfinances.navigation
 
-sealed class Navigation(val route: String) {
+sealed class Navigation(
+    val route: String,
+) {
     data object Home : Navigation("Home/{${NavArgs.MONTH_KEY.key}}") {
         fun createRoute(monthKey: String) = "Home/$monthKey"
     }
@@ -30,7 +32,9 @@ sealed class Navigation(val route: String) {
     }
 }
 
-enum class NavArgs(val key: String) {
+enum class NavArgs(
+    val key: String,
+) {
     ID("id"),
     MONTH_KEY("monthKey"),
     CATEGORY_NAME("categoryName"),

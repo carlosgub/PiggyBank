@@ -1,9 +1,9 @@
 name: Check code style
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main","develop" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main","develop" ]
 env:
   G_USERNAME: ${{vars.G_USERNAME}}
   G_TOKEN: ${{vars.G_TOKEN}}

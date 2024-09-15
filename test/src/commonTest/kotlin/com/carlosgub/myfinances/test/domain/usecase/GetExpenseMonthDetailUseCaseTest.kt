@@ -6,8 +6,8 @@ import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
 import com.carlosgub.myfinances.domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import com.carlosgub.myfinances.domain.usecase.GetExpenseMonthDetailUseCase
 import com.carlosgub.myfinances.test.data.repository.impl.FakeFinanceRepositoryImpl
-import com.carlosgub.myfinances.test.mock.expenseFinanceModelOne
-import com.carlosgub.myfinances.test.mock.monthExpenseDetailScreenModel
+import com.carlosgub.myfinances.test.mock.expenseModelOne
+import com.carlosgub.myfinances.test.mock.monthExpenseDetailModel
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -20,10 +20,10 @@ class GetExpenseMonthDetailUseCaseTest {
     @Test
     fun `Get Category Month Detail success`() =
         runTest {
-            val expected = GenericState.Success(monthExpenseDetailScreenModel)
+            val expected = GenericState.Success(monthExpenseDetailModel)
             getExpenseMonthDetailUseCase(
                 GetExpenseMonthDetailUseCase.Params(
-                    categoryEnum = getCategoryEnumFromName(expenseFinanceModelOne.category),
+                    categoryEnum = getCategoryEnumFromName(expenseModelOne.category),
                     monthKey = getCurrentMonthKey(),
                 ),
             ).test {

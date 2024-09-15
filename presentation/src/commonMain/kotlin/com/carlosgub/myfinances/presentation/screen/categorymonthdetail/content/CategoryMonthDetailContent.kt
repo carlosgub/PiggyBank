@@ -33,7 +33,7 @@ import com.carlosgub.myfinances.components.datazero.DataZero
 import com.carlosgub.myfinances.components.divider.HorizontalDivider
 import com.carlosgub.myfinances.components.loading.Loading
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
-import com.carlosgub.myfinances.domain.model.ExpenseScreenModel
+import com.carlosgub.myfinances.presentation.model.ExpenseScreenModel
 import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail.CategoryMonthDetailScreenState
 import com.carlosgub.myfinances.theme.Gray600
 import com.carlosgub.myfinances.theme.Gray900
@@ -152,8 +152,7 @@ private fun CategoryMonthExpenseItem(
                 onLongClick = {
                     expenseClicked(expense)
                 },
-            )
-            .padding(vertical = spacing_4),
+            ).padding(vertical = spacing_4),
     ) {
         Column(
             modifier = Modifier.weight(1f).padding(end = spacing_4),

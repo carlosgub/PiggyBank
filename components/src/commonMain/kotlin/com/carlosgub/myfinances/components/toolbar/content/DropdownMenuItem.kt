@@ -24,7 +24,8 @@ fun DropdownMenuItem(
 ) {
     DropdownMenuItem(
         onClick = onItemClicked,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
             .semantics(mergeDescendants = true) {}
             .clearAndSetSemantics { contentDescription = text },
         text = {

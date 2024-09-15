@@ -44,8 +44,7 @@ fun EditIncomeContent(
                 ) {
                     keyboard?.hide()
                     focusManager.clearFocus()
-                }
-                .padding(horizontal = spacing_4),
+                }.padding(horizontal = spacing_4),
         ) {
             AmountOutlineTextField(
                 amountField = state.amountField,

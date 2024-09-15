@@ -2,8 +2,9 @@ package com.carlosgub.myfinances.presentation.viewmodel.home
 
 import androidx.annotation.VisibleForTesting
 import com.carlosgub.myfinances.core.state.GenericState
-import com.carlosgub.myfinances.domain.model.FinanceScreenModel
 import com.carlosgub.myfinances.domain.usecase.GetFinanceUseCase
+import com.carlosgub.myfinances.presentation.mapper.FinanceModelToFinanceScreenModel
+import com.carlosgub.myfinances.presentation.model.FinanceScreenModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import moe.tlaster.precompose.viewmodel.ViewModel
@@ -27,7 +28,11 @@ class HomeViewModel(
                 ),
             ).collect { result ->
                 when (result) {
-                    is GenericState.Success -> setFinance(result.data)
+                    is GenericState.Success -> {
+                        val financeScreenModel = FinanceModelToFinanceScreenModel.map(result.data)
+                        setFinance(financeScreenModel)
+                    }
+
                     else -> Unit
                 }
             }

@@ -4,6 +4,7 @@ import androidx.annotation.VisibleForTesting
 import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.domain.usecase.GetMonthsUseCase
 import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.datetime.LocalDateTime
@@ -31,7 +32,7 @@ class MonthsViewModel(
                 .collect { result ->
                     when (result) {
                         is GenericState.Success -> {
-                            setMonths(result.data)
+                            setMonths(result.data.toImmutableMap())
                         }
 
                         else -> Unit

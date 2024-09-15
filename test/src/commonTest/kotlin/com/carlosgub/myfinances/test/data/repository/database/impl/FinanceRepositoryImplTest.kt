@@ -6,12 +6,12 @@ import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
 import com.carlosgub.myfinances.data.repository.FinanceRepositoryImpl
 import com.carlosgub.myfinances.domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import com.carlosgub.myfinances.test.data.repository.database.FakeDatabaseFinanceDataSource
-import com.carlosgub.myfinances.test.mock.expenseFinanceModelOne
+import com.carlosgub.myfinances.test.mock.expenseModelOne
 import com.carlosgub.myfinances.test.mock.expenseOne
-import com.carlosgub.myfinances.test.mock.financeScreenModelMock
-import com.carlosgub.myfinances.test.mock.incomeFinanceModelOne
-import com.carlosgub.myfinances.test.mock.monthExpenseDetailScreenModel
-import com.carlosgub.myfinances.test.mock.monthIncomeDetailScreenModel
+import com.carlosgub.myfinances.test.mock.financeModelMock
+import com.carlosgub.myfinances.test.mock.incomeModelOne
+import com.carlosgub.myfinances.test.mock.monthExpenseDetailModel
+import com.carlosgub.myfinances.test.mock.monthIncomeDetailModel
 import com.carlosgub.myfinances.test.mock.monthListFiltered
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
@@ -24,7 +24,7 @@ class FinanceRepositoryImplTest {
     @Test
     fun `Get Finance success`() =
         runTest {
-            val expected = GenericState.Success(financeScreenModelMock)
+            val expected = GenericState.Success(financeModelMock)
             financeRepositoryImpl.getFinance(getCurrentMonthKey()).test {
                 assertEquals(expected, awaitItem())
                 awaitComplete()
@@ -34,7 +34,7 @@ class FinanceRepositoryImplTest {
     @Test
     fun `Get Expense success`() =
         runTest {
-            val expected = GenericState.Success(expenseFinanceModelOne)
+            val expected = GenericState.Success(expenseModelOne)
             val result = financeRepositoryImpl.getExpense(1)
             assertEquals(expected, result)
         }
@@ -42,7 +42,7 @@ class FinanceRepositoryImplTest {
     @Test
     fun `Get Income success`() =
         runTest {
-            val expected = GenericState.Success(incomeFinanceModelOne)
+            val expected = GenericState.Success(incomeModelOne)
             val result = financeRepositoryImpl.getIncome(1)
             assertEquals(expected, result)
         }
@@ -50,30 +50,28 @@ class FinanceRepositoryImplTest {
     @Test
     fun `Get Expense Month Detail success`() =
         runTest {
-            val expected = GenericState.Success(
-                monthExpenseDetailScreenModel,
-            )
-            financeRepositoryImpl.getExpenseMonthDetail(
-                categoryEnum = getCategoryEnumFromName(expenseOne.category),
-                monthKey = getCurrentMonthKey(),
-            ).test {
-                assertEquals(expected, awaitItem())
-                awaitComplete()
-            }
+            val expected = GenericState.Success(monthExpenseDetailModel)
+            financeRepositoryImpl
+                .getExpenseMonthDetail(
+                    categoryEnum = getCategoryEnumFromName(expenseOne.category),
+                    monthKey = getCurrentMonthKey(),
+                ).test {
+                    assertEquals(expected, awaitItem())
+                    awaitComplete()
+                }
         }
 
     @Test
     fun `Get Income Month Detail success`() =
         runTest {
-            val expected = GenericState.Success(
-                monthIncomeDetailScreenModel,
-            )
-            financeRepositoryImpl.getIncomeMonthDetail(
-                monthKey = getCurrentMonthKey(),
-            ).test {
-                assertEquals(expected, awaitItem())
-                awaitComplete()
-            }
+            val expected = GenericState.Success(monthIncomeDetailModel)
+            financeRepositoryImpl
+                .getIncomeMonthDetail(
+                    monthKey = getCurrentMonthKey(),
+                ).test {
+                    assertEquals(expected, awaitItem())
+                    awaitComplete()
+                }
         }
 
     @Test

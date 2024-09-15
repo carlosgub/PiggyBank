@@ -53,8 +53,7 @@ fun NoteOutlineTextField(
             .distinctUntilChanged()
             .onEach { value ->
                 latestOnClick(value)
-            }
-            .launchIn(this)
+            }.launchIn(this)
     }
     OutlinedTextField(
         value = text,

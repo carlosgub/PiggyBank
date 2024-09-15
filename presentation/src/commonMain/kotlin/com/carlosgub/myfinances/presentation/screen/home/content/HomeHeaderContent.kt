@@ -52,7 +52,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.carlosgub.myfinances.components.chart.FinanceBarChart
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
-import com.carlosgub.myfinances.domain.model.FinanceScreenModel
+import com.carlosgub.myfinances.presentation.model.FinanceScreenModel
 import com.carlosgub.myfinances.theme.Gray900
 import com.carlosgub.myfinances.theme.spacing_1_2
 import com.carlosgub.myfinances.theme.spacing_2
@@ -95,15 +95,13 @@ fun HomeHeaderContent(
                     HomeHeaderFirstPage(
                         month = financeScreenModel.month,
                         monthAmount = financeScreenModel.expenseAmount,
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .weight(1f),
                     )
                 } else {
                     HomeHeaderSecondPage(
                         daySpent = financeScreenModel.daySpent,
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .weight(1f),
                     )
                 }
@@ -137,19 +135,16 @@ private fun HomeHeaderLeftIcon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowLeft,
                 contentDescription = null,
                 tint = Color.White,
-                modifier =
-                Modifier
+                modifier = Modifier
                     .padding(horizontal = spacing_4)
                     .clip(CircleShape)
                     .border(
-                        border =
-                        BorderStroke(
+                        border = BorderStroke(
                             width = 1.dp,
                             color = Color.White,
                         ),
                         shape = CircleShape,
-                    )
-                    .padding(spacing_2),
+                    ).padding(spacing_2),
             )
         },
         modifier = Modifier
@@ -224,14 +219,13 @@ private fun OverlayData(
                 .padding(
                     horizontal = spacing_2,
                     vertical = spacing_1_2,
-                )
-                .then(modifier),
+                ).then(modifier),
         ) {
             AnimatedContent(
                 targetState = overlayData,
                 transitionSpec = {
                     fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith
-                            fadeOut(animationSpec = tween(durationMillis = 300))
+                        fadeOut(animationSpec = tween(durationMillis = 300))
                 },
                 contentAlignment = Alignment.Center,
             ) { overlayData ->
@@ -261,19 +255,16 @@ private fun HomeHeaderRightIcon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowRight,
                 contentDescription = null,
                 tint = Color.White,
-                modifier =
-                Modifier
+                modifier = Modifier
                     .padding(horizontal = spacing_4)
                     .clip(CircleShape)
                     .border(
-                        border =
-                        BorderStroke(
+                        border = BorderStroke(
                             width = 1.dp,
                             color = Color.White,
                         ),
                         shape = CircleShape,
-                    )
-                    .padding(spacing_2),
+                    ).padding(spacing_2),
             )
         },
         modifier = Modifier

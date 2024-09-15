@@ -73,8 +73,7 @@ fun <E> DataZero(
                         top = spacing_4,
                         start = spacing_2,
                         end = spacing_2,
-                    )
-                    .width(IntrinsicSize.Max)
+                    ).width(IntrinsicSize.Max)
                     .semantics(mergeDescendants = true) {}
                     .clearAndSetSemantics { contentDescription = buttonText },
             )

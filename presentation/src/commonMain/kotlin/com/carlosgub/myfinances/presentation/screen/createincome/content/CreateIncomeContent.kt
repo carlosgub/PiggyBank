@@ -32,15 +32,16 @@ fun CreateIncomeContent(
     val keyboard = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     Column(
-        modifier = Modifier.fillMaxSize().then(modifier)
+        modifier = Modifier
+            .fillMaxSize()
+            .then(modifier)
             .clickable(
                 interactionSource = NoRippleInteractionSource(),
                 indication = null,
             ) {
                 keyboard?.hide()
                 focusManager.clearFocus()
-            }
-            .padding(horizontal = spacing_4),
+            }.padding(horizontal = spacing_4),
     ) {
         AmountOutlineTextField(
             amountField = state.amountField,

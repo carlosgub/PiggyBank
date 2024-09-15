@@ -10,7 +10,7 @@ import com.carlosgub.myfinances.domain.usecase.GetIncomeUseCase
 import com.carlosgub.myfinances.presentation.viewmodel.editincome.EditIncomeScreenState
 import com.carlosgub.myfinances.presentation.viewmodel.editincome.EditIncomeViewModel
 import com.carlosgub.myfinances.test.data.repository.impl.FakeFinanceRepositoryImpl
-import com.carlosgub.myfinances.test.mock.incomeFinanceModelOne
+import com.carlosgub.myfinances.test.mock.incomeModelOne
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.test
 import kotlin.test.Test
@@ -258,14 +258,14 @@ class EditIncomeViewModelTest {
     fun `Get Income`() =
         runTest {
             editIncomeViewModel.test(this, EditIncomeScreenState()) {
-                val amount = incomeFinanceModelOne.amount
+                val amount = incomeModelOne.amount
                 expectInitialState()
-                containerHost.getIncome(incomeFinanceModelOne.id)
+                containerHost.getIncome(incomeModelOne.id)
                 expectState {
                     copy(
                         initialDataLoaded = true,
-                        id = incomeFinanceModelOne.id,
-                        monthKey = incomeFinanceModelOne.monthKey,
+                        id = incomeModelOne.id,
+                        monthKey = incomeModelOne.monthKey,
                     )
                 }
                 expectState {
@@ -276,13 +276,13 @@ class EditIncomeViewModelTest {
                 }
                 expectState {
                     copy(
-                        dateInMillis = incomeFinanceModelOne.localDateTime.toMillis(),
-                        date = incomeFinanceModelOne.localDateTime.toMillis().toStringDateFormat(),
+                        dateInMillis = incomeModelOne.localDateTime.toMillis(),
+                        date = incomeModelOne.localDateTime.toMillis().toStringDateFormat(),
                     )
                 }
                 expectState {
                     copy(
-                        note = incomeFinanceModelOne.note,
+                        note = incomeModelOne.note,
                     )
                 }
             }

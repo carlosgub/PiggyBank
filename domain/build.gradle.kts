@@ -41,7 +41,6 @@ kotlin {
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlin.stdlib)
                 api(libs.orbit.core)
-                implementation(libs.kotlinx.collections.immutable)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 implementation(compose.materialIconsExtended)

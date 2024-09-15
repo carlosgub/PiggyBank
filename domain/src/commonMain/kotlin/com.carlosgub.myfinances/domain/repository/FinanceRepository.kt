@@ -2,19 +2,19 @@ package com.carlosgub.myfinances.domain.repository
 
 import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.domain.model.CategoryEnum
+import com.carlosgub.myfinances.domain.model.ExpenseModel
 import com.carlosgub.myfinances.domain.model.FinanceModel
-import com.carlosgub.myfinances.domain.model.FinanceScreenModel
-import com.carlosgub.myfinances.domain.model.MonthDetailScreenModel
-import kotlinx.collections.immutable.ImmutableMap
+import com.carlosgub.myfinances.domain.model.IncomeModel
+import com.carlosgub.myfinances.domain.model.MonthDetailModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDateTime
 
 interface FinanceRepository {
-    suspend fun getFinance(monthKey: String): Flow<GenericState<FinanceScreenModel>>
+    suspend fun getFinance(monthKey: String): Flow<GenericState<FinanceModel>>
 
-    suspend fun getExpense(id: Long): GenericState<FinanceModel>
+    suspend fun getExpense(id: Long): GenericState<ExpenseModel>
 
-    suspend fun getIncome(id: Long): GenericState<FinanceModel>
+    suspend fun getIncome(id: Long): GenericState<IncomeModel>
 
     suspend fun createExpense(
         amount: Long,
@@ -57,9 +57,9 @@ interface FinanceRepository {
     suspend fun getExpenseMonthDetail(
         categoryEnum: CategoryEnum,
         monthKey: String,
-    ): Flow<GenericState<MonthDetailScreenModel>>
+    ): Flow<GenericState<MonthDetailModel>>
 
-    suspend fun getIncomeMonthDetail(monthKey: String): Flow<GenericState<MonthDetailScreenModel>>
+    suspend fun getIncomeMonthDetail(monthKey: String): Flow<GenericState<MonthDetailModel>>
 
-    suspend fun getMonths(): Flow<GenericState<ImmutableMap<Int, List<LocalDateTime>>>>
+    suspend fun getMonths(): Flow<GenericState<Map<Int, List<LocalDateTime>>>>
 }
