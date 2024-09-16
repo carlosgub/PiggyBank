@@ -1,34 +1,30 @@
-package com.carlosgub.myfinances.test.presentation.viewmodel.categorymonthdetail
+package com.carlosgub.myfinances.test.presentation.viewmodel.categorymonthdetailexpense
 
 import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
 import com.carlosgub.myfinances.domain.usecase.GetExpenseMonthDetailUseCase
-import com.carlosgub.myfinances.domain.usecase.GetIncomeMonthDetailUseCase
-import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail.CategoryMonthDetailScreenSideEffect
-import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail.CategoryMonthDetailScreenState
-import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail.CategoryMonthDetailViewModel
+import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetailexpense.CategoryMonthDetailExpenseScreenSideEffect
+import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetailexpense.CategoryMonthDetailExpenseScreenState
+import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetailexpense.CategoryMonthDetailExpenseViewModel
 import com.carlosgub.myfinances.test.data.repository.impl.FakeFinanceRepositoryImpl
 import com.carlosgub.myfinances.test.mock.expenseScreenModelOne
 import com.carlosgub.myfinances.test.mock.monthExpenseDetailScreenModel
-import com.carlosgub.myfinances.test.mock.monthIncomeDetailScreenModel
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.test
 import kotlin.test.Test
 
-class CategoryMonthDetailViewModelTest {
+class CategoryMonthDetailViewModelExpenseTest {
     private val fakeFinanceRepositoryImpl = FakeFinanceRepositoryImpl()
     private var getExpenseMonthDetailUseCase =
         GetExpenseMonthDetailUseCase(fakeFinanceRepositoryImpl)
-    private var getIncomeMonthDetailUseCase = GetIncomeMonthDetailUseCase(fakeFinanceRepositoryImpl)
     private var categoryMonthDetailViewModel =
-        CategoryMonthDetailViewModel(
+        CategoryMonthDetailExpenseViewModel(
             getExpenseMonthDetailUseCase = getExpenseMonthDetailUseCase,
-            getIncomeMonthDetailUseCase = getIncomeMonthDetailUseCase,
         )
 
     @Test
     fun `Get Months Detail Expense`() =
         runTest {
-            categoryMonthDetailViewModel.test(this, CategoryMonthDetailScreenState()) {
+            categoryMonthDetailViewModel.test(this, CategoryMonthDetailExpenseScreenState()) {
                 expectInitialState()
                 containerHost.getMonthDetail()
                 expectState {
@@ -47,35 +43,9 @@ class CategoryMonthDetailViewModelTest {
         }
 
     @Test
-    fun `Get Months Detail Income`() =
-        runTest {
-            categoryMonthDetailViewModel.test(
-                this,
-                CategoryMonthDetailScreenState(
-                    category = com.carlosgub.myfinances.domain.model.CategoryEnum.WORK,
-                ),
-            ) {
-                expectInitialState()
-                containerHost.getMonthDetail()
-                expectState {
-                    copy(
-                        showLoading = true,
-                    )
-                }
-                expectState {
-                    copy(
-                        monthDetail = monthIncomeDetailScreenModel,
-                        showLoading = false,
-                        isInitialDataLoaded = true,
-                    )
-                }
-            }
-        }
-
-    @Test
     fun `Observe Expense`() =
         runTest {
-            val state = CategoryMonthDetailScreenState()
+            val state = CategoryMonthDetailExpenseScreenState()
             categoryMonthDetailViewModel.test(
                 this,
                 state,
@@ -96,35 +66,13 @@ class CategoryMonthDetailViewModelTest {
         }
 
     @Test
-    fun `Observe Income`() =
-        runTest {
-            val state = CategoryMonthDetailScreenState()
-            categoryMonthDetailViewModel.test(
-                this,
-                state,
-            ) {
-                expectInitialState()
-                containerHost.observeIncome(
-                    monthKey = state.monthKey,
-                )
-                expectState {
-                    copy(
-                        monthDetail = monthIncomeDetailScreenModel,
-                        showLoading = false,
-                        isInitialDataLoaded = true,
-                    )
-                }
-            }
-        }
-
-    @Test
     fun `Navigate To Edit Expense`() =
         runTest {
-            categoryMonthDetailViewModel.test(this, CategoryMonthDetailScreenState()) {
+            categoryMonthDetailViewModel.test(this, CategoryMonthDetailExpenseScreenState()) {
                 expectInitialState()
                 containerHost.navigateToEditExpense(expenseScreenModelOne)
                 expectSideEffect(
-                    CategoryMonthDetailScreenSideEffect.NavigateToMonthDetail(
+                    CategoryMonthDetailExpenseScreenSideEffect.NavigateToMonthDetail(
                         expenseScreenModelOne,
                     ),
                 )
@@ -134,7 +82,7 @@ class CategoryMonthDetailViewModelTest {
     @Test
     fun `Set Initial Configuration`() =
         runTest {
-            categoryMonthDetailViewModel.test(this, CategoryMonthDetailScreenState()) {
+            categoryMonthDetailViewModel.test(this, CategoryMonthDetailExpenseScreenState()) {
                 expectInitialState()
                 containerHost.setInitialConfiguration(
                     monthKey = getCurrentMonthKey(),
@@ -153,7 +101,7 @@ class CategoryMonthDetailViewModelTest {
                 }
                 expectState {
                     copy(
-                        monthDetail = monthIncomeDetailScreenModel,
+                        monthDetail = monthExpenseDetailScreenModel,
                         showLoading = false,
                         isInitialDataLoaded = true,
                     )
@@ -166,7 +114,7 @@ class CategoryMonthDetailViewModelTest {
         runTest {
             categoryMonthDetailViewModel.test(
                 this,
-                CategoryMonthDetailScreenState(),
+                CategoryMonthDetailExpenseScreenState(),
             ) {
                 expectInitialState()
                 containerHost.setMonthDetailScreenModel(monthExpenseDetailScreenModel)
@@ -185,7 +133,7 @@ class CategoryMonthDetailViewModelTest {
         runTest {
             categoryMonthDetailViewModel.test(
                 this,
-                CategoryMonthDetailScreenState(),
+                CategoryMonthDetailExpenseScreenState(),
             ) {
                 expectInitialState()
                 containerHost.showLoading()

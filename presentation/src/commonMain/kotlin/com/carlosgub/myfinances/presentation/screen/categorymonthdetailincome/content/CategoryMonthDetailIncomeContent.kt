@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
-package com.carlosgub.myfinances.presentation.screen.categorymonthdetail.content
+package com.carlosgub.myfinances.presentation.screen.categorymonthdetailincome.content
 
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -33,8 +33,8 @@ import com.carlosgub.myfinances.components.datazero.DataZero
 import com.carlosgub.myfinances.components.divider.HorizontalDivider
 import com.carlosgub.myfinances.components.loading.Loading
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
-import com.carlosgub.myfinances.presentation.model.ExpenseScreenModel
-import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail.CategoryMonthDetailScreenState
+import com.carlosgub.myfinances.presentation.model.IncomeScreenModel
+import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetailincome.CategoryMonthDetailIncomeScreenState
 import com.carlosgub.myfinances.theme.Gray600
 import com.carlosgub.myfinances.theme.Gray900
 import com.carlosgub.myfinances.theme.White
@@ -48,10 +48,10 @@ import piggybank.presentation.generated.resources.category_month_detail_data_zer
 import piggybank.presentation.generated.resources.category_month_detail_data_zero_title
 
 @Composable
-fun CategoryMonthDetailContent(
+fun CategoryMonthDetailIncomeContent(
     paddingValues: PaddingValues,
-    state: CategoryMonthDetailScreenState,
-    expenseClicked: (ExpenseScreenModel) -> Unit,
+    state: CategoryMonthDetailIncomeScreenState,
+    incomeClicked: (IncomeScreenModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -73,16 +73,16 @@ fun CategoryMonthDetailContent(
         ) {
             CategoryMonthDetailBody(
                 state = state,
-                expenseClicked = expenseClicked,
+                incomeClicked = incomeClicked,
             )
         }
     }
 }
 
 @Composable
-fun CategoryMonthDetailBody(
-    state: CategoryMonthDetailScreenState,
-    expenseClicked: (ExpenseScreenModel) -> Unit,
+private fun CategoryMonthDetailBody(
+    state: CategoryMonthDetailIncomeScreenState,
+    incomeClicked: (IncomeScreenModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     if (state.showLoading || state.isInitialDataLoaded.not()) {
@@ -100,7 +100,7 @@ fun CategoryMonthDetailBody(
                 containerColor = White,
             ),
         ) {
-            if (state.monthDetail.expenseScreenModel.isNotEmpty()) {
+            if (state.monthDetail.incomeScreenModelList.isNotEmpty()) {
                 LazyColumn(
                     modifier = Modifier
                         .background(color = White)
@@ -111,14 +111,14 @@ fun CategoryMonthDetailBody(
                             end = spacing_6,
                         ),
                 ) {
-                    itemsIndexed(state.monthDetail.expenseScreenModel) { count, expense ->
+                    itemsIndexed(state.monthDetail.incomeScreenModelList) { index, income ->
                         Column {
-                            if (count != 0) {
+                            if (index != 0) {
                                 HorizontalDivider()
                             }
-                            CategoryMonthExpenseItem(
-                                expense = expense,
-                                expenseClicked = expenseClicked,
+                            CategoryMonthIncomeItem(
+                                income = income,
+                                incomeClicked = incomeClicked,
                                 modifier = Modifier.animateItemPlacement(
                                     animationSpec = tween(600),
                                 ),
@@ -140,9 +140,9 @@ fun CategoryMonthDetailBody(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun CategoryMonthExpenseItem(
-    expense: ExpenseScreenModel,
-    expenseClicked: (ExpenseScreenModel) -> Unit,
+private fun CategoryMonthIncomeItem(
+    income: IncomeScreenModel,
+    incomeClicked: (IncomeScreenModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -150,7 +150,7 @@ private fun CategoryMonthExpenseItem(
             .combinedClickable(
                 onClick = {},
                 onLongClick = {
-                    expenseClicked(expense)
+                    incomeClicked(income)
                 },
             ).padding(vertical = spacing_4),
     ) {
@@ -158,13 +158,13 @@ private fun CategoryMonthExpenseItem(
             modifier = Modifier.weight(1f).padding(end = spacing_4),
         ) {
             Text(
-                text = expense.note,
+                text = income.note,
                 style = MaterialTheme.typography.bodySmall,
                 fontWeight = FontWeight.Medium,
                 color = Gray900,
             )
             Text(
-                text = expense.date,
+                text = income.date,
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier.padding(top = spacing_1),
                 color = Gray600,
@@ -176,7 +176,7 @@ private fun CategoryMonthExpenseItem(
             verticalArrangement = Arrangement.Top,
         ) {
             Text(
-                text = expense.amount.toMoneyFormat(),
+                text = income.amount.toMoneyFormat(),
                 style = MaterialTheme.typography.bodySmall,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.End,
@@ -187,7 +187,7 @@ private fun CategoryMonthExpenseItem(
 }
 
 @Composable
-private fun CategoryMonthDetailHeader(state: CategoryMonthDetailScreenState) {
+private fun CategoryMonthDetailHeader(state: CategoryMonthDetailIncomeScreenState) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,

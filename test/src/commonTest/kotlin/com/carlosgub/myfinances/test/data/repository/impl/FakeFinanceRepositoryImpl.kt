@@ -4,7 +4,8 @@ import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.domain.model.ExpenseModel
 import com.carlosgub.myfinances.domain.model.FinanceModel
 import com.carlosgub.myfinances.domain.model.IncomeModel
-import com.carlosgub.myfinances.domain.model.MonthDetailModel
+import com.carlosgub.myfinances.domain.model.MonthDetailExpenseModel
+import com.carlosgub.myfinances.domain.model.MonthDetailIncomeModel
 import com.carlosgub.myfinances.domain.repository.FinanceRepository
 import com.carlosgub.myfinances.test.mock.expenseModelOne
 import com.carlosgub.myfinances.test.mock.financeModelMock
@@ -68,14 +69,14 @@ internal class FakeFinanceRepositoryImpl : FinanceRepository {
     override suspend fun getExpenseMonthDetail(
         categoryEnum: com.carlosgub.myfinances.domain.model.CategoryEnum,
         monthKey: String,
-    ): Flow<GenericState<MonthDetailModel>> =
+    ): Flow<GenericState<MonthDetailExpenseModel>> =
         flow {
             emit(
                 GenericState.Success(monthExpenseDetailModel),
             )
         }
 
-    override suspend fun getIncomeMonthDetail(monthKey: String): Flow<GenericState<MonthDetailModel>> =
+    override suspend fun getIncomeMonthDetail(monthKey: String): Flow<GenericState<MonthDetailIncomeModel>> =
         flow {
             emit(
                 GenericState.Success(monthIncomeDetailModel),

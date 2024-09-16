@@ -18,7 +18,13 @@ interface AppNavigation {
         id: Long,
     )
 
-    fun navigateToMonthDetail(
+    fun navigateToMonthExpenseDetail(
+        navigator: Navigator,
+        monthKey: String,
+        categoryName: String,
+    )
+
+    fun navigateToMonthIncomeDetail(
         navigator: Navigator,
         monthKey: String,
         categoryName: String,

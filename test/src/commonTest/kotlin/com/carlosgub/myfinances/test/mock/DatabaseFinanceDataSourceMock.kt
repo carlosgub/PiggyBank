@@ -13,12 +13,15 @@ import com.carlosgub.myfinances.domain.model.FinanceExpenses
 import com.carlosgub.myfinances.domain.model.FinanceLocalDate
 import com.carlosgub.myfinances.domain.model.FinanceModel
 import com.carlosgub.myfinances.domain.model.IncomeModel
-import com.carlosgub.myfinances.domain.model.MonthDetailModel
+import com.carlosgub.myfinances.domain.model.MonthDetailExpenseModel
+import com.carlosgub.myfinances.domain.model.MonthDetailIncomeModel
 import com.carlosgub.myfinances.domain.model.MonthExpense
 import com.carlosgub.myfinances.domain.model.MonthModel
 import com.carlosgub.myfinances.presentation.model.ExpenseScreenModel
 import com.carlosgub.myfinances.presentation.model.FinanceScreenModel
-import com.carlosgub.myfinances.presentation.model.MonthDetailScreenModel
+import com.carlosgub.myfinances.presentation.model.IncomeScreenModel
+import com.carlosgub.myfinances.presentation.model.MonthDetailExpenseScreenModel
+import com.carlosgub.myfinances.presentation.model.MonthDetailIncomeScreenModel
 import expense.Expense
 import income.Income
 import kotlinx.collections.immutable.persistentListOf
@@ -133,7 +136,7 @@ val incomeModelOne =
     )
 
 val incomeModelForMonthDetailOne =
-    ExpenseModel(
+    IncomeModel(
         id = incomeOne.id,
         amount = incomeOne.amount,
         note = incomeOne.note.replaceFirstChar { it.uppercase() },
@@ -147,7 +150,7 @@ val incomeLocalDateTwo =
     FinanceLocalDate(incomeTwo.dateInMillis.toLocalDate())
 
 val incomeModelForMonthDetailTwo =
-    ExpenseModel(
+    IncomeModel(
         id = incomeTwo.id,
         amount = incomeTwo.amount,
         note = incomeTwo.note.replaceFirstChar { it.uppercase() },
@@ -161,7 +164,7 @@ val incomeLocalDateThree =
     FinanceLocalDate(incomeThree.dateInMillis.toLocalDate())
 
 val incomeModelForMonthDetailThree =
-    ExpenseModel(
+    IncomeModel(
         id = incomeThree.id,
         amount = incomeThree.amount,
         note = incomeThree.note.replaceFirstChar { it.uppercase() },
@@ -265,7 +268,7 @@ val expenseScreenModelThree =
     )
 
 val incomeScreenModelOne =
-    ExpenseScreenModel(
+    IncomeScreenModel(
         id = incomeOne.id,
         amount = incomeOne.amount,
         note = incomeOne.note.replaceFirstChar { it.uppercase() },
@@ -275,7 +278,7 @@ val incomeScreenModelOne =
     )
 
 val incomeScreenModelTwo =
-    ExpenseScreenModel(
+    IncomeScreenModel(
         id = incomeTwo.id,
         amount = incomeTwo.amount,
         note = incomeTwo.note.replaceFirstChar { it.uppercase() },
@@ -285,7 +288,7 @@ val incomeScreenModelTwo =
     )
 
 val incomeScreenModelThree =
-    ExpenseScreenModel(
+    IncomeScreenModel(
         id = incomeThree.id,
         amount = incomeThree.amount,
         note = incomeThree.note.replaceFirstChar { it.uppercase() },
@@ -400,16 +403,16 @@ val daySpentMonthExpenseDetailModel =
         }.toImmutableMap()
 
 val monthExpenseDetailModel =
-    MonthDetailModel(
+    MonthDetailExpenseModel(
         monthAmount = expenseOne.amount,
-        expenseModel = listOf(expenseModelForMonthScreenOne),
+        expenseModelList = listOf(expenseModelForMonthScreenOne),
         daySpent = daySpentMonthExpenseDetailModel,
     )
 
 val monthExpenseDetailScreenModel =
-    MonthDetailScreenModel(
+    MonthDetailExpenseScreenModel(
         monthAmount = expenseOne.amount,
-        expenseScreenModel = listOf(expenseScreenModelOne),
+        expenseScreenModelList = listOf(expenseScreenModelOne),
         daySpent = daySpentMonthExpenseDetailModel,
     )
 
@@ -429,16 +432,16 @@ val daySpentMonthIncomeDetailScreenModel =
         }.toImmutableMap()
 
 val monthIncomeDetailModel =
-    MonthDetailModel(
+    MonthDetailIncomeModel(
         monthAmount = incomeList.sumOf { it.amount },
-        expenseModel = incomeModelList,
+        incomeModelList = incomeModelList,
         daySpent = daySpentMonthIncomeDetailScreenModel,
     )
 
 val monthIncomeDetailScreenModel =
-    MonthDetailScreenModel(
+    MonthDetailIncomeScreenModel(
         monthAmount = incomeList.sumOf { it.amount },
-        expenseScreenModel = incomeScreenModelList,
+        incomeScreenModelList = incomeScreenModelList,
         daySpent = daySpentMonthIncomeDetailScreenModel,
     )
 

@@ -5,7 +5,8 @@ import com.carlosgub.myfinances.domain.model.CategoryEnum
 import com.carlosgub.myfinances.domain.model.ExpenseModel
 import com.carlosgub.myfinances.domain.model.FinanceModel
 import com.carlosgub.myfinances.domain.model.IncomeModel
-import com.carlosgub.myfinances.domain.model.MonthDetailModel
+import com.carlosgub.myfinances.domain.model.MonthDetailExpenseModel
+import com.carlosgub.myfinances.domain.model.MonthDetailIncomeModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDateTime
 
@@ -57,9 +58,9 @@ interface FinanceRepository {
     suspend fun getExpenseMonthDetail(
         categoryEnum: CategoryEnum,
         monthKey: String,
-    ): Flow<GenericState<MonthDetailModel>>
+    ): Flow<GenericState<MonthDetailExpenseModel>>
 
-    suspend fun getIncomeMonthDetail(monthKey: String): Flow<GenericState<MonthDetailModel>>
+    suspend fun getIncomeMonthDetail(monthKey: String): Flow<GenericState<MonthDetailIncomeModel>>
 
     suspend fun getMonths(): Flow<GenericState<Map<Int, List<LocalDateTime>>>>
 }

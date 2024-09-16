@@ -2,6 +2,8 @@ package com.carlosgub.myfinances.presentation.viewmodel.home
 
 import androidx.annotation.VisibleForTesting
 import com.carlosgub.myfinances.core.state.GenericState
+import com.carlosgub.myfinances.domain.model.CategoryEnum
+import com.carlosgub.myfinances.domain.model.FinanceEnum
 import com.carlosgub.myfinances.domain.usecase.GetFinanceUseCase
 import com.carlosgub.myfinances.presentation.mapper.FinanceModelToFinanceScreenModel
 import com.carlosgub.myfinances.presentation.model.FinanceScreenModel
@@ -82,9 +84,13 @@ class HomeViewModel(
             postSideEffect(HomeScreenSideEffect.NavigateToAddIncome)
         }
 
-    override fun navigateToMonthDetail(categoryName: String): Job =
+    override fun navigateToMonthDetail(category: CategoryEnum): Job =
         intent {
-            postSideEffect(HomeScreenSideEffect.NavigateToMonthDetail(categoryName))
+            if(category.type==FinanceEnum.EXPENSE){
+                postSideEffect(HomeScreenSideEffect.NavigateToMonthExpenseDetail(category.name))
+            }else{
+                postSideEffect(HomeScreenSideEffect.NavigateToMonthIncomeDetail(category.name))
+            }
         }
 
     override fun navigateToMonths(): Job =

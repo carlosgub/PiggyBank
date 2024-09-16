@@ -112,13 +112,24 @@ class HomeViewModelTest {
         }
 
     @Test
-    fun `Navigate To Month Detail`() =
+    fun `Navigate To Month Detail Expense`() =
         runTest {
-            val expectedCategoryName = com.carlosgub.myfinances.domain.model.CategoryEnum.HOME.name
+            val expectedCategory = com.carlosgub.myfinances.domain.model.CategoryEnum.HOME
             homeViewModel.test(this, HomeScreenState()) {
                 expectInitialState()
-                containerHost.navigateToMonthDetail(expectedCategoryName)
-                expectSideEffect(HomeScreenSideEffect.NavigateToMonthDetail(expectedCategoryName))
+                containerHost.navigateToMonthDetail(expectedCategory)
+                expectSideEffect(HomeScreenSideEffect.NavigateToMonthExpenseDetail(expectedCategory.name))
+            }
+        }
+
+    @Test
+    fun `Navigate To Month Detail Income`() =
+        runTest {
+            val expectedCategory = com.carlosgub.myfinances.domain.model.CategoryEnum.WORK
+            homeViewModel.test(this, HomeScreenState()) {
+                expectInitialState()
+                containerHost.navigateToMonthDetail(expectedCategory)
+                expectSideEffect(HomeScreenSideEffect.NavigateToMonthIncomeDetail(expectedCategory.name))
             }
         }
 }

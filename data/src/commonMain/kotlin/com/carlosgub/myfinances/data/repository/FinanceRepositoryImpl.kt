@@ -17,7 +17,8 @@ import com.carlosgub.myfinances.domain.model.FinanceExpenses
 import com.carlosgub.myfinances.domain.model.FinanceLocalDate
 import com.carlosgub.myfinances.domain.model.FinanceModel
 import com.carlosgub.myfinances.domain.model.IncomeModel
-import com.carlosgub.myfinances.domain.model.MonthDetailModel
+import com.carlosgub.myfinances.domain.model.MonthDetailExpenseModel
+import com.carlosgub.myfinances.domain.model.MonthDetailIncomeModel
 import com.carlosgub.myfinances.domain.model.MonthExpense
 import com.carlosgub.myfinances.domain.repository.FinanceRepository
 import kotlinx.coroutines.Dispatchers
@@ -282,7 +283,7 @@ class FinanceRepositoryImpl(
     override suspend fun getExpenseMonthDetail(
         categoryEnum: com.carlosgub.myfinances.domain.model.CategoryEnum,
         monthKey: String,
-    ): Flow<GenericState<MonthDetailModel>> =
+    ): Flow<GenericState<MonthDetailExpenseModel>> =
         flow {
             databaseFinance.getExpenseMonthDetail(categoryEnum, monthKey).collect { result ->
                 when (result) {
@@ -321,9 +322,9 @@ class FinanceRepositoryImpl(
                             }
                         emit(
                             GenericState.Success(
-                                MonthDetailModel(
+                                MonthDetailExpenseModel(
                                     monthAmount = monthAmount,
-                                    expenseModel = expenseScreenModelList,
+                                    expenseModelList = expenseScreenModelList,
                                     daySpent = daySpent,
                                 ),
                             ),
@@ -333,7 +334,7 @@ class FinanceRepositoryImpl(
             }
         }
 
-    override suspend fun getIncomeMonthDetail(monthKey: String): Flow<GenericState<MonthDetailModel>> =
+    override suspend fun getIncomeMonthDetail(monthKey: String): Flow<GenericState<MonthDetailIncomeModel>> =
         flow {
             databaseFinance
                 .getIncomeMonthDetail(monthKey)
@@ -342,16 +343,16 @@ class FinanceRepositoryImpl(
                         is ResponseResult.Error -> GenericState.Error(result.error.message.orEmpty())
                         is ResponseResult.Success -> {
                             val monthAmount = result.data.sumOf { it.amount }
-                            val expenseScreenModelList =
+                            val incomeScreenModelList =
                                 result.data
-                                    .map { expense ->
+                                    .map { income ->
                                         val localDate =
-                                            FinanceLocalDate(expense.dateInMillis.toLocalDate())
-                                        ExpenseModel(
-                                            id = expense.id,
-                                            amount = expense.amount,
-                                            note = expense.note.replaceFirstChar { it.uppercase() },
-                                            category = expense.category,
+                                            FinanceLocalDate(income.dateInMillis.toLocalDate())
+                                        IncomeModel(
+                                            id = income.id,
+                                            amount = income.amount,
+                                            note = income.note.replaceFirstChar { it.uppercase() },
+                                            category = income.category,
                                             localDateTime = localDate.localDateTime,
                                             date = localDate.date,
                                             monthKey = monthKey,
@@ -371,16 +372,16 @@ class FinanceRepositoryImpl(
                                             .toInt(),
                                         dayOfMonth = day,
                                     )
-                                    dateInternal to expenseScreenModelList
+                                    dateInternal to incomeScreenModelList
                                         .filter { expense ->
                                             expense.localDateTime == dateInternal
                                         }.sumOf { it.amount }
                                 }
                             emit(
                                 GenericState.Success(
-                                    MonthDetailModel(
+                                    MonthDetailIncomeModel(
                                         monthAmount = monthAmount,
-                                        expenseModel = expenseScreenModelList,
+                                        incomeModelList = incomeScreenModelList,
                                         daySpent = daySpent,
                                     ),
                                 ),

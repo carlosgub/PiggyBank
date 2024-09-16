@@ -22,7 +22,13 @@ fun homeObserver(
                 navigator = navigator,
             )
 
-        is HomeScreenSideEffect.NavigateToMonthDetail -> appNavigation.navigateToMonthDetail(
+        is HomeScreenSideEffect.NavigateToMonthExpenseDetail -> appNavigation.navigateToMonthExpenseDetail(
+            navigator = navigator,
+            categoryName = sideEffect.categoryName,
+            monthKey = state.monthKey,
+        )
+
+        is HomeScreenSideEffect.NavigateToMonthIncomeDetail -> appNavigation.navigateToMonthIncomeDetail(
             navigator = navigator,
             categoryName = sideEffect.categoryName,
             monthKey = state.monthKey,

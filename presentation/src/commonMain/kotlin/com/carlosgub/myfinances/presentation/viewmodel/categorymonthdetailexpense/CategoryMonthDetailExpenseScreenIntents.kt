@@ -1,9 +1,9 @@
-package com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail
+package com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetailexpense
 
 import com.carlosgub.myfinances.presentation.model.ExpenseScreenModel
 import kotlinx.coroutines.Job
 
-interface CategoryMonthDetailScreenIntents {
+interface CategoryMonthDetailExpenseScreenIntents {
     fun setInitialConfiguration(
         monthKey: String,
         category: String,

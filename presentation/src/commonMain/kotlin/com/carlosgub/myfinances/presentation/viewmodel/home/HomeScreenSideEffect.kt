@@ -3,7 +3,11 @@ package com.carlosgub.myfinances.presentation.viewmodel.home
 sealed class HomeScreenSideEffect {
     data object NavigateToMonths : HomeScreenSideEffect()
 
-    data class NavigateToMonthDetail(
+    data class NavigateToMonthExpenseDetail(
+        val categoryName: String,
+    ) : HomeScreenSideEffect()
+
+    data class NavigateToMonthIncomeDetail(
         val categoryName: String,
     ) : HomeScreenSideEffect()
 

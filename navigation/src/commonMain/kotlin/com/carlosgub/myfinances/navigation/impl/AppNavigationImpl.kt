@@ -38,13 +38,26 @@ class AppNavigationImpl : AppNavigation {
         )
     }
 
-    override fun navigateToMonthDetail(
+    override fun navigateToMonthExpenseDetail(
         navigator: Navigator,
         monthKey: String,
         categoryName: String,
     ) {
         navigator.navigate(
-            Navigation.CategoryMonthDetailScreen.createRoute(
+            Navigation.CategoryMonthDetailExpenseScreen.createRoute(
+                monthKey = monthKey,
+                categoryName = categoryName,
+            ),
+        )
+    }
+
+    override fun navigateToMonthIncomeDetail(
+        navigator: Navigator,
+        monthKey: String,
+        categoryName: String,
+    ) {
+        navigator.navigate(
+            Navigation.CategoryMonthDetailIncomeScreen.createRoute(
                 monthKey = monthKey,
                 categoryName = categoryName,
             ),

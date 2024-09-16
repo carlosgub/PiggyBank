@@ -6,7 +6,8 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import com.carlosgub.myfinances.core.navigation.LocalNavController
 import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
-import com.carlosgub.myfinances.presentation.screen.categorymonthdetail.CategoryMonthDetailScreen
+import com.carlosgub.myfinances.presentation.screen.categorymonthdetailexpense.CategoryMonthDetailScreenExpense
+import com.carlosgub.myfinances.presentation.screen.categorymonthdetailincome.CategoryMonthDetailScreenIncome
 import com.carlosgub.myfinances.presentation.screen.createexpense.CreateExpenseScreen
 import com.carlosgub.myfinances.presentation.screen.createincome.CreateIncomeScreen
 import com.carlosgub.myfinances.presentation.screen.editexpense.EditExpenseScreen
@@ -62,12 +63,22 @@ fun App() {
                         scene(route = Navigation.MonthsScreen.route) {
                             MonthsScreen()
                         }
-                        scene(route = Navigation.CategoryMonthDetailScreen.route) { backStackEntry ->
+                        scene(route = Navigation.CategoryMonthDetailExpenseScreen.route) { backStackEntry ->
                             val monthKey =
                                 backStackEntry.path<String>(NavArgs.MONTH_KEY.key)!!
                             val categoryName =
                                 backStackEntry.path<String>(NavArgs.CATEGORY_NAME.key)!!
-                            CategoryMonthDetailScreen(
+                            CategoryMonthDetailScreenExpense(
+                                monthKey = monthKey,
+                                categoryName = categoryName,
+                            )
+                        }
+                        scene(route = Navigation.CategoryMonthDetailIncomeScreen.route) { backStackEntry ->
+                            val monthKey =
+                                backStackEntry.path<String>(NavArgs.MONTH_KEY.key)!!
+                            val categoryName =
+                                backStackEntry.path<String>(NavArgs.CATEGORY_NAME.key)!!
+                            CategoryMonthDetailScreenIncome(
                                 monthKey = monthKey,
                                 categoryName = categoryName,
                             )

@@ -319,7 +319,7 @@ private fun FinanceCategoryItem(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .clickable {
-                    intents.navigateToMonthDetail(expense.category.name)
+                    intents.navigateToMonthDetail(expense.category)
                 }.padding(vertical = spacing_3),
         ) {
             ExpenseIconProgress(
