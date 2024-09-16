@@ -40,7 +40,12 @@ class CategoryMonthDetailExpenseViewModel(
             ),
         ).collect { result ->
             when (result) {
-                is GenericState.Success -> setMonthDetailScreenModel(MonthDetailExpenseModelToMonthDetailExpenseScreenModel.map(result.data))
+                is GenericState.Success -> setMonthDetailScreenModel(
+                    MonthDetailExpenseModelToMonthDetailExpenseScreenModel.map(
+                        result.data,
+                    ),
+                )
+
                 else -> Unit
             }
         }

@@ -41,14 +41,14 @@ class CategoryMonthDetailIncomeViewModel(
         }
     }
 
-    override fun navigateToEditIncome(incomeScreenModel: IncomeScreenModel): Job = intent {
-        postSideEffect(
-            CategoryMonthDetailIncomeScreenSideEffect.NavigateToMonthDetail(
-                incomeScreenModel,
-            ),
-        )
-    }
-
+    override fun navigateToEditIncome(incomeScreenModel: IncomeScreenModel): Job =
+        intent {
+            postSideEffect(
+                CategoryMonthDetailIncomeScreenSideEffect.NavigateToMonthDetail(
+                    incomeScreenModel,
+                ),
+            )
+        }
 
     override fun setInitialConfiguration(
         monthKey: String,

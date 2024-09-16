@@ -86,9 +86,9 @@ class HomeViewModel(
 
     override fun navigateToMonthDetail(category: CategoryEnum): Job =
         intent {
-            if(category.type==FinanceEnum.EXPENSE){
+            if (category.type == FinanceEnum.EXPENSE) {
                 postSideEffect(HomeScreenSideEffect.NavigateToMonthExpenseDetail(category.name))
-            }else{
+            } else {
                 postSideEffect(HomeScreenSideEffect.NavigateToMonthIncomeDetail(category.name))
             }
         }
