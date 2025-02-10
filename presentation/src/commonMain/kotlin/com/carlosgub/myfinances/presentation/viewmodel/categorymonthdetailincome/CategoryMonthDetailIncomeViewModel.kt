@@ -1,6 +1,8 @@
 package com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetailincome
 
 import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.domain.model.CategoryEnum.Companion.getCategoryEnumFromName
 import com.carlosgub.myfinances.domain.usecase.GetIncomeMonthDetailUseCase
@@ -8,8 +10,6 @@ import com.carlosgub.myfinances.presentation.mapper.MonthDetailIncomeModelToMont
 import com.carlosgub.myfinances.presentation.model.IncomeScreenModel
 import com.carlosgub.myfinances.presentation.model.MonthDetailIncomeScreenModel
 import kotlinx.coroutines.Job
-import moe.tlaster.precompose.viewmodel.ViewModel
-import moe.tlaster.precompose.viewmodel.viewModelScope
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container

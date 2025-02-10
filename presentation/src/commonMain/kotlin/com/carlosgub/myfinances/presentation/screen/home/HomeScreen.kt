@@ -22,9 +22,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
-import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 import piggybank.presentation.generated.resources.Res
 import piggybank.presentation.generated.resources.home_add_expense
 import piggybank.presentation.generated.resources.home_add_income
@@ -39,7 +39,7 @@ fun HomeScreen(
 ) {
     val navigator = LocalNavController.current
     val appNavigation: AppNavigation = koinInject()
-    val viewModel = koinViewModel(vmClass = HomeViewModel::class)
+    val viewModel = koinViewModel<HomeViewModel>()
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     viewModel.setMonthKey(monthKey)
     val scope = CoroutineScope(Dispatchers.Main)

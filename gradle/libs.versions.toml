@@ -4,8 +4,7 @@ delightVersion = "2.0.1"
 appcompatVersion = "1.7.0"
 chartsVersion = "1.0.4"
 coreKtxVersion = "1.15.0"
-koinCoreVersion = "4.0.0"
-koinComposeVersion = "4.0.0"
+koinVersion = "4.0.0"
 kotlinxCollectionsImmutableVersion = "0.3.7"
 kotlinxCoroutinesTestVersion = "1.10.1"
 composeKtlintVersion = "1.4.2"
@@ -19,6 +18,7 @@ ktlintVersion = "4.4.1"
 turbineVersion = "1.1.0"
 kotlin = "2.0.0"
 modulegraph = "0.10.0"
+androidx-lifecycle = "2.8.4"
 app-compile-sdk = "35"
 app-min-sdk = "24"
 java-jdk = "17"
@@ -29,16 +29,17 @@ charts = { module = "com.carlosgub.kotlinm.charts:charts", version.ref = "charts
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityComposeVersion" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
+androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 
-koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinCoreVersion" }
-koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCoreVersion" }
-koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeVersion" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinVersion" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinVersion" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinVersion" }
+koin-compose-viewmodel = {module = "io.insert-koin:koin-compose-viewmodel",version.ref = "koinVersion"}
 
 ktlint = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "composeKtlintVersion" }
 
 precompose-core = { module = "moe.tlaster:precompose", version.ref = "precomposeVersion" }
-precompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "precomposeVersion" }
-precompose-koin = { module = "moe.tlaster:precompose-koin", version.ref = "precomposeVersion" }
 
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetimeVersion" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutableVersion" }
@@ -63,8 +64,6 @@ android = [
 ]
 precompose = [
     "precompose-core",
-    "precompose-viewmodel",
-    "precompose-koin"
 ]
 
 [plugins]

@@ -15,9 +15,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
-import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun CategoryMonthDetailScreenExpense(
@@ -27,7 +27,7 @@ fun CategoryMonthDetailScreenExpense(
 ) {
     val navigator = LocalNavController.current
     val appNavigation: AppNavigation = koinInject()
-    val viewModel = koinViewModel(vmClass = CategoryMonthDetailExpenseViewModel::class)
+    val viewModel = koinViewModel<CategoryMonthDetailExpenseViewModel>()
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     viewModel.setInitialConfiguration(monthKey = monthKey, category = categoryName)
     val scope = CoroutineScope(Dispatchers.Main)
