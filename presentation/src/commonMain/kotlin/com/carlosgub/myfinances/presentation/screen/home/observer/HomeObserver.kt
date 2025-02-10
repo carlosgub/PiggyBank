@@ -1,35 +1,41 @@
 package com.carlosgub.myfinances.presentation.screen.home.observer
 
+import androidx.navigation.NavHostController
 import com.carlosgub.myfinances.presentation.navigation.AppNavigation
 import com.carlosgub.myfinances.presentation.viewmodel.home.HomeScreenSideEffect
 import com.carlosgub.myfinances.presentation.viewmodel.home.HomeScreenState
-import moe.tlaster.precompose.navigation.Navigator
 
 fun homeObserver(
     sideEffect: HomeScreenSideEffect,
-    navigator: Navigator,
+    navController: NavHostController,
     state: HomeScreenState,
     appNavigation: AppNavigation,
 ) {
     when (sideEffect) {
         HomeScreenSideEffect.NavigateToAddExpense ->
             appNavigation.navigateToAddExpense(
-                navigator = navigator,
+                navController = navController,
             )
 
         HomeScreenSideEffect.NavigateToAddIncome ->
             appNavigation.navigateToAddIncome(
-                navigator = navigator,
+                navController = navController,
             )
 
-        is HomeScreenSideEffect.NavigateToMonthDetail -> appNavigation.navigateToMonthDetail(
-            navigator = navigator,
+        is HomeScreenSideEffect.NavigateToMonthExpenseDetail -> appNavigation.navigateToMonthExpenseDetail(
+            navController = navController,
+            categoryName = sideEffect.categoryName,
+            monthKey = state.monthKey,
+        )
+
+        is HomeScreenSideEffect.NavigateToMonthIncomeDetail -> appNavigation.navigateToMonthIncomeDetail(
+            navController = navController,
             categoryName = sideEffect.categoryName,
             monthKey = state.monthKey,
         )
 
         HomeScreenSideEffect.NavigateToMonths -> appNavigation.navigateToMonths(
-            navigator = navigator,
+            navController = navController,
         )
     }
 }

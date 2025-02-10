@@ -1,32 +1,39 @@
 package com.carlosgub.myfinances.presentation.navigation
 
-import moe.tlaster.precompose.navigation.Navigator
+import androidx.navigation.NavHostController
+
 
 interface AppNavigation {
     fun navigateToEditIncome(
-        navigator: Navigator,
+        navController: NavHostController,
         id: Long,
     )
 
     fun navigateToHome(
-        navigator: Navigator,
+        navController: NavHostController,
         monthKey: String,
     )
 
     fun navigateToEditExpense(
-        navigator: Navigator,
+        navController: NavHostController,
         id: Long,
     )
 
-    fun navigateToMonthDetail(
-        navigator: Navigator,
+    fun navigateToMonthExpenseDetail(
+        navController: NavHostController,
         monthKey: String,
         categoryName: String,
     )
 
-    fun navigateToMonths(navigator: Navigator)
+    fun navigateToMonthIncomeDetail(
+        navController: NavHostController,
+        monthKey: String,
+        categoryName: String,
+    )
 
-    fun navigateToAddExpense(navigator: Navigator)
+    fun navigateToMonths(navController: NavHostController)
 
-    fun navigateToAddIncome(navigator: Navigator)
+    fun navigateToAddExpense(navController: NavHostController)
+
+    fun navigateToAddIncome(navController: NavHostController)
 }

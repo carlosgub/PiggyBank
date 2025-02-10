@@ -1,15 +1,15 @@
 package com.carlosgub.myfinances.navigation.impl
 
+import androidx.navigation.NavHostController
 import com.carlosgub.myfinances.navigation.Navigation
 import com.carlosgub.myfinances.presentation.navigation.AppNavigation
-import moe.tlaster.precompose.navigation.Navigator
 
 class AppNavigationImpl : AppNavigation {
     override fun navigateToEditIncome(
-        navigator: Navigator,
+        navController: NavHostController,
         id: Long,
     ) {
-        navigator.navigate(
+        navController.navigate(
             Navigation.EditIncomeScreen.createRoute(
                 id = id,
             ),
@@ -17,10 +17,10 @@ class AppNavigationImpl : AppNavigation {
     }
 
     override fun navigateToHome(
-        navigator: Navigator,
+        navController: NavHostController,
         monthKey: String,
     ) {
-        navigator.navigate(
+        navController.navigate(
             Navigation.Home.createRoute(
                 monthKey = monthKey,
             ),
@@ -28,38 +28,51 @@ class AppNavigationImpl : AppNavigation {
     }
 
     override fun navigateToEditExpense(
-        navigator: Navigator,
+        navController: NavHostController,
         id: Long,
     ) {
-        navigator.navigate(
+        navController.navigate(
             Navigation.EditExpenseScreen.createRoute(
                 id = id,
             ),
         )
     }
 
-    override fun navigateToMonthDetail(
-        navigator: Navigator,
+    override fun navigateToMonthExpenseDetail(
+        navController: NavHostController,
         monthKey: String,
         categoryName: String,
     ) {
-        navigator.navigate(
-            Navigation.CategoryMonthDetailScreen.createRoute(
+        navController.navigate(
+            Navigation.CategoryMonthDetailExpenseScreen.createRoute(
                 monthKey = monthKey,
                 categoryName = categoryName,
             ),
         )
     }
 
-    override fun navigateToMonths(navigator: Navigator) {
-        navigator.navigate(Navigation.MonthsScreen.route)
+    override fun navigateToMonthIncomeDetail(
+        navController: NavHostController,
+        monthKey: String,
+        categoryName: String,
+    ) {
+        navController.navigate(
+            Navigation.CategoryMonthDetailIncomeScreen.createRoute(
+                monthKey = monthKey,
+                categoryName = categoryName,
+            ),
+        )
     }
 
-    override fun navigateToAddExpense(navigator: Navigator) {
-        navigator.navigate(Navigation.CreateExpenseScreen.route)
+    override fun navigateToMonths(navController: NavHostController) {
+        navController.navigate(Navigation.MonthsScreen.route)
     }
 
-    override fun navigateToAddIncome(navigator: Navigator) {
-        navigator.navigate(Navigation.CreateIncomeScreen.route)
+    override fun navigateToAddExpense(navController: NavHostController) {
+        navController.navigate(Navigation.CreateExpenseScreen.route)
+    }
+
+    override fun navigateToAddIncome(navController: NavHostController) {
+        navController.navigate(Navigation.CreateIncomeScreen.route)
     }
 }

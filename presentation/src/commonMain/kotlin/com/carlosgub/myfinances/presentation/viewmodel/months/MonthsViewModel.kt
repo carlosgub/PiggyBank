@@ -1,14 +1,15 @@
 package com.carlosgub.myfinances.presentation.viewmodel.months
 
 import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.domain.usecase.GetMonthsUseCase
 import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.datetime.LocalDateTime
-import moe.tlaster.precompose.viewmodel.ViewModel
-import moe.tlaster.precompose.viewmodel.viewModelScope
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
@@ -31,7 +32,7 @@ class MonthsViewModel(
                 .collect { result ->
                     when (result) {
                         is GenericState.Success -> {
-                            setMonths(result.data)
+                            setMonths(result.data.toImmutableMap())
                         }
 
                         else -> Unit

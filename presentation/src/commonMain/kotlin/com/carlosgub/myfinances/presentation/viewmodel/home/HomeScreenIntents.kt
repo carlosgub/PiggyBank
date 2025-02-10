@@ -1,5 +1,6 @@
 package com.carlosgub.myfinances.presentation.viewmodel.home
 
+import com.carlosgub.myfinances.domain.model.CategoryEnum
 import kotlinx.coroutines.Job
 
 interface HomeScreenIntents {
@@ -9,7 +10,7 @@ interface HomeScreenIntents {
 
     fun navigateToMonths(): Job
 
-    fun navigateToMonthDetail(categoryName: String): Job
+    fun navigateToMonthDetail(category: CategoryEnum): Job
 
     fun navigateToAddExpense(): Job
 

@@ -26,4 +26,8 @@
     <!--region Line Chart-->
     <string name="finance_line_chart_overlay">%1$d/%2$d\n%3$s</string>
     <!--endregion-->
+
+    <!--region Toolbar-->
+    <string name="finance_toolbar_navigation_icon">Back</string>
+    <!--endregion-->
 </resources>

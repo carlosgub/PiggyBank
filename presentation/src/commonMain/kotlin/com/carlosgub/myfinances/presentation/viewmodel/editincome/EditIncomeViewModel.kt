@@ -1,6 +1,8 @@
 package com.carlosgub.myfinances.presentation.viewmodel.editincome
 
 import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.carlosgub.myfinances.core.state.GenericState
 import com.carlosgub.myfinances.core.utils.toAmount
 import com.carlosgub.myfinances.core.utils.toMillis
@@ -10,8 +12,6 @@ import com.carlosgub.myfinances.domain.usecase.DeleteIncomeUseCase
 import com.carlosgub.myfinances.domain.usecase.EditIncomeUseCase
 import com.carlosgub.myfinances.domain.usecase.GetIncomeUseCase
 import kotlinx.coroutines.Job
-import moe.tlaster.precompose.viewmodel.ViewModel
-import moe.tlaster.precompose.viewmodel.viewModelScope
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
@@ -20,7 +20,9 @@ class EditIncomeViewModel(
     val editIncomeUseCase: EditIncomeUseCase,
     val deleteUseCase: DeleteIncomeUseCase,
     val getIncomeUseCase: GetIncomeUseCase,
-) : ViewModel(), ContainerHost<EditIncomeScreenState, GenericState<Unit>>, EditIncomeScreenIntents {
+) : ViewModel(),
+    ContainerHost<EditIncomeScreenState, GenericState<Unit>>,
+    EditIncomeScreenIntents {
     override fun setDate(date: Long): Job =
         intent {
             reduce {

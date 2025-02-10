@@ -5,18 +5,6 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
-import kotlinx.datetime.Month.APRIL
-import kotlinx.datetime.Month.AUGUST
-import kotlinx.datetime.Month.DECEMBER
-import kotlinx.datetime.Month.FEBRUARY
-import kotlinx.datetime.Month.JANUARY
-import kotlinx.datetime.Month.JULY
-import kotlinx.datetime.Month.JUNE
-import kotlinx.datetime.Month.MARCH
-import kotlinx.datetime.Month.MAY
-import kotlinx.datetime.Month.NOVEMBER
-import kotlinx.datetime.Month.OCTOBER
-import kotlinx.datetime.Month.SEPTEMBER
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.number
 import kotlinx.datetime.toInstant
@@ -26,8 +14,8 @@ import kotlin.math.floor
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
-fun Long.toMoneyFormat(): String {
-    return when {
+fun Long.toMoneyFormat(): String =
+    when {
         this < 10 -> {
             "$0.0$this"
         }
@@ -41,7 +29,6 @@ fun Long.toMoneyFormat(): String {
             "$${numberString.substring(0, numberString.length - 2)}.${numberString.substring(numberString.length - 2, numberString.length)}"
         }
     }
-}
 
 fun String.toAmount(): Long {
     val cleanString: String =
@@ -99,8 +86,10 @@ fun Int.toNumberOfTwoDigits() =
     }
 
 fun Long.toLocalDate(): LocalDate =
-    Instant.fromEpochMilliseconds(this)
-        .toLocalDateTime(TimeZone.UTC).date
+    Instant
+        .fromEpochMilliseconds(this)
+        .toLocalDateTime(TimeZone.UTC)
+        .date
 
 fun LocalDateTime.toMillis(): Long = this.toInstant(TimeZone.UTC).toEpochMilliseconds()
 
@@ -111,28 +100,26 @@ fun Long.toStringDateFormat(): String {
         "${localDate.year}"
 }
 
-fun Month.toLocaleString(): String {
-    return if (Locale.current.language.contains("es")) {
+fun Month.toLocaleString(): String =
+    if (Locale.current.language.contains("es")) {
         this.toSpanishLocale()
     } else {
         this.name
     }
-}
 
-private fun Month.toSpanishLocale(): String {
-    return when (this) {
-        JANUARY -> "ENERO"
-        FEBRUARY -> "FEBRERO"
-        MARCH -> "MARZO"
-        APRIL -> "ABRIL"
-        MAY -> "MAYO"
-        JUNE -> "JUNIO"
-        JULY -> "JULIO"
-        AUGUST -> "AGOSTO"
-        SEPTEMBER -> "SEPTIEMBRE"
-        OCTOBER -> "OCTUBRE"
-        NOVEMBER -> "NOVIEMBRE"
-        DECEMBER -> "DICIEMBRE"
+private fun Month.toSpanishLocale(): String =
+    when (this) {
+        Month.JANUARY -> "ENERO"
+        Month.FEBRUARY -> "FEBRERO"
+        Month.MARCH -> "MARZO"
+        Month.APRIL -> "ABRIL"
+        Month.MAY -> "MAYO"
+        Month.JUNE -> "JUNIO"
+        Month.JULY -> "JULIO"
+        Month.AUGUST -> "AGOSTO"
+        Month.SEPTEMBER -> "SEPTIEMBRE"
+        Month.OCTOBER -> "OCTUBRE"
+        Month.NOVEMBER -> "NOVIEMBRE"
+        Month.DECEMBER -> "DICIEMBRE"
         else -> ""
     }
-}

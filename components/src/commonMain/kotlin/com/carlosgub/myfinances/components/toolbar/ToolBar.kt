@@ -35,6 +35,9 @@ import com.carlosgub.myfinances.theme.spacing_2
 import com.carlosgub.myfinances.theme.view_10
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import org.jetbrains.compose.resources.stringResource
+import piggybank.components.generated.resources.Res
+import piggybank.components.generated.resources.finance_toolbar_navigation_icon
 
 @Composable
 fun Toolbar(
@@ -47,8 +50,10 @@ fun Toolbar(
     onLeftIconPressed: () -> Unit = {},
     contentColor: Color = Color.White,
     dropDownMenu: Boolean = false,
+    dropDownMenuContentDescription: String? = null,
     dropDownItems: ImmutableList<MenuItem> = persistentListOf(),
     leftIcon: ImageVector? = null,
+    leftIconContentDescription: String? = null,
     dropDownIcon: ImageVector? = null,
 ) {
     CenterAlignedTopAppBar(
@@ -73,7 +78,7 @@ fun Toolbar(
             if (hasNavigationIcon) {
                 Icon(
                     imageVector = navigationIcon,
-                    contentDescription = null,
+                    contentDescription = stringResource(Res.string.finance_toolbar_navigation_icon),
                     modifier = Modifier
                         .padding(spacing_2)
                         .size(40.dp)
@@ -87,7 +92,7 @@ fun Toolbar(
             leftIcon?.let {
                 Icon(
                     imageVector = leftIcon,
-                    contentDescription = null,
+                    contentDescription = leftIconContentDescription,
                     modifier = Modifier
                         .padding(spacing_2)
                         .size(view_10)
@@ -101,7 +106,7 @@ fun Toolbar(
                 Column {
                     Icon(
                         imageVector = dropDownIcon ?: Icons.Filled.MoreVert,
-                        contentDescription = null,
+                        contentDescription = dropDownMenuContentDescription,
                         modifier = Modifier
                             .padding(spacing_2)
                             .size(view_10)

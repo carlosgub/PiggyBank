@@ -1,60 +1,60 @@
-package com.carlosgub.myfinances.presentation.screen.categorymonthdetail
+package com.carlosgub.myfinances.presentation.screen.categorymonthdetailincome
 
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.carlosgub.myfinances.components.toolbar.Toolbar
 import com.carlosgub.myfinances.core.navigation.LocalNavController
 import com.carlosgub.myfinances.presentation.navigation.AppNavigation
-import com.carlosgub.myfinances.presentation.screen.categorymonthdetail.content.CategoryMonthDetailContent
-import com.carlosgub.myfinances.presentation.screen.categorymonthdetail.observer.categoryMonthDetailObserver
-import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail.CategoryMonthDetailViewModel
+import com.carlosgub.myfinances.presentation.screen.categorymonthdetailincome.content.CategoryMonthDetailIncomeContent
+import com.carlosgub.myfinances.presentation.screen.categorymonthdetailincome.observer.categoryMonthDetailIncomeObserver
+import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetailincome.CategoryMonthDetailIncomeViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
-import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun CategoryMonthDetailScreen(
+fun CategoryMonthDetailScreenIncome(
     monthKey: String,
     categoryName: String,
     modifier: Modifier = Modifier,
 ) {
-    val navigator = LocalNavController.current
+    val navController = LocalNavController.current
     val appNavigation: AppNavigation = koinInject()
-    val viewModel = koinViewModel(vmClass = CategoryMonthDetailViewModel::class)
+    val viewModel = koinViewModel<CategoryMonthDetailIncomeViewModel>()
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     viewModel.setInitialConfiguration(monthKey = monthKey, category = categoryName)
     val scope = CoroutineScope(Dispatchers.Main)
     Scaffold(
         topBar = {
-            ExpenseMonthDetailToolbar(
+            CategoryMonthDetailIncomeToolbar(
                 category = stringResource(state.category.categoryName),
                 onBack = {
-                    navigator.popBackStack()
+                    navController.popBackStack()
                 },
             )
         },
         modifier = modifier,
     ) { paddingValues ->
-        CategoryMonthDetailContent(
+        CategoryMonthDetailIncomeContent(
             paddingValues = paddingValues,
             state = state,
-            expenseClicked = { expenseScreenModel ->
-                viewModel.navigateToEditExpense(expenseScreenModel)
+            incomeClicked = { incomeScreenModel ->
+                viewModel.navigateToEditIncome(incomeScreenModel)
             },
         )
     }
     scope.launch {
         viewModel.container.sideEffectFlow.collect { sideEffect ->
-            categoryMonthDetailObserver(
+            categoryMonthDetailIncomeObserver(
                 sideEffect = sideEffect,
-                navigator = navigator,
+                navController = navController,
                 appNavigation = appNavigation,
             )
         }
@@ -62,7 +62,7 @@ fun CategoryMonthDetailScreen(
 }
 
 @Composable
-private fun ExpenseMonthDetailToolbar(
+private fun CategoryMonthDetailIncomeToolbar(
     category: String,
     onBack: () -> Unit,
 ) {

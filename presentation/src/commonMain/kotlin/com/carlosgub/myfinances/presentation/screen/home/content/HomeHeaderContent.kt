@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalFoundationApi::class)
+@file:OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 
 package com.carlosgub.myfinances.presentation.screen.home.content
 
@@ -40,16 +40,19 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.invisibleToUser
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.carlosgub.myfinances.components.chart.FinanceBarChart
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
-import com.carlosgub.myfinances.domain.model.FinanceScreenModel
+import com.carlosgub.myfinances.presentation.model.FinanceScreenModel
 import com.carlosgub.myfinances.theme.Gray900
 import com.carlosgub.myfinances.theme.spacing_1_2
 import com.carlosgub.myfinances.theme.spacing_2
@@ -92,16 +95,14 @@ fun HomeHeaderContent(
                     HomeHeaderFirstPage(
                         month = financeScreenModel.month,
                         monthAmount = financeScreenModel.expenseAmount,
-                        modifier =
-                            Modifier
-                                .weight(1f),
+                        modifier = Modifier
+                            .weight(1f),
                     )
                 } else {
                     HomeHeaderSecondPage(
                         daySpent = financeScreenModel.daySpent,
-                        modifier =
-                            Modifier
-                                .weight(1f),
+                        modifier = Modifier
+                            .weight(1f),
                     )
                 }
                 HomeHeaderRightIcon(
@@ -134,24 +135,23 @@ private fun HomeHeaderLeftIcon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowLeft,
                 contentDescription = null,
                 tint = Color.White,
-                modifier =
-                    Modifier
-                        .padding(horizontal = spacing_4)
-                        .clip(CircleShape)
-                        .border(
-                            border =
-                                BorderStroke(
-                                    width = 1.dp,
-                                    color = Color.White,
-                                ),
-                            shape = CircleShape,
-                        )
-                        .padding(spacing_2),
+                modifier = Modifier
+                    .padding(horizontal = spacing_4)
+                    .clip(CircleShape)
+                    .border(
+                        border = BorderStroke(
+                            width = 1.dp,
+                            color = Color.White,
+                        ),
+                        shape = CircleShape,
+                    ).padding(spacing_2),
             )
         },
-        modifier =
-            Modifier
-                .alpha(if (currentPage > 0) 1f else 0f),
+        modifier = Modifier
+            .alpha(if (currentPage > 0) 1f else 0f)
+            .semantics {
+                this.invisibleToUser()
+            },
     )
 }
 
@@ -198,9 +198,7 @@ private fun HomeHeaderSecondPage(
             barColor = Color.White,
             withYChart = true,
             contentColor = Color.White,
-            modifier =
-                Modifier
-                    .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             onOverlayData = { data ->
                 overlayData = data
             },
@@ -221,8 +219,7 @@ private fun OverlayData(
                 .padding(
                     horizontal = spacing_2,
                     vertical = spacing_1_2,
-                )
-                .then(modifier),
+                ).then(modifier),
         ) {
             AnimatedContent(
                 targetState = overlayData,
@@ -258,23 +255,22 @@ private fun HomeHeaderRightIcon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowRight,
                 contentDescription = null,
                 tint = Color.White,
-                modifier =
-                    Modifier
-                        .padding(horizontal = spacing_4)
-                        .clip(CircleShape)
-                        .border(
-                            border =
-                                BorderStroke(
-                                    width = 1.dp,
-                                    color = Color.White,
-                                ),
-                            shape = CircleShape,
-                        )
-                        .padding(spacing_2),
+                modifier = Modifier
+                    .padding(horizontal = spacing_4)
+                    .clip(CircleShape)
+                    .border(
+                        border = BorderStroke(
+                            width = 1.dp,
+                            color = Color.White,
+                        ),
+                        shape = CircleShape,
+                    ).padding(spacing_2),
             )
         },
-        modifier =
-            Modifier
-                .alpha(if (isEnabled) 1f else 0f),
+        modifier = Modifier
+            .alpha(if (isEnabled) 1f else 0f)
+            .semantics {
+                this.invisibleToUser()
+            },
     )
 }

@@ -62,8 +62,7 @@ fun MonthsContent(
             .background(color = White)
             .padding(
                 top = paddingValues.calculateTopPadding(),
-            )
-            .fillMaxSize(),
+            ).fillMaxSize(),
     ) {
         if (monthsScreenState.showLoading) {
             Loading()
@@ -147,7 +146,8 @@ fun YearStickyHeader(
         text = year.toString(),
         color = Color.White,
         textAlign = TextAlign.Center,
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
             .background(color = ColorPrimary)
             .padding(spacing_1_2),
     )
@@ -167,8 +167,7 @@ fun MonthItem(
                 onClickItem(
                     localDateTime.toMonthKey(),
                 )
-            }
-            .padding(
+            }.padding(
                 horizontal = spacing_3,
                 vertical = spacing_2,
             ),
@@ -193,7 +192,8 @@ fun MonthItem(
         Text(
             localDateTime.month.toLocaleString(),
             color = ColorPrimary,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(spacing_2),
         )
     }

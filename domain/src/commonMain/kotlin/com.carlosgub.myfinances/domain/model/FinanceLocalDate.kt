@@ -15,7 +15,8 @@ data class FinanceLocalDate(
         )
     private val dayOfMonth = localDateTime.dayOfMonth.toNumberOfTwoDigits()
     private val month =
-        localDateTime.month.name.lowercase()
+        localDateTime.month.name
+            .lowercase()
             .replaceFirstChar { it.uppercase() }
     private val year = localDateTime.year
 

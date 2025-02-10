@@ -10,17 +10,16 @@ import kotlinx.coroutines.flow.Flow
 
 fun Database.getIncomeList(month: String): Flow<List<Income>> = incomeQueries.getIncomeList(month).asFlow().mapToList(Dispatchers.IO)
 
-fun Database.getIncome(id: Long): Income {
-    return incomeQueries.getIncome(id).executeAsOne()
-}
+fun Database.getIncome(id: Long): Income = incomeQueries.getIncome(id).executeAsOne()
 
 fun Database.getIncomeListPerCategory(
     month: String,
     category: String,
-): Flow<List<Income>> {
-    return incomeQueries.getIncomePerCategoryList(month, category).asFlow()
+): Flow<List<Income>> =
+    incomeQueries
+        .getIncomePerCategoryList(month, category)
+        .asFlow()
         .mapToList(Dispatchers.IO)
-}
 
 suspend fun Database.createIncome(income: Income) {
     incomeQueries.insert(

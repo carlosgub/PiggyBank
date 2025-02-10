@@ -38,13 +38,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.carlosgub.myfinances.components.datazero.DataZero
 import com.carlosgub.myfinances.components.divider.HorizontalDivider
 import com.carlosgub.myfinances.core.utils.toMoneyFormat
 import com.carlosgub.myfinances.domain.model.FinanceEnum
-import com.carlosgub.myfinances.domain.model.FinanceScreenExpenses
+import com.carlosgub.myfinances.domain.model.FinanceExpenses
 import com.carlosgub.myfinances.domain.model.MonthExpense
 import com.carlosgub.myfinances.presentation.viewmodel.home.HomeScreenIntents
 import com.carlosgub.myfinances.presentation.viewmodel.home.HomeScreenState
@@ -113,7 +114,8 @@ fun HomeBodyContent(
 @Composable
 private fun CardMonthBudgetContent(monthExpense: MonthExpense) {
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(
                 horizontal = spacing_6,
                 vertical = spacing_8,
@@ -156,9 +158,11 @@ private fun CardMonthBudgetBar(monthExpense: MonthExpense) {
     LinearProgressIndicator(
         progress = { progressAnimation },
         color = ColorPrimary,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(top = spacing_2)
-            .height(6.dp),
+            .height(6.dp)
+            .clearAndSetSemantics { },
         strokeCap = StrokeCap.Round,
     )
     LaunchedEffect(percentage) {
@@ -257,7 +261,7 @@ private fun CardMonthFinanceTabContent(
 @Composable
 fun CardMonthFinanceCategoryContent(
     financeType: FinanceEnum,
-    expenses: ImmutableList<FinanceScreenExpenses>,
+    expenses: ImmutableList<FinanceExpenses>,
     intents: HomeScreenIntents,
     modifier: Modifier = Modifier,
 ) {
@@ -301,7 +305,7 @@ fun CardMonthFinanceCategoryContent(
 private fun FinanceCategoryItem(
     count: Int,
     intents: HomeScreenIntents,
-    expense: FinanceScreenExpenses,
+    expense: FinanceExpenses,
 ) {
     Column {
         if (count != 0) {
@@ -315,9 +319,8 @@ private fun FinanceCategoryItem(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .clickable {
-                    intents.navigateToMonthDetail(expense.category.name)
-                }
-                .padding(vertical = spacing_3),
+                    intents.navigateToMonthDetail(expense.category)
+                }.padding(vertical = spacing_3),
         ) {
             ExpenseIconProgress(
                 expense = expense,
@@ -368,7 +371,7 @@ private fun FinanceCategoryItem(
 
 @Composable
 fun ExpenseIconProgress(
-    expense: FinanceScreenExpenses,
+    expense: FinanceExpenses,
     modifier: Modifier = Modifier,
 ) {
     val percentage = (expense.percentage / 100.00).toFloat()
@@ -401,7 +404,7 @@ fun ExpenseIconProgress(
         }
         Icon(
             imageVector = expense.category.icon,
-            contentDescription = null,
+            contentDescription = "${stringResource(expense.category.categoryName)} icon",
             tint = Gray600,
             modifier = Modifier.size(28.dp),
         )

@@ -37,11 +37,10 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(libs.koin.core)
-                api(libs.bundles.precompose)
+                api(libs.androidx.navigation)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlin.stdlib)
                 api(libs.orbit.core)
-                implementation(libs.kotlinx.collections.immutable)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 implementation(compose.materialIconsExtended)

@@ -1,6 +1,6 @@
 package com.carlosgub.myfinances.core.navigation
 
 import androidx.compose.runtime.compositionLocalOf
-import moe.tlaster.precompose.navigation.Navigator
+import androidx.navigation.NavHostController
 
-val LocalNavController = compositionLocalOf<Navigator> { error("No NavController found!") }
+val LocalNavController = compositionLocalOf<NavHostController> { error("No NavController found!") }

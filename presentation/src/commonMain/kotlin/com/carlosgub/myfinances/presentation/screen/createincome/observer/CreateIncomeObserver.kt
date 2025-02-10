@@ -1,18 +1,18 @@
 package com.carlosgub.myfinances.presentation.screen.createincome.observer
 
+import androidx.navigation.NavHostController
 import com.carlosgub.myfinances.core.state.GenericState
-import moe.tlaster.precompose.navigation.Navigator
 
 fun createIncomeObserver(
     sideEffect: GenericState<Unit>,
-    navigator: Navigator,
+    navController: NavHostController,
 ) {
     when (sideEffect) {
         is GenericState.Error -> {
         }
 
         is GenericState.Success -> {
-            navigator.popBackStack()
+            navController.popBackStack()
         }
     }
 }

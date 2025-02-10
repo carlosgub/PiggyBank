@@ -9,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.carlosgub.myfinances.components.toolbar.Toolbar
 import com.carlosgub.myfinances.components.toolbar.parameter.MenuItem
 import com.carlosgub.myfinances.core.navigation.LocalNavController
@@ -21,23 +22,24 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
-import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 import piggybank.presentation.generated.resources.Res
 import piggybank.presentation.generated.resources.home_add_expense
 import piggybank.presentation.generated.resources.home_add_income
 import piggybank.presentation.generated.resources.home_app_name
+import piggybank.presentation.generated.resources.home_drop_down_menu_content_description
+import piggybank.presentation.generated.resources.home_left_icon_content_description
 
 @Composable
 fun HomeScreen(
     monthKey: String,
     modifier: Modifier = Modifier,
 ) {
-    val navigator = LocalNavController.current
+    val navController = LocalNavController.current
     val appNavigation: AppNavigation = koinInject()
-    val viewModel = koinViewModel(vmClass = HomeViewModel::class)
+    val viewModel = koinViewModel<HomeViewModel>()
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     viewModel.setMonthKey(monthKey)
     val scope = CoroutineScope(Dispatchers.Main)
@@ -55,7 +57,7 @@ fun HomeScreen(
                     viewModel.navigateToMonths()
                 },
                 onBack = {
-                    navigator.popBackStack()
+                    navController.popBackStack()
                 },
             )
         },
@@ -71,7 +73,7 @@ fun HomeScreen(
         viewModel.container.sideEffectFlow.collect { sideEffect ->
             homeObserver(
                 sideEffect = sideEffect,
-                navigator = navigator,
+                navController = navController,
                 state = state,
                 appNavigation = appNavigation,
             )
@@ -88,13 +90,20 @@ private fun HomeToolbar(
     onBack: () -> Unit,
 ) {
     val leftIcon = if (showLeftIcon) Icons.Filled.CalendarMonth else null
+    val leftIconContentDescription = if (showLeftIcon) {
+        stringResource(Res.string.home_left_icon_content_description)
+    } else {
+        null
+    }
     Toolbar(
         hasNavigationIcon = !showLeftIcon,
         navigation = onBack,
         title = stringResource(Res.string.home_app_name),
         dropDownIcon = Icons.Filled.Add,
         dropDownMenu = true,
+        dropDownMenuContentDescription = stringResource(Res.string.home_drop_down_menu_content_description),
         leftIcon = leftIcon,
+        leftIconContentDescription = leftIconContentDescription,
         onLeftIconPressed = onCalendarPressed,
         dropDownItems = persistentListOf(
             MenuItem(

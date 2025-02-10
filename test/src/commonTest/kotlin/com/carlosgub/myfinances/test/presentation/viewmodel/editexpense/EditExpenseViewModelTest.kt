@@ -11,7 +11,7 @@ import com.carlosgub.myfinances.domain.usecase.GetExpenseUseCase
 import com.carlosgub.myfinances.presentation.viewmodel.editexpense.EditExpenseScreenState
 import com.carlosgub.myfinances.presentation.viewmodel.editexpense.EditExpenseViewModel
 import com.carlosgub.myfinances.test.data.repository.impl.FakeFinanceRepositoryImpl
-import com.carlosgub.myfinances.test.mock.expenseFinanceModelOne
+import com.carlosgub.myfinances.test.mock.expenseModelOne
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.test
 import kotlin.test.Test
@@ -300,14 +300,14 @@ class EditExpenseViewModelTest {
                 this,
                 EditExpenseScreenState(),
             ) {
-                val amount = expenseFinanceModelOne.amount
+                val amount = expenseModelOne.amount
                 expectInitialState()
-                containerHost.getExpense(expenseFinanceModelOne.id)
+                containerHost.getExpense(expenseModelOne.id)
                 expectState {
                     copy(
                         initialDataLoaded = true,
-                        id = expenseFinanceModelOne.id,
-                        monthKey = expenseFinanceModelOne.monthKey,
+                        id = expenseModelOne.id,
+                        monthKey = expenseModelOne.monthKey,
                     )
                 }
                 expectState {
@@ -318,18 +318,18 @@ class EditExpenseViewModelTest {
                 }
                 expectState {
                     copy(
-                        category = getCategoryEnumFromName(expenseFinanceModelOne.category),
+                        category = getCategoryEnumFromName(expenseModelOne.category),
                     )
                 }
                 expectState {
                     copy(
-                        dateInMillis = expenseFinanceModelOne.localDateTime.toMillis(),
-                        date = expenseFinanceModelOne.localDateTime.toMillis().toStringDateFormat(),
+                        dateInMillis = expenseModelOne.localDateTime.toMillis(),
+                        date = expenseModelOne.localDateTime.toMillis().toStringDateFormat(),
                     )
                 }
                 expectState {
                     copy(
-                        note = expenseFinanceModelOne.note,
+                        note = expenseModelOne.note,
                     )
                 }
             }

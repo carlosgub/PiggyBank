@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.carlosgub.myfinances.components.alertdialog.AlertDialog
 import com.carlosgub.myfinances.components.toolbar.Toolbar
 import com.carlosgub.myfinances.core.navigation.LocalNavController
@@ -19,10 +20,10 @@ import com.carlosgub.myfinances.presentation.viewmodel.editincome.EditIncomeView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import piggybank.presentation.generated.resources.Res
+import piggybank.presentation.generated.resources.edit_expense_left_icon_content_description
 import piggybank.presentation.generated.resources.edit_income_pop_up_message
 import piggybank.presentation.generated.resources.edit_income_pop_up_title
 import piggybank.presentation.generated.resources.edit_income_title
@@ -33,7 +34,7 @@ fun EditIncomeScreen(
     modifier: Modifier = Modifier,
     viewModel: EditIncomeViewModel = koinInject(),
 ) {
-    val navigator = LocalNavController.current
+    val navController = LocalNavController.current
     val scope = CoroutineScope(Dispatchers.Main)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
@@ -45,14 +46,14 @@ fun EditIncomeScreen(
         viewModel.container.sideEffectFlow.collect { sideEffect ->
             editIncomeObserver(
                 sideEffect = sideEffect,
-                navigator = navigator,
+                navController = navController,
             )
         }
     }
     Scaffold(
         topBar = {
             EditIncomeToolbar(
-                onBack = { navigator.popBackStack() },
+                onBack = { navController.popBackStack() },
                 onDelete = {
                     viewModel.delete()
                 },
@@ -79,6 +80,7 @@ private fun EditIncomeToolbar(
         title = stringResource(Res.string.edit_income_title),
         navigation = onBack,
         leftIcon = Icons.Default.Delete,
+        leftIconContentDescription = stringResource(Res.string.edit_expense_left_icon_content_description),
         onLeftIconPressed = {
             popUpVisible = true
         },

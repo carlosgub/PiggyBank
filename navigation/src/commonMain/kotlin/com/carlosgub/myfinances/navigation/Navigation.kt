@@ -1,6 +1,8 @@
 package com.carlosgub.myfinances.navigation
 
-sealed class Navigation(val route: String) {
+sealed class Navigation(
+    val route: String,
+) {
     data object Home : Navigation("Home/{${NavArgs.MONTH_KEY.key}}") {
         fun createRoute(monthKey: String) = "Home/$monthKey"
     }
@@ -21,16 +23,26 @@ sealed class Navigation(val route: String) {
 
     data object MonthsScreen : Navigation("MonthsScreen")
 
-    data object CategoryMonthDetailScreen :
-        Navigation("CategoryMonthDetailScreen/{${NavArgs.MONTH_KEY.key}}/{${NavArgs.CATEGORY_NAME.key}}") {
+    data object CategoryMonthDetailExpenseScreen :
+        Navigation("CategoryMonthDetailExpenseScreen/{${NavArgs.MONTH_KEY.key}}/{${NavArgs.CATEGORY_NAME.key}}") {
         fun createRoute(
             monthKey: String,
             categoryName: String,
-        ) = "CategoryMonthDetailScreen/$monthKey/$categoryName"
+        ) = "CategoryMonthDetailExpenseScreen/$monthKey/$categoryName"
+    }
+
+    data object CategoryMonthDetailIncomeScreen :
+        Navigation("CategoryMonthDetailIncomeScreen/{${NavArgs.MONTH_KEY.key}}/{${NavArgs.CATEGORY_NAME.key}}") {
+        fun createRoute(
+            monthKey: String,
+            categoryName: String,
+        ) = "CategoryMonthDetailIncomeScreen/$monthKey/$categoryName"
     }
 }
 
-enum class NavArgs(val key: String) {
+enum class NavArgs(
+    val key: String,
+) {
     ID("id"),
     MONTH_KEY("monthKey"),
     CATEGORY_NAME("categoryName"),

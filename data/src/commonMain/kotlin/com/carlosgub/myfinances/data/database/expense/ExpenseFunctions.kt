@@ -10,16 +10,12 @@ import kotlinx.coroutines.flow.Flow
 
 fun Database.getExpenseList(month: String): Flow<List<Expense>> = expenseQueries.getExpenseList(month).asFlow().mapToList(Dispatchers.IO)
 
-fun Database.getExpense(id: Long): Expense {
-    return expenseQueries.getExpense(id).executeAsOne()
-}
+fun Database.getExpense(id: Long): Expense = expenseQueries.getExpense(id).executeAsOne()
 
 fun Database.getExpenseListPerCategory(
     month: String,
     category: String,
-): Flow<List<Expense>> {
-    return expenseQueries.getExpensePerCategoryList(month, category).asFlow().mapToList(Dispatchers.IO)
-}
+): Flow<List<Expense>> = expenseQueries.getExpensePerCategoryList(month, category).asFlow().mapToList(Dispatchers.IO)
 
 suspend fun Database.createExpense(expense: Expense) {
     expenseQueries.insert(

@@ -1,14 +1,14 @@
 package com.carlosgub.myfinances.presentation.screen.editexpense.observer
 
+import androidx.navigation.NavHostController
 import com.carlosgub.myfinances.core.state.GenericState
-import moe.tlaster.precompose.navigation.Navigator
 
 fun editExpenseObserver(
     sideEffect: GenericState<Unit>,
-    navigator: Navigator,
+    navController: NavHostController,
 ) {
     when (sideEffect) {
-        is GenericState.Success -> navigator.popBackStack()
+        is GenericState.Success -> navController.popBackStack()
         else -> Unit
     }
 }

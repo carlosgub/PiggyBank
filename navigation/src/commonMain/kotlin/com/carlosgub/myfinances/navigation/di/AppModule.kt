@@ -19,7 +19,8 @@ import com.carlosgub.myfinances.domain.usecase.GetIncomeUseCase
 import com.carlosgub.myfinances.domain.usecase.GetMonthsUseCase
 import com.carlosgub.myfinances.navigation.impl.AppNavigationImpl
 import com.carlosgub.myfinances.presentation.navigation.AppNavigation
-import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetail.CategoryMonthDetailViewModel
+import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetailexpense.CategoryMonthDetailExpenseViewModel
+import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetailincome.CategoryMonthDetailIncomeViewModel
 import com.carlosgub.myfinances.presentation.viewmodel.createexpense.CreateExpenseViewModel
 import com.carlosgub.myfinances.presentation.viewmodel.createincome.CreateIncomeViewModel
 import com.carlosgub.myfinances.presentation.viewmodel.editexpense.EditExpenseViewModel
@@ -74,8 +75,13 @@ val homeModule =
         }
 
         factory {
-            CategoryMonthDetailViewModel(
+            CategoryMonthDetailExpenseViewModel(
                 getExpenseMonthDetailUseCase = get(),
+            )
+        }
+
+        factory {
+            CategoryMonthDetailIncomeViewModel(
                 getIncomeMonthDetailUseCase = get(),
             )
         }

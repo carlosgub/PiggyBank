@@ -1,13 +1,16 @@
 package com.carlosgub.myfinances.presentation.viewmodel.home
 
 import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.carlosgub.myfinances.core.state.GenericState
-import com.carlosgub.myfinances.domain.model.FinanceScreenModel
+import com.carlosgub.myfinances.domain.model.CategoryEnum
+import com.carlosgub.myfinances.domain.model.FinanceEnum
 import com.carlosgub.myfinances.domain.usecase.GetFinanceUseCase
+import com.carlosgub.myfinances.presentation.mapper.FinanceModelToFinanceScreenModel
+import com.carlosgub.myfinances.presentation.model.FinanceScreenModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import moe.tlaster.precompose.viewmodel.ViewModel
-import moe.tlaster.precompose.viewmodel.viewModelScope
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
@@ -27,7 +30,11 @@ class HomeViewModel(
                 ),
             ).collect { result ->
                 when (result) {
-                    is GenericState.Success -> setFinance(result.data)
+                    is GenericState.Success -> {
+                        val financeScreenModel = FinanceModelToFinanceScreenModel.map(result.data)
+                        setFinance(financeScreenModel)
+                    }
+
                     else -> Unit
                 }
             }
@@ -77,9 +84,13 @@ class HomeViewModel(
             postSideEffect(HomeScreenSideEffect.NavigateToAddIncome)
         }
 
-    override fun navigateToMonthDetail(categoryName: String): Job =
+    override fun navigateToMonthDetail(category: CategoryEnum): Job =
         intent {
-            postSideEffect(HomeScreenSideEffect.NavigateToMonthDetail(categoryName))
+            if (category.type == FinanceEnum.EXPENSE) {
+                postSideEffect(HomeScreenSideEffect.NavigateToMonthExpenseDetail(category.name))
+            } else {
+                postSideEffect(HomeScreenSideEffect.NavigateToMonthIncomeDetail(category.name))
+            }
         }
 
     override fun navigateToMonths(): Job =
