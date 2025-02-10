@@ -24,7 +24,7 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-            api(libs.bundles.precompose)
+            api(libs.androidx.navigation)
             api(libs.kotlinx.datetime)
         }
     }

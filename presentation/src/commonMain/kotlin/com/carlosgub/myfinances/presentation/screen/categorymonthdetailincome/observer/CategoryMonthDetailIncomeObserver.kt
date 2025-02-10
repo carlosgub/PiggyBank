@@ -1,18 +1,18 @@
 package com.carlosgub.myfinances.presentation.screen.categorymonthdetailincome.observer
 
+import androidx.navigation.NavHostController
 import com.carlosgub.myfinances.presentation.navigation.AppNavigation
 import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetailincome.CategoryMonthDetailIncomeScreenSideEffect
-import moe.tlaster.precompose.navigation.Navigator
 
 fun categoryMonthDetailIncomeObserver(
     sideEffect: CategoryMonthDetailIncomeScreenSideEffect,
-    navigator: Navigator,
+    navController: NavHostController,
     appNavigation: AppNavigation,
 ) {
     when (sideEffect) {
         is CategoryMonthDetailIncomeScreenSideEffect.NavigateToMonthDetail ->
             navigateToEditScreen(
-                navigator = navigator,
+                navController = navController,
                 id = sideEffect.incomeScreenModel.id,
                 appNavigation = appNavigation,
             )
@@ -20,12 +20,12 @@ fun categoryMonthDetailIncomeObserver(
 }
 
 private fun navigateToEditScreen(
-    navigator: Navigator,
+    navController: NavHostController,
     id: Long,
     appNavigation: AppNavigation,
 ) {
     appNavigation.navigateToEditIncome(
-        navigator = navigator,
+        navController = navController,
         id = id,
     )
 }

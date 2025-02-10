@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.carlosgub.myfinances.components.toolbar.Toolbar
 import com.carlosgub.myfinances.core.navigation.LocalNavController
 import com.carlosgub.myfinances.presentation.navigation.AppNavigation
@@ -14,7 +15,6 @@ import com.carlosgub.myfinances.presentation.viewmodel.categorymonthdetailincome
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
@@ -25,7 +25,7 @@ fun CategoryMonthDetailScreenIncome(
     categoryName: String,
     modifier: Modifier = Modifier,
 ) {
-    val navigator = LocalNavController.current
+    val navController = LocalNavController.current
     val appNavigation: AppNavigation = koinInject()
     val viewModel = koinViewModel<CategoryMonthDetailIncomeViewModel>()
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
@@ -36,7 +36,7 @@ fun CategoryMonthDetailScreenIncome(
             CategoryMonthDetailIncomeToolbar(
                 category = stringResource(state.category.categoryName),
                 onBack = {
-                    navigator.popBackStack()
+                    navController.popBackStack()
                 },
             )
         },
@@ -54,7 +54,7 @@ fun CategoryMonthDetailScreenIncome(
         viewModel.container.sideEffectFlow.collect { sideEffect ->
             categoryMonthDetailIncomeObserver(
                 sideEffect = sideEffect,
-                navigator = navigator,
+                navController = navController,
                 appNavigation = appNavigation,
             )
         }

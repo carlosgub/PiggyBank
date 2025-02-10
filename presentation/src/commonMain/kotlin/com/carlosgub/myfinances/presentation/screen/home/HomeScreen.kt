@@ -9,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.carlosgub.myfinances.components.toolbar.Toolbar
 import com.carlosgub.myfinances.components.toolbar.parameter.MenuItem
 import com.carlosgub.myfinances.core.navigation.LocalNavController
@@ -21,7 +22,6 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
@@ -37,7 +37,7 @@ fun HomeScreen(
     monthKey: String,
     modifier: Modifier = Modifier,
 ) {
-    val navigator = LocalNavController.current
+    val navController = LocalNavController.current
     val appNavigation: AppNavigation = koinInject()
     val viewModel = koinViewModel<HomeViewModel>()
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
@@ -57,7 +57,7 @@ fun HomeScreen(
                     viewModel.navigateToMonths()
                 },
                 onBack = {
-                    navigator.popBackStack()
+                    navController.popBackStack()
                 },
             )
         },
@@ -73,7 +73,7 @@ fun HomeScreen(
         viewModel.container.sideEffectFlow.collect { sideEffect ->
             homeObserver(
                 sideEffect = sideEffect,
-                navigator = navigator,
+                navController = navController,
                 state = state,
                 appNavigation = appNavigation,
             )

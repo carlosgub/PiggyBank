@@ -36,7 +36,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(compose.runtime)
-            api(libs.bundles.precompose)
+            api(libs.androidx.navigation)
             implementation(compose.material3)
             api(libs.koin.core)
             implementation(libs.koin.compose)

@@ -8,7 +8,7 @@ koinVersion = "4.0.0"
 kotlinxCollectionsImmutableVersion = "0.3.7"
 kotlinxCoroutinesTestVersion = "1.10.1"
 composeKtlintVersion = "1.4.2"
-precomposeVersion = "1.6.0"
+androidx-navigation = "2.8.0-alpha12"
 datetimeVersion = "0.6.0"
 kotlinStdlibVersion = "2.1.10"
 orbit = "9.0.0"
@@ -29,8 +29,9 @@ charts = { module = "com.carlosgub.kotlinm.charts:charts", version.ref = "charts
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityComposeVersion" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
-androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
-androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+androidx-navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinVersion" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinVersion" }
@@ -38,8 +39,6 @@ koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinVers
 koin-compose-viewmodel = {module = "io.insert-koin:koin-compose-viewmodel",version.ref = "koinVersion"}
 
 ktlint = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "composeKtlintVersion" }
-
-precompose-core = { module = "moe.tlaster:precompose", version.ref = "precomposeVersion" }
 
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetimeVersion" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutableVersion" }
@@ -61,9 +60,6 @@ android = [
     "activity-compose",
     "appcompat",
     "core-ktx"
-]
-precompose = [
-    "precompose-core",
 ]
 
 [plugins]

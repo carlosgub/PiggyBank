@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.carlosgub.myfinances.components.alertdialog.AlertDialog
 import com.carlosgub.myfinances.components.toolbar.Toolbar
 import com.carlosgub.myfinances.core.navigation.LocalNavController
@@ -19,7 +20,6 @@ import com.carlosgub.myfinances.presentation.viewmodel.editexpense.EditExpenseVi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import piggybank.presentation.generated.resources.Res
@@ -34,7 +34,7 @@ fun EditExpenseScreen(
     modifier: Modifier = Modifier,
     viewModel: EditExpenseViewModel = koinInject(),
 ) {
-    val navigator = LocalNavController.current
+    val navController = LocalNavController.current
     val scope = CoroutineScope(Dispatchers.Main)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
@@ -46,14 +46,14 @@ fun EditExpenseScreen(
         viewModel.container.sideEffectFlow.collect { sideEffect ->
             editExpenseObserver(
                 sideEffect = sideEffect,
-                navigator = navigator,
+                navController = navController,
             )
         }
     }
     Scaffold(
         topBar = {
             EditExpenseToolbar(
-                onBack = { navigator.popBackStack() },
+                onBack = { navController.popBackStack() },
                 onDelete = {
                     viewModel.delete()
                 },

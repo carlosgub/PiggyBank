@@ -5,6 +5,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.carlosgub.myfinances.components.toolbar.Toolbar
 import com.carlosgub.myfinances.core.navigation.LocalNavController
 import com.carlosgub.myfinances.presentation.screen.createexpense.content.CreateExpenseContent
@@ -13,7 +14,6 @@ import com.carlosgub.myfinances.presentation.viewmodel.createexpense.CreateExpen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import piggybank.presentation.generated.resources.Res
@@ -24,14 +24,14 @@ fun CreateExpenseScreen(
     modifier: Modifier = Modifier,
     viewModel: CreateExpenseViewModel = koinInject(),
 ) {
-    val navigator = LocalNavController.current
+    val navController = LocalNavController.current
     val scope = CoroutineScope(Dispatchers.Main)
     val createScreenState by viewModel.container.stateFlow.collectAsStateWithLifecycle()
     scope.launch {
         viewModel.container.sideEffectFlow.collect { sideEffect ->
             createExpenseObserver(
                 sideEffect = sideEffect,
-                navigator = navigator,
+                navController = navController,
             )
         }
     }
@@ -39,7 +39,7 @@ fun CreateExpenseScreen(
         topBar = {
             CreateExpenseToolbar(
                 onBack = {
-                    navigator.popBackStack()
+                    navController.popBackStack()
                 },
             )
         },
