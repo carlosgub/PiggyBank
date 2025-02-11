@@ -1,6 +1,5 @@
 package com.carlosgub.myfinances.presentation.screen.categorymonthdetailexpense.observer
 
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import com.carlosgub.myfinances.presentation.model.ExpenseScreenModel
 import com.carlosgub.myfinances.presentation.navigation.AppNavigation

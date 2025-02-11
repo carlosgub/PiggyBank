@@ -2,7 +2,6 @@ package com.carlosgub.myfinances.presentation.navigation
 
 import androidx.navigation.NavHostController
 
-
 interface AppNavigation {
     fun navigateToEditIncome(
         navController: NavHostController,
