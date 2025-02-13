@@ -19,7 +19,6 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toImmutableMap
 
 class HomeContentPreviewParameterProvider : PreviewParameterProvider<HomeScreenState> {
-
     private val expenseLocalDateOne =
         FinanceLocalDate(
             0L.toLocalDate(),

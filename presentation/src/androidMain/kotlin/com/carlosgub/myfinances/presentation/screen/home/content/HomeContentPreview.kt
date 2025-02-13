@@ -12,10 +12,15 @@ import kotlinx.coroutines.Job
 
 val intents = object : HomeScreenIntents {
     override fun getFinanceStatus() = Job().also { it.complete() }
+
     override fun setMonthKey(monthKey: String) = Job().also { it.complete() }
+
     override fun navigateToMonths(): Job = Job().also { it.complete() }
+
     override fun navigateToMonthDetail(category: CategoryEnum): Job = Job().also { it.complete() }
+
     override fun navigateToAddExpense(): Job = Job().also { it.complete() }
+
     override fun navigateToAddIncome(): Job = Job().also { it.complete() }
 }
 
@@ -30,4 +35,3 @@ private fun HomeContentPreview(
         intents = intents,
     )
 }
-
