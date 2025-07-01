@@ -1,5 +1,8 @@
 package com.carlosgub.myfinances.navigation
 
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+
 sealed class Navigation(
     val route: String,
 ) {
@@ -12,13 +15,27 @@ sealed class Navigation(
     data object CreateExpenseScreen : Navigation("CreateExpenseScreen")
 
     data object EditExpenseScreen :
-        Navigation("EditExpenseScreen/{${NavArgs.ID.key}}") {
-        fun createRoute(id: Long) = "EditExpenseScreen/$id"
+        Navigation("EditExpenseScreen?${NavArgs.ID.key}={${NavArgs.ID.key}}") {
+        fun createRoute(id: Long) = "EditExpenseScreen?${NavArgs.ID.key}=$id"
+        fun getArguments() = listOf(
+            navArgument(NavArgs.ID.key) {
+                type = NavType.LongType
+                defaultValue = 1L
+                nullable = false
+            },
+        )
     }
 
     data object EditIncomeScreen :
-        Navigation("EditIncomeScreen/{${NavArgs.ID.key}}") {
-        fun createRoute(id: Long) = "EditIncomeScreen/$id"
+        Navigation("EditIncomeScreen?${NavArgs.ID.key}={${NavArgs.ID.key}}") {
+        fun createRoute(id: Long) = "EditIncomeScreen?${NavArgs.ID.key}=$id"
+        fun getArguments() = listOf(
+            navArgument(NavArgs.ID.key) {
+                type = NavType.LongType
+                defaultValue = 1L
+                nullable = false
+            },
+        )
     }
 
     data object MonthsScreen : Navigation("MonthsScreen")

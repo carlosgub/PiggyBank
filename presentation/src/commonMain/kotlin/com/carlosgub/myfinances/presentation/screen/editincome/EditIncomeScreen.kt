@@ -21,7 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 import piggybank.presentation.generated.resources.Res
 import piggybank.presentation.generated.resources.edit_expense_left_icon_content_description
 import piggybank.presentation.generated.resources.edit_income_pop_up_message
@@ -32,8 +32,8 @@ import piggybank.presentation.generated.resources.edit_income_title
 fun EditIncomeScreen(
     id: Long,
     modifier: Modifier = Modifier,
-    viewModel: EditIncomeViewModel = koinInject(),
 ) {
+    val viewModel = koinViewModel<EditIncomeViewModel>()
     val navController = LocalNavController.current
     val scope = CoroutineScope(Dispatchers.Main)
     val state by viewModel.container.stateFlow.collectAsStateWithLifecycle()
