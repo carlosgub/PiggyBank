@@ -5,6 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.carlosgub.myfinances.core.navigation.LocalNavController
 import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
 import com.carlosgub.myfinances.presentation.screen.categorymonthdetailexpense.CategoryMonthDetailScreenExpense
@@ -18,9 +21,6 @@ import com.carlosgub.myfinances.presentation.screen.month.MonthsScreen
 import com.carlosgub.myfinances.theme.ColorPrimary
 import com.carlosgub.myfinances.theme.Shapes
 import com.carlosgub.myfinances.theme.Typography
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import org.koin.compose.KoinContext
 
 @Composable
@@ -47,13 +47,19 @@ fun App() {
                     composable(route = Navigation.CreateIncomeScreen.route) {
                         CreateIncomeScreen()
                     }
-                    composable(route = Navigation.EditExpenseScreen.route) { backStackEntry ->
+                    composable(
+                        route = Navigation.EditExpenseScreen.route,
+                        arguments = Navigation.EditExpenseScreen.getArguments(),
+                    ) { backStackEntry ->
                         val id = backStackEntry.arguments?.getLong(NavArgs.ID.key)!!
                         EditExpenseScreen(
                             id = id,
                         )
                     }
-                    composable(route = Navigation.EditIncomeScreen.route) { backStackEntry ->
+                    composable(
+                        route = Navigation.EditIncomeScreen.route,
+                        arguments = Navigation.EditIncomeScreen.getArguments(),
+                    ) { backStackEntry ->
                         val id = backStackEntry.arguments?.getLong(NavArgs.ID.key)!!
                         EditIncomeScreen(
                             id = id,
