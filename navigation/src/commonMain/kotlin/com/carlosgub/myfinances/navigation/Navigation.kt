@@ -17,25 +17,29 @@ sealed class Navigation(
     data object EditExpenseScreen :
         Navigation("EditExpenseScreen?${NavArgs.ID.key}={${NavArgs.ID.key}}") {
         fun createRoute(id: Long) = "EditExpenseScreen?${NavArgs.ID.key}=$id"
-        fun getArguments() = listOf(
-            navArgument(NavArgs.ID.key) {
-                type = NavType.LongType
-                defaultValue = 1L
-                nullable = false
-            },
-        )
+
+        fun getArguments() =
+            listOf(
+                navArgument(NavArgs.ID.key) {
+                    type = NavType.LongType
+                    defaultValue = 1L
+                    nullable = false
+                },
+            )
     }
 
     data object EditIncomeScreen :
         Navigation("EditIncomeScreen?${NavArgs.ID.key}={${NavArgs.ID.key}}") {
         fun createRoute(id: Long) = "EditIncomeScreen?${NavArgs.ID.key}=$id"
-        fun getArguments() = listOf(
-            navArgument(NavArgs.ID.key) {
-                type = NavType.LongType
-                defaultValue = 1L
-                nullable = false
-            },
-        )
+
+        fun getArguments() =
+            listOf(
+                navArgument(NavArgs.ID.key) {
+                    type = NavType.LongType
+                    defaultValue = 1L
+                    nullable = false
+                },
+            )
     }
 
     data object MonthsScreen : Navigation("MonthsScreen")
