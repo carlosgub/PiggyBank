@@ -51,7 +51,6 @@ kotlin {
                 implementation(compose("org.jetbrains.compose.foundation:foundation"))
                 implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
                 implementation(compose("org.jetbrains.compose.components:components-resources"))
-                implementation(libs.charts)
                 implementation(libs.delight.extension)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlinx.collections.immutable)

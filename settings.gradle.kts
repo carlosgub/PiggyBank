@@ -28,15 +28,6 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/carlosgub/kotlinm-charts")
-
-            credentials {
-                username = System.getenv("G_USERNAME")
-                password = System.getenv("G_TOKEN")
-            }
-        }
     }
 }
 

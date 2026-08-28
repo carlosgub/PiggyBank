@@ -23,9 +23,6 @@
     <string name="finance_note_outline_text_field_label">Nota</string>
     <!--endregion-->
 
-    <!--region Line Chart-->
-    <string name="finance_line_chart_overlay">%1$d/%2$d\n%3$s</string>
-    <!--endregion-->
 
     <!--region Toolbar-->
     <string name="finance_toolbar_navigation_icon">Atras</string>

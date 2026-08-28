@@ -37,7 +37,7 @@ kotlin {
             implementation(compose("org.jetbrains.compose.foundation:foundation"))
             implementation(libs.kotlinx.collections.immutable)
             implementation(libs.kotlinx.datetime)
-            implementation(libs.charts)
+            implementation(libs.vico)
             implementation(compose("org.jetbrains.compose.components:components-resources"))
             implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
             implementation(project(":theme"))
