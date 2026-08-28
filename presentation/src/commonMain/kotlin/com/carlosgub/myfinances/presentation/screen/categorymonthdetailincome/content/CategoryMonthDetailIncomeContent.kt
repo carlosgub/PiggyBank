@@ -119,8 +119,8 @@ private fun CategoryMonthDetailBody(
                             CategoryMonthIncomeItem(
                                 income = income,
                                 incomeClicked = incomeClicked,
-                                modifier = Modifier.animateItemPlacement(
-                                    animationSpec = tween(600),
+                                modifier = Modifier.animateItem(
+                                    placementSpec = tween(600),
                                 ),
                             )
                         }

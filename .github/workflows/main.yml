@@ -5,34 +5,35 @@ on:
   pull_request:
     branches: [ "main","develop" ]
 env:
-  G_USERNAME: ${{vars.G_USERNAME}}
-  G_TOKEN: ${{vars.G_TOKEN}}
+  # Reads kotlinm-charts, a public package in this same GitHub account.
+  # The token GitHub injects into every run already has read access to it,
+  # so there's nothing to configure in repo secrets/variables.
+  G_USERNAME: ${{ github.actor }}
+  G_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   check-code-style:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: 'corretto'
-          java-version: '17'
+          java-version: '21'
       - name: Check code style
         shell: bash
         run: ./gradlew lintKotlin
   run-testing:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: 'corretto'
-          java-version: '17'
-      - name: "Test Username"
-        run: echo "$G_USERNAME"
+          java-version: '21'
       - name: Run Unit Test Android Test Module
         shell: bash
-        run: ./gradlew :test:testDebugUnitTest
+        run: ./gradlew :test:testAndroidHostTest
       - name: Run Unit Test iOS Test Module
         shell: bash
         run: ./gradlew :test:iosSimulatorArm64Test

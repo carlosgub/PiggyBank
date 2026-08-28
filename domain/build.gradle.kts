@@ -1,17 +1,27 @@
+import org.jetbrains.compose.compose
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     kotlin("native.cocoapods")
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
-    androidTarget()
+    jvmToolchain(libs.versions.java.jdk.get().toInt())
+
+    android {
+        namespace = "com.carlosgub.myfinances.domain"
+        compileSdk = libs.versions.app.compile.sdk.get().toInt()
+        minSdk = libs.versions.app.min.sdk.get().toInt()
+        androidResources {
+            enable = true
+        }
+    }
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
@@ -41,9 +51,8 @@ kotlin {
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlin.stdlib)
                 api(libs.orbit.core)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
-                implementation(compose.materialIconsExtended)
+                implementation(compose("org.jetbrains.compose.components:components-resources"))
+                implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
                 implementation(project(":theme"))
                 implementation(project(":core"))
             }
@@ -55,37 +64,15 @@ kotlin {
                 implementation(libs.koin.android)
             }
         }
-        val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 implementation(libs.delight.ios)
             }
         }
-    }
-}
-
-android {
-    compileSdk = libs.versions.app.compile.sdk.get().toInt()
-    namespace = "com.carlosgub.myfinances.domain"
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
-
-    defaultConfig {
-        minSdk = libs.versions.app.min.sdk.get().toInt()
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-    }
-    kotlin {
-        jvmToolchain(libs.versions.java.jdk.get().toInt())
     }
 }

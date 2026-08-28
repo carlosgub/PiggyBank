@@ -30,13 +30,15 @@ The PiggyBank App is a versatile tool for managing your finances. Whether you wa
 
 #### Technologies Used
 
-- **Kotlin Multiplatform:** Used for cross-platform development, enabling the app to run on both Android and iOS. [GitHub Repository](https://github.com/JetBrains/kotlin)
-- **Koin:** Dependency injection framework for managing dependencies in a Kotlin application. [GitHub Repository](https://github.com/InsertKoinIO/koin)
-- **SQLDelight:** SQL database library for Kotlin Multiplatform projects, providing a type-safe way to interact with the database. [GitHub Repository](https://github.com/cashapp/sqldelight)
-- **Kotlin-Datetime:** Library for working with dates and times in Kotlin, providing a modern and convenient API. [GitHub Repository](https://github.com/Kotlin/kotlinx-datetime)
+- **Kotlin Multiplatform 2.4.0:** Used for cross-platform development, enabling the app to run on both Android and iOS. [GitHub Repository](https://github.com/JetBrains/kotlin)
+- **Compose Multiplatform 1.12.0:** Shared declarative UI toolkit rendering the same screens on Android and iOS. [GitHub Repository](https://github.com/JetBrains/compose-multiplatform)
+- **Android Gradle Plugin 9.2.0** with the `com.android.kotlin.multiplatform.library` plugin, and **Gradle 9.4.1**, for building the Android target.
+- **Koin 4.2.2:** Dependency injection framework for managing dependencies in a Kotlin application. [GitHub Repository](https://github.com/InsertKoinIO/koin)
+- **AndroidX Navigation Compose 2.9.2 (Multiplatform):** Handles in-app navigation and screen arguments across both platforms. [GitHub Repository](https://android.googlesource.com/platform/frameworks/support/+/refs/heads/androidx-main/navigation)
+- **SQLDelight 2.3.2:** SQL database library for Kotlin Multiplatform projects, providing a type-safe way to interact with the database. [GitHub Repository](https://github.com/cashapp/sqldelight)
+- **Kotlin-Datetime 0.8.0:** Library for working with dates and times in Kotlin, providing a modern and convenient API. [GitHub Repository](https://github.com/Kotlin/kotlinx-datetime)
 - **Kotlin-Stdlib:** Standard library for Kotlin, providing essential functions and utilities for Kotlin development. [GitHub Repository](https://github.com/JetBrains/kotlin/tree/master/libraries/stdlib)
 - **Orbit Core for MVI:** Used for implementing the Model-View-Intent (MVI) architecture, facilitating a reactive and predictable approach to UI development. [GitHub Repository](https://github.com/babylonhealth/orbit-mvi)
-- **Precompose:** Used for navigation and ViewModel. [GitHub Repository](https://github.com/Tlaster/PreCompose)
 - **Kotlinm-Charts:** Charting library for Kotlin Multiplatform projects, providing various chart types for visualizing data. [GitHub Repository](https://github.com/carlosgub/kotlinm-charts)
 - Ktlint: Static code analysis tool for ensuring consistent coding styles across the project. Integrated into GitHub Actions for automated code style checking. This repository also is using the Compose lint rules from the slack team. [Compose Lint Rules](https://github.com/slackhq/compose-lints)
 - **String Resources:** Utilize string resources for localization and easier management of text content, leveraging Kotlin Multiplatform's experimental features.
@@ -46,6 +48,12 @@ The PiggyBank App is a versatile tool for managing your finances. Whether you wa
 - **Kotlinx Coroutines Test:** Provides utilities for efficiently testing coroutines. [GitHub Repository](https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-test)
 - **Turbine:** A small testing library for kotlinx.coroutines Flow. [GitHub Repository](https://github.com/cashapp/turbine)
 - **Orbit Testing:** This library provides a simple unit testing framework for the Orbit MVI Library. [GitHub Repository](https://orbit-mvi.org/Test/new)
+
+#### Requirements
+
+- JDK 21
+- Android SDK Platform 37 (`sdkmanager "platforms;android-37.0"`) — required by Compose Multiplatform 1.12's Android artifacts
+- Xcode, for the iOS target (built via CocoaPods, see `iosApp/Podfile`)
 
 #### Installation
 

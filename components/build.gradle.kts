@@ -1,16 +1,26 @@
+import org.jetbrains.compose.compose
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ktlint)
 }
 
 kotlin {
-    androidTarget()
+    jvmToolchain(libs.versions.java.jdk.get().toInt())
+
+    android {
+        namespace = "com.carlosgub.myfinances.components"
+        compileSdk = libs.versions.app.compile.sdk.get().toInt()
+        minSdk = libs.versions.app.min.sdk.get().toInt()
+        androidResources {
+            enable = true
+        }
+    }
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
@@ -22,33 +32,16 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(compose.material)
-            implementation(compose.material3)
-            implementation(compose.foundation)
+            implementation(compose("org.jetbrains.compose.material:material"))
+            implementation("org.jetbrains.compose.material3:material3:1.9.0")
+            implementation(compose("org.jetbrains.compose.foundation:foundation"))
             implementation(libs.kotlinx.collections.immutable)
             implementation(libs.kotlinx.datetime)
             implementation(libs.charts)
-            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-            implementation(compose.components.resources)
-            implementation(compose.materialIconsExtended)
+            implementation(compose("org.jetbrains.compose.components:components-resources"))
+            implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
             implementation(project(":theme"))
             implementation(project(":core"))
         }
-    }
-}
-
-android {
-    namespace = "com.carlosgub.myfinances.components"
-    compileSdk = libs.versions.app.compile.sdk.get().toInt()
-    defaultConfig {
-        minSdk = libs.versions.app.min.sdk.get().toInt()
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-    }
-    kotlin {
-        jvmToolchain(libs.versions.java.jdk.get().toInt())
     }
 }
