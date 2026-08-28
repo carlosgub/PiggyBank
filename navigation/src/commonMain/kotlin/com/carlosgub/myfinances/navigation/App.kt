@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.savedstate.read
 import com.carlosgub.myfinances.core.navigation.LocalNavController
 import com.carlosgub.myfinances.core.utils.getCurrentMonthKey
 import com.carlosgub.myfinances.presentation.screen.categorymonthdetailexpense.CategoryMonthDetailScreenExpense
@@ -36,7 +37,7 @@ fun App() {
                     ),
                 ) {
                     composable(route = Navigation.Home.route) { backStackEntry ->
-                        val monthKey: String = backStackEntry.arguments?.getString(NavArgs.MONTH_KEY.key)!!
+                        val monthKey: String = backStackEntry.arguments?.read { getString(NavArgs.MONTH_KEY.key) }!!
                         HomeScreen(
                             monthKey = monthKey,
                         )
@@ -51,7 +52,7 @@ fun App() {
                         route = Navigation.EditExpenseScreen.route,
                         arguments = Navigation.EditExpenseScreen.getArguments(),
                     ) { backStackEntry ->
-                        val id = backStackEntry.arguments?.getLong(NavArgs.ID.key)!!
+                        val id = backStackEntry.arguments?.read { getLong(NavArgs.ID.key) }!!
                         EditExpenseScreen(
                             id = id,
                         )
@@ -60,7 +61,7 @@ fun App() {
                         route = Navigation.EditIncomeScreen.route,
                         arguments = Navigation.EditIncomeScreen.getArguments(),
                     ) { backStackEntry ->
-                        val id = backStackEntry.arguments?.getLong(NavArgs.ID.key)!!
+                        val id = backStackEntry.arguments?.read { getLong(NavArgs.ID.key) }!!
                         EditIncomeScreen(
                             id = id,
                         )
@@ -70,9 +71,9 @@ fun App() {
                     }
                     composable(route = Navigation.CategoryMonthDetailExpenseScreen.route) { backStackEntry ->
                         val monthKey =
-                            backStackEntry.arguments?.getString(NavArgs.MONTH_KEY.key)!!
+                            backStackEntry.arguments?.read { getString(NavArgs.MONTH_KEY.key) }!!
                         val categoryName =
-                            backStackEntry.arguments?.getString(NavArgs.CATEGORY_NAME.key)!!
+                            backStackEntry.arguments?.read { getString(NavArgs.CATEGORY_NAME.key) }!!
                         CategoryMonthDetailScreenExpense(
                             monthKey = monthKey,
                             categoryName = categoryName,
@@ -80,9 +81,9 @@ fun App() {
                     }
                     composable(route = Navigation.CategoryMonthDetailIncomeScreen.route) { backStackEntry ->
                         val monthKey =
-                            backStackEntry.arguments?.getString(NavArgs.MONTH_KEY.key)!!
+                            backStackEntry.arguments?.read { getString(NavArgs.MONTH_KEY.key) }!!
                         val categoryName =
-                            backStackEntry.arguments?.getString(NavArgs.CATEGORY_NAME.key)!!
+                            backStackEntry.arguments?.read { getString(NavArgs.CATEGORY_NAME.key) }!!
                         CategoryMonthDetailScreenIncome(
                             monthKey = monthKey,
                             categoryName = categoryName,

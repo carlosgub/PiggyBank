@@ -1,25 +1,25 @@
 [versions]
 activityComposeVersion = "1.10.0"
-delightVersion = "2.0.1"
+delightVersion = "2.3.2"
 appcompatVersion = "1.7.0"
 chartsVersion = "1.0.4"
 coreKtxVersion = "1.15.0"
-koinVersion = "4.0.0"
+koinVersion = "4.2.2"
 kotlinxCollectionsImmutableVersion = "0.3.7"
 kotlinxCoroutinesTestVersion = "1.10.1"
 composeKtlintVersion = "1.4.2"
-androidx-navigation = "2.8.0-alpha12"
-datetimeVersion = "0.6.0"
-kotlinStdlibVersion = "2.1.10"
+androidx-navigation = "2.9.2"
+datetimeVersion = "0.8.0-0.6.x-compat"
+kotlinStdlibVersion = "2.4.0"
 orbit = "9.0.0"
-androidVersion = "8.7.3"
-composeVersion = "1.6.11"
+androidVersion = "9.2.0"
+composeVersion = "1.12.0"
 ktlintVersion = "5.0.1"
 turbineVersion = "1.1.0"
-kotlin = "2.1.0"
+kotlin = "2.4.0"
 modulegraph = "0.10.0"
 androidx-lifecycle = "2.8.4"
-app-compile-sdk = "35"
+app-compile-sdk = "37"
 app-min-sdk = "24"
 java-jdk = "21"
 
@@ -65,6 +65,7 @@ android = [
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidVersion"}
 android-library = { id = "com.android.library", version.ref = "androidVersion"}
+android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "androidVersion"}
 compose = { id = "org.jetbrains.compose", version.ref = "composeVersion"}
 sqldelight = { id = "app.cash.sqldelight", version.ref = "delightVersion"}
 ktlint = { id = "org.jmailen.kotlinter", version.ref = "ktlintVersion"}

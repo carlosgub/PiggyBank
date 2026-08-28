@@ -1,16 +1,24 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
-    androidTarget()
+    jvmToolchain(libs.versions.java.jdk.get().toInt())
+
+    android {
+        namespace = "com.carlosgub.myfinances.test"
+        compileSdk = libs.versions.app.compile.sdk.get().toInt()
+        minSdk = libs.versions.app.min.sdk.get().toInt()
+        androidResources {
+            enable = true
+        }
+    }
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64(),
     ).forEach {
@@ -34,21 +42,5 @@ kotlin {
                 implementation(project(":presentation"))
             }
         }
-    }
-}
-
-android {
-    namespace = "com.carlosgub.myfinances.test"
-    compileSdk = libs.versions.app.compile.sdk.get().toInt()
-    defaultConfig {
-        minSdk = libs.versions.app.min.sdk.get().toInt()
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-    }
-    kotlin {
-        jvmToolchain(libs.versions.java.jdk.get().toInt())
     }
 }
