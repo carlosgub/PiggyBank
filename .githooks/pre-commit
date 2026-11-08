@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Runs the same checks as .github/workflows/main.yml before each commit.
+# Skip once with: git commit --no-verify
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+echo "pre-commit: lintKotlin + :test:testAndroidHostTest + :test:iosSimulatorArm64Test"
+./gradlew lintKotlin :test:testAndroidHostTest :test:iosSimulatorArm64Test --quiet
